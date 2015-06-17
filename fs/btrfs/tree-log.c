@@ -4377,41 +4377,6 @@ again:
 		if (min_key.type == BTRFS_INODE_ITEM_KEY)
 			need_log_inode_item = false;
 
-		if ((min_key.type == BTRFS_INODE_REF_KEY ||
-		     min_key.type == BTRFS_INODE_EXTREF_KEY) &&
-		    BTRFS_I(inode)->generation == trans->transid) {
-			ret = btrfs_check_ref_name_override(path->nodes[0],
-							    path->slots[0],
-							    &min_key, inode);
-			if (ret < 0) {
-				err = ret;
-				goto out_unlock;
-			} else if (ret > 0) {
-				err = 1;
-				btrfs_set_log_full_commit(root->fs_info, trans);
-				goto out_unlock;
-			}
-		}
-
-		/* Skip xattrs, we log them later with btrfs_log_all_xattrs() */
-		if (min_key.type == BTRFS_XATTR_ITEM_KEY) {
-			if (ins_nr == 0)
-				goto next_slot;
-			ret = copy_items(trans, inode, dst_path, path,
-					 &last_extent, ins_start_slot,
-					 ins_nr, inode_only, logged_isize);
-			if (ret < 0) {
-				err = ret;
-				goto out_unlock;
-			}
-			ins_nr = 0;
-			if (ret) {
-				btrfs_release_path(path);
-				continue;
-			}
-			goto next_slot;
-		}
-
 		src = path->nodes[0];
 		if (ins_nr && ins_start_slot + ins_nr == path->slots[0]) {
 			ins_nr++;
