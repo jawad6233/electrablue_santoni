@@ -581,13 +581,7 @@ config QPNP_MISC
 	  and the driver provides an API to check if this interrupt
 	  is available on the current PMIC chip.
 
-config AUDIO_PA_87319
-         tristate "audio PA support for AW87319"
-         depends on I2C
-         help
-           this option enables support for AW87319 audio pa
-
-config FORCE_FAST_CHARGE 
+config FORCE_FAST_CHARGE
 	bool "Force faster charge rate for USB"
 	default n
 	help
