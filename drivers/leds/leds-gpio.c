@@ -46,6 +46,40 @@ struct gpio_ir_tx_packet {
 	bool abort;
 };
 
+#if defined(CONFIG_IR_GPIO)
+#include <linux/hrtimer.h>
+#include <linux/pinctrl/consumer.h>
+#include <linux/delay.h>
+
+#define DUTY_CLCLE 50
+#define ADJUST_NUM 15
+#define JUSTTIMES 6
+#define JUST_DELAY 9
+
+static s64 dealt;
+static DEFINE_SPINLOCK(infrared_lock);
+struct gpio_ir_tx_packet {
+	struct completion done;
+	struct hrtimer timer;
+	unsigned int gpio_nr;
+	bool high_active;
+	u32 pulse;
+	u32 space;
+	unsigned int *buffer;
+	unsigned int length;
+	unsigned int next;
+	bool on;
+	bool abort;
+};
+
+struct mutex ir_lock;
+
+#if defined (WT_USE_FAN54015)
+extern int fan54015_getcharge_stat(void);
+#endif
+#endif
+
+
 struct gpio_led_data {
 	struct led_classdev cdev;
 	unsigned gpio;
@@ -128,6 +162,7 @@ static int gpio_blink_set(struct led_classdev *led_cdev,
 						delay_on, delay_off);
 }
 
+#if defined(CONFIG_IR_GPIO)
 static void gpio_ir_tx_set(struct gpio_ir_tx_packet *gpkt, bool on)
 {
 	if (gpkt->high_active)
@@ -337,6 +372,7 @@ static ssize_t transmit_store(struct device *dev,
 }
 
 static DEVICE_ATTR(transmit, 0664, transmit_show, transmit_store);
+#endif
 
 static int create_gpio_led(const struct gpio_led *template,
 	struct gpio_led_data *led_dat, struct device *parent,
@@ -378,6 +414,18 @@ static int create_gpio_led(const struct gpio_led *template,
 	led_dat->cdev.brightness = state ? LED_FULL : LED_OFF;
 	if (!template->retain_state_suspended)
 		led_dat->cdev.flags |= LED_CORE_SUSPENDRESUME;
+#if defined (WT_USE_FAN54015)
+	chg_status = fan54015_getcharge_stat();
+	if (!strcmp(template->name, "red")) {
+		if ((chg_status & 0x1) != 0x1) {
+			ret =
+			    gpio_direction_output(led_dat->gpio,
+						  led_dat->active_low ^ state);
+			if (ret < 0)
+				return ret;
+		}
+	}
+#else
 
 #if defined (WT_USE_FAN54015)
 	chg_status = fan54015_getcharge_stat();
@@ -400,11 +448,11 @@ static int create_gpio_led(const struct gpio_led *template,
 	ret = led_classdev_register(parent, &led_dat->cdev);
 	if (ret < 0)
 		return ret;
-
+#if defined(CONFIG_IR_GPIO) 
 	if (strcmp(led_dat->cdev.name, "infrared") == 0) {
 		device_create_file(led_dat->cdev.dev, &dev_attr_transmit);
 	}
-
+#endif
 	return 0;
 }
 
@@ -504,13 +552,17 @@ static int gpio_led_probe(struct platform_device *pdev)
 {
 	struct gpio_led_platform_data *pdata = pdev->dev.platform_data;
 	struct gpio_leds_priv *priv;
+#if defined(CONFIG_IR_GPIO)
 	struct pinctrl *pinctrl;
+#endif
 	int i, ret = 0;
 
+#if defined(CONFIG_IR_GPIO)
 	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
 	if (IS_ERR(pinctrl))
 		dev_warn(&pdev->dev,
 			 "pins are not configured from the driver\n");
+#endif
 
 	if (pdata && pdata->num_leds) {
 		priv = devm_kzalloc(&pdev->dev,
@@ -538,8 +590,9 @@ static int gpio_led_probe(struct platform_device *pdev)
 	}
 
 	platform_set_drvdata(pdev, priv);
+#if defined(CONFIG_IR_GPIO)
 	mutex_init(&ir_lock);
-
+#endif
 	return 0;
 }
 
@@ -550,8 +603,9 @@ static int gpio_led_remove(struct platform_device *pdev)
 
 	for (i = 0; i < priv->num_leds; i++)
 		delete_gpio_led(&priv->leds[i]);
-
+#if defined(CONFIG_IR_GPIO)
 	platform_set_drvdata(pdev, NULL);
+#endif
 	return 0;
 }
 
