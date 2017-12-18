@@ -80,6 +80,40 @@ extern int fan54015_getcharge_stat(void);
 #endif
 
 
+#if defined(CONFIG_IR_GPIO)
+#include <linux/hrtimer.h>
+#include <linux/pinctrl/consumer.h>
+#include <linux/delay.h>
+
+#define DUTY_CLCLE 50
+#define ADJUST_NUM 15
+#define JUSTTIMES 6
+#define JUST_DELAY 9
+
+static s64 dealt;
+static DEFINE_SPINLOCK(infrared_lock);
+struct gpio_ir_tx_packet {
+	struct completion done;
+	struct hrtimer timer;
+	unsigned int gpio_nr;
+	bool high_active;
+	u32 pulse;
+	u32 space;
+	unsigned int *buffer;
+	unsigned int length;
+	unsigned int next;
+	bool on;
+	bool abort;
+};
+
+struct mutex ir_lock;
+
+#if defined (WT_USE_FAN54015)
+extern int fan54015_getcharge_stat(void);
+#endif
+#endif
+
+
 struct gpio_led_data {
 	struct led_classdev cdev;
 	unsigned gpio;
@@ -383,6 +417,7 @@ static int create_gpio_led(const struct gpio_led *template,
 	int chg_status;
 #endif
 
+
 	led_dat->gpio = -1;
 
 	/* skip leds that aren't available */
@@ -427,18 +462,6 @@ static int create_gpio_led(const struct gpio_led *template,
 	}
 #else
 
-#if defined (WT_USE_FAN54015)
-	chg_status = fan54015_getcharge_stat();
-	if (!strcmp(template->name, "red")) {
-		if ((chg_status & 0x1) != 0x1) {
-			ret =
-			    gpio_direction_output(led_dat->gpio,
-						  led_dat->active_low ^ state);
-			if (ret < 0)
-				return ret;
-		}
-	}
-#else
 	ret = gpio_direction_output(led_dat->gpio, led_dat->active_low ^ state);
 	if (ret < 0)
 		return ret;
