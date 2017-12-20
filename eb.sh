@@ -30,9 +30,9 @@ White='\e[0;37m'        # White
 # Tweakable options
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER="lordarcadius"
-export KBUILD_BUILD_HOST="DroidBox"
-export CROSS_COMPILE=/home/lordarcadius/aarch64-linux-android-6.0/bin/aarch64-linux-android-
+export KBUILD_BUILD_USER="Swapnil1999"
+export KBUILD_BUILD_HOST="SoniSins"
+export CROSS_COMPILE=~/ndk/toolchains/aarch64-linux-android-6.0/bin/aarch64-linux-android-
 
 # Compilation Scripts Are Below
 
@@ -42,7 +42,7 @@ echo -e "$White***********************************************"
 echo "         Compiling ElectraBlue Kernel             "
 echo -e "***********************************************$nocol"
 make clean && make mrproper
-make mido_defconfig
+make santoni_defconfig
 make -j8
 if ! [ -a $IMAGE ];
 then
