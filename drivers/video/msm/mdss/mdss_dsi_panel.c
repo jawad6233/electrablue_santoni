@@ -22,7 +22,9 @@
 #include <linux/qpnp/pwm.h>
 #include <linux/err.h>
 #include <linux/string.h>
-#include <linux/display_state.h>
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+#include <linux/input/doubletap2wake.h>
+#endif
 
 #include "mdss_dsi.h"
 #include "mdss_dba_utils.h"
@@ -721,6 +723,11 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		return -EINVAL;
 	}
 
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+	dt2w_scr_suspended = false;
+#endif
+	lcd_notifier_call_chain(LCD_EVENT_ON_START);
+
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
@@ -801,7 +808,12 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
-	}
+       }
+
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+	dt2w_scr_suspended = true;
+#endif
+	lcd_notifier_call_chain(LCD_EVENT_OFF_START);
 
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
