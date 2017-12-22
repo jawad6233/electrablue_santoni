@@ -698,7 +698,12 @@ int mdss_mdp_get_panel_params(struct mdss_mdp_pipe *pipe,
 			*fps = pinfo->panel_max_fps;
 			*v_total = pinfo->panel_max_vtotal;
 		} else {
+<<<<<<< HEAD
 			*fps = mdss_panel_get_framerate(pinfo);
+=======
+			*fps = mdss_panel_get_framerate(pinfo,
+					FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			*v_total = mdss_panel_get_vtotal(pinfo);
 		}
 		*xres = get_panel_width(mixer->ctl);
@@ -838,7 +843,12 @@ static u32 mdss_mdp_get_vbp_factor(struct mdss_mdp_ctl *ctl)
 		return 0;
 
 	pinfo = &ctl->panel_data->panel_info;
+<<<<<<< HEAD
 	fps = mdss_panel_get_framerate(pinfo);
+=======
+	fps = mdss_panel_get_framerate(pinfo,
+			FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	v_total = mdss_panel_get_vtotal(pinfo);
 	vbp = pinfo->lcdc.v_back_porch + pinfo->lcdc.v_pulse_width;
 	vbp += pinfo->prg_fet;
@@ -886,7 +896,12 @@ static u32 __calc_prefill_line_time_us(struct mdss_mdp_ctl *ctl)
 		return 0;
 
 	pinfo = &ctl->panel_data->panel_info;
+<<<<<<< HEAD
 	fps = mdss_panel_get_framerate(pinfo);
+=======
+	fps = mdss_panel_get_framerate(pinfo,
+			FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	v_total = mdss_panel_get_vtotal(pinfo);
 	vbp = pinfo->lcdc.v_back_porch + pinfo->lcdc.v_pulse_width;
 	vbp += pinfo->prg_fet;
@@ -943,7 +958,12 @@ static u32 mdss_mdp_calc_prefill_line_time(struct mdss_mdp_ctl *ctl,
 		return -EINVAL;
 
 	pinfo = &ctl->panel_data->panel_info;
+<<<<<<< HEAD
 	fps = mdss_panel_get_framerate(pinfo);
+=======
+	fps = mdss_panel_get_framerate(pinfo,
+		FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	v_total = mdss_panel_get_vtotal(pinfo);
 
 	/* calculate the minimum prefill */
@@ -1245,7 +1265,12 @@ static void mdss_mdp_perf_calc_mixer(struct mdss_mdp_mixer *mixer,
 				fps = pinfo->panel_max_fps;
 				v_total = pinfo->panel_max_vtotal;
 			} else {
+<<<<<<< HEAD
 				fps = mdss_panel_get_framerate(pinfo);
+=======
+				fps = mdss_panel_get_framerate(pinfo,
+						FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				v_total = mdss_panel_get_vtotal(pinfo);
 			}
 		} else {
@@ -4119,9 +4144,17 @@ int mdss_mdp_ctl_start(struct mdss_mdp_ctl *ctl, bool handoff)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	ret = mdss_mdp_ctl_setup(ctl);
 	if (ret)
 		return ret;
+=======
+	if (mdss_mdp_ctl_is_power_off(ctl)) {
+		ret = mdss_mdp_ctl_setup(ctl);
+		if (ret)
+			return ret;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	sctl = mdss_mdp_get_split_ctl(ctl);
 
@@ -4253,11 +4286,22 @@ end:
  */
 static void mdss_mdp_pipe_reset(struct mdss_mdp_mixer *mixer, bool is_recovery)
 {
+<<<<<<< HEAD
 	unsigned long pipe_map = mixer->pipe_mapped;
+=======
+	unsigned long pipe_map;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 bit = 0;
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
 	bool sw_rst_avail = mdss_mdp_pipe_is_sw_reset_available(mdata);
 
+<<<<<<< HEAD
+=======
+	if (!mixer)
+		return;
+
+	pipe_map = mixer->pipe_mapped;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pr_debug("pipe_map=0x%lx\n", pipe_map);
 	for_each_set_bit_from(bit, &pipe_map, MAX_PIPES_PER_LM) {
 		struct mdss_mdp_pipe *pipe;
@@ -4353,7 +4397,12 @@ int mdss_mdp_ctl_reset(struct mdss_mdp_ctl *ctl, bool is_recovery)
 	if (mixer) {
 		mdss_mdp_pipe_reset(mixer, is_recovery);
 
+<<<<<<< HEAD
 		if (is_dual_lm_single_display(ctl->mfd))
+=======
+		if (is_dual_lm_single_display(ctl->mfd) &&
+				ctl->mixer_right)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			mdss_mdp_pipe_reset(ctl->mixer_right, is_recovery);
 	}
 
@@ -5237,10 +5286,15 @@ int mdss_mdp_ctl_update_fps(struct mdss_mdp_ctl *ctl)
 		(pinfo->dfps_update ==
 			DFPS_IMMEDIATE_MULTI_MODE_HFP_CALC_CLK) ||
 		pinfo->dfps_update == DFPS_IMMEDIATE_CLK_UPDATE_MODE) {
+<<<<<<< HEAD
 		if (pinfo->type == DTV_PANEL)
 			new_fps = pinfo->lcdc.frame_rate;
 		else
 			new_fps = mdss_panel_get_framerate(pinfo);
+=======
+		new_fps = mdss_panel_get_framerate(pinfo,
+				FPS_RESOLUTION_DEFAULT);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		new_fps = pinfo->new_fps;
 	}
@@ -5507,7 +5561,13 @@ int mdss_mdp_display_commit(struct mdss_mdp_ctl *ctl, void *arg,
 		} else {
 			sctl_flush_bits = sctl->flush_bits;
 		}
+<<<<<<< HEAD
 	}
+=======
+		sctl->commit_in_progress = true;
+	}
+	ctl->commit_in_progress = true;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ctl_flush_bits = ctl->flush_bits;
 
 	ATRACE_END("postproc_programming");
@@ -5647,11 +5707,24 @@ int mdss_mdp_display_commit(struct mdss_mdp_ctl *ctl, void *arg,
 
 	ATRACE_BEGIN("flush_kickoff");
 	mdss_mdp_ctl_write(ctl, MDSS_MDP_REG_CTL_FLUSH, ctl_flush_bits);
+<<<<<<< HEAD
 	if (sctl && sctl_flush_bits) {
 		mdss_mdp_ctl_write(sctl, MDSS_MDP_REG_CTL_FLUSH,
 			sctl_flush_bits);
 		sctl->flush_bits = 0;
 	}
+=======
+	if (sctl) {
+		if (sctl_flush_bits) {
+			mdss_mdp_ctl_write(sctl, MDSS_MDP_REG_CTL_FLUSH,
+				sctl_flush_bits);
+			sctl->flush_bits = 0;
+		}
+		sctl->commit_in_progress = false;
+	}
+	ctl->commit_in_progress = false;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MDSS_XLOG(ctl->intf_num, ctl_flush_bits, sctl_flush_bits,
 		split_lm_valid);
 	wmb();

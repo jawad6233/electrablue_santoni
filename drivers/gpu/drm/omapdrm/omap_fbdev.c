@@ -17,10 +17,17 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<< HEAD
 #include "omap_drv.h"
 
 #include "drm_crtc.h"
 #include "drm_fb_helper.h"
+=======
+#include <drm/drm_crtc.h>
+#include <drm/drm_fb_helper.h>
+
+#include "omap_drv.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 MODULE_PARM_DESC(ywrap, "Enable ywrap scrolling (omap44xx and later, default 'y')");
 static bool ywrap_enabled = true;
@@ -42,6 +49,7 @@ struct omap_fbdev {
 	struct work_struct work;
 };
 
+<<<<<<< HEAD
 static void omap_fbdev_flush(struct fb_info *fbi, int x, int y, int w, int h);
 static struct drm_fb_helper *get_fb(struct fb_info *fbi);
 
@@ -78,6 +86,10 @@ static void omap_fbdev_imageblit(struct fb_info *fbi,
 				image->width, image->height);
 }
 
+=======
+static struct drm_fb_helper *get_fb(struct fb_info *fbi);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void pan_worker(struct work_struct *work)
 {
 	struct omap_fbdev *fbdev = container_of(work, struct omap_fbdev, work);
@@ -120,11 +132,19 @@ static struct fb_ops omap_fb_ops = {
 	/* Note: to properly handle manual update displays, we wrap the
 	 * basic fbdev ops which write to the framebuffer
 	 */
+<<<<<<< HEAD
 	.fb_read = fb_sys_read,
 	.fb_write = omap_fbdev_write,
 	.fb_fillrect = omap_fbdev_fillrect,
 	.fb_copyarea = omap_fbdev_copyarea,
 	.fb_imageblit = omap_fbdev_imageblit,
+=======
+	.fb_read = drm_fb_helper_sys_read,
+	.fb_write = drm_fb_helper_sys_write,
+	.fb_fillrect = drm_fb_helper_sys_fillrect,
+	.fb_copyarea = drm_fb_helper_sys_copyarea,
+	.fb_imageblit = drm_fb_helper_sys_imageblit,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	.fb_check_var = drm_fb_helper_check_var,
 	.fb_set_par = drm_fb_helper_set_par,
@@ -146,11 +166,16 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
 	dma_addr_t paddr;
 	int ret;
 
+<<<<<<< HEAD
 	/* only doing ARGB32 since this is what is needed to alpha-blend
 	 * with video overlays:
 	 */
 	sizes->surface_bpp = 32;
 	sizes->surface_depth = 32;
+=======
+	sizes->surface_bpp = 32;
+	sizes->surface_depth = 24;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	DBG("create fbdev: %dx%d@%d (%dx%d)", sizes->surface_width,
 			sizes->surface_height, sizes->surface_bpp,
@@ -169,7 +194,11 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
 	fbdev->ywrap_enabled = priv->has_dmm && ywrap_enabled;
 	if (fbdev->ywrap_enabled) {
 		/* need to align pitch to page size if using DMM scrolling */
+<<<<<<< HEAD
 		mode_cmd.pitches[0] = ALIGN(mode_cmd.pitches[0], PAGE_SIZE);
+=======
+		mode_cmd.pitches[0] = PAGE_ALIGN(mode_cmd.pitches[0]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* allocate backing bo */
@@ -213,10 +242,17 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
 
 	mutex_lock(&dev->struct_mutex);
 
+<<<<<<< HEAD
 	fbi = framebuffer_alloc(0, dev->dev);
 	if (!fbi) {
 		dev_err(dev->dev, "failed to allocate fb info\n");
 		ret = -ENOMEM;
+=======
+	fbi = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(fbi)) {
+		dev_err(dev->dev, "failed to allocate fb info\n");
+		ret = PTR_ERR(fbi);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto fail_unlock;
 	}
 
@@ -224,7 +260,10 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
 
 	fbdev->fb = fb;
 	helper->fb = fb;
+<<<<<<< HEAD
 	helper->fbdev = fbi;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	fbi->par = helper;
 	fbi->flags = FBINFO_DEFAULT;
@@ -232,12 +271,15 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
 
 	strcpy(fbi->fix.id, MODULE_NAME);
 
+<<<<<<< HEAD
 	ret = fb_alloc_cmap(&fbi->cmap, 256, 0);
 	if (ret) {
 		ret = -ENOMEM;
 		goto fail_unlock;
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_fb_helper_fill_fix(fbi, fb->pitches[0], fb->depth);
 	drm_fb_helper_fill_var(fbi, helper, sizes->fb_width, sizes->fb_height);
 
@@ -270,8 +312,14 @@ fail_unlock:
 fail:
 
 	if (ret) {
+<<<<<<< HEAD
 		if (fbi)
 			framebuffer_release(fbi);
+=======
+
+		drm_fb_helper_release_fbi(helper);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (fb) {
 			drm_framebuffer_unregister_private(fb);
 			drm_framebuffer_remove(fb);
@@ -294,6 +342,7 @@ static struct drm_fb_helper *get_fb(struct fb_info *fbi)
 	return fbi->par;
 }
 
+<<<<<<< HEAD
 /* flush an area of the framebuffer (in case of manual update display that
  * is not automatically flushed)
  */
@@ -309,6 +358,8 @@ static void omap_fbdev_flush(struct fb_info *fbi, int x, int y, int w, int h)
 	omap_framebuffer_flush(helper->fb, x, y, w, h);
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* initialize fbdev helper */
 struct drm_fb_helper *omap_fbdev_init(struct drm_device *dev)
 {
@@ -361,6 +412,7 @@ void omap_fbdev_free(struct drm_device *dev)
 	struct omap_drm_private *priv = dev->dev_private;
 	struct drm_fb_helper *helper = priv->fbdev;
 	struct omap_fbdev *fbdev;
+<<<<<<< HEAD
 	struct fb_info *fbi;
 
 	DBG();
@@ -372,6 +424,13 @@ void omap_fbdev_free(struct drm_device *dev)
 		unregister_framebuffer(fbi);
 		framebuffer_release(fbi);
 	}
+=======
+
+	DBG();
+
+	drm_fb_helper_unregister_fbi(helper);
+	drm_fb_helper_release_fbi(helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	drm_fb_helper_fini(helper);
 

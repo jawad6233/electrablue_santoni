@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -596,6 +600,15 @@ static void frmnet_suspend(struct usb_function *f)
 	enum transport_type	dxport = rmnet_ports[dev->port_num].data_xport;
 	bool			remote_wakeup_allowed;
 
+<<<<<<< HEAD
+=======
+	/* Check if function is already suspended in frmnet_func_suspend() */
+	if (f->func_is_suspended) {
+		pr_debug("%s: func already suspended!\n", __func__);
+		return;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (f->config->cdev->gadget->speed == USB_SPEED_SUPER)
 		remote_wakeup_allowed = f->func_wakeup_allowed;
 	else
@@ -657,6 +670,17 @@ static void frmnet_resume(struct usb_function *f)
 	int  ret;
 	bool remote_wakeup_allowed;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * If the function is in USB3 Function Suspend state, resume is
+	 * canceled. In this case resume is done by a Function Resume request.
+	 */
+	if ((f->config->cdev->gadget->speed == USB_SPEED_SUPER) &&
+		f->func_is_suspended)
+		return;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (f->config->cdev->gadget->speed == USB_SPEED_SUPER)
 		remote_wakeup_allowed = f->func_wakeup_allowed;
 	else
@@ -698,6 +722,43 @@ static void frmnet_resume(struct usb_function *f)
 	}
 }
 
+<<<<<<< HEAD
+=======
+static int frmnet_func_suspend(struct usb_function *f, u8 options)
+{
+	bool func_wakeup_allowed;
+
+	pr_debug("func susp %u cmd for %s", options, f->name ? f->name : "");
+
+	func_wakeup_allowed =
+		((options & FUNC_SUSPEND_OPT_RW_EN_MASK) != 0);
+
+	if (options & FUNC_SUSPEND_OPT_SUSP_MASK) {
+		f->func_wakeup_allowed = func_wakeup_allowed;
+		if (!f->func_is_suspended) {
+			frmnet_suspend(f);
+			f->func_is_suspended = true;
+		}
+	} else {
+		if (f->func_is_suspended) {
+			f->func_is_suspended = false;
+			frmnet_resume(f);
+		}
+		f->func_wakeup_allowed = func_wakeup_allowed;
+	}
+
+	return 0;
+}
+
+static int frmnet_get_status(struct usb_function *f)
+{
+	unsigned remote_wakeup_en_status = f->func_wakeup_allowed ? 1 : 0;
+
+	return (remote_wakeup_en_status << FUNC_WAKEUP_ENABLE_SHIFT) |
+		(1 << FUNC_WAKEUP_CAPABLE_SHIFT);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void frmnet_disable(struct usb_function *f)
 {
 	struct f_rmnet *dev = func_to_rmnet(f);
@@ -1295,6 +1356,10 @@ static int frmnet_bind_config(struct usb_configuration *c, unsigned portno)
 	spin_lock_irqsave(&dev->lock, flags);
 	dev->cdev = c->cdev;
 	f = &dev->gether_port.func;
+<<<<<<< HEAD
+=======
+	dev->port.f = f;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	f->name = kasprintf(GFP_ATOMIC, "rmnet%d", portno);
 	spin_unlock_irqrestore(&dev->lock, flags);
 	if (!f->name) {
@@ -1310,6 +1375,11 @@ static int frmnet_bind_config(struct usb_configuration *c, unsigned portno)
 	f->setup = frmnet_setup;
 	f->suspend = frmnet_suspend;
 	f->resume = frmnet_resume;
+<<<<<<< HEAD
+=======
+	f->func_suspend = frmnet_func_suspend;
+	f->get_status = frmnet_get_status;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dev->port.send_cpkt_response = frmnet_send_cpkt_response;
 	dev->port.disconnect = frmnet_disconnect;
 	dev->port.connect = frmnet_connect;

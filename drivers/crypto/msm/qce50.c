@@ -1,6 +1,10 @@
 /* Qualcomm Crypto Engine driver.
  *
+<<<<<<< HEAD
  * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -307,11 +311,19 @@ static int _probe_ce_engine(struct qce_device *pce_dev)
 	pce_dev->ce_bam_info.ce_burst_size = MAX_CE_BAM_BURST_SIZE;
 
 	dev_info(pce_dev->pdev,
+<<<<<<< HEAD
 			"CE device = 0x%x\n, "
 			"IO base, CE = 0x%p\n, "
 			"Consumer (IN) PIPE %d,    "
 			"Producer (OUT) PIPE %d\n"
 			"IO base BAM = 0x%p\n"
+=======
+			"CE device = 0x%x\n"
+			"IO base, CE = 0x%pK\n"
+			"Consumer (IN) PIPE %d,    "
+			"Producer (OUT) PIPE %d\n"
+			"IO base BAM = 0x%pK\n"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"BAM IRQ %d\n"
 			"Engines Availability = 0x%x\n",
 			pce_dev->ce_bam_info.ce_device,
@@ -1173,7 +1185,11 @@ static void _qce_dump_descr_fifos_dbg(struct qce_device *pce_dev, int req_info)
 
 #define QCE_WRITE_REG(val, addr)					\
 {									\
+<<<<<<< HEAD
 	pr_info("      [0x%p] 0x%x\n", addr, (uint32_t)val);		\
+=======
+	pr_info("      [0x%pK] 0x%x\n", addr, (uint32_t)val);		\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	writel_relaxed(val, addr);					\
 }
 
@@ -2168,6 +2184,13 @@ static int _sha_complete(struct qce_device *pce_dev, int req_info)
 	pce_sps_data = &preq_info->ce_sps;
 	qce_callback = preq_info->qce_cb;
 	areq = (struct ahash_request *) preq_info->areq;
+<<<<<<< HEAD
+=======
+	if (!areq) {
+		pr_err("sha operation error. areq is NULL\n");
+		return -ENXIO;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	qce_dma_unmap_sg(pce_dev->pdev, areq->src, preq_info->src_nents,
 				DMA_TO_DEVICE);
 	memcpy(digest, (char *)(&pce_sps_data->result->auth_iv[0]),
@@ -2675,7 +2698,11 @@ static int qce_sps_init_ep_conn(struct qce_device *pce_dev,
 		sps_event->callback = NULL;
 	}
 
+<<<<<<< HEAD
 	pr_debug("success, %s : pipe_handle=0x%lx, desc fifo base (phy) = 0x%p\n",
+=======
+	pr_debug("success, %s : pipe_handle=0x%lx, desc fifo base (phy) = 0x%pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		is_producer ? "PRODUCER(RX/OUT)" : "CONSUMER(TX/IN)",
 		(uintptr_t)sps_pipe_info, &sps_connect_info->desc.phys_base);
 	goto out;
@@ -2840,7 +2867,11 @@ static int qce_sps_get_bam(struct qce_device *pce_dev)
 	bam.ipc_loglevel = QCE_BAM_DEFAULT_IPC_LOGLVL;
 	bam.options |= SPS_BAM_CACHED_WP;
 	pr_debug("bam physical base=0x%lx\n", (uintptr_t)bam.phys_addr);
+<<<<<<< HEAD
 	pr_debug("bam virtual base=0x%p\n", bam.virt_addr);
+=======
+	pr_debug("bam virtual base=0x%pK\n", bam.virt_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Register CE Peripheral BAM device to SPS driver */
 	rc = sps_register_bam_device(&bam, &pbam->handle);
@@ -2915,7 +2946,11 @@ static inline int qce_alloc_req_info(struct qce_device *pce_dev)
 		request_index++;
 		if (request_index >= MAX_QCE_BAM_REQ)
 			request_index = 0;
+<<<<<<< HEAD
 		if (xchg(&pce_dev->ce_request_info[request_index].
+=======
+		if (atomic_xchg(&pce_dev->ce_request_info[request_index].
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 						in_use, true) == false) {
 			pce_dev->ce_request_index = request_index;
 			return request_index;
@@ -2931,7 +2966,12 @@ static inline void qce_free_req_info(struct qce_device *pce_dev, int req_info,
 		bool is_complete)
 {
 	pce_dev->ce_request_info[req_info].xfer_type = QCE_XFER_TYPE_LAST;
+<<<<<<< HEAD
 	if (xchg(&pce_dev->ce_request_info[req_info].in_use, false) == true) {
+=======
+	if (atomic_xchg(&pce_dev->ce_request_info[req_info].in_use,
+						false) == true) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (req_info < MAX_QCE_BAM_REQ && is_complete)
 			atomic_dec(&pce_dev->no_of_queued_req);
 	} else
@@ -2943,7 +2983,11 @@ static void print_notify_debug(struct sps_event_notify *notify)
 	phys_addr_t addr =
 		DESC_FULL_ADDR((phys_addr_t) notify->data.transfer.iovec.flags,
 				  notify->data.transfer.iovec.addr);
+<<<<<<< HEAD
 	pr_debug("sps ev_id=%d, addr=0x%pa, size=0x%x, flags=0x%x user=0x%p\n",
+=======
+	pr_debug("sps ev_id=%d, addr=0x%pa, size=0x%x, flags=0x%x user=0x%pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			notify->event_id, &addr,
 			notify->data.transfer.iovec.size,
 			notify->data.transfer.iovec.flags,
@@ -2983,6 +3027,10 @@ static void qce_multireq_timeout(unsigned long data)
 	struct qce_device *pce_dev = (struct qce_device *)data;
 	int ret = 0;
 	int last_seq;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	last_seq = atomic_read(&pce_dev->bunch_cmd_seq);
 	if (last_seq == 0 ||
@@ -2992,6 +3040,7 @@ static void qce_multireq_timeout(unsigned long data)
 		return;
 	}
 	/* last bunch mode command time out */
+<<<<<<< HEAD
 	if (cmpxchg(&pce_dev->owner, QCE_OWNER_NONE, QCE_OWNER_TIMEOUT)
 							!= QCE_OWNER_NONE) {
 		mod_timer(&(pce_dev->timer), (jiffies + DELAY_IN_JIFFIES));
@@ -3001,12 +3050,38 @@ static void qce_multireq_timeout(unsigned long data)
 	pce_dev->mode = IN_INTERRUPT_MODE;
 	pce_dev->qce_stats.no_of_timeouts++;
 	pr_debug("pcedev %d mode switch to INTR\n", pce_dev->dev_no);
+=======
+
+	/*
+	 * From here to dummy request finish sps request and set owner back
+	 * to none, we disable interrupt.
+	 * So it won't get preempted or interrupted. If bam inerrupts happen
+	 * between, and completion callback gets called from BAM, a new
+	 * request may be issued by the client driver.  Deadlock may happen.
+	 */
+	local_irq_save(flags);
+	if (cmpxchg(&pce_dev->owner, QCE_OWNER_NONE, QCE_OWNER_TIMEOUT)
+							!= QCE_OWNER_NONE) {
+		local_irq_restore(flags);
+		mod_timer(&(pce_dev->timer), (jiffies + DELAY_IN_JIFFIES));
+		return;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = qce_dummy_req(pce_dev);
 	if (ret)
 		pr_warn("pcedev %d: Failed to insert dummy req\n",
 				pce_dev->dev_no);
 	cmpxchg(&pce_dev->owner, QCE_OWNER_TIMEOUT, QCE_OWNER_NONE);
+<<<<<<< HEAD
+=======
+	pce_dev->mode = IN_INTERRUPT_MODE;
+	local_irq_restore(flags);
+
+	del_timer(&(pce_dev->timer));
+	pce_dev->qce_stats.no_of_timeouts++;
+	pr_debug("pcedev %d mode switch to INTR\n", pce_dev->dev_no);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void qce_get_driver_stats(void *handle)
@@ -4542,7 +4617,11 @@ static int qce_dummy_req(struct qce_device *pce_dev)
 {
 	int ret = 0;
 
+<<<<<<< HEAD
 	if (!(xchg(&pce_dev->ce_request_info[DUMMY_REQ_INDEX].
+=======
+	if (!(atomic_xchg(&pce_dev->ce_request_info[DUMMY_REQ_INDEX].
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				in_use, true) == false))
 		return -EBUSY;
 	ret = qce_process_sha_req(pce_dev, NULL);
@@ -5960,7 +6039,11 @@ void *qce_open(struct platform_device *pdev, int *rc)
 	}
 
 	for (i = 0; i < MAX_QCE_ALLOC_BAM_REQ; i++)
+<<<<<<< HEAD
 		pce_dev->ce_request_info[i].in_use = false;
+=======
+		atomic_set(&pce_dev->ce_request_info[i].in_use, false);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pce_dev->ce_request_index = 0;
 
 	pce_dev->memsize = 10 * PAGE_SIZE * MAX_QCE_ALLOC_BAM_REQ;
@@ -6124,12 +6207,22 @@ EXPORT_SYMBOL(qce_hw_support);
 void qce_dump_req(void *handle)
 {
 	int i;
+<<<<<<< HEAD
 	struct qce_device *pce_dev = (struct qce_device *)handle;
 
 	for (i = 0; i < MAX_QCE_BAM_REQ; i++) {
 		pr_info("qce_dump_req %d %d\n", i,
 					pce_dev->ce_request_info[i].in_use);
 		if (pce_dev->ce_request_info[i].in_use == true)
+=======
+	bool req_in_use;
+	struct qce_device *pce_dev = (struct qce_device *)handle;
+
+	for (i = 0; i < MAX_QCE_BAM_REQ; i++) {
+		req_in_use = atomic_read(&pce_dev->ce_request_info[i].in_use);
+		pr_info("qce_dump_req %d %d\n", i, req_in_use);
+		if (req_in_use == true)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			_qce_dump_descr_fifos(pce_dev, i);
 	}
 }

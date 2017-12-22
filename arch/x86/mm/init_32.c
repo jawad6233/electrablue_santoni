@@ -871,7 +871,10 @@ static noinline int do_test_wp_bit(void)
 	return flag;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 const int rodata_test_data = 0xC3;
 EXPORT_SYMBOL_GPL(rodata_test_data);
 
@@ -958,5 +961,8 @@ void mark_rodata_ro(void)
 #endif
 	mark_nxdata_nx();
 }
+<<<<<<< HEAD
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

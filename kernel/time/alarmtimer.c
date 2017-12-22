@@ -60,6 +60,7 @@ static struct rtc_timer		rtctimer;
 static struct rtc_device	*rtcdev;
 static DEFINE_SPINLOCK(rtcdev_lock);
 static struct mutex power_on_alarm_lock;
+<<<<<<< HEAD
 static struct alarm init_alarm;
 
 /**
@@ -92,6 +93,8 @@ void power_on_alarm_init(void)
 		alarm_start(&init_alarm, alarm_ktime);
 	}
 }
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * set_power_on_alarm - set power on alarm value into rtc register
@@ -120,6 +123,13 @@ void set_power_on_alarm(void)
 	next = timerqueue_getnext(&base->timerqueue);
 	spin_unlock_irqrestore(&base->lock, flags);
 
+<<<<<<< HEAD
+=======
+	rtc = alarmtimer_get_rtcdev();
+	if (!rtc)
+		goto exit;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (next) {
 		alarm_ts = ktime_to_timespec(next->expires);
 		alarm_secs = alarm_ts.tv_sec;
@@ -138,10 +148,13 @@ void set_power_on_alarm(void)
 	if (alarm_secs <= wall_time.tv_sec + 1)
 		goto disable_alarm;
 
+<<<<<<< HEAD
 	rtc = alarmtimer_get_rtcdev();
 	if (!rtc)
 		goto exit;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rtc_read_time(rtc, &rtc_time);
 	rtc_tm_to_time(&rtc_time, &rtc_secs);
 	alarm_delta = wall_time.tv_sec - rtc_secs;
@@ -149,7 +162,11 @@ void set_power_on_alarm(void)
 
 	rtc_time_to_tm(alarm_time, &alarm.time);
 	alarm.enabled = 1;
+<<<<<<< HEAD
 	rc = rtc_set_alarm(rtcdev, &alarm);
+=======
+	rc = rtc_set_alarm(rtc, &alarm);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc)
 		goto disable_alarm;
 
@@ -157,7 +174,11 @@ void set_power_on_alarm(void)
 	return;
 
 disable_alarm:
+<<<<<<< HEAD
 	rtc_alarm_irq_enable(rtcdev, 0);
+=======
+	rtc_timer_cancel(rtc, &rtc->aie_timer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 exit:
 	mutex_unlock(&power_on_alarm_lock);
 }
@@ -496,7 +517,10 @@ static int alarmtimer_resume(struct device *dev)
 		return 0;
 	rtc_timer_cancel(rtc, &rtctimer);
 
+<<<<<<< HEAD
 	queue_delayed_work(power_off_alarm_workqueue, &work, 0);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -1033,7 +1057,11 @@ static int alarm_timer_nsleep(const clockid_t which_clock, int flags,
 			goto out;
 	}
 
+<<<<<<< HEAD
 	restart = &current_thread_info()->restart_block;
+=======
+	restart = &current->restart_block;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	restart->fn = alarm_timer_nsleep_restart;
 	restart->nanosleep.clockid = type;
 	restart->nanosleep.expires = exp.tv64;

@@ -306,7 +306,11 @@ unflush:
 	skb_gro_pull(skb, sizeof(struct udphdr)); /* pull encapsulating udp header */
 	skb_gro_postpull_rcsum(skb, uh, sizeof(struct udphdr));
 	NAPI_GRO_CB(skb)->proto = uo_priv->offload->ipproto;
+<<<<<<< HEAD
 	pp = uo_priv->offload->callbacks.gro_receive(head, skb);
+=======
+	pp = call_gro_receive(uo_priv->offload->callbacks.gro_receive, head, skb);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 out_unlock:
 	rcu_read_unlock();

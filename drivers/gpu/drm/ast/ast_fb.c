@@ -125,7 +125,11 @@ static void ast_fillrect(struct fb_info *info,
 			 const struct fb_fillrect *rect)
 {
 	struct ast_fbdev *afbdev = info->par;
+<<<<<<< HEAD
 	sys_fillrect(info, rect);
+=======
+	drm_fb_helper_sys_fillrect(info, rect);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ast_dirty_update(afbdev, rect->dx, rect->dy, rect->width,
 			 rect->height);
 }
@@ -134,7 +138,11 @@ static void ast_copyarea(struct fb_info *info,
 			 const struct fb_copyarea *area)
 {
 	struct ast_fbdev *afbdev = info->par;
+<<<<<<< HEAD
 	sys_copyarea(info, area);
+=======
+	drm_fb_helper_sys_copyarea(info, area);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ast_dirty_update(afbdev, area->dx, area->dy, area->width,
 			 area->height);
 }
@@ -143,7 +151,11 @@ static void ast_imageblit(struct fb_info *info,
 			  const struct fb_image *image)
 {
 	struct ast_fbdev *afbdev = info->par;
+<<<<<<< HEAD
 	sys_imageblit(info, image);
+=======
+	drm_fb_helper_sys_imageblit(info, image);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ast_dirty_update(afbdev, image->dx, image->dy, image->width,
 			 image->height);
 }
@@ -193,7 +205,10 @@ static int astfb_create(struct drm_fb_helper *helper,
 	struct drm_framebuffer *fb;
 	struct fb_info *info;
 	int size, ret;
+<<<<<<< HEAD
 	struct device *device = &dev->pdev->dev;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void *sysram;
 	struct drm_gem_object *gobj = NULL;
 	struct ast_bo *bo = NULL;
@@ -217,29 +232,44 @@ static int astfb_create(struct drm_fb_helper *helper,
 	if (!sysram)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	info = framebuffer_alloc(0, device);
 	if (!info) {
 		ret = -ENOMEM;
 		goto out;
+=======
+	info = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(info)) {
+		ret = PTR_ERR(info);
+		goto err_free_vram;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	info->par = afbdev;
 
 	ret = ast_framebuffer_init(dev, &afbdev->afb, &mode_cmd, gobj);
 	if (ret)
+<<<<<<< HEAD
 		goto out;
+=======
+		goto err_release_fbi;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	afbdev->sysram = sysram;
 	afbdev->size = size;
 
 	fb = &afbdev->afb.base;
 	afbdev->helper.fb = fb;
+<<<<<<< HEAD
 	afbdev->helper.fbdev = info;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	strcpy(info->fix.id, "astdrmfb");
 
 	info->flags = FBINFO_DEFAULT | FBINFO_CAN_FORCE_OUTPUT;
 	info->fbops = &astfb_ops;
 
+<<<<<<< HEAD
 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
 	if (ret) {
 		ret = -ENOMEM;
@@ -251,6 +281,8 @@ static int astfb_create(struct drm_fb_helper *helper,
 		ret = -ENOMEM;
 		goto out;
 	}
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	info->apertures->ranges[0].base = pci_resource_start(dev->pdev, 0);
 	info->apertures->ranges[0].size = pci_resource_len(dev->pdev, 0);
 
@@ -266,7 +298,15 @@ static int astfb_create(struct drm_fb_helper *helper,
 		      fb->width, fb->height);
 
 	return 0;
+<<<<<<< HEAD
 out:
+=======
+
+err_release_fbi:
+	drm_fb_helper_release_fbi(helper);
+err_free_vram:
+	vfree(afbdev->sysram);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -297,6 +337,7 @@ static const struct drm_fb_helper_funcs ast_fb_helper_funcs = {
 static void ast_fbdev_destroy(struct drm_device *dev,
 			      struct ast_fbdev *afbdev)
 {
+<<<<<<< HEAD
 	struct fb_info *info;
 	struct ast_framebuffer *afb = &afbdev->afb;
 	if (afbdev->helper.fbdev) {
@@ -306,6 +347,12 @@ static void ast_fbdev_destroy(struct drm_device *dev,
 			fb_dealloc_cmap(&info->cmap);
 		framebuffer_release(info);
 	}
+=======
+	struct ast_framebuffer *afb = &afbdev->afb;
+
+	drm_fb_helper_unregister_fbi(&afbdev->helper);
+	drm_fb_helper_release_fbi(&afbdev->helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (afb->obj) {
 		drm_gem_object_unreference_unlocked(afb->obj);
@@ -377,5 +424,16 @@ void ast_fbdev_set_suspend(struct drm_device *dev, int state)
 	if (!ast->fbdev)
 		return;
 
+<<<<<<< HEAD
 	fb_set_suspend(ast->fbdev->helper.fbdev, state);
+=======
+	drm_fb_helper_set_suspend(&ast->fbdev->helper, state);
+}
+
+void ast_fbdev_set_base(struct ast_private *ast, unsigned long gpu_addr)
+{
+	ast->fbdev->helper.fbdev->fix.smem_start =
+		ast->fbdev->helper.fbdev->apertures->ranges[0].base + gpu_addr;
+	ast->fbdev->helper.fbdev->fix.smem_len = ast->vram_size - gpu_addr;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

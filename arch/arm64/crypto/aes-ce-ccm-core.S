@@ -101,6 +101,7 @@ ENTRY(ce_aes_ccm_final)
 0:	mov	v4.16b, v3.16b
 1:	ld1	{v5.2d}, [x2], #16		/* load next round key */
 	aese	v0.16b, v4.16b
+<<<<<<< HEAD
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v4.16b
 	aesmc	v1.16b, v1.16b
@@ -108,12 +109,26 @@ ENTRY(ce_aes_ccm_final)
 	aese	v0.16b, v5.16b
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v5.16b
+=======
+	aese	v1.16b, v4.16b
+	aesmc	v0.16b, v0.16b
+	aesmc	v1.16b, v1.16b
+2:	ld1	{v3.2d}, [x2], #16		/* load next round key */
+	aese	v0.16b, v5.16b
+	aese	v1.16b, v5.16b
+	aesmc	v0.16b, v0.16b
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	aesmc	v1.16b, v1.16b
 3:	ld1	{v4.2d}, [x2], #16		/* load next round key */
 	subs	w3, w3, #3
 	aese	v0.16b, v3.16b
+<<<<<<< HEAD
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v3.16b
+=======
+	aese	v1.16b, v3.16b
+	aesmc	v0.16b, v0.16b
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	aesmc	v1.16b, v1.16b
 	bpl	1b
 	aese	v0.16b, v4.16b
@@ -146,6 +161,7 @@ ENDPROC(ce_aes_ccm_final)
 	ld1	{v5.2d}, [x10], #16		/* load 2nd round key */
 2:	/* inner loop: 3 rounds, 2x interleaved */
 	aese	v0.16b, v4.16b
+<<<<<<< HEAD
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v4.16b
 	aesmc	v1.16b, v1.16b
@@ -153,12 +169,26 @@ ENDPROC(ce_aes_ccm_final)
 	aese	v0.16b, v5.16b
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v5.16b
+=======
+	aese	v1.16b, v4.16b
+	aesmc	v0.16b, v0.16b
+	aesmc	v1.16b, v1.16b
+3:	ld1	{v3.2d}, [x10], #16		/* load next round key */
+	aese	v0.16b, v5.16b
+	aese	v1.16b, v5.16b
+	aesmc	v0.16b, v0.16b
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	aesmc	v1.16b, v1.16b
 4:	ld1	{v4.2d}, [x10], #16		/* load next round key */
 	subs	w7, w7, #3
 	aese	v0.16b, v3.16b
+<<<<<<< HEAD
 	aesmc	v0.16b, v0.16b
 	aese	v1.16b, v3.16b
+=======
+	aese	v1.16b, v3.16b
+	aesmc	v0.16b, v0.16b
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	aesmc	v1.16b, v1.16b
 	ld1	{v5.2d}, [x10], #16		/* load next round key */
 	bpl	2b

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -209,6 +213,10 @@ typedef struct {
     tANI_S8         ap_rssi;
     struct _hddTdlsPeer_t  *curr_candidate;
     struct work_struct implicit_setup;
+<<<<<<< HEAD
+=======
+    bool is_tdls_disabled_bmps;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     v_U32_t            magic;
 } tdlsCtx_t;
 
@@ -538,4 +546,9 @@ tdlsConnInfo_t *wlan_hdd_get_conn_info(hdd_context_t *pHddCtx,
 
 v_VOID_t wlan_hdd_tdls_initiator_wait_cb(v_PVOID_t userData);
 
+<<<<<<< HEAD
+=======
+void wlan_hdd_get_tdls_stats(hdd_adapter_t *pAdapter);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif // __HDD_TDSL_H

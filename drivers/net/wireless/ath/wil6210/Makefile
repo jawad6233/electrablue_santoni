@@ -19,6 +19,10 @@ wil6210-y += wil_platform.o
 wil6210-y += ethtool.o
 wil6210-y += wil_crash_dump.o
 wil6210-y += p2p.o
+<<<<<<< HEAD
+=======
+wil6210-y += ftm.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 # for tracing framework to find trace.h
 CFLAGS_trace.o := -I$(src)

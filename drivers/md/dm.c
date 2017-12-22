@@ -19,7 +19,10 @@
 #include <linux/idr.h>
 #include <linux/hdreg.h>
 #include <linux/delay.h>
+<<<<<<< HEAD
 #include <linux/iosched_switcher.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <trace/events/block.h>
 
@@ -2180,8 +2183,11 @@ static struct mapped_device *alloc_dev(int minor)
 
 	BUG_ON(old_md != MINOR_ALLOCED);
 
+<<<<<<< HEAD
 	init_iosched_switcher(md->queue);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return md;
 
 bad_bdev:
@@ -3024,6 +3030,10 @@ struct gendisk *dm_disk(struct mapped_device *md)
 {
 	return md->disk;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_disk);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct kobject *dm_kobject(struct mapped_device *md)
 {

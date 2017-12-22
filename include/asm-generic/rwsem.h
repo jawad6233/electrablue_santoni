@@ -41,7 +41,11 @@ static inline int __down_read_trylock(struct rw_semaphore *sem)
 {
 	long tmp;
 
+<<<<<<< HEAD
 	while ((tmp = atomic_long_read((atomic_long_t *)&sem->count)) >= 0) {
+=======
+	while ((tmp = sem->count) >= 0) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (tmp == cmpxchg(&sem->count, tmp,
 				   tmp + RWSEM_ACTIVE_READ_BIAS)) {
 			return 1;

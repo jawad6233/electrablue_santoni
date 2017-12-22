@@ -19,12 +19,15 @@ obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
 obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_ZEN)       += zen-iosched.o
 obj-$(CONFIG_IOSCHED_FIOPS)     += fiops-iosched.o
 obj-$(CONFIG_IOSCHED_SIO)       += sio-iosched.o
 obj-$(CONFIG_IOSCHED_MAPLE)     += maple-iosched.o
 obj-$(CONFIG_IOSCHED_SWITCHER)  += iosched_switcher.o
 obj-$(CONFIG_IOSCHED_BFQ)	+= bfq-iosched.o
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

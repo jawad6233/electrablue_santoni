@@ -24,6 +24,14 @@ config X86
 	select ARCH_MIGHT_HAVE_ACPI_PDC if ACPI
 	select ARCH_HAS_DEBUG_STRICT_USER_COPY_CHECKS
 	select ARCH_HAS_FAST_MULTIPLIER
+<<<<<<< HEAD
+=======
+	select ARCH_HAS_GCOV_PROFILE_ALL
+	select ARCH_HAS_KCOV			if X86_64
+	select ARCH_HAS_PMEM_API		if X86_64
+	select ARCH_HAS_MMIO_FLUSH
+	select ARCH_HAS_SG_CHAIN
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select ARCH_HAS_UBSAN_SANITIZE_ALL
 	select ARCH_MIGHT_HAVE_PC_PARPORT
 	select ARCH_MIGHT_HAVE_PC_SERIO
@@ -42,6 +50,11 @@ config X86
 	select ARCH_DISCARD_MEMBLOCK
 	select ARCH_WANT_OPTIONAL_GPIOLIB
 	select ARCH_WANT_FRAME_POINTERS
+<<<<<<< HEAD
+=======
+	select HAVE_ARCH_HARDENED_USERCOPY
+	select HAVE_ARCH_WITHIN_STACK_FRAMES
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select HAVE_DMA_ATTRS
 	select HAVE_DMA_CONTIGUOUS
 	select HAVE_KRETPROBES
@@ -298,6 +311,12 @@ config ARCH_SUPPORTS_UPROBES
 config FIX_EARLYCON_MEM
 	def_bool y
 
+<<<<<<< HEAD
+=======
+config DEBUG_RODATA
+	def_bool y
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 source "init/Kconfig"
 source "kernel/Kconfig.freezer"
 

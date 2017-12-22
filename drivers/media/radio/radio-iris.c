@@ -3508,7 +3508,11 @@ static int iris_vidioc_g_ctrl(struct file *file, void *priv,
 		break;
 	case V4L2_CID_PRIVATE_IRIS_RDSGROUP_PROC:
 	case V4L2_CID_PRIVATE_IRIS_PSALL:
+<<<<<<< HEAD
 		ctrl->value = (radio->g_rds_grp_proc_ps << RDS_CONFIG_OFFSET);
+=======
+		ctrl->value = radio->g_rds_grp_proc_ps;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	case V4L2_CID_PRIVATE_IRIS_RDSD_BUF:
 		ctrl->value = radio->rds_grp.rds_buf_size;
@@ -4357,8 +4361,12 @@ static int iris_vidioc_s_ctrl(struct file *file, void *priv,
 		break;
 	case V4L2_CID_PRIVATE_IRIS_RDSGROUP_PROC:
 		saved_val = radio->g_rds_grp_proc_ps;
+<<<<<<< HEAD
 		rds_grps_proc = radio->g_rds_grp_proc_ps | ctrl->value;
 		radio->g_rds_grp_proc_ps = (rds_grps_proc >> RDS_CONFIG_OFFSET);
+=======
+		radio->g_rds_grp_proc_ps |= ctrl->value;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		retval = hci_fm_rds_grps_process(
 				&radio->g_rds_grp_proc_ps,
 				radio->fm_hdev);
@@ -4372,7 +4380,11 @@ static int iris_vidioc_s_ctrl(struct file *file, void *priv,
 		break;
 	case V4L2_CID_PRIVATE_IRIS_PSALL:
 		saved_val = radio->g_rds_grp_proc_ps;
+<<<<<<< HEAD
 		rds_grps_proc = (ctrl->value << RDS_CONFIG_OFFSET);
+=======
+		rds_grps_proc = (ctrl->value << RDS_PS_SIMPLE_OFFSET);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		radio->g_rds_grp_proc_ps |= rds_grps_proc;
 		retval = hci_fm_rds_grps_process(
 				&radio->g_rds_grp_proc_ps,

@@ -83,6 +83,10 @@ enum {
 #define PSB_PGETBL_CTL		 0x2020
 #define _PSB_PGETBL_ENABLED	 0x00000001
 #define PSB_SGX_2D_SLAVE_PORT	 0x4000
+<<<<<<< HEAD
+=======
+#define PSB_LPC_GBA		 0x44
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* TODO: To get rid of */
 #define PSB_TT_PRIV0_LIMIT	 (256*1024*1024)
@@ -441,6 +445,10 @@ struct psb_ops;
 struct drm_psb_private {
 	struct drm_device *dev;
 	struct pci_dev *aux_pdev; /* Currently only used by mrst */
+<<<<<<< HEAD
+=======
+	struct pci_dev *lpc_pdev; /* Currently only used by mrst */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	const struct psb_ops *ops;
 	const struct psb_offset *regmap;
 	
@@ -470,6 +478,10 @@ struct drm_psb_private {
 	uint8_t __iomem *sgx_reg;
 	uint8_t __iomem *vdc_reg;
 	uint8_t __iomem *aux_reg; /* Auxillary vdc pipe regs */
+<<<<<<< HEAD
+=======
+	uint16_t lpc_gpio_base;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t gatt_free_offset;
 
 	/* Fencing / irq */
@@ -684,15 +696,24 @@ extern void psb_irq_turn_off_dpst(struct drm_device *dev);
 extern void psb_irq_uninstall_islands(struct drm_device *dev, int hw_islands);
 extern int psb_vblank_wait2(struct drm_device *dev, unsigned int *sequence);
 extern int psb_vblank_wait(struct drm_device *dev, unsigned int *sequence);
+<<<<<<< HEAD
 extern int psb_enable_vblank(struct drm_device *dev, int crtc);
 extern void psb_disable_vblank(struct drm_device *dev, int crtc);
+=======
+extern int psb_enable_vblank(struct drm_device *dev, unsigned int pipe);
+extern void psb_disable_vblank(struct drm_device *dev, unsigned int pipe);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void
 psb_enable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask);
 
 void
 psb_disable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask);
 
+<<<<<<< HEAD
 extern u32 psb_get_vblank_counter(struct drm_device *dev, int crtc);
+=======
+extern u32 psb_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* framebuffer.c */
 extern int psbfb_probed(struct drm_device *dev);

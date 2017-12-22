@@ -155,6 +155,7 @@ static const char driver_name [] = "rtl8150";
 */
 static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
 {
+<<<<<<< HEAD
 	void *buf;
 	int ret;
 
@@ -185,6 +186,18 @@ static int set_registers(rtl8150_t * dev, u16 indx, u16 size, const void *data)
 			      indx, 0, buf, size, 500);
 	kfree(buf);
 	return ret;
+=======
+	return usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
+			       RTL8150_REQ_GET_REGS, RTL8150_REQT_READ,
+			       indx, 0, data, size, 500);
+}
+
+static int set_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
+{
+	return usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0),
+			       RTL8150_REQ_SET_REGS, RTL8150_REQT_WRITE,
+			       indx, 0, data, size, 500);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void async_set_reg_cb(struct urb *urb)
@@ -294,7 +307,11 @@ static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
 		return -EBUSY;
 
 	memcpy(netdev->dev_addr, addr->sa_data, netdev->addr_len);
+<<<<<<< HEAD
 	netdev_dbg(netdev, "Setting MAC address to %pM\n", netdev->dev_addr);
+=======
+	netdev_dbg(netdev, "Setting MAC address to %pKM\n", netdev->dev_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Set the IDR registers. */
 	set_registers(dev, IDR, netdev->addr_len, netdev->dev_addr);
 #ifdef EEPROM_WRITE

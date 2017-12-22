@@ -1048,11 +1048,14 @@ struct radeon_i2c_chan *radeon_i2c_lookup(struct radeon_device *rdev,
 	return NULL;
 }
 
+<<<<<<< HEAD
 struct drm_encoder *radeon_best_encoder(struct drm_connector *connector)
 {
 	return NULL;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void radeon_i2c_get_byte(struct radeon_i2c_chan *i2c_bus,
 			 u8 slave_addr,
 			 u8 addr,

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,13 +18,37 @@
 /dts-v1/;
 
 #include "msm8953.dtsi"
+<<<<<<< HEAD
 
 / {
 	model = "Qualcomm Technologies, Inc. MSMTitaninum Simulator";
+=======
+#include "msm-pmi8950.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. MSMTitaninum + PMI8950 Simulator";
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	compatible = "qcom,msm8953-sim", "qcom,msm8953", "qcom,sim";
 	qcom,board-id= <16 0>;
 };
 
+<<<<<<< HEAD
+=======
+&usb3 {
+	vbus_dwc3-supply = <&smbcharger_charger_otg>;
+};
+
+&mdss_dsi0 {
+	lab-supply = <&lab_regulator>;
+	ibb-supply = <&ibb_regulator>;
+};
+
+&mdss_dsi1 {
+	lab-supply = <&lab_regulator>;
+	ibb-supply = <&ibb_regulator>;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &blsp1_uart0 {
 	status = "ok";
 	pinctrl-names = "default";

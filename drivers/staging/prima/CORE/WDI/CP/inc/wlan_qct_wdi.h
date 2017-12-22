@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -421,7 +425,10 @@ typedef enum
   WDI_EXTSCAN_SCAN_RESULT_IND,
   WDI_EXTSCAN_GET_CAPABILITIES_IND,
   WDI_EXTSCAN_BSSID_HOTLIST_RESULT_IND,
+<<<<<<< HEAD
   WDI_EXTSCAN_SSID_HOTLIST_RESULT_IND,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
   /*Delete BA Ind*/
   WDI_DEL_BA_IND,
@@ -431,6 +438,12 @@ typedef enum
 #ifdef FEATURE_OEM_DATA_SUPPORT
   WDI_START_OEM_DATA_RSP_IND_NEW,
 #endif
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_APFIND
+  WDI_AP_FOUND_IND,
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   WDI_MAX_IND
 }WDI_LowLevelIndEnumType;
 
@@ -3304,6 +3317,12 @@ typedef enum
     WDI_LINK_FINISH_CAL_STATE        = 13,
     WDI_LINK_LISTEN_STATE            = 14,
     WDI_LINK_SEND_ACTION_STATE       = 15,
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+    WDI_LINK_PRE_AUTH_REASSOC_STATE  = 17,
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     WDI_LINK_MAX                     = 0x7FFFFFFF
 } WDI_LinkStateType;
 
@@ -3564,15 +3583,24 @@ typedef struct
   /*BSSID for which the Probe Template is to be used*/
   wpt_macAddr     macBSSID;
 
+<<<<<<< HEAD
   /*Probe response template*/
   wpt_uint8      *pProbeRespTemplate[WDI_PROBE_RSP_TEMPLATE_SIZE];
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   /*Template Len*/
   wpt_uint32      uProbeRespTemplateLen;
 
   /*Bitmap for the IEs that are to be handled at SLM level*/
   wpt_uint32      uaProxyProbeReqValidIEBmap[WDI_PROBE_REQ_BITMAP_IE_LEN];
 
+<<<<<<< HEAD
+=======
+  /*Probe response template*/
+  wpt_uint8      *pProbeRespTemplate;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }WDI_UpdateProbeRspTemplateInfoType;
 
 /*---------------------------------------------------------------------------
@@ -5568,6 +5596,10 @@ typedef struct
   WDI_MobilityDomainInfo  MDID;
   wpt_uint8               nProbes;
   wpt_uint16              HomeAwayTime;
+<<<<<<< HEAD
+=======
+  wpt_uint8 WeakZoneRssiThresholdForRoam;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } WDI_RoamOffloadScanInfo;
 
 typedef struct
@@ -6126,7 +6158,10 @@ typedef struct
 #define WDI_WLAN_EXTSCAN_MAX_CHANNELS                 16
 #define WDI_WLAN_EXTSCAN_MAX_BUCKETS                  16
 #define WDI_WLAN_EXTSCAN_MAX_HOTLIST_APS              128
+<<<<<<< HEAD
 #define WDI_WLAN_EXTSCAN_MAX_HOTLIST_SSID             8
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 typedef enum
 {
@@ -6234,6 +6269,7 @@ typedef struct
 
 typedef struct
 {
+<<<<<<< HEAD
    WDI_MacSSid  ssid;     /* SSID */
    wpt_uint8 band;    /* band */
    wpt_int32 lowRssiThreshold; /* low threshold */
@@ -6242,6 +6278,8 @@ typedef struct
 
 typedef struct
 {
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     wpt_int32   requestId;
     wpt_int8    sessionId;    // session Id mapped to vdev_id
     wpt_uint32  lostBssidSampleSize;
@@ -6261,6 +6299,7 @@ typedef struct
     wpt_uint32 reserved;
 } WDI_HighPriorityDataInfoIndParams;
 
+<<<<<<< HEAD
 typedef struct
 {
     wpt_int32   requestId;
@@ -6276,6 +6315,8 @@ typedef struct
     wpt_uint8     sessionId;
 } WDI_EXTScanResetSSIDHotlistReqParams;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* WLAN_FEATURE_EXTSCAN */
 
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
@@ -6441,6 +6482,160 @@ typedef struct
    wpt_macAddr  bssId;
 }WDI_WifiConfigSetReqType;
 
+<<<<<<< HEAD
+=======
+#ifdef DHCP_SERVER_OFFLOAD
+/**
+ * wdi_set_dhcp_server_offload_t - dhcp server offload info
+ * @bssidx: bss index
+ * @enable: enable od disable
+ * @srv_ipv4: server ip address
+ * @start_lsb: starting lsb addredd of pool
+ * @num_client: number of clients supported
+ */
+typedef struct {
+   wpt_uint8 bssidx;
+   wpt_uint32 enable;
+   wpt_uint32 srv_ipv4; /* server IP */
+   wpt_uint32 start_lsb; /* starting address assigned to client */
+   wpt_uint32 num_client; /* number of clients we support */
+} wdi_set_dhcp_server_offload_t;
+
+/**
+ * wdi_dhcp_server_offload_rsp_param_t - dhcp server offload response
+ * @status: status for the command success or failure
+ */
+typedef struct
+{
+   /* wdi status */
+   wpt_uint32   status;
+} wdi_dhcp_server_offload_rsp_param_t;
+#endif /* DHCP_SERVER_OFFLOAD */
+
+#ifdef MDNS_OFFLOAD
+/**
+ * The purpose of the multicast Domain Name System (mDNS) is to resolve host
+ * names to IP addresses within small networks that do not include a local
+ * name server. It utilizes essentially the same programming interfaces, packet
+ * formats and operating semantics as the unicast DNS, and the advantage is
+ * zero configuration service while no need for central or global server.
+ * Based on mDNS, the DNS-SD (Service Discovery) allows clients to discover a
+ * named list of services by type in a specified domain using standard
+ * DNS queries. Here, we provide the ability to advertise the available
+ * services by responding to mDNS queries.
+ */
+
+/**
+ * wdi_mdns_enable_offload_cmd_req - mdns enable request
+ * @bss_idx: bss index
+ * @enable: enable
+ */
+typedef struct {
+    wpt_uint8 bss_idx;
+    wpt_uint32 enable;
+} wdi_mdns_enable_offload_cmd_req;
+
+/**
+ * wdi_mdns_enable_offload_rsp_param_t - mDNS enable offload response
+ * @status: status for the command success or failure
+ */
+typedef struct
+{
+    wpt_uint32   status;
+} wdi_mdns_enable_offload_rsp_param_t;
+
+#define WMI_MAX_MDNS_FQDN_LEN         64
+#define WMI_MAX_MDNS_RESP_LEN         512
+#define WMI_MDNS_FQDN_TYPE_GENERAL    0
+#define WMI_MDNS_FQDN_TYPE_UNIQUE     1
+
+/**
+ * wdi_mdns_set_fqdn_cmd_req - set fqdn request
+ * @bss_idx: bss index
+ * @type: type of fqdn, general or unique
+ * @fqdn_len: length of fqdn
+ * @fqdn_data: TLV byte stream of fqdn data of length fqdn_len fully-qualified
+ *	domain name to check if match with the received queries
+ */
+typedef struct {
+    wpt_uint8 bss_idx;
+    wpt_uint32 type;
+    wpt_uint32 fqdn_len;
+    wpt_uint8 fqdn_data[WMI_MAX_MDNS_FQDN_LEN];
+} wdi_mdns_set_fqdn_cmd_req;
+
+/**
+ * wdi_mdns_set_fqdn_rsp_param_t - mDNS set fqdn response
+ * @status: status for the command success or failure
+ */
+typedef struct
+{
+    wpt_uint32   status;
+} wdi_mdns_set_fqdn_rsp_param_t;
+
+/**
+ * wdi_mdns_set_resp_req - mDNS response request
+ * @bss_idx: bss index
+ * @ar_count: Answer Resource Record count
+ * @resp_len: length of response
+ * @resp_data: TLV byte stream of resp data of length resp_len responses consisits of Resource Records
+ */
+typedef struct {
+    wpt_uint8 bss_idx;
+    wpt_uint32 ar_count;
+    wpt_uint32 resp_len;
+    wpt_uint8 resp_data[WMI_MAX_MDNS_RESP_LEN];
+} wdi_mdns_set_resp_req;
+
+/**
+ * wdi_mdns_set_rsp_param_t - mDNS set response rsp
+ * @status: status for the command success or failure
+ */
+typedef struct
+{
+    wpt_uint32   status;
+} wdi_mdns_set_rsp_param_t;
+
+/**
+ * wdi_mdns_get_stats_req - get mdns stats request
+ * @bss_idx: bss index
+ */
+typedef struct {
+    wpt_uint8 bss_idx;
+} wdi_mdns_get_stats_req;
+
+/**
+ * wdi_mdns_stats_rsp_t - mdns stats
+ * @bss_idx: bss index
+ * @current_ts: curTimestamp in milliseconds
+ * @last_querry_ts: last received Query in milliseconds
+ * @last_resp_ts: last sent Response in milliseconds
+ * @tot_queries: stats of received queries
+ * @tot_matches: stats of macth queries
+ * @tot_rsp: stats of responses
+ * @status: indicate the current status of mDNS offload
+ */
+typedef struct {
+    wpt_uint8 bss_idx;
+    wpt_uint32 current_ts;
+    wpt_uint32 last_querry_ts;
+    wpt_uint32 last_resp_ts;
+    wpt_uint32 tot_queries;
+    wpt_uint32 tot_matches;
+    wpt_uint32 tot_rsp;
+    wpt_uint32 status;
+} wdi_mdns_stats_rsp_param_t;
+#endif /* MDNS_OFFLOAD */
+
+#ifdef WLAN_FEATURE_APFIND
+struct WDI_APFind_cmd
+{
+    wpt_uint32 data_len;
+    wpt_uint8 data[];
+};
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * struct WDI_FwrMemDumpReqType - firmware memory dump request details.
 .*.@FWMemDumpReqCb - Associated Callback
@@ -6489,6 +6684,53 @@ struct WDI_AllowedActionFramesInd {
    wpt_uint32 bitmask;
    wpt_uint32 reserved;
 };
+<<<<<<< HEAD
+=======
+
+struct WDI_sap_ofl_enable_params{
+
+    wpt_macAddr macAddr;
+    /** enable/disable sap auth offload */
+    wpt_uint32 enable;
+    /** authentication mode (defined above) */
+    wpt_uint32 rsn_authmode;
+    /** unicast cipher set */
+    wpt_uint32 rsn_ucastcipherset;
+    /** mcast/group cipher set */
+    wpt_uint32 rsn_mcastcipherset;
+    /** mcast/group management frames cipher set */
+    wpt_uint32 rsn_mcastmgmtcipherset;
+    /** sap channel */
+    wpt_uint32 channel;
+    /** length of psk */
+    wpt_uint32 psk_len;
+    wpt_uint8 key[64];
+};
+
+/**
+ * wdi_cap_tsf_params_t - wdi capture tsf params
+ * @bssidx: bss index
+ * @capTSFget: whether get/set request
+ *
+ */
+ typedef struct {
+   wpt_uint8 bss_idx;
+   wpt_uint8  capTSFget;
+} wdi_cap_tsf_params_t;
+
+/**
+ * wdi_cap_tsf_rsp_t - capture tsf response
+ * @bssidx: bss index
+ * @capTSFget: whether get/set request
+ *
+ */
+ typedef struct {
+    wpt_uint32 status;
+    wpt_uint32 tsf_lo;
+    wpt_uint32 tsf_hi;
+} wdi_cap_tsf_rsp_t;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*----------------------------------------------------------------------------
  *   WDI callback types
  *--------------------------------------------------------------------------*/
@@ -8409,10 +8651,15 @@ typedef void  (*WDI_EXTScanSetBSSIDHotlistRspCb)(void *pEventData,
                                        void *pUserData);
 typedef void  (*WDI_EXTScanResetBSSIDHotlistRspCb)(void *pEventData,
                                        void *pUserData);
+<<<<<<< HEAD
 typedef void  (*WDI_EXTScanSetSSIDHotlistRspCb)(void *pEventData,
                                        void *pUserData);
 typedef void  (*WDI_EXTScanResetSSIDHotlistRspCb)(void *pEventData,
                                        void *pUserData);
+=======
+
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* WLAN_FEATURE_EXTSCAN */
 
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
@@ -8452,6 +8699,22 @@ typedef void (*WDI_AntennaDivSelRspCb)(WDI_Status status,
 typedef void (*wdi_nud_set_arp_rsp_cb)(void *event_data,void *user_data);
 typedef void (*wdi_nud_get_arp_rsp_cb)(void *event_data,void *user_data);
 
+<<<<<<< HEAD
+=======
+#ifdef DHCP_SERVER_OFFLOAD
+typedef void (*wdi_dhcp_srv_offload_rsp_cb)(void *event_data,void *user_data);
+#endif /* DHCP_SERVER_OFFLOAD */
+#ifdef MDNS_OFFLOAD
+typedef void (*wdi_mdns_enable_rsp_cb)(void *event_data,void *user_data);
+typedef void (*wdi_mdns_fqdn_rsp_cb)(void *event_data,void *user_data);
+typedef void (*wdi_mdns_resp_rsp_cb)(void *event_data,void *user_data);
+typedef void (*wdi_get_stats_rsp_cb)(void *event_data,void *user_data);
+#endif /* MDNS_OFFLOAD */
+
+typedef void (*wdi_tsf_rsp_cb)(void *event_data,void *user_data);
+
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*========================================================================
  *     Function Declarations and Documentation
  ==========================================================================*/
@@ -11865,6 +12128,7 @@ WDI_Status WDI_EXTScanResetBSSIDHotlistReq
 );
 
 /**
+<<<<<<< HEAD
  @brief WDI_EXTScanSetSSIDHotlistReq
     This API is called to send Set SSID Hotlist Request FW
 
@@ -11899,6 +12163,8 @@ WDI_Status WDI_EXTScanResetSSIDHotlistReq
 );
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  @brief WDI_HighPriorityDataInfoInd
 
  @param pHighPriorityDataInfoIndParams: Req parameter for the FW
@@ -12290,4 +12556,70 @@ WDI_GetARPStatsReq
   WDI_GetARPStatsRspCb          wdiGetARPStatsRspCb,
   void*                      pUserData
 );
+<<<<<<< HEAD
+=======
+
+WDI_Status
+WDI_process_sap_auth_offload(
+   struct WDI_sap_ofl_enable_params *sap_ofl_enable_cmd
+);
+#ifdef WLAN_FEATURE_APFIND
+WDI_Status WDI_process_ap_find_cmd(struct WDI_APFind_cmd *params);
+#endif
+#ifdef DHCP_SERVER_OFFLOAD
+WDI_Status
+wdi_process_dhcpserver_offload_req
+(
+   wdi_set_dhcp_server_offload_t *dhcp_info,
+   wdi_dhcp_srv_offload_rsp_cb wdi_dhcp_srv_offload_rsp_callback,
+   void *user_data
+);
+#endif /* DHCP_SERVER_OFFLOAD */
+
+#ifdef MDNS_OFFLOAD
+WDI_Status
+wdi_set_mdns_offload_req
+(
+   wdi_mdns_enable_offload_cmd_req *mdns_info,
+   wdi_mdns_enable_rsp_cb wdi_mdns_enable_rsp_callback,
+   void *user_data
+);
+
+WDI_Status
+wdi_set_mdns_fqdn_req
+(
+   wdi_mdns_set_fqdn_cmd_req *mdns_info,
+   wdi_mdns_fqdn_rsp_cb wdi_mdns_fqdn_rsp_callback,
+   void *user_data
+);
+
+WDI_Status
+wdi_set_mdns_response_req
+(
+   wdi_mdns_set_resp_req *mdns_info,
+   wdi_mdns_resp_rsp_cb wdi_mdns_resp_rsp_callback,
+   void *user_data
+);
+
+WDI_Status
+wdi_get_mdns_stats_req
+(
+   wdi_mdns_get_stats_req *mdns_info,
+   wdi_get_stats_rsp_cb wdi_get_stats_rsp_callback,
+   void *user_data
+);
+#endif /* MDNS_OFFLOAD */
+
+WDI_Status
+wdi_process_cap_tsf_req (wdi_cap_tsf_params_t *wdi_cap_tsf_req,
+                         wdi_tsf_rsp_cb wdi_tsf_rsp_callback,
+                         void *user_data);
+
+WDI_Status
+wdi_process_get_tsf_req (wdi_cap_tsf_params_t *wdi_get_tsf_req,
+                         wdi_tsf_rsp_cb wdi_tsf_rsp_callback,
+                         void *user_data);
+
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* #ifndef WLAN_QCT_WDI_H */

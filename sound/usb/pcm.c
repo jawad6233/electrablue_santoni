@@ -524,6 +524,7 @@ static int set_format(struct snd_usb_substream *subs, struct audioformat *fmt)
 	return 0;
 }
 
+<<<<<<< HEAD
 int snd_usb_enable_audio_stream(struct snd_usb_substream *subs,
 	bool enable)
 {
@@ -582,6 +583,8 @@ int snd_usb_enable_audio_stream(struct snd_usb_substream *subs,
 	return 0;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Return the score of matching two audioformats.
  * Veto the audioformat if:

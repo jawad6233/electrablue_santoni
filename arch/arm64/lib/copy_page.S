@@ -27,6 +27,7 @@
  *	x1 - src
  */
 ENTRY(copy_page)
+<<<<<<< HEAD
 	ldp	x2, x3, [x1]
 	ldp	x4, x5, [x1, #16]
 	ldp	x6, x7, [x1, #32]
@@ -72,5 +73,22 @@ ENTRY(copy_page)
 	stnp	x14, x15, [x0, #96]
 	stnp	x16, x17, [x0, #112]
 
+=======
+	/* Assume cache line size is 64 bytes. */
+	prfm	pldl1strm, [x1, #64]
+1:	ldp	x2, x3, [x1]
+	ldp	x4, x5, [x1, #16]
+	ldp	x6, x7, [x1, #32]
+	ldp	x8, x9, [x1, #48]
+	add	x1, x1, #64
+	prfm	pldl1strm, [x1, #64]
+	stnp	x2, x3, [x0]
+	stnp	x4, x5, [x0, #16]
+	stnp	x6, x7, [x0, #32]
+	stnp	x8, x9, [x0, #48]
+	add	x0, x0, #64
+	tst	x1, #(PAGE_SIZE - 1)
+	b.ne	1b
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret
 ENDPROC(copy_page)

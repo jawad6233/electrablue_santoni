@@ -201,8 +201,17 @@ struct wl1271_if_operations {
 };
 
 struct wlcore_platdev_data {
+<<<<<<< HEAD
 	struct wl12xx_platform_data *pdata;
 	struct wl1271_if_operations *if_ops;
+=======
+	struct wl1271_if_operations *if_ops;
+
+	bool ref_clock_xtal;	/* specify whether the clock is XTAL or not */
+	u32 ref_clock_freq;	/* in Hertz */
+	u32 tcxo_clock_freq;	/* in Hertz, tcxo is always XTAL */
+	bool pwr_in_suspend;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define MAX_NUM_KEYS 14
@@ -434,6 +443,11 @@ struct wl12xx_vif {
 
 	bool wmm_enabled;
 
+<<<<<<< HEAD
+=======
+	bool radar_enabled;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Rx Streaming */
 	struct work_struct rx_streaming_enable_work;
 	struct work_struct rx_streaming_disable_work;
@@ -492,6 +506,14 @@ struct ieee80211_vif *wl12xx_wlvif_to_vif(struct wl12xx_vif *wlvif)
 	return container_of((void *)wlvif, struct ieee80211_vif, drv_priv);
 }
 
+<<<<<<< HEAD
+=======
+static inline bool wlcore_is_p2p_mgmt(struct wl12xx_vif *wlvif)
+{
+	return wl12xx_wlvif_to_vif(wlvif)->type == NL80211_IFTYPE_P2P_DEVICE;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define wl12xx_for_each_wlvif(wl, wlvif) \
 		list_for_each_entry(wlvif, &wl->wlvif_list, list)
 

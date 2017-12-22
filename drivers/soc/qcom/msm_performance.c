@@ -27,8 +27,11 @@
 #include <linux/kthread.h>
 
 static unsigned int use_input_evts_with_hi_slvt_detect;
+<<<<<<< HEAD
 static int touchboost = 1;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct mutex managed_cpus_lock;
 
 
@@ -191,6 +194,7 @@ static struct input_handler *handler;
 
 /**************************sysfs start********************************/
 
+<<<<<<< HEAD
 static int set_touchboost(const char *buf, const struct kernel_param *kp)
 {
 	int val;
@@ -214,6 +218,8 @@ static const struct kernel_param_ops param_ops_touchboost = {
 };
 device_param_cb(touchboost, &param_ops_touchboost, NULL, 0644);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int set_num_clusters(const char *buf, const struct kernel_param *kp)
 {
 	unsigned int val;
@@ -403,6 +409,7 @@ static int set_cpu_min_freq(const char *buf, const struct kernel_param *kp)
 	struct cpufreq_policy policy;
 	cpumask_var_t limit_mask;
 	int ret;
+<<<<<<< HEAD
 	
 	if (touchboost == 0)
 		return 0;
@@ -411,6 +418,8 @@ static int set_cpu_min_freq(const char *buf, const struct kernel_param *kp)
 
 	if (touchboost == 0)
 		cp = reset;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	while ((cp = strpbrk(cp + 1, " :")))
 		ntokens++;
@@ -419,11 +428,15 @@ static int set_cpu_min_freq(const char *buf, const struct kernel_param *kp)
 	if (!(ntokens % 2))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (touchboost == 0)
 		cp = reset;
 	else
 		cp = buf;
 
+=======
+	cp = buf;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cpumask_clear(limit_mask);
 	for (i = 0; i < ntokens; i += 2) {
 		if (sscanf(cp, "%u:%u", &cpu, &val) != 2)
@@ -499,9 +512,12 @@ static int set_cpu_max_freq(const char *buf, const struct kernel_param *kp)
 	cpumask_var_t limit_mask;
 	int ret;
 
+<<<<<<< HEAD
 	if (touchboost == 0)
 		return 0;
 	
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	while ((cp = strpbrk(cp + 1, " :")))
 		ntokens++;
 

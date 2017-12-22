@@ -235,7 +235,10 @@ static inline int inet_is_local_reserved_port(struct net *net, int port)
 #endif
 
 extern int sysctl_reserved_port_bind;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 __be32 inet_current_timestamp(void);
 
 /* From inetpeer.c */

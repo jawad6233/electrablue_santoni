@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -73,6 +77,13 @@
 //invalid channel id.
 #define HAL_INVALID_CHANNEL_ID 0
 
+<<<<<<< HEAD
+=======
+#ifdef SAP_AUTH_OFFLOAD
+#define MAX_CONNECT_REQ_LENGTH 512
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* BSS index used when no BSS is associated with the station. For example,
  * driver creates only one self station without valid BSS while scanning.
  * Then this index is used to tell softmac that BSS is not valid.
@@ -288,6 +299,16 @@ typedef struct
 
     tANI_U8    htLdpcCapable;
     tANI_U8    vhtLdpcCapable;
+<<<<<<< HEAD
+=======
+#ifdef SAP_AUTH_OFFLOAD
+    tANI_U8    dpuIndex;
+    tANI_U8    bcastDpuIndex;
+    tANI_U8    bcastMgmtDpuIdx;
+    tANI_U8    ucMgmtSig;
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tAddStaParams, *tpAddStaParams;
 
 
@@ -1417,5 +1438,25 @@ typedef struct sNanRequest
     tANI_U8  request_data[1];
 } tNanRequest, *tpNanRequest;
 
+<<<<<<< HEAD
+=======
+
+#ifdef SAP_AUTH_OFFLOAD
+struct sap_offload_add_sta_req
+{
+    tANI_U32 assoc_id;
+    tANI_U32 conn_req_len;
+    tANI_U8 conn_req[MAX_CONNECT_REQ_LENGTH];
+};
+struct sap_offload_del_sta_req
+{
+    tANI_U32 assoc_id;
+    tANI_U32 reason_code;
+    tANI_U32 flags;
+    tSirMacAddr sta_mac;
+};
+#endif /* SAP_AUTH_OFFLOAD */
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* _HALMSGAPI_H_ */
 

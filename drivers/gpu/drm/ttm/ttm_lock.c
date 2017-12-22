@@ -180,7 +180,11 @@ int ttm_write_lock(struct ttm_lock *lock, bool interruptible)
 			spin_unlock(&lock->lock);
 		}
 	} else
+<<<<<<< HEAD
 		wait_event(lock->queue, __ttm_read_lock(lock));
+=======
+		wait_event(lock->queue, __ttm_write_lock(lock));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }

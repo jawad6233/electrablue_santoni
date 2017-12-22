@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -71,6 +75,10 @@ struct iw_oem_data_rsp
 };
 
 int oem_activate_service(void *pAdapter);
+<<<<<<< HEAD
+=======
+void oem_deactivate_service(void);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int iw_get_oem_data_cap(struct net_device *dev, struct iw_request_info *info,
                         union iwreq_data *wrqu, char *extra);

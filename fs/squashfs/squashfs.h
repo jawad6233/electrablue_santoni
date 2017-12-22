@@ -28,8 +28,19 @@
 #define WARNING(s, args...)	pr_warn("SQUASHFS: "s, ## args)
 
 /* block.c */
+<<<<<<< HEAD
 extern int squashfs_read_data(struct super_block *, u64, int, u64 *,
 				struct squashfs_page_actor *);
+=======
+extern int squashfs_init_read_wq(void);
+extern int squashfs_read_data(struct super_block *, u64, int, u64 *,
+				struct squashfs_page_actor *);
+extern void squashfs_destroy_read_wq(void);
+extern int squashfs_read_data(struct super_block *, u64, int, u64 *,
+	struct squashfs_page_actor *);
+extern int squashfs_read_data_async(struct super_block *, u64, int, u64 *,
+	struct squashfs_page_actor *);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* cache.c */
 extern struct squashfs_cache *squashfs_cache_init(char *, int, int);
@@ -70,8 +81,14 @@ extern __le64 *squashfs_read_fragment_index_table(struct super_block *,
 void squashfs_copy_cache(struct page *, struct squashfs_cache_entry *, int,
 				int);
 
+<<<<<<< HEAD
 /* file_xxx.c */
 extern int squashfs_readpage_block(struct page *, u64, int);
+=======
+/* file_direct.c */
+extern int squashfs_readpages_block(struct page *, struct list_head *,
+	unsigned int *, struct address_space *, int, u64, int);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* id.c */
 extern int squashfs_get_id(struct super_block *, unsigned int, unsigned int *);

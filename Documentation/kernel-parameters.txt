@@ -929,6 +929,12 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
 			Enable debug messages at boot time.  See
 			Documentation/dynamic-debug-howto.txt for details.
 
+<<<<<<< HEAD
+=======
+	module.async_probe [KNL]
+			Enable asynchronous probe on this module.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	early_ioremap_debug [KNL]
 			Enable debug messages in early_ioremap support. This
 			is useful for tracking down temporary early mappings
@@ -3180,6 +3186,13 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
 
 	ro		[KNL] Mount root device read-only on boot
 
+<<<<<<< HEAD
+=======
+	rodata=		[KNL]
+		on	Mark read-only kernel memory as read-only (default).
+		off	Leave read-only kernel memory writable for debugging.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	root=		[KNL] Root filesystem
 			See name_to_dev_t comment in init/do_mounts.c.
 

@@ -31,7 +31,11 @@
 #ifdef CONFIG_USE_DEV_CTRL_VOLUME
 #include <linux/qdsp6v2/audio_dev_ctl.h>
 #endif /*CONFIG_USE_DEV_CTRL_VOLUME*/
+<<<<<<< HEAD
 DEFINE_MUTEX(lock);
+=======
+static DEFINE_MUTEX(lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_DEBUG_FS
 
 int audio_aio_debug_open(struct inode *inode, struct file *file)
@@ -1062,6 +1066,11 @@ static int audio_aio_async_write(struct q6audio_aio *audio,
 	struct audio_client *ac;
 	struct audio_aio_write_param param;
 
+<<<<<<< HEAD
+=======
+	memset(&param, 0, sizeof(param));
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!audio || !buf_node) {
 		pr_err("%s NULL pointer audio=[0x%pK], buf_node=[0x%pK]\n",
 			__func__, audio, buf_node);

@@ -23,6 +23,10 @@
 #define EXT4_XATTR_INDEX_SECURITY	        6
 #define EXT4_XATTR_INDEX_SYSTEM			7
 #define EXT4_XATTR_INDEX_RICHACL		8
+<<<<<<< HEAD
+=======
+#define EXT4_XATTR_INDEX_ENCRYPTION		9
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct ext4_xattr_header {
 	__le32	h_magic;	/* magic number for identification */
@@ -98,6 +102,11 @@ extern const struct xattr_handler ext4_xattr_user_handler;
 extern const struct xattr_handler ext4_xattr_trusted_handler;
 extern const struct xattr_handler ext4_xattr_security_handler;
 
+<<<<<<< HEAD
+=======
+#define EXT4_XATTR_NAME_ENCRYPTION_CONTEXT "c"
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern ssize_t ext4_listxattr(struct dentry *, char *, size_t);
 
 extern int ext4_xattr_get(struct inode *, int, const char *, void *, size_t);

@@ -72,7 +72,11 @@
 #    define NV_RAMHT_CONTEXT_VALID                         (1<<31)
 #    define NV_RAMHT_CONTEXT_CHANNEL_SHIFT                 24
 #    define NV_RAMHT_CONTEXT_ENGINE_SHIFT                  16
+<<<<<<< HEAD
 #        define NV_RAMHT_CONTEXT_ENGINE_SOFTWARE           0
+=======
+#        define NV_RAMHT_CONTEXT_ENGINE_SW           0
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #        define NV_RAMHT_CONTEXT_ENGINE_GRAPHICS           1
 #    define NV_RAMHT_CONTEXT_INSTANCE_SHIFT                0
 #    define NV40_RAMHT_CONTEXT_CHANNEL_SHIFT               23

@@ -78,12 +78,18 @@ static int exynos_ehci_get_phy(struct device *dev,
 		if (IS_ERR(phy)) {
 			ret = PTR_ERR(phy);
 			if (ret == -EPROBE_DEFER) {
+<<<<<<< HEAD
 				of_node_put(child);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				return ret;
 			} else if (ret != -ENOSYS && ret != -ENODEV) {
 				dev_err(dev,
 					"Error retrieving usb2 phy: %d\n", ret);
+<<<<<<< HEAD
 				of_node_put(child);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				return ret;
 			}
 		}

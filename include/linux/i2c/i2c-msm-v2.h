@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2015,2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -552,6 +556,10 @@ struct i2c_msm_xfer {
 	int                        msg_cnt;
 	enum i2c_msm_xfer_mode_id  mode_id;
 	struct completion          complete;
+<<<<<<< HEAD
+=======
+	struct completion          rx_complete;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	size_t                     rx_cnt;
 	size_t                     tx_cnt;
 	size_t                     rx_ovrhd_cnt;
@@ -580,6 +588,11 @@ struct i2c_msm_xfer {
  * @rsrcs    resources from platform data including clocks, gpios, irqs, and
  *           memory regions.
  * @mstr_clk_ctl cached value for programming to mstr_clk_ctl register
+<<<<<<< HEAD
+=======
+ * @i2c_sts_reg	 status of QUP_I2C_MASTER_STATUS register.
+ * @qup_op_reg	 status of QUP_OPERATIONAL register.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct i2c_msm_ctrl {
 	struct device             *dev;
@@ -588,6 +601,11 @@ struct i2c_msm_ctrl {
 	struct i2c_msm_dbgfs       dbgfs;
 	struct i2c_msm_resources   rsrcs;
 	u32                        mstr_clk_ctl;
+<<<<<<< HEAD
+=======
+	u32			   i2c_sts_reg;
+	u32			   qup_op_reg;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	enum i2c_msm_power_state   pwr_state;
 };
 

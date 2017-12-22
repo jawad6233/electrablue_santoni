@@ -180,7 +180,11 @@ extern struct task_group root_task_group;
 #define INIT_TASK(tsk)	\
 {									\
 	.state		= 0,						\
+<<<<<<< HEAD
 	.stack		= init_stack,					\
+=======
+	.stack		= &init_thread_info,				\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.usage		= ATOMIC_INIT(2),				\
 	.flags		= PF_KTHREAD,					\
 	.prio		= MAX_PRIO-20,					\
@@ -191,6 +195,12 @@ extern struct task_group root_task_group;
 	.nr_cpus_allowed= NR_CPUS,					\
 	.mm		= NULL,						\
 	.active_mm	= &init_mm,					\
+<<<<<<< HEAD
+=======
+	.restart_block = {						\
+		.fn = do_no_restart_syscall,				\
+	},								\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.se		= {						\
 		.group_node 	= LIST_HEAD_INIT(tsk.se.group_node),	\
 	},								\

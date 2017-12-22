@@ -102,6 +102,13 @@ typedef struct drm_via_private {
 	uint32_t dma_diff;
 } drm_via_private_t;
 
+<<<<<<< HEAD
+=======
+struct via_file_private {
+	struct list_head obj_list;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum via_family {
   VIA_OTHER = 0,     /* Baseline */
   VIA_PRO_GROUP_A,   /* Another video engine and DMA commands */
@@ -136,9 +143,15 @@ extern int via_init_context(struct drm_device *dev, int context);
 extern int via_final_context(struct drm_device *dev, int context);
 
 extern int via_do_cleanup_map(struct drm_device *dev);
+<<<<<<< HEAD
 extern u32 via_get_vblank_counter(struct drm_device *dev, int crtc);
 extern int via_enable_vblank(struct drm_device *dev, int crtc);
 extern void via_disable_vblank(struct drm_device *dev, int crtc);
+=======
+extern u32 via_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
+extern int via_enable_vblank(struct drm_device *dev, unsigned int pipe);
+extern void via_disable_vblank(struct drm_device *dev, unsigned int pipe);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern irqreturn_t via_driver_irq_handler(int irq, void *arg);
 extern void via_driver_irq_preinstall(struct drm_device *dev);

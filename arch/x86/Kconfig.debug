@@ -90,6 +90,7 @@ config EFI_PGT_DUMP
 	  issues with the mapping of the EFI runtime regions into that
 	  table.
 
+<<<<<<< HEAD
 config DEBUG_RODATA
 	bool "Write protect kernel read-only data structures"
 	default y
@@ -107,6 +108,14 @@ config DEBUG_RODATA_TEST
 	---help---
 	  This option enables a testcase for the DEBUG_RODATA
 	  feature as well as for the change_page_attr() infrastructure.
+=======
+config DEBUG_RODATA_TEST
+	bool "Testcase for the marking rodata read-only"
+	default y
+	---help---
+	  This option enables a testcase for the setting rodata read-only
+	  as well as for the change_page_attr() infrastructure.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	  If in doubt, say "N"
 
 config DEBUG_SET_MODULE_RONX

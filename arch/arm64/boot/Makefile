@@ -23,19 +23,40 @@ ifneq ($(DTB_NAMES),)
 DTB_LIST := $(addsuffix .dtb,$(DTB_NAMES))
 DTB_OBJS := $(addprefix $(obj)/dts/,$(DTB_LIST))
 else
+<<<<<<< HEAD
 DTB_LIST := $(dtb-y)
 endif
 DTB_OBJS := $(addprefix $(obj)/dts/qcom/,$(DTB_LIST))
+=======
+DTB_OBJS := $(shell find -L $(obj)/dts/ -name \*.dtb)
+endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 $(obj)/Image: vmlinux FORCE
 	$(call if_changed,objcopy)
 
+<<<<<<< HEAD
+=======
+$(obj)/Image-dtb: $(obj)/Image $(DTB_OBJS) FORCE
+	$(call if_changed,cat)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 $(obj)/Image.gz: $(obj)/Image FORCE
 	$(call if_changed,gzip)
 
 $(obj)/Image.gz-dtb: $(obj)/Image.gz $(DTB_OBJS) FORCE
 	$(call if_changed,cat)
 
+<<<<<<< HEAD
+=======
+$(obj)/Image-dtb-hdr: $(obj)/Image FORCE
+	echo -n 'UNCOMPRESSED_IMG' > $@ && \
+	$(call size_append, $(filter-out FORCE,$^)) >> $@
+
+$(obj)/Image-dtb: $(obj)/Image-dtb-hdr $(obj)/Image $(DTB_OBJS) FORCE
+	$(call if_changed,cat)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 install: $(obj)/Image
 	$(CONFIG_SHELL) $(srctree)/$(src)/install.sh $(KERNELRELEASE) \
 	$(obj)/Image System.map "$(INSTALL_PATH)"

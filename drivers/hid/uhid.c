@@ -28,6 +28,11 @@
 #define UHID_NAME	"uhid"
 #define UHID_BUFSIZE	32
 
+<<<<<<< HEAD
+=======
+static DEFINE_MUTEX(uhid_open_mutex);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct uhid_device {
 	struct mutex devlock;
 	bool running;
@@ -142,15 +147,35 @@ static void uhid_hid_stop(struct hid_device *hid)
 static int uhid_hid_open(struct hid_device *hid)
 {
 	struct uhid_device *uhid = hid->driver_data;
+<<<<<<< HEAD
 
 	return uhid_queue_event(uhid, UHID_OPEN);
+=======
+	int retval = 0;
+
+	mutex_lock(&uhid_open_mutex);
+	if (!hid->open++) {
+		retval = uhid_queue_event(uhid, UHID_OPEN);
+		if (retval)
+			hid->open--;
+	}
+	mutex_unlock(&uhid_open_mutex);
+	return retval;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void uhid_hid_close(struct hid_device *hid)
 {
 	struct uhid_device *uhid = hid->driver_data;
 
+<<<<<<< HEAD
 	uhid_queue_event(uhid, UHID_CLOSE);
+=======
+	mutex_lock(&uhid_open_mutex);
+	if (!--hid->open)
+		uhid_queue_event(uhid, UHID_CLOSE);
+	mutex_unlock(&uhid_open_mutex);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int uhid_hid_parse(struct hid_device *hid)
@@ -175,6 +200,7 @@ static int __uhid_report_queue_and_wait(struct uhid_device *uhid,
 	uhid_queue(uhid, ev);
 	spin_unlock_irqrestore(&uhid->qlock, flags);
 
+<<<<<<< HEAD
 	/*
 	 * Assumption: report_lock and devlock are both locked. So unlock
 	 * before sleeping.
@@ -196,6 +222,11 @@ static int __uhid_report_queue_and_wait(struct uhid_device *uhid,
 		mutex_unlock(&uhid->devlock);
 		return ret;
 	}
+=======
+	ret = wait_event_interruptible_timeout(uhid->report_wait,
+				!uhid->report_running || !uhid->running,
+				5 * HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!ret || !uhid->running || uhid->report_running)
 		ret = -EIO;
 	else if (ret < 0)

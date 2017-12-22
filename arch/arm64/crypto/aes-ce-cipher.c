@@ -14,8 +14,11 @@
 #include <linux/crypto.h>
 #include <linux/module.h>
 
+<<<<<<< HEAD
 #include "aes-ce-setkey.h"
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 MODULE_DESCRIPTION("Synchronous AES cipher using ARMv8 Crypto Extensions");
 MODULE_AUTHOR("Ard Biesheuvel <ard.biesheuvel@linaro.org>");
 MODULE_LICENSE("GPL v2");
@@ -126,6 +129,7 @@ static void aes_cipher_decrypt(struct crypto_tfm *tfm, u8 dst[], u8 const src[])
 	kernel_neon_end();
 }
 
+<<<<<<< HEAD
 /*
  * aes_sub() - use the aese instruction to perform the AES sbox substitution
  *             on each byte in 'input'
@@ -238,6 +242,12 @@ static struct crypto_alg aes_alg = {
 	.cra_name		= "aes",
 	.cra_driver_name	= "aes-ce",
 	.cra_priority		= 250,
+=======
+static struct crypto_alg aes_alg = {
+	.cra_name		= "aes",
+	.cra_driver_name	= "aes-ce",
+	.cra_priority		= 300,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.cra_flags		= CRYPTO_ALG_TYPE_CIPHER,
 	.cra_blocksize		= AES_BLOCK_SIZE,
 	.cra_ctxsize		= sizeof(struct crypto_aes_ctx),
@@ -245,7 +255,11 @@ static struct crypto_alg aes_alg = {
 	.cra_cipher = {
 		.cia_min_keysize	= AES_MIN_KEY_SIZE,
 		.cia_max_keysize	= AES_MAX_KEY_SIZE,
+<<<<<<< HEAD
 		.cia_setkey		= ce_aes_setkey,
+=======
+		.cia_setkey		= crypto_aes_set_key,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.cia_encrypt		= aes_cipher_encrypt,
 		.cia_decrypt		= aes_cipher_decrypt
 	}

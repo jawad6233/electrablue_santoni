@@ -4,6 +4,7 @@ KBUILD_OPTIONS := WLAN_ROOT=$(PWD)
 KBUILD_OPTIONS += MODNAME=wlan
 
 #Whether to build debug version
+<<<<<<< HEAD
 BUILD_DEBUG_VERSION := 1
 
 #Enable this flag to build driver in diag version
@@ -11,6 +12,15 @@ BUILD_DIAG_VERSION := 1
 
 #Do we panic on bug?  default is to warn
 PANIC_ON_BUG := 1
+=======
+BUILD_DEBUG_VERSION := 0
+
+#Enable this flag to build driver in diag version
+BUILD_DIAG_VERSION := 0
+
+#Do we panic on bug?  default is to warn
+PANIC_ON_BUG := 1 
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #Re-enable wifi on WDI timeout
 RE_ENABLE_WIFI_ON_WDI_TIMEOUT := 0
@@ -173,6 +183,13 @@ ifeq ($(CONFIG_QCOM_TDLS),y)
 MAC_LIM_OBJS += $(MAC_SRC_DIR)/pe/lim/limProcessTdls.o
 endif
 
+<<<<<<< HEAD
+=======
+ifeq ($(CONFIG_PRIMA_WLAN_LFR_MBB),y)
+MAC_LIM_OBJS += $(MAC_SRC_DIR)/pe/lim/lim_mbb.o
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 MAC_PMM_OBJS := $(MAC_SRC_DIR)/pe/pmm/pmmAP.o \
 		$(MAC_SRC_DIR)/pe/pmm/pmmApi.o \
 		$(MAC_SRC_DIR)/pe/pmm/pmmDebug.o
@@ -234,6 +251,13 @@ ifeq ($(CONFIG_QCOM_TDLS),y)
 SME_CSR_OBJS += $(SME_SRC_DIR)/csr/csrTdlsProcess.o
 endif
 
+<<<<<<< HEAD
+=======
+ifeq ($(CONFIG_PRIMA_WLAN_LFR_MBB),y)
+SME_CSR_OBJS += $(SME_SRC_DIR)/csr/csr_roam_mbb.o
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 SME_PMC_OBJS := $(SME_SRC_DIR)/pmc/pmcApi.o \
 		$(SME_SRC_DIR)/pmc/pmc.o \
 		$(SME_SRC_DIR)/pmc/pmcLogDump.o
@@ -512,7 +536,13 @@ CDEFINES :=	-DANI_BUS_TYPE_PLATFORM=1 \
                 -DWLAN_FEATURE_LINK_LAYER_STATS \
                 -DWLAN_FEATURE_EXTSCAN \
                 -DFEATURE_EXT_LL_STAT \
+<<<<<<< HEAD
                 -DWLAN_VOWIFI_DEBUG
+=======
+                -DWLAN_VOWIFI_DEBUG \
+		-DDHCP_SERVER_OFFLOAD \
+		-DWLAN_FEATURE_TSF
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 ifneq ($(CONFIG_PRONTO_WLAN),)
 CDEFINES += -DWCN_PRONTO
@@ -565,6 +595,13 @@ ifeq ($(CONFIG_PRIMA_WLAN_LFR),y)
 CDEFINES += -DFEATURE_WLAN_LFR
 endif
 
+<<<<<<< HEAD
+=======
+ifeq ($(CONFIG_PRIMA_WLAN_LFR_MBB),y)
+CDEFINES += -DWLAN_FEATURE_LFR_MBB
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 ifeq ($(CONFIG_PRIMA_WLAN_OKC),y)
 CDEFINES += -DFEATURE_WLAN_OKC
 endif
@@ -606,6 +643,18 @@ ifeq ($(CONFIG_ENABLE_LINUX_REG), y)
 CDEFINES += -DCONFIG_ENABLE_LINUX_REG
 endif
 
+<<<<<<< HEAD
+=======
+# Enable feature SAP Authentication Offload
+ifeq ($(SAP_AUTH_OFFLOAD), y)
+CDEFINES += -DSAP_AUTH_OFFLOAD
+endif
+
+ifeq ($(CONFIG_WLAN_FEATURE_AP_FIND), y)
+CDEFINES += -DWLAN_FEATURE_APFIND
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 CDEFINES += -DFEATURE_WLAN_CH_AVOID
 CDEFINES += -DWLAN_FEATURE_AP_HT40_24G
 
@@ -627,6 +676,13 @@ ifeq ($(CONFIG_WLAN_OFFLOAD_PACKETS),y)
 CDEFINES += -DWLAN_FEATURE_OFFLOAD_PACKETS
 endif
 
+<<<<<<< HEAD
+=======
+ifeq ($(CONFIG_MDNS_OFFLOAD_SUPPORT), y)
+CDEFINES += -DMDNS_OFFLOAD
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 KBUILD_CPPFLAGS += $(CDEFINES)
 
 # Module information used by KBuild framework
@@ -644,5 +700,8 @@ modules_install:
 clean::
 	rm -f *.o *.ko *.mod.c *.mod.o *~ .*.cmd Module.symvers
 	rm -rf .tmp_versions
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

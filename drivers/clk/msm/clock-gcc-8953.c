@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -415,6 +419,10 @@ static struct rcg_clk gfx3d_clk_src = {
 	.set_rate = set_rate_hid,
 	.freq_tbl = ftbl_gfx3d_clk_src,
 	.current_freq = &rcg_dummy_freq,
+<<<<<<< HEAD
+=======
+	.non_local_control_timeout = 1000,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.base = &virt_bases[GFX_BASE],
 	.c = {
 		.dbg_name = "gfx3d_clk_src",
@@ -433,6 +441,20 @@ static struct clk_freq_tbl ftbl_vcodec0_clk_src[] = {
 	F_END
 };
 
+<<<<<<< HEAD
+=======
+static struct clk_freq_tbl ftbl_vcodec0_clk_src_540MHz[] = {
+	F( 114290000, gpll0_main_div2,  3.5,    0,     0),
+	F( 228570000,           gpll0,  3.5,    0,     0),
+	F( 310000000,    gpll2_vcodec,    3,    0,     0),
+	F( 360000000,           gpll6,    3,    0,     0),
+	F( 400000000,           gpll0,    2,    0,     0),
+	F( 465000000,    gpll2_vcodec,    2,    0,     0),
+	F( 540000000,           gpll6,    2,    0,     0),
+	F_END
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct rcg_clk vcodec0_clk_src = {
 	.cmd_rcgr_reg = VCODEC0_CMD_RCGR,
 	.set_rate = set_rate_mnd,
@@ -1167,6 +1189,10 @@ static struct rcg_clk camss_gp1_clk_src = {
 static struct clk_freq_tbl ftbl_mclk0_clk_src[] = {
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
+<<<<<<< HEAD
+=======
+	F(  36610000, gpll6,		  1,    2,    59),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	F(  66667000,           gpll0,   12,    0,     0),
 	F_END
 };
@@ -1188,6 +1214,10 @@ static struct rcg_clk mclk0_clk_src = {
 static struct clk_freq_tbl ftbl_mclk1_clk_src[] = {
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
+<<<<<<< HEAD
+=======
+	F(  36610000, gpll6,		  1,    2,    59),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	F(  66667000,           gpll0,   12,    0,     0),
 	F_END
 };
@@ -1209,6 +1239,10 @@ static struct rcg_clk mclk1_clk_src = {
 static struct clk_freq_tbl ftbl_mclk2_clk_src[] = {
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
+<<<<<<< HEAD
+=======
+	F(  36610000, gpll6,		  1,    2,    59),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	F(  66667000,           gpll0,   12,    0,     0),
 	F_END
 };
@@ -1230,6 +1264,10 @@ static struct rcg_clk mclk2_clk_src = {
 static struct clk_freq_tbl ftbl_mclk3_clk_src[] = {
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
+<<<<<<< HEAD
+=======
+	F(  36610000, gpll6,		  1,    2,    59),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	F(  66667000,           gpll0,   12,    0,     0),
 	F_END
 };
@@ -3685,6 +3723,40 @@ static struct clk_lookup msm_clocks_lookup[] = {
 	CLK_LIST(gcc_mdss_vsync_clk),
 };
 
+<<<<<<< HEAD
+=======
+#define SPEED_BIN	7
+
+static void override_for_8953(struct platform_device *pdev)
+{
+	struct resource *res;
+	void __iomem *base;
+	u32 config_efuse, bin;
+
+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "efuse");
+	if (!res)
+		return;
+
+	base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
+	if (!base) {
+		dev_warn(&pdev->dev,
+			"Unable to ioremap efuse reg address. Defaulting to 0.\n");
+		return;
+	}
+
+	config_efuse = readl_relaxed(base);
+	devm_iounmap(&pdev->dev, base);
+
+	bin = (config_efuse >> 8) & 0x7;
+
+	if (bin == SPEED_BIN) {
+		vcodec0_clk_src.freq_tbl = ftbl_vcodec0_clk_src_540MHz;
+		vcodec0_clk_src.c.fmax[VDD_DIG_HIGH] = 540000000;
+	}
+
+	dev_info(&pdev->dev, "Venus speed bin: %u\n", bin);
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int msm_gcc_probe(struct platform_device *pdev)
 {
@@ -3717,6 +3789,11 @@ static int msm_gcc_probe(struct platform_device *pdev)
 		return PTR_ERR(vdd_dig.regulator[0]);
 	}
 
+<<<<<<< HEAD
+=======
+	override_for_8953(pdev);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 /*Vote for GPLL0 to turn on. Needed by acpuclock. */
 	regval = readl_relaxed(GCC_REG_BASE(APCS_GPLL_ENA_VOTE));
 	regval |= BIT(0);

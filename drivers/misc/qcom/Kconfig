@@ -16,3 +16,13 @@ config MSM_ULTRASOUND
 	  ultrasound data paths between
 	  HW and services, calculating input events
 	  upon the ultrasound data.
+<<<<<<< HEAD
+=======
+
+config MSM_MCU_TIME_SYNC
+       tristate "MCU time sync with apq8009"
+       depends on SYSFS
+       help
+         Say Y here if you want to get mcu and apq8009 data transfer
+         with gpio.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

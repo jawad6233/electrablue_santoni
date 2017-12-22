@@ -863,6 +863,10 @@ void key_change_session_keyring(struct callback_head *twork)
 	new->cap_inheritable	= old->cap_inheritable;
 	new->cap_permitted	= old->cap_permitted;
 	new->cap_effective	= old->cap_effective;
+<<<<<<< HEAD
+=======
+	new->cap_ambient	= old->cap_ambient;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	new->cap_bset		= old->cap_bset;
 
 	new->jit_keyring	= old->jit_keyring;

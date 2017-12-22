@@ -5,7 +5,11 @@
  * Copyright (C) 2008 by David Brownell
  * Copyright (C) 2008 by Nokia Corporation
  * Copyright (C) 2009 by Samsung Electronics
+<<<<<<< HEAD
  * Copyright (c) 2011, 2014 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011, 2014, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Author: Michal Nazarewicz (mina86@mina86.com)
  *
  * This software is distributed under the terms of the GNU General
@@ -646,15 +650,23 @@ static int acm_notify_serial_state(struct f_acm *acm)
 {
 	struct usb_composite_dev *cdev = acm->port.func.config->cdev;
 	int			status;
+<<<<<<< HEAD
 	__le16			serial_state;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock(&acm->lock);
 	if (acm->notify_req) {
 		dev_dbg(&cdev->gadget->dev, "acm ttyGS%d serial state %04x\n",
 			acm->port_num, acm->serial_state);
+<<<<<<< HEAD
 		serial_state = cpu_to_le16(acm->serial_state);
 		status = acm_cdc_notify(acm, USB_CDC_NOTIFY_SERIAL_STATE,
 				0, &serial_state, sizeof(acm->serial_state));
+=======
+		status = acm_cdc_notify(acm, USB_CDC_NOTIFY_SERIAL_STATE,
+				0, &acm->serial_state, sizeof(acm->serial_state));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		acm->pending = true;
 		status = 0;

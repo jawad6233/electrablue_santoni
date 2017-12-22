@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -265,6 +269,11 @@ struct mdss_smmu_ops {
 	void (*smmu_dsi_unmap_buffer)(dma_addr_t dma_addr, int domain,
 			unsigned long size, int dir);
 	void (*smmu_deinit)(struct mdss_data_type *mdata);
+<<<<<<< HEAD
+=======
+	struct sg_table * (*smmu_sg_table_clone)(struct sg_table *orig_table,
+			gfp_t gfp_mask, bool padding);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct mdss_data_type {
@@ -385,6 +394,11 @@ struct mdss_data_type {
 	u32 *vbif_rt_qos;
 	u32 *vbif_nrt_qos;
 	u32 npriority_lvl;
+<<<<<<< HEAD
+=======
+	u32 rot_dwnscale_min;
+	u32 rot_dwnscale_max;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	struct mult_factor ab_factor;
 	struct mult_factor ib_factor;
@@ -506,6 +520,12 @@ struct mdss_data_type {
 	u32 bcolor1;
 	u32 bcolor2;
 	struct mdss_scaler_block *scaler_off;
+<<<<<<< HEAD
+=======
+
+	u32 splash_intf_sel;
+	u32 splash_split_disp;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 extern struct mdss_data_type *mdss_res;

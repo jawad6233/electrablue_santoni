@@ -93,7 +93,11 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
 	int ret;
 
 	/* pin buffer into GTT */
+<<<<<<< HEAD
 	ret = nouveau_bo_pin(nvbo, TTM_PL_FLAG_TT);
+=======
+	ret = nouveau_bo_pin(nvbo, TTM_PL_FLAG_TT, false);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return -EINVAL;
 

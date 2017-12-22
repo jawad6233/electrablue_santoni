@@ -77,6 +77,11 @@ TRACE_EVENT(
 
 /* This part must be outside protection */
 #undef TRACE_INCLUDE_PATH
+<<<<<<< HEAD
 /* define TRACE_INCLUDE_PATH .*/
+=======
+
+/* #define TRACE_INCLUDE_PATH . */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define TRACE_INCLUDE_PATH ../../drivers/net/ethernet/msm
 #include <trace/define_trace.h>

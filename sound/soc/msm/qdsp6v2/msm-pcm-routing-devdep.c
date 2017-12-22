@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,8 +18,11 @@
 #include <linux/module.h>
 #include <sound/hwdep.h>
 #include <sound/devdep_params.h>
+<<<<<<< HEAD
 #include <sound/msm-dts-eagle.h>
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "msm-pcm-routing-devdep.h"
 #include "msm-ds2-dap-config.h"
 
@@ -53,6 +60,7 @@ static int msm_pcm_routing_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
 	case SNDRV_DEVDEP_DAP_IOCTL_GET_VISUALIZER:
 		ret = msm_ds2_dap_ioctl(hw, file, cmd, argp);
 		break;
+<<<<<<< HEAD
 	case DTS_EAGLE_IOCTL_GET_CACHE_SIZE:
 	case DTS_EAGLE_IOCTL_SET_CACHE_SIZE:
 	case DTS_EAGLE_IOCTL_GET_PARAM:
@@ -70,6 +78,8 @@ static int msm_pcm_routing_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
 			ret = -EINVAL;
 		}
 		break;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		pr_err("%s called with invalid control 0x%X\n", __func__, cmd);
 		ret = -EINVAL;
@@ -81,7 +91,10 @@ static int msm_pcm_routing_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
 void msm_pcm_routing_hwdep_free(struct snd_pcm *pcm)
 {
 	pr_debug("%s\n", __func__);
+<<<<<<< HEAD
 	msm_dts_eagle_pcm_free(pcm);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #ifdef CONFIG_COMPAT
@@ -105,6 +118,7 @@ static int msm_pcm_routing_hwdep_compat_ioctl(struct snd_hwdep *hw,
 	case SNDRV_DEVDEP_DAP_IOCTL_GET_VISUALIZER32:
 		ret = msm_ds2_dap_compat_ioctl(hw, file, cmd, argp);
 		break;
+<<<<<<< HEAD
 	case DTS_EAGLE_IOCTL_GET_CACHE_SIZE32:
 	case DTS_EAGLE_IOCTL_SET_CACHE_SIZE32:
 	case DTS_EAGLE_IOCTL_GET_PARAM32:
@@ -122,6 +136,8 @@ static int msm_pcm_routing_hwdep_compat_ioctl(struct snd_hwdep *hw,
 			ret = -EINVAL;
 		}
 		break;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		pr_err("%s called with invalid control 0x%X\n", __func__, cmd);
 		ret = -EINVAL;
@@ -167,6 +183,10 @@ int msm_pcm_routing_hwdep_new(struct snd_soc_pcm_runtime *runtime,
 #ifdef CONFIG_COMPAT
 	hwdep->ops.ioctl_compat = msm_pcm_routing_hwdep_compat_ioctl;
 #endif
+<<<<<<< HEAD
 	return msm_dts_eagle_pcm_new(runtime);
+=======
+	return rc;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 #endif

@@ -1281,7 +1281,11 @@ static int create_device(struct zram *zram, int device_id)
 	}
 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
 	zram->meta = NULL;
+<<<<<<< HEAD
 	zram->max_comp_streams = 2;
+=======
+	zram->max_comp_streams = 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 
 out_free_disk:

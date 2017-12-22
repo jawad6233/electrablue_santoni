@@ -5,7 +5,11 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
+<<<<<<< HEAD
  * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -492,21 +496,31 @@ static int synaptics_i2c_change_pipe_owner(
 
 static void synaptics_secure_touch_init(struct synaptics_rmi4_data *data)
 {
+<<<<<<< HEAD
 	int ret = 0;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	data->st_initialized = 0;
 	init_completion(&data->st_powerdown);
 	init_completion(&data->st_irq_processed);
 	/* Get clocks */
 	data->core_clk = clk_get(data->pdev->dev.parent, "core_clk");
 	if (IS_ERR(data->core_clk)) {
+<<<<<<< HEAD
 		ret = PTR_ERR(data->core_clk);
 		dev_err(data->pdev->dev.parent,
 			"%s: error on clk_get(core_clk):%d\n", __func__, ret);
 		return;
+=======
+		data->core_clk = NULL;
+		dev_warn(data->pdev->dev.parent,
+			"%s: core_clk is not defined\n", __func__);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	data->iface_clk = clk_get(data->pdev->dev.parent, "iface_clk");
 	if (IS_ERR(data->iface_clk)) {
+<<<<<<< HEAD
 		ret = PTR_ERR(data->iface_clk);
 		dev_err(data->pdev->dev.parent,
 			"%s: error on clk_get(iface_clk):%d\n", __func__, ret);
@@ -519,6 +533,14 @@ static void synaptics_secure_touch_init(struct synaptics_rmi4_data *data)
 err_iface_clk:
 		clk_put(data->core_clk);
 		data->core_clk = NULL;
+=======
+		data->iface_clk = NULL;
+		dev_warn(data->pdev->dev.parent,
+			"%s: iface_clk is not defined\n", __func__);
+	}
+
+	data->st_initialized = 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static void synaptics_secure_touch_notify(struct synaptics_rmi4_data *rmi4_data)
 {
@@ -1503,7 +1525,11 @@ static int synaptics_rmi4_irq_enable(struct synaptics_rmi4_data *rmi4_data,
 	return retval;
 }
 
+<<<<<<< HEAD
 static void synaptics_rmi4_set_intr_mask(struct synaptics_rmi4_fn *fhandler,
+=======
+static int synaptics_rmi4_set_intr_mask(struct synaptics_rmi4_fn *fhandler,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		struct synaptics_rmi4_fn_desc *fd,
 		unsigned int intr_count)
 {
@@ -1511,6 +1537,15 @@ static void synaptics_rmi4_set_intr_mask(struct synaptics_rmi4_fn *fhandler,
 	unsigned char intr_offset;
 
 	fhandler->intr_reg_num = (intr_count + 7) / 8;
+<<<<<<< HEAD
+=======
+	if (fhandler->intr_reg_num >= MAX_INTR_REGISTERS) {
+		fhandler->intr_reg_num = 0;
+		fhandler->num_of_data_sources = 0;
+		fhandler->intr_mask = 0;
+		return -EINVAL;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (fhandler->intr_reg_num != 0)
 		fhandler->intr_reg_num -= 1;
 
@@ -1523,7 +1558,11 @@ static void synaptics_rmi4_set_intr_mask(struct synaptics_rmi4_fn *fhandler,
 			ii++)
 		fhandler->intr_mask |= 1 << ii;
 
+<<<<<<< HEAD
 	return;
+=======
+	return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int synaptics_rmi4_f01_init(struct synaptics_rmi4_data *rmi4_data,
@@ -1531,12 +1570,24 @@ static int synaptics_rmi4_f01_init(struct synaptics_rmi4_data *rmi4_data,
 		struct synaptics_rmi4_fn_desc *fd,
 		unsigned int intr_count)
 {
+<<<<<<< HEAD
+=======
+	int retval;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fhandler->fn_number = fd->fn_number;
 	fhandler->num_of_data_sources = fd->intr_src_count;
 	fhandler->data = NULL;
 	fhandler->extra = NULL;
 
+<<<<<<< HEAD
 	synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+=======
+	retval = synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+	if (retval < 0)
+		return retval;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	rmi4_data->f01_query_base_addr = fd->query_base_addr;
 	rmi4_data->f01_ctrl_base_addr = fd->ctrl_base_addr;
@@ -1661,7 +1712,13 @@ static int synaptics_rmi4_f11_init(struct synaptics_rmi4_data *rmi4_data,
 	if (retval < 0)
 		return retval;
 
+<<<<<<< HEAD
 	synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+=======
+	retval = synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+	if (retval < 0)
+		return retval;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	abs_data_size = query[5] & MASK_2BIT;
 	abs_data_blk_size = 3 + (2 * (abs_data_size == 0 ? 1 : 0));
@@ -1942,7 +1999,13 @@ static int synaptics_rmi4_f12_init(struct synaptics_rmi4_data *rmi4_data,
 	if (retval < 0)
 		goto free_function_handler_mem;
 
+<<<<<<< HEAD
 	synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+=======
+	retval = synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+	if (retval < 0)
+		return retval;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Allocate memory for finger data storage space */
 	fhandler->data_size = num_of_fingers * size_of_2d_data;
@@ -2100,7 +2163,13 @@ static int synaptics_rmi4_f1a_init(struct synaptics_rmi4_data *rmi4_data,
 	fhandler->fn_number = fd->fn_number;
 	fhandler->num_of_data_sources = fd->intr_src_count;
 
+<<<<<<< HEAD
 	synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+=======
+	retval = synaptics_rmi4_set_intr_mask(fhandler, fd, intr_count);
+	if (retval < 0)
+		return retval;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	retval = synaptics_rmi4_f1a_alloc_mem(rmi4_data, fhandler);
 	if (retval < 0)
@@ -2499,6 +2568,11 @@ flash_prog_mode:
 	dev_dbg(rmi4_data->pdev->dev.parent,
 			"%s: Number of interrupt registers = %d\n",
 			__func__, rmi4_data->num_of_intr_regs);
+<<<<<<< HEAD
+=======
+	if (rmi4_data->num_of_intr_regs >= MAX_INTR_REGISTERS)
+		return -EINVAL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	retval = synaptics_rmi4_reg_read(rmi4_data,
 			rmi4_data->f01_query_base_addr,
@@ -3596,10 +3670,18 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 	rmi4_data->fingers_on_2d = false;
 	rmi4_data->update_coords = true;
 
+<<<<<<< HEAD
 	rmi4_data->write_buf = devm_kzalloc(&pdev->dev, I2C_WRITE_BUF_MAX_LEN,
 					GFP_KERNEL);
 	if (!rmi4_data->write_buf)
 		return -ENOMEM;
+=======
+	rmi4_data->write_buf = kzalloc(I2C_WRITE_BUF_MAX_LEN, GFP_KERNEL);
+	if (!rmi4_data->write_buf) {
+		retval = -ENOMEM;
+		goto err_write_buf_alloc;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rmi4_data->write_buf_len = I2C_WRITE_BUF_MAX_LEN;
 
 	rmi4_data->irq_enable = synaptics_rmi4_irq_enable;
@@ -3692,6 +3774,15 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 
 	rmi4_data->irq = gpio_to_irq(bdata->irq_gpio);
 
+<<<<<<< HEAD
+=======
+	if (!exp_data.initialized) {
+		mutex_init(&exp_data.mutex);
+		INIT_LIST_HEAD(&exp_data.list);
+		exp_data.initialized = true;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	retval = synaptics_rmi4_irq_enable(rmi4_data, true);
 	if (retval < 0) {
 		dev_err(&pdev->dev,
@@ -3700,12 +3791,15 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 		goto err_enable_irq;
 	}
 
+<<<<<<< HEAD
 	if (!exp_data.initialized) {
 		mutex_init(&exp_data.mutex);
 		INIT_LIST_HEAD(&exp_data.list);
 		exp_data.initialized = true;
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	exp_data.workqueue = create_singlethread_workqueue("dsx_exp_workqueue");
 	INIT_DELAYED_WORK(&exp_data.work, synaptics_rmi4_exp_fn_work);
 	exp_data.rmi4_data = rmi4_data;
@@ -3819,6 +3913,11 @@ err_regulator_enable:
 	regulator_put(rmi4_data->regulator_vdd);
 	regulator_put(rmi4_data->regulator_avdd);
 err_regulator_configure:
+<<<<<<< HEAD
+=======
+	kfree(rmi4_data->write_buf);
+err_write_buf_alloc:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(rmi4_data);
 
 	return retval;
@@ -3913,6 +4012,10 @@ static int synaptics_rmi4_remove(struct platform_device *pdev)
 		regulator_put(rmi4_data->regulator_avdd);
 	}
 
+<<<<<<< HEAD
+=======
+	kfree(rmi4_data->write_buf);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(rmi4_data);
 
 	return 0;

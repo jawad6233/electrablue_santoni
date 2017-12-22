@@ -17,10 +17,18 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<< HEAD
 #include "omap_drv.h"
 
 #include "drm_crtc.h"
 #include "drm_crtc_helper.h"
+=======
+#include <drm/drm_atomic_helper.h>
+#include <drm/drm_crtc.h>
+#include <drm/drm_crtc_helper.h>
+
+#include "omap_drv.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * connector funcs
@@ -102,7 +110,11 @@ void copy_timings_drm_to_omap(struct omap_video_timings *timings,
 
 	timings->data_pclk_edge = OMAPDSS_DRIVE_SIG_RISING_EDGE;
 	timings->de_level = OMAPDSS_SIG_ACTIVE_HIGH;
+<<<<<<< HEAD
 	timings->sync_pclk_edge = OMAPDSS_DRIVE_SIG_OPPOSITE_EDGES;
+=======
+	timings->sync_pclk_edge = OMAPDSS_DRIVE_SIG_FALLING_EDGE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static enum drm_connector_status omap_connector_detect(
@@ -259,10 +271,20 @@ struct drm_encoder *omap_connector_attached_encoder(
 }
 
 static const struct drm_connector_funcs omap_connector_funcs = {
+<<<<<<< HEAD
 	.dpms = drm_helper_connector_dpms,
 	.detect = omap_connector_detect,
 	.fill_modes = drm_helper_probe_single_connector_modes,
 	.destroy = omap_connector_destroy,
+=======
+	.dpms = drm_atomic_helper_connector_dpms,
+	.reset = drm_atomic_helper_connector_reset,
+	.detect = omap_connector_detect,
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.destroy = omap_connector_destroy,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static const struct drm_connector_helper_funcs omap_connector_helper_funcs = {
@@ -271,6 +293,7 @@ static const struct drm_connector_helper_funcs omap_connector_helper_funcs = {
 	.best_encoder = omap_connector_attached_encoder,
 };
 
+<<<<<<< HEAD
 /* flush an area of the framebuffer (in case of manual update display that
  * is not automatically flushed)
  */
@@ -283,6 +306,8 @@ void omap_connector_flush(struct drm_connector *connector,
 	VERB("%s: %d,%d, %dx%d", omap_connector->dssdev->name, x, y, w, h);
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* initialize connector */
 struct drm_connector *omap_connector_init(struct drm_device *dev,
 		int connector_type, struct omap_dss_device *dssdev,

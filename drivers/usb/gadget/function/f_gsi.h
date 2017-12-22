@@ -20,10 +20,16 @@
 #define GSI_CTRL_NAME_LEN (sizeof(GSI_MBIM_CTRL_NAME)+2)
 #define GSI_MAX_CTRL_PKT_SIZE 4096
 
+<<<<<<< HEAD
 #define GSI_NUM_IN_BUFFERS 7
 #define GSI_IN_BUFF_SIZE 2048
 #define GSI_NUM_OUT_BUFFERS 7
 #define GSI_ECM_NUM_OUT_BUFFERS 31
+=======
+#define GSI_NUM_IN_BUFFERS 15
+#define GSI_IN_BUFF_SIZE 2048
+#define GSI_NUM_OUT_BUFFERS 14
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define GSI_OUT_AGGR_SIZE 24576
 
 #define GSI_IN_RNDIS_AGGR_SIZE 9216
@@ -78,6 +84,17 @@ enum connection_state {
 	STATE_SUSPENDED
 };
 
+<<<<<<< HEAD
+=======
+enum gsi_ctrl_notify_state {
+	GSI_CTRL_NOTIFY_NONE,
+	GSI_CTRL_NOTIFY_CONNECT,
+	GSI_CTRL_NOTIFY_SPEED,
+	GSI_CTRL_NOTIFY_OFFLINE,
+	GSI_CTRL_NOTIFY_RESPONSE_AVAILABLE,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define MAXQUEUELEN 128
 struct event_queue {
 	u8 event[MAXQUEUELEN];
@@ -92,9 +109,16 @@ struct gsi_ntb_info {
 };
 
 struct gsi_ctrl_pkt {
+<<<<<<< HEAD
 	void			*buf;
 	int			len;
 	struct list_head	list;
+=======
+	void				*buf;
+	int				len;
+	enum gsi_ctrl_notify_state	type;
+	struct list_head		list;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct gsi_function_bind_info {
@@ -132,6 +156,7 @@ struct gsi_function_bind_info {
 	u32 notify_buf_len;
 };
 
+<<<<<<< HEAD
 enum gsi_ctrl_notify_state {
 	GSI_CTRL_NOTIFY_NONE,
 	GSI_CTRL_NOTIFY_CONNECT,
@@ -140,14 +165,20 @@ enum gsi_ctrl_notify_state {
 	GSI_CTRL_NOTIFY_RESPONSE_AVAILABLE,
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct gsi_ctrl_port {
 	char name[GSI_CTRL_NAME_LEN];
 	struct miscdevice ctrl_device;
 
 	struct usb_ep *notify;
 	struct usb_request *notify_req;
+<<<<<<< HEAD
 	int notify_state;
 	atomic_t notify_count;
+=======
+	bool notify_req_queued;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	atomic_t ctrl_online;
 
@@ -169,6 +200,10 @@ struct gsi_ctrl_port {
 	unsigned copied_from_modem;
 	unsigned modem_to_host;
 	unsigned cpkt_drop_cnt;
+<<<<<<< HEAD
+=======
+	unsigned get_encap_cnt;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct gsi_data_port {
@@ -227,6 +262,13 @@ struct f_gsi {
 
 	struct gsi_data_port d_port;
 	struct gsi_ctrl_port c_port;
+<<<<<<< HEAD
+=======
+	/* To test remote wakeup using debugfs */
+	struct timer_list debugfs_rw_timer;
+	u8 debugfs_rw_enable;
+	u16 debugfs_rw_interval;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct f_gsi *gsi_prot_ctx[IPA_USB_MAX_TETH_PROT_SIZE];

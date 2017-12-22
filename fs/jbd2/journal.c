@@ -275,11 +275,18 @@ loop:
 	goto loop;
 
 end_loop:
+<<<<<<< HEAD
 	write_unlock(&journal->j_state_lock);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	del_timer_sync(&journal->j_commit_timer);
 	journal->j_task = NULL;
 	wake_up(&journal->j_wait_done_commit);
 	jbd_debug(1, "Journal thread exiting.\n");
+<<<<<<< HEAD
+=======
+	write_unlock(&journal->j_state_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 

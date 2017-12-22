@@ -41,29 +41,50 @@ ENTRY(phys_startup_64)
 jiffies_64 = jiffies;
 #endif
 
+<<<<<<< HEAD
 #if defined(CONFIG_X86_64) && defined(CONFIG_DEBUG_RODATA)
 /*
  * On 64-bit, align RODATA to 2MB so that even with CONFIG_DEBUG_RODATA
  * we retain large page mappings for boundaries spanning kernel text, rodata
  * and data sections.
+=======
+#if defined(CONFIG_X86_64)
+/*
+ * On 64-bit, align RODATA to 2MB so we retain large page mappings for
+ * boundaries spanning kernel text, rodata and data sections.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * However, kernel identity mappings will have different RWX permissions
  * to the pages mapping to text and to the pages padding (which are freed) the
  * text section. Hence kernel identity mappings will be broken to smaller
  * pages. For 64-bit, kernel text and kernel identity mappings are different,
+<<<<<<< HEAD
  * so we can enable protection checks that come with CONFIG_DEBUG_RODATA,
  * as well as retain 2MB large page mappings for kernel text.
  */
 #define X64_ALIGN_DEBUG_RODATA_BEGIN	. = ALIGN(HPAGE_SIZE);
 
 #define X64_ALIGN_DEBUG_RODATA_END				\
+=======
+ * so we can enable protection checks as well as retain 2MB large page
+ * mappings for kernel text.
+ */
+#define X64_ALIGN_RODATA_BEGIN	. = ALIGN(HPAGE_SIZE);
+
+#define X64_ALIGN_RODATA_END					\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		. = ALIGN(HPAGE_SIZE);				\
 		__end_rodata_hpage_align = .;
 
 #else
 
+<<<<<<< HEAD
 #define X64_ALIGN_DEBUG_RODATA_BEGIN
 #define X64_ALIGN_DEBUG_RODATA_END
+=======
+#define X64_ALIGN_RODATA_BEGIN
+#define X64_ALIGN_RODATA_END
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif
 
@@ -112,6 +133,7 @@ SECTIONS
 
 	EXCEPTION_TABLE(16) :text = 0x9090
 
+<<<<<<< HEAD
 #if defined(CONFIG_DEBUG_RODATA)
 	/* .text should occupy whole number of pages */
 	. = ALIGN(PAGE_SIZE);
@@ -119,6 +141,13 @@ SECTIONS
 	X64_ALIGN_DEBUG_RODATA_BEGIN
 	RO_DATA(PAGE_SIZE)
 	X64_ALIGN_DEBUG_RODATA_END
+=======
+	/* .text should occupy whole number of pages */
+	. = ALIGN(PAGE_SIZE);
+	X64_ALIGN_RODATA_BEGIN
+	RO_DATA(PAGE_SIZE)
+	X64_ALIGN_RODATA_END
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Data */
 	.data : AT(ADDR(.data) - LOAD_OFFSET) {

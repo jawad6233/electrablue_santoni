@@ -127,6 +127,7 @@ static void zpool_put_driver(struct zpool_driver *driver)
 }
 
 /**
+<<<<<<< HEAD
  * zpool_has_pool() - Check if the pool driver is available
  * @type	The type of the zpool to check (e.g. zbud, zsmalloc)
  *
@@ -160,6 +161,8 @@ bool zpool_has_pool(char *type)
 EXPORT_SYMBOL(zpool_has_pool);
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * zpool_create_pool() - Create a new zpool
  * @type	The type of the zpool to create (e.g. zbud, zsmalloc)
  * @name	The name of the zpool (e.g. zram0, zswap)
@@ -180,7 +183,11 @@ struct zpool *zpool_create_pool(char *type, char *name, gfp_t gfp,
 	struct zpool_driver *driver;
 	struct zpool *zpool;
 
+<<<<<<< HEAD
 	pr_debug("creating pool type %s\n", type);
+=======
+	pr_info("creating pool type %s\n", type);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	driver = zpool_get_driver(type);
 
@@ -213,7 +220,11 @@ struct zpool *zpool_create_pool(char *type, char *name, gfp_t gfp,
 		return NULL;
 	}
 
+<<<<<<< HEAD
 	pr_debug("created pool type %s\n", type);
+=======
+	pr_info("created %s pool\n", type);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock(&pools_lock);
 	list_add(&zpool->list, &pools_head);
@@ -235,7 +246,11 @@ struct zpool *zpool_create_pool(char *type, char *name, gfp_t gfp,
  */
 void zpool_destroy_pool(struct zpool *zpool)
 {
+<<<<<<< HEAD
 	pr_debug("destroying pool type %s\n", zpool->type);
+=======
+	pr_info("destroying pool type %s\n", zpool->type);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock(&pools_lock);
 	list_del(&zpool->list);

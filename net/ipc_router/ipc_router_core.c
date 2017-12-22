@@ -1500,6 +1500,7 @@ static void msm_ipc_router_free_resume_tx_port(
 }
 
 /**
+<<<<<<< HEAD
  * msm_ipc_router_free_conn_info() - Free the local ports
  * @rport_ptr: Pointer to the remote port.
  *
@@ -1521,6 +1522,8 @@ static void msm_ipc_router_free_conn_info(
 }
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * msm_ipc_router_lookup_resume_tx_port() - Lookup resume_tx port list
  * @rport_ptr: Remote port whose resume_tx port list needs to be looked.
  * @port_id: Port ID which needs to be looked from the list.
@@ -1646,7 +1649,10 @@ static void ipc_router_release_rport(struct kref *ref)
 
 	mutex_lock(&rport_ptr->rport_lock_lhb2);
 	msm_ipc_router_free_resume_tx_port(rport_ptr);
+<<<<<<< HEAD
 	msm_ipc_router_free_conn_info(rport_ptr);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_unlock(&rport_ptr->rport_lock_lhb2);
 	kfree(rport_ptr);
 }
@@ -2198,7 +2204,10 @@ static void cleanup_rmt_server(struct msm_ipc_router_xprt_info *xprt_info,
 {
 	union rr_control_msg ctl;
 
+<<<<<<< HEAD
 	ipc_router_reset_conn(rport_ptr);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	memset(&ctl, 0, sizeof(ctl));
 	ctl.cmd = IPC_ROUTER_CTRL_CMD_REMOVE_SERVER;
 	ctl.srv.service = server->name.service;
@@ -2229,6 +2238,10 @@ static void cleanup_rmt_ports(struct msm_ipc_router_xprt_info *xprt_info,
 			server = rport_ptr->server;
 			rport_ptr->server = NULL;
 			mutex_unlock(&rport_ptr->rport_lock_lhb2);
+<<<<<<< HEAD
+=======
+			ipc_router_reset_conn(rport_ptr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (server) {
 				cleanup_rmt_server(xprt_info, rport_ptr,
 						   server);
@@ -2383,6 +2396,7 @@ static void ipc_router_reset_conn(struct msm_ipc_router_remote_port *rport_ptr)
 	list_for_each_entry_safe(conn_info, tmp_conn_info,
 				&rport_ptr->conn_info_list, list) {
 		port_ptr = ipc_router_get_port_ref(conn_info->port_id);
+<<<<<<< HEAD
 		if (!port_ptr)
 			continue;
 		mutex_lock(&port_ptr->port_lock_lhc3);
@@ -2390,6 +2404,15 @@ static void ipc_router_reset_conn(struct msm_ipc_router_remote_port *rport_ptr)
 		mutex_unlock(&port_ptr->port_lock_lhc3);
 		wake_up(&port_ptr->port_rx_wait_q);
 		kref_put(&port_ptr->ref, ipc_router_release_port);
+=======
+		if (port_ptr) {
+			mutex_lock(&port_ptr->port_lock_lhc3);
+			port_ptr->conn_status = CONNECTION_RESET;
+			mutex_unlock(&port_ptr->port_lock_lhc3);
+			wake_up(&port_ptr->port_rx_wait_q);
+			kref_put(&port_ptr->ref, ipc_router_release_port);
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		list_del(&conn_info->list);
 		kfree(conn_info);
@@ -2673,6 +2696,10 @@ static int process_rmv_client_msg(struct msm_ipc_router_xprt_info *xprt_info,
 		server = rport_ptr->server;
 		rport_ptr->server = NULL;
 		mutex_unlock(&rport_ptr->rport_lock_lhb2);
+<<<<<<< HEAD
+=======
+		ipc_router_reset_conn(rport_ptr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		down_write(&server_list_lock_lha2);
 		if (server)
 			cleanup_rmt_server(NULL, rport_ptr, server);

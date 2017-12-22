@@ -122,6 +122,10 @@ void save_stack_trace_tsk(struct task_struct *tsk, struct stack_trace *trace)
 	if (trace->nr_entries < trace->max_entries)
 		trace->entries[trace->nr_entries++] = ULONG_MAX;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(save_stack_trace_tsk);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void save_stack_trace(struct stack_trace *trace)
 {

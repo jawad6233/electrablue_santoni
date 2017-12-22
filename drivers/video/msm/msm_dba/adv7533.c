@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -112,6 +116,11 @@ struct adv7533 {
 	u32 hpd_irq_flags;
 	u32 switch_gpio;
 	u32 switch_flags;
+<<<<<<< HEAD
+=======
+	u32 power_down_gpio;
+	u32 power_down_flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct pinctrl *ts_pinctrl;
 	struct pinctrl_state *pinctrl_state_active;
 	struct pinctrl_state *pinctrl_state_suspend;
@@ -250,6 +259,31 @@ static struct adv7533_reg_cfg I2S_cfg[] = {
 	{I2C_ADDR_MAIN, 0x73, 0x01, 0},	/* Channel Count = 2 channels */
 };
 
+<<<<<<< HEAD
+=======
+static struct mdss_dba_timing_info adv7533_supp_timing_cfg[] = {
+	{1920, 1080, 24, 60, 0x4},
+	{1920, 1080, 24, 30, 0x3},
+	{1920, 1080, 24, 24, 0x3},
+	{1280, 720, 24, 60, 0x3},
+	{1280, 720, 24, 50, 0x3},
+	{1024, 768, 24, 60, 0x3},
+	{1024, 576, 24, 60, 0x2},
+	{720, 480, 24, 60, 0x2},
+	{720, 480, 16, 60, 0x2},
+	{720, 576, 24, 50, 0x2},
+	{720, 576, 16, 50, 0x2},
+	{640, 480, 24, 60, 0x2},
+	{640, 480, 16, 60, 0x2},
+	{0xffff, 0xffff, 0xff, 0xff, 0xff},
+};
+
+static void *adv7533_get_supp_timing_info(void)
+{
+	return adv7533_supp_timing_cfg;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int adv7533_write(struct adv7533 *pdata, u8 offset, u8 reg, u8 val)
 {
 	u8 addr = 0;
@@ -422,7 +456,10 @@ static int adv7533_program_i2c_addr(struct adv7533 *pdata)
 
 	return ret;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void adv7533_parse_vreg_dt(struct device *dev,
 				struct dss_module_power *mp)
 {
@@ -495,7 +532,11 @@ static void adv7533_parse_vreg_dt(struct device *dev,
 				__func__, rc);
 			goto end;
 		}
+<<<<<<< HEAD
 		mp->vreg_config[i].enable_load = val_array[i];
+=======
+		mp->vreg_config[i].load[DSS_REG_MODE_ENABLE] = val_array[i];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		memset(val_array, 0, sizeof(u32) * dt_vreg_total);
 		rc = of_property_read_u32_array(of_node,
@@ -506,15 +547,38 @@ static void adv7533_parse_vreg_dt(struct device *dev,
 				__func__, rc);
 			goto end;
 		}
+<<<<<<< HEAD
 		mp->vreg_config[i].disable_load = val_array[i];
 
 		pr_debug("%s: %s min=%d, max=%d, enable=%d disable=%d\n",
+=======
+		mp->vreg_config[i].load[DSS_REG_MODE_DISABLE] = val_array[i];
+
+		/* post-on-sleep */
+		memset(val_array, 0, sizeof(u32) * dt_vreg_total);
+		rc = of_property_read_u32_array(of_node,
+				"qcom,post-on-sleep", val_array,
+						dt_vreg_total);
+		if (rc)
+			pr_warn("%s: error read post on sleep. rc=%d\n",
+					__func__, rc);
+		else
+			mp->vreg_config[i].post_on_sleep = val_array[i];
+
+		pr_info("%s: %s min=%d, max=%d, enable=%d disable=%d post-on-sleep=%d\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			__func__,
 			mp->vreg_config[i].vreg_name,
 			mp->vreg_config[i].min_voltage,
 			mp->vreg_config[i].max_voltage,
+<<<<<<< HEAD
 			mp->vreg_config[i].enable_load,
 			mp->vreg_config[i].disable_load);
+=======
+			mp->vreg_config[i].load[DSS_REG_MODE_ENABLE],
+			mp->vreg_config[i].load[DSS_REG_MODE_DISABLE],
+			mp->vreg_config[i].post_on_sleep);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	devm_kfree(dev, val_array);
@@ -604,11 +668,22 @@ static int adv7533_parse_dt(struct device *dev,
 		pdata->hpd_irq_gpio = of_get_named_gpio_flags(np,
 				"adi,hpd-irq-gpio", 0,
 				&pdata->hpd_irq_flags);
+<<<<<<< HEAD
 
 		pdata->switch_gpio = of_get_named_gpio_flags(np,
 				"adi,switch-gpio", 0, &pdata->switch_flags);
 	}
 
+=======
+	}
+
+	pdata->power_down_gpio = of_get_named_gpio_flags(np,
+			"adi,power-down-gpio", 0, &pdata->power_down_flags);
+
+	pdata->switch_gpio = of_get_named_gpio_flags(np,
+			"adi,switch-gpio", 0, &pdata->switch_flags);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 end:
 	return ret;
 }
@@ -657,6 +732,28 @@ static int adv7533_gpio_configure(struct adv7533 *pdata, bool on)
 			pr_warn("hpd irq gpio not provided\n");
 		}
 
+<<<<<<< HEAD
+=======
+		if (gpio_is_valid(pdata->power_down_gpio)) {
+			ret = gpio_request(pdata->power_down_gpio,
+				"adv7533_power_down_gpio");
+			if (ret) {
+				pr_err("%d unable to request gpio [%d] ret=%d\n",
+					__LINE__, pdata->power_down_gpio, ret);
+				goto err_power_down_gpio;
+			}
+
+			ret = gpio_direction_output(pdata->power_down_gpio, 0);
+			if (ret) {
+				pr_err("unable to set dir for gpio [%d]\n",
+					pdata->power_down_gpio);
+				goto err_power_down_gpio;
+			}
+
+			gpio_set_value(pdata->power_down_gpio, 0);
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (gpio_is_valid(pdata->switch_gpio)) {
 			ret = gpio_request(pdata->switch_gpio,
 				"adv7533_switch_gpio");
@@ -684,6 +781,11 @@ static int adv7533_gpio_configure(struct adv7533 *pdata, bool on)
 			gpio_free(pdata->irq_gpio);
 		if (gpio_is_valid(pdata->hpd_irq_gpio))
 			gpio_free(pdata->hpd_irq_gpio);
+<<<<<<< HEAD
+=======
+		if (gpio_is_valid(pdata->power_down_gpio))
+			gpio_free(pdata->power_down_gpio);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (gpio_is_valid(pdata->switch_gpio))
 			gpio_free(pdata->switch_gpio);
 
@@ -693,6 +795,12 @@ static int adv7533_gpio_configure(struct adv7533 *pdata, bool on)
 err_switch_gpio:
 	if (gpio_is_valid(pdata->switch_gpio))
 		gpio_free(pdata->switch_gpio);
+<<<<<<< HEAD
+=======
+err_power_down_gpio:
+	if (gpio_is_valid(pdata->power_down_gpio))
+		gpio_free(pdata->power_down_gpio);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 err_hpd_irq_gpio:
 	if (gpio_is_valid(pdata->hpd_irq_gpio))
 		gpio_free(pdata->hpd_irq_gpio);
@@ -1457,14 +1565,22 @@ exit:
 static int adv7533_video_on(void *client, bool on,
 	struct msm_dba_video_cfg *cfg, u32 flags)
 {
+<<<<<<< HEAD
 	int ret = -EINVAL;
+=======
+	int ret = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u8 lanes;
 	u8 reg_val = 0;
 	struct adv7533 *pdata = adv7533_get_platform_data(client);
 
 	if (!pdata || !cfg) {
 		pr_err("%s: invalid platform data\n", __func__);
+<<<<<<< HEAD
 		return ret;
+=======
+		return -EINVAL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	mutex_lock(&pdata->ops_mutex);
@@ -1801,6 +1917,10 @@ static int adv7533_register_dba(struct adv7533 *pdata)
 	client_ops->check_hpd	    = adv7533_check_hpd;
 	client_ops->get_audio_block = adv7533_get_audio_block;
 	client_ops->set_audio_block = adv7533_set_audio_block;
+<<<<<<< HEAD
+=======
+	client_ops->get_supp_timing_info = adv7533_get_supp_timing_info;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dev_ops->write_reg = adv7533_write_reg;
 	dev_ops->read_reg = adv7533_read_reg;

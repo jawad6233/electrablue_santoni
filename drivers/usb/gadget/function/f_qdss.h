@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -43,6 +47,13 @@ struct f_qdss {
 	struct usb_qdss_ch ch;
 	struct list_head ctrl_read_pool;
 	struct list_head ctrl_write_pool;
+<<<<<<< HEAD
+=======
+
+	/* for mdm channel SW path */
+	struct list_head data_write_pool;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct work_struct connect_w;
 	struct work_struct disconnect_w;
 	spinlock_t lock;

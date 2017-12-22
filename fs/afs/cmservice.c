@@ -115,6 +115,12 @@ bool afs_cm_incoming_call(struct afs_call *call)
 	case CBProbe:
 		call->type = &afs_SRXCBProbe;
 		return true;
+<<<<<<< HEAD
+=======
+	case CBProbeUuid:
+		call->type = &afs_SRXCBProbeUuid;
+		return true;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case CBTellMeAboutYourself:
 		call->type = &afs_SRXCBTellMeAboutYourself;
 		return true;

@@ -761,7 +761,11 @@ static int sr9800_bind(struct usbnet *dev, struct usb_interface *intf)
 		netdev_dbg(dev->net, "Failed to read MAC address: %d\n", ret);
 		return ret;
 	}
+<<<<<<< HEAD
 	netdev_dbg(dev->net, "mac addr : %pM\n", dev->net->dev_addr);
+=======
+	netdev_dbg(dev->net, "mac addr : %pKM\n", dev->net->dev_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Initialize MII structure */
 	dev->mii.dev = dev->net;

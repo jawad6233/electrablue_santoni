@@ -637,6 +637,11 @@ struct usbhs_pkt_handle usbhs_fifo_pio_push_handler = {
 static int usbhsf_prepare_pop(struct usbhs_pkt *pkt, int *is_done)
 {
 	struct usbhs_pipe *pipe = pkt->pipe;
+<<<<<<< HEAD
+=======
+	struct usbhs_priv *priv = usbhs_pipe_to_priv(pipe);
+	struct usbhs_fifo *fifo = usbhsf_get_cfifo(priv);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (usbhs_pipe_is_busy(pipe))
 		return 0;
@@ -650,6 +655,12 @@ static int usbhsf_prepare_pop(struct usbhs_pkt *pkt, int *is_done)
 	usbhs_pipe_data_sequence(pipe, pkt->sequence);
 	pkt->sequence = -1; /* -1 sequence will be ignored */
 
+<<<<<<< HEAD
+=======
+	if (usbhs_pipe_is_dcp(pipe))
+		usbhsf_fifo_clear(pipe, fifo);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	usbhs_pipe_set_trans_count_if_bulk(pipe, pkt->length);
 	usbhs_pipe_enable(pipe);
 	usbhs_pipe_running(pipe, 1);
@@ -699,7 +710,18 @@ static int usbhsf_pio_try_pop(struct usbhs_pkt *pkt, int *is_done)
 		*is_done = 1;
 		usbhsf_rx_irq_ctrl(pipe, 0);
 		usbhs_pipe_running(pipe, 0);
+<<<<<<< HEAD
 		usbhs_pipe_disable(pipe);	/* disable pipe first */
+=======
+		/*
+		 * If function mode, since this controller is possible to enter
+		 * Control Write status stage at this timing, this driver
+		 * should not disable the pipe. If such a case happens, this
+		 * controller is not able to complete the status stage.
+		 */
+		if (!usbhs_mod_is_host(priv) && !usbhs_pipe_is_dcp(pipe))
+			usbhs_pipe_disable(pipe);	/* disable pipe first */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/*

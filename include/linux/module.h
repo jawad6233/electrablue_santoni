@@ -277,6 +277,11 @@ struct module {
 	bool sig_ok;
 #endif
 
+<<<<<<< HEAD
+=======
+	bool async_probe_requested;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* symbols that will be GPL-only in the near future. */
 	const struct kernel_symbol *gpl_future_syms;
 	const unsigned long *gpl_future_crcs;
@@ -517,6 +522,14 @@ int unregister_module_notifier(struct notifier_block *nb);
 
 extern void print_modules(void);
 
+<<<<<<< HEAD
+=======
+static inline bool module_requested_async_probing(struct module *module)
+{
+	return module && module->async_probe_requested;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else /* !CONFIG_MODULES... */
 
 /* Given an address, look for it in the exception tables. */
@@ -627,6 +640,15 @@ static inline int unregister_module_notifier(struct notifier_block *nb)
 static inline void print_modules(void)
 {
 }
+<<<<<<< HEAD
+=======
+
+static inline bool module_requested_async_probing(struct module *module)
+{
+	return false;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* CONFIG_MODULES */
 
 #ifdef CONFIG_SYSFS

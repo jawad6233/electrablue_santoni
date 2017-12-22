@@ -184,7 +184,11 @@ static int __rds_rdma_map(struct rds_sock *rs, struct rds_get_mr_args *args,
 	long i;
 	int ret;
 
+<<<<<<< HEAD
 	if (rs->rs_bound_addr == 0) {
+=======
+	if (rs->rs_bound_addr == 0 || !rs->rs_transport) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = -ENOTCONN; /* XXX not a great errno */
 		goto out;
 	}

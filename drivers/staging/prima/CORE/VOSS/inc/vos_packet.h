@@ -53,6 +53,7 @@
 #define VOS_PKT_PROTO_TYPE_EAPOL   0x02
 #define VOS_PKT_PROTO_TYPE_DHCP    0x04
 #define VOS_PKT_PROTO_TYPE_ARP     0x08
+<<<<<<< HEAD
 
 /* ARP packet offset values */
 #define VOS_PKT_ARP_OPCODE_OFFSET 20
@@ -63,6 +64,8 @@
 
 #define VOS_80211_8023_HEADER_OFFSET 20
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*-------------------------------------------------------------------------- 
   Type declarations
   ------------------------------------------------------------------------*/
@@ -575,6 +578,17 @@ VOS_STATUS vos_pkt_walk_packet_chain( vos_pkt_t *pPacket, vos_pkt_t **ppChainedP
                                       v_BOOL_t unchainPacket );
 
 
+<<<<<<< HEAD
+=======
+/**
+ * vos_is_pkt_chain() - Check for chain of packets
+ * @pPacket: pointer to chain of packet list
+ *
+ * Return: true if chain of packets or false otherwise
+ */
+bool vos_is_pkt_chain(vos_pkt_t *pPacket);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**--------------------------------------------------------------------------
   
   \brief vos_pkt_get_data_vector() - Get data vectors from a voss Packet

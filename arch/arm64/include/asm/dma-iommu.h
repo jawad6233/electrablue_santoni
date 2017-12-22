@@ -9,7 +9,10 @@
 #include <linux/dma-debug.h>
 #include <linux/kmemcheck.h>
 #include <linux/kref.h>
+<<<<<<< HEAD
 #include <linux/dma-mapping-fast.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct dma_iommu_mapping {
 	/* iommu specific data */
@@ -21,8 +24,14 @@ struct dma_iommu_mapping {
 
 	spinlock_t		lock;
 	struct kref		kref;
+<<<<<<< HEAD
 
 	struct dma_fast_smmu_mapping *fast;
+=======
+#ifdef CONFIG_IOMMU_IO_PGTABLE_FAST
+	struct dma_fast_smmu_mapping *fast;
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #ifdef CONFIG_ARM64_DMA_USE_IOMMU

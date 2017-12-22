@@ -451,6 +451,10 @@ int ast_driver_load(struct drm_device *dev, unsigned long flags)
 	dev->mode_config.min_height = 0;
 	dev->mode_config.preferred_depth = 24;
 	dev->mode_config.prefer_shadow = 1;
+<<<<<<< HEAD
+=======
+	dev->mode_config.fb_base = pci_resource_start(ast->dev->pdev, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ast->chip == AST2100 ||
 	    ast->chip == AST2200 ||
@@ -574,6 +578,7 @@ ast_dumb_mmap_offset(struct drm_file *file,
 		     uint64_t *offset)
 {
 	struct drm_gem_object *obj;
+<<<<<<< HEAD
 	int ret;
 	struct ast_bo *bo;
 
@@ -583,15 +588,28 @@ ast_dumb_mmap_offset(struct drm_file *file,
 		ret = -ENOENT;
 		goto out_unlock;
 	}
+=======
+	struct ast_bo *bo;
+
+	obj = drm_gem_object_lookup(dev, file, handle);
+	if (obj == NULL)
+		return -ENOENT;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	bo = gem_to_ast_bo(obj);
 	*offset = ast_bo_mmap_offset(bo);
 
+<<<<<<< HEAD
 	drm_gem_object_unreference(obj);
 	ret = 0;
 out_unlock:
 	mutex_unlock(&dev->struct_mutex);
 	return ret;
+=======
+	drm_gem_object_unreference_unlocked(obj);
+
+	return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 }
 

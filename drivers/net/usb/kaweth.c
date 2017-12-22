@@ -421,7 +421,11 @@ static int kaweth_download_firmware(struct kaweth_device *kaweth,
 		   kaweth->firmware_buf[2]);
 
 	netdev_dbg(kaweth->net,
+<<<<<<< HEAD
 		   "Downloading firmware at %p to kaweth device at %p\n",
+=======
+		   "Downloading firmware at %pK to kaweth device at %pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		   kaweth->firmware_buf, kaweth);
 	netdev_dbg(kaweth->net, "Firmware length: %d\n", data_len);
 
@@ -471,7 +475,11 @@ static int kaweth_reset(struct kaweth_device *kaweth)
 {
 	int result;
 
+<<<<<<< HEAD
 	netdev_dbg(kaweth->net, "kaweth_reset(%p)\n", kaweth);
+=======
+	netdev_dbg(kaweth->net, "kaweth_reset(%pK)\n", kaweth);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	result = usb_reset_configuration(kaweth->dev);
 	mdelay(10);
 
@@ -1017,7 +1025,11 @@ static int kaweth_probe(
 		le16_to_cpu(udev->descriptor.idProduct),
 		le16_to_cpu(udev->descriptor.bcdDevice));
 
+<<<<<<< HEAD
 	dev_dbg(dev, "Device at %p\n", udev);
+=======
+	dev_dbg(dev, "Device at %pK\n", udev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dev_dbg(dev, "Descriptor length: %x type: %x\n",
 		(int)udev->descriptor.bLength,
@@ -1114,7 +1126,11 @@ err_fw:
 	dev_info(dev, "Statistics collection: %x\n", kaweth->configuration.statistics_mask);
 	dev_info(dev, "Multicast filter limit: %x\n", kaweth->configuration.max_multicast_filters & ((1 << 15) - 1));
 	dev_info(dev, "MTU: %d\n", le16_to_cpu(kaweth->configuration.segment_size));
+<<<<<<< HEAD
 	dev_info(dev, "Read MAC address %pM\n", kaweth->configuration.hw_addr);
+=======
+	dev_info(dev, "Read MAC address %pKM\n", kaweth->configuration.hw_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if(!memcmp(&kaweth->configuration.hw_addr,
                    &bcast_addr,

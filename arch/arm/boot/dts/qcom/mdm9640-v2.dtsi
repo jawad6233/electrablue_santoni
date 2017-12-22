@@ -50,10 +50,15 @@
 
 &qusb_phy {
 	reg = <0x00079000 0x180>,
+<<<<<<< HEAD
 	      <0x08af8800 0x400>,
 	      <0x000a020c 0x4>;
 	reg-names = "qusb_phy_base",
 		    "qscratch_base",
+=======
+	      <0x000a020c 0x4>;
+	reg-names = "qusb_phy_base",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    "tune2_efuse_addr";
 	qcom,tune2-efuse-bit-pos = <20>;
 	qcom,tune2-efuse-num-bits = <4>;

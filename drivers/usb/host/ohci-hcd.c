@@ -72,7 +72,11 @@
 static const char	hcd_name [] = "ohci_hcd";
 
 #define	STATECHANGE_DELAY	msecs_to_jiffies(300)
+<<<<<<< HEAD
 #define	IO_WATCHDOG_DELAY	msecs_to_jiffies(275)
+=======
+#define	IO_WATCHDOG_DELAY	msecs_to_jiffies(250)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "ohci.h"
 #include "pci-quirks.h"

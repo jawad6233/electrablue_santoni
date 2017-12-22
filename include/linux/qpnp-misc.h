@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, 2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -29,8 +33,31 @@
  */
 
 int qpnp_misc_irqs_available(struct device *consumer_dev);
+<<<<<<< HEAD
 #else
 static int qpnp_misc_irqs_available(struct device *consumer_dev)
+=======
+
+/**
+ * qpnp_misc_read_reg - read register from misc device
+ *
+ * @node: device node pointer
+ * @address: address offset in misc peripheral to be read
+ * @val: data read from register
+ *
+ * This function returns zero if reading the MISC register succeeds.
+ *
+ */
+
+int qpnp_misc_read_reg(struct device_node *node, u16 addr, u8 *val);
+#else
+static inline int qpnp_misc_irqs_available(struct device *consumer_dev)
+{
+	return 0;
+}
+static inline int qpnp_misc_read_reg(struct device_node *node, u16 addr,
+					u8 *val)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	return 0;
 }

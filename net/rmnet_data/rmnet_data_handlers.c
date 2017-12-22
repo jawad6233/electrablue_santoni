@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -408,10 +412,19 @@ static rx_handler_result_t _rmnet_map_ingress_handler(struct sk_buff *skb,
 		if (likely((ckresult == RMNET_MAP_CHECKSUM_OK)
 			    || (ckresult == RMNET_MAP_CHECKSUM_SKIPPED)))
 			skb->ip_summed |= CHECKSUM_UNNECESSARY;
+<<<<<<< HEAD
 		else if (ckresult != RMNET_MAP_CHECKSUM_ERR_UNKNOWN_IP_VERSION
 			&& ckresult != RMNET_MAP_CHECKSUM_ERR_UNKNOWN_TRANSPORT
 			&& ckresult != RMNET_MAP_CHECKSUM_VALID_FLAG_NOT_SET
 			&& ckresult != RMNET_MAP_CHECKSUM_FRAGMENTED_PACKET) {
+=======
+		else if (ckresult !=
+				RMNET_MAP_CHECKSUM_ERR_UNKNOWN_IP_VERSION &&
+			ckresult != RMNET_MAP_CHECKSUM_ERR_UNKNOWN_TRANSPORT &&
+			ckresult != RMNET_MAP_CHECKSUM_VALID_FLAG_NOT_SET &&
+			ckresult != RMNET_MAP_CHECKSUM_VALIDATION_FAILED &&
+			ckresult != RMNET_MAP_CHECKSUM_FRAGMENTED_PACKET) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			rmnet_kfree_skb(skb,
 				RMNET_STATS_SKBFREE_INGRESS_BAD_MAP_CKSUM);
 			return RX_HANDLER_CONSUMED;
@@ -501,11 +514,17 @@ static int rmnet_map_egress_handler(struct sk_buff *skb,
 	LOGD("headroom of %d bytes", required_headroom);
 
 	if (skb_headroom(skb) < required_headroom) {
+<<<<<<< HEAD
 		if (pskb_expand_head(skb, required_headroom, 0, GFP_KERNEL)) {
 			LOGD("Failed to add headroom of %d bytes",
 			     required_headroom);
 			return 1;
 		}
+=======
+		LOGE("Not enough headroom for %d bytes", required_headroom);
+		kfree_skb(skb);
+		return 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if ((config->egress_data_format & RMNET_EGRESS_FORMAT_MAP_CKSUMV3) ||
@@ -527,6 +546,10 @@ static int rmnet_map_egress_handler(struct sk_buff *skb,
 
 	if (!map_header) {
 		LOGD("%s", "Failed to add MAP header to egress packet");
+<<<<<<< HEAD
+=======
+		kfree_skb(skb);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 1;
 	}
 

@@ -333,3 +333,10 @@ ENTRY(\name\()_tlb_fns)
 	.globl	\x
 	.equ	\x, \y
 .endm
+<<<<<<< HEAD
+=======
+
+.macro	initfn, func, base
+	.long	\func - \base
+.endm
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

@@ -494,8 +494,15 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 							"phys_addr_base");
+<<<<<<< HEAD
 	if (!res)
 		return -EINVAL;
+=======
+	if (!res) {
+		kfree(pdata);
+		return -EINVAL;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	offset = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 							"offset_addr");
@@ -503,8 +510,14 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 		/* Remap the rpm-stats pointer */
 		phys_ptr = ioremap_nocache(offset->start, SZ_4);
 		if (!phys_ptr) {
+<<<<<<< HEAD
 			pr_err("%s: Failed to ioremap address: %x\n",
 					__func__, offset_addr);
+=======
+			pr_err("%s: Failed to ioremap address: %pa\n",
+					__func__, &offset->start);
+			kfree(pdata);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return -ENODEV;
 		}
 		offset_addr = readl_relaxed(phys_ptr);

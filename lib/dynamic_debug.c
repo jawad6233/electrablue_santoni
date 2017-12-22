@@ -353,6 +353,13 @@ static int ddebug_parse_query(char *words[], int nwords,
 				if (parse_lineno(last, &query->last_lineno) < 0)
 					return -EINVAL;
 
+<<<<<<< HEAD
+=======
+				/* special case for last lineno not specified */
+				if (query->last_lineno == 0)
+					query->last_lineno = UINT_MAX;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				if (query->last_lineno < query->first_lineno) {
 					pr_err("last-line:%d < 1st-line:%d\n",
 						query->last_lineno,
@@ -887,7 +894,11 @@ static int ddebug_dyndbg_param_cb(char *param, char *val,
 
 /* handle both dyndbg and $module.dyndbg params at boot */
 static int ddebug_dyndbg_boot_param_cb(char *param, char *val,
+<<<<<<< HEAD
 				const char *unused)
+=======
+				const char *unused, void *arg)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	vpr_info("%s=\"%s\"\n", param, val);
 	return ddebug_dyndbg_param_cb(param, val, NULL, 0);
@@ -1029,7 +1040,11 @@ static int __init dynamic_debug_init(void)
 	cmdline = kstrdup(saved_command_line, GFP_KERNEL);
 	if (cmdline) {
 		parse_args("dyndbg params", cmdline, NULL,
+<<<<<<< HEAD
 			   0, 0, 0, &ddebug_dyndbg_boot_param_cb);
+=======
+			   0, 0, 0, NULL, &ddebug_dyndbg_boot_param_cb);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		kfree(cmdline);
 	} else
 		pr_err("Failed to parse boot args for dyndbg params\n");

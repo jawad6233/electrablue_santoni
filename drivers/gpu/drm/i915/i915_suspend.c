@@ -29,6 +29,7 @@
 #include "intel_drv.h"
 #include "i915_reg.h"
 
+<<<<<<< HEAD
 static u8 i915_read_indexed(struct drm_device *dev, u16 index_port, u16 data_port, u8 reg)
 {
 	struct drm_i915_private *dev_priv = dev->dev_private;
@@ -189,6 +190,8 @@ static void i915_restore_vga(struct drm_device *dev)
 	I915_WRITE8(VGA_DACMASK, dev_priv->regfile.saveDACMASK);
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void i915_save_display(struct drm_device *dev)
 {
 	struct drm_i915_private *dev_priv = dev->dev_private;
@@ -197,6 +200,7 @@ static void i915_save_display(struct drm_device *dev)
 	if (INTEL_INFO(dev)->gen <= 4)
 		dev_priv->regfile.saveDSPARB = I915_READ(DSPARB);
 
+<<<<<<< HEAD
 	/* This is only meaningful in non-KMS mode */
 	/* Don't regfile.save them in KMS mode */
 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
@@ -231,6 +235,22 @@ static void i915_save_display(struct drm_device *dev)
 		dev_priv->regfile.savePP_OFF_DELAYS = I915_READ(PCH_PP_OFF_DELAYS);
 		dev_priv->regfile.savePP_DIVISOR = I915_READ(PCH_PP_DIVISOR);
 	} else {
+=======
+	/* LVDS state */
+	if (HAS_PCH_IBX(dev) || HAS_PCH_CPT(dev))
+		dev_priv->regfile.saveLVDS = I915_READ(PCH_LVDS);
+	else if (INTEL_INFO(dev)->gen <= 4 && IS_MOBILE(dev) && !IS_I830(dev))
+		dev_priv->regfile.saveLVDS = I915_READ(LVDS);
+
+	/* Panel power sequencer */
+	if (HAS_PCH_SPLIT(dev)) {
+		dev_priv->regfile.savePP_CONTROL = I915_READ(PCH_PP_CONTROL);
+		dev_priv->regfile.savePP_ON_DELAYS = I915_READ(PCH_PP_ON_DELAYS);
+		dev_priv->regfile.savePP_OFF_DELAYS = I915_READ(PCH_PP_OFF_DELAYS);
+		dev_priv->regfile.savePP_DIVISOR = I915_READ(PCH_PP_DIVISOR);
+	} else if (!IS_VALLEYVIEW(dev)) {
+		dev_priv->regfile.savePP_CONTROL = I915_READ(PP_CONTROL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		dev_priv->regfile.savePP_ON_DELAYS = I915_READ(PP_ON_DELAYS);
 		dev_priv->regfile.savePP_OFF_DELAYS = I915_READ(PP_OFF_DELAYS);
 		dev_priv->regfile.savePP_DIVISOR = I915_READ(PP_DIVISOR);
@@ -239,9 +259,12 @@ static void i915_save_display(struct drm_device *dev)
 	/* save FBC interval */
 	if (HAS_FBC(dev) && INTEL_INFO(dev)->gen <= 4 && !IS_G4X(dev))
 		dev_priv->regfile.saveFBC_CONTROL = I915_READ(FBC_CONTROL);
+<<<<<<< HEAD
 
 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
 		i915_save_vga(dev);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void i915_restore_display(struct drm_device *dev)
@@ -253,25 +276,36 @@ static void i915_restore_display(struct drm_device *dev)
 	if (INTEL_INFO(dev)->gen <= 4)
 		I915_WRITE(DSPARB, dev_priv->regfile.saveDSPARB);
 
+<<<<<<< HEAD
 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
 		i915_restore_display_reg(dev);
 
 	if (drm_core_check_feature(dev, DRIVER_MODESET))
 		mask = ~LVDS_PORT_EN;
 
+=======
+	mask = ~LVDS_PORT_EN;
+
+	/* LVDS state */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (HAS_PCH_IBX(dev) || HAS_PCH_CPT(dev))
 		I915_WRITE(PCH_LVDS, dev_priv->regfile.saveLVDS & mask);
 	else if (INTEL_INFO(dev)->gen <= 4 && IS_MOBILE(dev) && !IS_I830(dev))
 		I915_WRITE(LVDS, dev_priv->regfile.saveLVDS & mask);
 
+<<<<<<< HEAD
 	if (!IS_I830(dev) && !IS_845G(dev) && !HAS_PCH_SPLIT(dev))
 		I915_WRITE(PFIT_CONTROL, dev_priv->regfile.savePFIT_CONTROL);
 
+=======
+	/* Panel power sequencer */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (HAS_PCH_SPLIT(dev)) {
 		I915_WRITE(PCH_PP_ON_DELAYS, dev_priv->regfile.savePP_ON_DELAYS);
 		I915_WRITE(PCH_PP_OFF_DELAYS, dev_priv->regfile.savePP_OFF_DELAYS);
 		I915_WRITE(PCH_PP_DIVISOR, dev_priv->regfile.savePP_DIVISOR);
 		I915_WRITE(PCH_PP_CONTROL, dev_priv->regfile.savePP_CONTROL);
+<<<<<<< HEAD
 		I915_WRITE(RSTDBYCTL,
 			   dev_priv->regfile.saveMCHBAR_RENDER_STANDBY);
 	} else if (IS_VALLEYVIEW(dev)) {
@@ -282,6 +316,9 @@ static void i915_restore_display(struct drm_device *dev)
 	} else {
 		I915_WRITE(PFIT_PGM_RATIOS, dev_priv->regfile.savePFIT_PGM_RATIOS);
 		I915_WRITE(BLC_HIST_CTL, dev_priv->regfile.saveBLC_HIST_CTL);
+=======
+	} else if (!IS_VALLEYVIEW(dev)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		I915_WRITE(PP_ON_DELAYS, dev_priv->regfile.savePP_ON_DELAYS);
 		I915_WRITE(PP_OFF_DELAYS, dev_priv->regfile.savePP_OFF_DELAYS);
 		I915_WRITE(PP_DIVISOR, dev_priv->regfile.savePP_DIVISOR);
@@ -289,16 +326,24 @@ static void i915_restore_display(struct drm_device *dev)
 	}
 
 	/* only restore FBC info on the platform that supports FBC*/
+<<<<<<< HEAD
 	intel_disable_fbc(dev);
+=======
+	intel_fbc_disable(dev_priv);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* restore FBC interval */
 	if (HAS_FBC(dev) && INTEL_INFO(dev)->gen <= 4 && !IS_G4X(dev))
 		I915_WRITE(FBC_CONTROL, dev_priv->regfile.saveFBC_CONTROL);
 
+<<<<<<< HEAD
 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
 		i915_restore_vga(dev);
 	else
 		i915_redisable_vga(dev);
+=======
+	i915_redisable_vga(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int i915_save_state(struct drm_device *dev)
@@ -310,6 +355,7 @@ int i915_save_state(struct drm_device *dev)
 
 	i915_save_display(dev);
 
+<<<<<<< HEAD
 	if (!drm_core_check_feature(dev, DRIVER_MODESET)) {
 		/* Interrupt state */
 		if (HAS_PCH_SPLIT(dev)) {
@@ -328,6 +374,8 @@ int i915_save_state(struct drm_device *dev)
 		}
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (IS_GEN4(dev))
 		pci_read_config_word(dev->pdev, GCDGMBUS,
 				     &dev_priv->regfile.saveGCDGMBUS);
@@ -340,12 +388,33 @@ int i915_save_state(struct drm_device *dev)
 	dev_priv->regfile.saveMI_ARB_STATE = I915_READ(MI_ARB_STATE);
 
 	/* Scratch space */
+<<<<<<< HEAD
 	for (i = 0; i < 16; i++) {
 		dev_priv->regfile.saveSWF0[i] = I915_READ(SWF00 + (i << 2));
 		dev_priv->regfile.saveSWF1[i] = I915_READ(SWF10 + (i << 2));
 	}
 	for (i = 0; i < 3; i++)
 		dev_priv->regfile.saveSWF2[i] = I915_READ(SWF30 + (i << 2));
+=======
+	if (IS_GEN2(dev_priv) && IS_MOBILE(dev_priv)) {
+		for (i = 0; i < 7; i++) {
+			dev_priv->regfile.saveSWF0[i] = I915_READ(SWF0(i));
+			dev_priv->regfile.saveSWF1[i] = I915_READ(SWF1(i));
+		}
+		for (i = 0; i < 3; i++)
+			dev_priv->regfile.saveSWF3[i] = I915_READ(SWF3(i));
+	} else if (IS_GEN2(dev_priv)) {
+		for (i = 0; i < 7; i++)
+			dev_priv->regfile.saveSWF1[i] = I915_READ(SWF1(i));
+	} else if (HAS_GMCH_DISPLAY(dev_priv)) {
+		for (i = 0; i < 16; i++) {
+			dev_priv->regfile.saveSWF0[i] = I915_READ(SWF0(i));
+			dev_priv->regfile.saveSWF1[i] = I915_READ(SWF1(i));
+		}
+		for (i = 0; i < 3; i++)
+			dev_priv->regfile.saveSWF3[i] = I915_READ(SWF3(i));
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_unlock(&dev->struct_mutex);
 
@@ -366,6 +435,7 @@ int i915_restore_state(struct drm_device *dev)
 				      dev_priv->regfile.saveGCDGMBUS);
 	i915_restore_display(dev);
 
+<<<<<<< HEAD
 	if (!drm_core_check_feature(dev, DRIVER_MODESET)) {
 		/* Interrupt state */
 		if (HAS_PCH_SPLIT(dev)) {
@@ -382,6 +452,8 @@ int i915_restore_state(struct drm_device *dev)
 		}
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Cache mode state */
 	if (INTEL_INFO(dev)->gen < 7)
 		I915_WRITE(CACHE_MODE_0, dev_priv->regfile.saveCACHE_MODE_0 |
@@ -390,12 +462,34 @@ int i915_restore_state(struct drm_device *dev)
 	/* Memory arbitration state */
 	I915_WRITE(MI_ARB_STATE, dev_priv->regfile.saveMI_ARB_STATE | 0xffff0000);
 
+<<<<<<< HEAD
 	for (i = 0; i < 16; i++) {
 		I915_WRITE(SWF00 + (i << 2), dev_priv->regfile.saveSWF0[i]);
 		I915_WRITE(SWF10 + (i << 2), dev_priv->regfile.saveSWF1[i]);
 	}
 	for (i = 0; i < 3; i++)
 		I915_WRITE(SWF30 + (i << 2), dev_priv->regfile.saveSWF2[i]);
+=======
+	/* Scratch space */
+	if (IS_GEN2(dev_priv) && IS_MOBILE(dev_priv)) {
+		for (i = 0; i < 7; i++) {
+			I915_WRITE(SWF0(i), dev_priv->regfile.saveSWF0[i]);
+			I915_WRITE(SWF1(i), dev_priv->regfile.saveSWF1[i]);
+		}
+		for (i = 0; i < 3; i++)
+			I915_WRITE(SWF3(i), dev_priv->regfile.saveSWF3[i]);
+	} else if (IS_GEN2(dev_priv)) {
+		for (i = 0; i < 7; i++)
+			I915_WRITE(SWF1(i), dev_priv->regfile.saveSWF1[i]);
+	} else if (HAS_GMCH_DISPLAY(dev_priv)) {
+		for (i = 0; i < 16; i++) {
+			I915_WRITE(SWF0(i), dev_priv->regfile.saveSWF0[i]);
+			I915_WRITE(SWF1(i), dev_priv->regfile.saveSWF1[i]);
+		}
+		for (i = 0; i < 3; i++)
+			I915_WRITE(SWF3(i), dev_priv->regfile.saveSWF3[i]);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_unlock(&dev->struct_mutex);
 

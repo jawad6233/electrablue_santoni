@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -1911,6 +1915,11 @@ typedef enum
   EVENT_OFFLOAD_REQ = 0xAB8,
   EVENT_TDLS_SCAN_BLOCK = 0xAB9,
   EVENT_WLAN_TX_RX_MGMT = 0xABA,
+<<<<<<< HEAD
+=======
+  EVENT_WLAN_SSR_REINIT_SUBSYSTEM = 0xB3C,
+  EVENT_WLAN_SSR_SHUTDOWN_SUBSYSTEM = 0xB3D,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   EVENT_NEXT_UNUSED_EVENT,
   EVENT_RSVD_START = 0x0800,
   EVENT_RSVD_END   = 0x083F,

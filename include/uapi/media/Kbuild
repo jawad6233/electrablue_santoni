@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+header-y += ais/
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 header-y += msm_cam_sensor.h
 header-y += msm_camera.h
 header-y += msm_camsensor_sdk.h

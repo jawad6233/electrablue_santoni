@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015, 2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,7 +23,11 @@
 #include <linux/kernel.h>
 #include <linux/bitops.h>
 #include <linux/errno.h>
+<<<<<<< HEAD
 #include <linux/msm_ep_pcie.h>
+=======
+#include "ep_pcie_com.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 LIST_HEAD(head);
 
@@ -107,6 +115,7 @@ EXPORT_SYMBOL(ep_pcie_get_phandle);
 int ep_pcie_register_event(struct ep_pcie_hw *phandle,
 			struct ep_pcie_register_event *reg)
 {
+<<<<<<< HEAD
 	if (phandle) {
 		return phandle->register_event(reg);
 	} else {
@@ -114,6 +123,12 @@ int ep_pcie_register_event(struct ep_pcie_hw *phandle,
 			__func__);
 		return -EINVAL;
 	}
+=======
+	if (phandle)
+		return phandle->register_event(reg);
+
+	return ep_pcie_core_register_event(reg);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(ep_pcie_register_event);
 

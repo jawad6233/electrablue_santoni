@@ -232,7 +232,11 @@ void ep_pcie_reg_dump(struct ep_pcie_dev_t *dev, u32 sel, bool linkdown)
 		if (!(sel & BIT(r)))
 			continue;
 
+<<<<<<< HEAD
 		if (r == EP_PCIE_RES_PHY)
+=======
+		if ((r == EP_PCIE_RES_PHY) && (dev->phy_rev > 3))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ep_pcie_phy_dump(dev);
 
 		size = resource_size(dev->res[r].resource);

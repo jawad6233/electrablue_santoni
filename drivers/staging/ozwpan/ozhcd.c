@@ -746,8 +746,13 @@ void oz_hcd_pd_reset(void *hpd, void *hport)
 /*
  * Context: softirq
  */
+<<<<<<< HEAD
 void oz_hcd_get_desc_cnf(void *hport, u8 req_id, int status, const u8 *desc,
 			int length, int offset, int total_size)
+=======
+void oz_hcd_get_desc_cnf(void *hport, u8 req_id, u8 status, const u8 *desc,
+			u8 length, u16 offset, u16 total_size)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct oz_port *port = (struct oz_port *)hport;
 	struct urb *urb;
@@ -759,8 +764,13 @@ void oz_hcd_get_desc_cnf(void *hport, u8 req_id, int status, const u8 *desc,
 	if (!urb)
 		return;
 	if (status == 0) {
+<<<<<<< HEAD
 		int copy_len;
 		int required_size = urb->transfer_buffer_length;
+=======
+		unsigned int copy_len;
+		unsigned int required_size = urb->transfer_buffer_length;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		if (required_size > total_size)
 			required_size = total_size;

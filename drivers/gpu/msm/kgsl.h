@@ -26,6 +26,10 @@
 #include <linux/mm.h>
 #include <linux/dma-attrs.h>
 #include <linux/uaccess.h>
+<<<<<<< HEAD
+=======
+#include <linux/kthread.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/cacheflush.h>
 
 /* The number of memstore arrays limits the number of contexts allowed.
@@ -132,6 +136,11 @@ struct kgsl_driver {
 	unsigned int full_cache_threshold;
 	struct workqueue_struct *workqueue;
 	struct workqueue_struct *mem_workqueue;
+<<<<<<< HEAD
+=======
+	struct kthread_worker worker;
+	struct task_struct *worker_thread;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 extern struct kgsl_driver kgsl_driver;
@@ -275,7 +284,11 @@ struct kgsl_event {
 	void *priv;
 	struct list_head node;
 	unsigned int created;
+<<<<<<< HEAD
 	struct work_struct work;
+=======
+	struct kthread_work work;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int result;
 	struct kgsl_event_group *group;
 };

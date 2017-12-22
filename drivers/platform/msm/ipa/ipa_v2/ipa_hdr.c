@@ -43,7 +43,11 @@ static int ipa_generate_hdr_hw_tbl(struct ipa_mem_buffer *mem)
 		IPAERR("hdr tbl empty\n");
 		return -EPERM;
 	}
+<<<<<<< HEAD
 	IPADBG("tbl_sz=%d\n", ipa_ctx->hdr_tbl.end);
+=======
+	IPADBG_LOW("tbl_sz=%d\n", ipa_ctx->hdr_tbl.end);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mem->base = dma_alloc_coherent(ipa_ctx->pdev, mem->size,
 			&mem->phys_base, GFP_KERNEL);
@@ -57,7 +61,11 @@ static int ipa_generate_hdr_hw_tbl(struct ipa_mem_buffer *mem)
 			link) {
 		if (entry->is_hdr_proc_ctx)
 			continue;
+<<<<<<< HEAD
 		IPADBG("hdr of len %d ofst=%d\n", entry->hdr_len,
+=======
+		IPADBG_LOW("hdr of len %d ofst=%d\n", entry->hdr_len,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				entry->offset_entry->offset);
 		memcpy(mem->base + entry->offset_entry->offset, entry->hdr,
 				entry->hdr_len);
@@ -74,7 +82,11 @@ static void ipa_hdr_proc_ctx_to_hw_format(struct ipa_mem_buffer *mem,
 	list_for_each_entry(entry,
 			&ipa_ctx->hdr_proc_ctx_tbl.head_proc_ctx_entry_list,
 			link) {
+<<<<<<< HEAD
 		IPADBG("processing type %d ofst=%d\n",
+=======
+		IPADBG_LOW("processing type %d ofst=%d\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			entry->type, entry->offset_entry->offset);
 		if (entry->type == IPA_HDR_PROC_NONE) {
 			struct ipa_hdr_proc_ctx_add_hdr_seq *ctx;
@@ -88,7 +100,11 @@ static void ipa_hdr_proc_ctx_to_hw_format(struct ipa_mem_buffer *mem,
 				entry->hdr->phys_base :
 				hdr_base_addr +
 				entry->hdr->offset_entry->offset;
+<<<<<<< HEAD
 			IPADBG("header address 0x%x\n",
+=======
+			IPADBG_LOW("header address 0x%x\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				ctx->hdr_add.hdr_addr);
 			ctx->end.type = IPA_PROC_CTX_TLV_TYPE_END;
 			ctx->end.length = 0;
@@ -105,7 +121,11 @@ static void ipa_hdr_proc_ctx_to_hw_format(struct ipa_mem_buffer *mem,
 				entry->hdr->phys_base :
 				hdr_base_addr +
 				entry->hdr->offset_entry->offset;
+<<<<<<< HEAD
 			IPADBG("header address 0x%x\n",
+=======
+			IPADBG_LOW("header address 0x%x\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				ctx->hdr_add.hdr_addr);
 			ctx->cmd.type = IPA_PROC_CTX_TLV_TYPE_PROC_CMD;
 			ctx->cmd.length = 0;
@@ -117,7 +137,11 @@ static void ipa_hdr_proc_ctx_to_hw_format(struct ipa_mem_buffer *mem,
 				ctx->cmd.value = IPA_HDR_UCP_802_3_TO_ETHII;
 			else if (entry->type == IPA_HDR_PROC_802_3_TO_802_3)
 				ctx->cmd.value = IPA_HDR_UCP_802_3_TO_802_3;
+<<<<<<< HEAD
 			IPADBG("command id %d\n", ctx->cmd.value);
+=======
+			IPADBG_LOW("command id %d\n", ctx->cmd.value);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ctx->end.type = IPA_PROC_CTX_TLV_TYPE_END;
 			ctx->end.length = 0;
 			ctx->end.value = 0;
@@ -144,7 +168,11 @@ static int ipa_generate_hdr_proc_ctx_hw_tbl(u32 hdr_sys_addr,
 	/* make sure table is aligned */
 	mem->size += IPA_HDR_PROC_CTX_TABLE_ALIGNMENT_BYTE;
 
+<<<<<<< HEAD
 	IPADBG("tbl_sz=%d\n", ipa_ctx->hdr_proc_ctx_tbl.end);
+=======
+	IPADBG_LOW("tbl_sz=%d\n", ipa_ctx->hdr_proc_ctx_tbl.end);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mem->base = dma_alloc_coherent(ipa_ctx->pdev, mem->size,
 			&mem->phys_base, GFP_KERNEL);
@@ -176,6 +204,10 @@ int __ipa_commit_hdr_v1_1(void)
 	struct ipa_mem_buffer *mem;
 	struct ipa_hdr_init_local *cmd;
 	u16 len;
+<<<<<<< HEAD
+=======
+	gfp_t flag = GFP_KERNEL | (ipa_ctx->use_dma_zone ? GFP_DMA : 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mem = kmalloc(sizeof(struct ipa_mem_buffer), GFP_KERNEL);
 	if (!mem) {
@@ -190,7 +222,11 @@ int __ipa_commit_hdr_v1_1(void)
 	 * we can use init_local ptr for init_system due to layout of the
 	 * struct
 	 */
+<<<<<<< HEAD
 	cmd = kmalloc(len, GFP_KERNEL);
+=======
+	cmd = kmalloc(len, flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!cmd) {
 		IPAERR("failed to alloc immediate command object\n");
 		goto fail_alloc_cmd;
@@ -268,6 +304,10 @@ int __ipa_commit_hdr_v2(void)
 	struct ipa_mem_buffer mem;
 	struct ipa_hdr_init_system *cmd = NULL;
 	struct ipa_hw_imm_cmd_dma_shared_mem *dma_cmd = NULL;
+<<<<<<< HEAD
+=======
+	gfp_t flag = GFP_ATOMIC | (ipa_ctx->use_dma_zone ? GFP_DMA : 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int rc = -EFAULT;
 
 	if (ipa_generate_hdr_hw_tbl(&mem)) {
@@ -281,7 +321,11 @@ int __ipa_commit_hdr_v2(void)
 				IPA_MEM_PART(apps_hdr_size));
 			goto fail_send_cmd;
 		} else {
+<<<<<<< HEAD
 			dma_cmd = kzalloc(sizeof(*dma_cmd), GFP_ATOMIC);
+=======
+			dma_cmd = kzalloc(sizeof(*dma_cmd), flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (dma_cmd == NULL) {
 				IPAERR("fail to alloc immediate cmd\n");
 				rc = -ENOMEM;
@@ -303,7 +347,11 @@ int __ipa_commit_hdr_v2(void)
 				IPA_MEM_PART(apps_hdr_size_ddr));
 			goto fail_send_cmd;
 		} else {
+<<<<<<< HEAD
 			cmd = kzalloc(sizeof(*cmd), GFP_ATOMIC);
+=======
+			cmd = kzalloc(sizeof(*cmd), flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (cmd == NULL) {
 				IPAERR("fail to alloc hdr init cmd\n");
 				rc = -ENOMEM;
@@ -359,6 +407,10 @@ int __ipa_commit_hdr_v2_5(void)
 	struct ipa_hw_imm_cmd_dma_shared_mem *dma_cmd_hdr = NULL;
 	struct ipa_hw_imm_cmd_dma_shared_mem *dma_cmd_ctx = NULL;
 	struct ipa_register_write *reg_write_cmd = NULL;
+<<<<<<< HEAD
+=======
+	gfp_t flag = GFP_ATOMIC | (ipa_ctx->use_dma_zone ? GFP_DMA : 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int rc = -EFAULT;
 	u32 proc_ctx_size;
 	u32 proc_ctx_ofst;
@@ -383,7 +435,11 @@ int __ipa_commit_hdr_v2_5(void)
 				IPA_MEM_PART(apps_hdr_size));
 			goto fail_send_cmd1;
 		} else {
+<<<<<<< HEAD
 			dma_cmd_hdr = kzalloc(sizeof(*dma_cmd_hdr), GFP_ATOMIC);
+=======
+			dma_cmd_hdr = kzalloc(sizeof(*dma_cmd_hdr), flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (dma_cmd_hdr == NULL) {
 				IPAERR("fail to alloc immediate cmd\n");
 				rc = -ENOMEM;
@@ -406,7 +462,11 @@ int __ipa_commit_hdr_v2_5(void)
 			goto fail_send_cmd1;
 		} else {
 			hdr_init_cmd = kzalloc(sizeof(*hdr_init_cmd),
+<<<<<<< HEAD
 				GFP_ATOMIC);
+=======
+				flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (hdr_init_cmd == NULL) {
 				IPAERR("fail to alloc immediate cmd\n");
 				rc = -ENOMEM;
@@ -431,7 +491,11 @@ int __ipa_commit_hdr_v2_5(void)
 			goto fail_send_cmd1;
 		} else {
 			dma_cmd_ctx = kzalloc(sizeof(*dma_cmd_ctx),
+<<<<<<< HEAD
 				GFP_ATOMIC);
+=======
+				flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (dma_cmd_ctx == NULL) {
 				IPAERR("fail to alloc immediate cmd\n");
 				rc = -ENOMEM;
@@ -456,7 +520,11 @@ int __ipa_commit_hdr_v2_5(void)
 			goto fail_send_cmd1;
 		} else {
 			reg_write_cmd = kzalloc(sizeof(*reg_write_cmd),
+<<<<<<< HEAD
 				GFP_ATOMIC);
+=======
+				flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (reg_write_cmd == NULL) {
 				IPAERR("fail to alloc immediate cmd\n");
 				rc = -ENOMEM;
@@ -544,24 +612,41 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 {
 	struct ipa_hdr_entry *hdr_entry;
 	struct ipa_hdr_proc_ctx_entry *entry;
+<<<<<<< HEAD
 	struct ipa_hdr_proc_ctx_offset_entry *offset;
+=======
+	struct ipa_hdr_proc_ctx_offset_entry *offset = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 bin;
 	struct ipa_hdr_proc_ctx_tbl *htbl = &ipa_ctx->hdr_proc_ctx_tbl;
 	int id;
 	int needed_len;
 	int mem_size;
 
+<<<<<<< HEAD
 	IPADBG("processing type %d hdr_hdl %d\n",
 		proc_ctx->type, proc_ctx->hdr_hdl);
 
 	if (!HDR_PROC_TYPE_IS_VALID(proc_ctx->type)) {
 		IPAERR("invalid processing type %d\n", proc_ctx->type);
+=======
+	IPADBG_LOW("processing type %d hdr_hdl %d\n",
+		proc_ctx->type, proc_ctx->hdr_hdl);
+
+	if (!HDR_PROC_TYPE_IS_VALID(proc_ctx->type)) {
+		IPAERR_RL("invalid processing type %d\n", proc_ctx->type);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	hdr_entry = ipa_id_find(proc_ctx->hdr_hdl);
+<<<<<<< HEAD
 	if (!hdr_entry || (hdr_entry->cookie != IPA_COOKIE)) {
 		IPAERR("hdr_hdl is invalid\n");
+=======
+	if (!hdr_entry || (hdr_entry->cookie != IPA_HDR_COOKIE)) {
+		IPAERR_RL("hdr_hdl is invalid\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -577,7 +662,11 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	entry->hdr = hdr_entry;
 	if (add_ref_hdr)
 		hdr_entry->ref_cnt++;
+<<<<<<< HEAD
 	entry->cookie = IPA_COOKIE;
+=======
+	entry->cookie = IPA_PROC_HDR_COOKIE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	needed_len = (proc_ctx->type == IPA_HDR_PROC_NONE) ?
 			sizeof(struct ipa_hdr_proc_ctx_add_hdr_seq) :
@@ -589,7 +678,11 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 			ipa_hdr_proc_ctx_bin_sz[IPA_HDR_PROC_CTX_BIN1]) {
 		bin = IPA_HDR_PROC_CTX_BIN1;
 	} else {
+<<<<<<< HEAD
 		IPAERR("unexpected needed len %d\n", needed_len);
+=======
+		IPAERR_RL("unexpected needed len %d\n", needed_len);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		WARN_ON(1);
 		goto bad_len;
 	}
@@ -597,12 +690,21 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	mem_size = (ipa_ctx->hdr_proc_ctx_tbl_lcl) ?
 		IPA_MEM_PART(apps_hdr_proc_ctx_size) :
 		IPA_MEM_PART(apps_hdr_proc_ctx_size_ddr);
+<<<<<<< HEAD
 	if (htbl->end + ipa_hdr_proc_ctx_bin_sz[bin] > mem_size) {
 		IPAERR("hdr proc ctx table overflow\n");
 		goto bad_len;
 	}
 
 	if (list_empty(&htbl->head_free_offset_list[bin])) {
+=======
+	if (list_empty(&htbl->head_free_offset_list[bin])) {
+		if (htbl->end + ipa_hdr_proc_ctx_bin_sz[bin] > mem_size) {
+			IPAERR_RL("hdr proc ctx table overflow\n");
+			goto bad_len;
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		offset = kmem_cache_zalloc(ipa_ctx->hdr_proc_ctx_offset_cache,
 					   GFP_KERNEL);
 		if (!offset) {
@@ -630,13 +732,21 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	entry->offset_entry = offset;
 	list_add(&entry->link, &htbl->head_proc_ctx_entry_list);
 	htbl->proc_ctx_cnt++;
+<<<<<<< HEAD
 	IPADBG("add proc ctx of sz=%d cnt=%d ofst=%d\n", needed_len,
+=======
+	IPADBG_LOW("add proc ctx of sz=%d cnt=%d ofst=%d\n", needed_len,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			htbl->proc_ctx_cnt, offset->offset);
 
 	id = ipa_id_alloc(entry);
 	if (id < 0) {
 		IPAERR("failed to alloc id\n");
 		WARN_ON(1);
+<<<<<<< HEAD
+=======
+		goto ipa_insert_failed;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	entry->id = id;
 	proc_ctx->proc_ctx_hdl = id;
@@ -644,6 +754,16 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 
 	return 0;
 
+<<<<<<< HEAD
+=======
+ipa_insert_failed:
+	list_move(&offset->link,
+		&htbl->head_free_offset_list[offset->bin]);
+	entry->offset_entry = NULL;
+	list_del(&entry->link);
+	htbl->proc_ctx_cnt--;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 bad_len:
 	if (add_ref_hdr)
 		hdr_entry->ref_cnt--;
@@ -656,23 +776,42 @@ bad_len:
 static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 {
 	struct ipa_hdr_entry *entry;
+<<<<<<< HEAD
 	struct ipa_hdr_offset_entry *offset;
+=======
+	struct ipa_hdr_offset_entry *offset = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 bin;
 	struct ipa_hdr_tbl *htbl = &ipa_ctx->hdr_tbl;
 	int id;
 	int mem_size;
+<<<<<<< HEAD
 
 	if (hdr->hdr_len == 0 || hdr->hdr_len > IPA_HDR_MAX_SIZE) {
 		IPAERR("bad parm\n");
+=======
+	gfp_t flag = GFP_KERNEL | (ipa_ctx->use_dma_zone ? GFP_DMA : 0);
+
+	if (hdr->hdr_len == 0 || hdr->hdr_len > IPA_HDR_MAX_SIZE) {
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto error;
 	}
 
 	if (!HDR_TYPE_IS_VALID(hdr->type)) {
+<<<<<<< HEAD
 		IPAERR("invalid hdr type %d\n", hdr->type);
 		goto error;
 	}
 
 	entry = kmem_cache_zalloc(ipa_ctx->hdr_cache, GFP_KERNEL);
+=======
+		IPAERR_RL("invalid hdr type %d\n", hdr->type);
+		goto error;
+	}
+
+	entry = kmem_cache_zalloc(ipa_ctx->hdr_cache, flag);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!entry) {
 		IPAERR("failed to alloc hdr object\n");
 		goto error;
@@ -687,7 +826,11 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 	entry->type = hdr->type;
 	entry->is_eth2_ofst_valid = hdr->is_eth2_ofst_valid;
 	entry->eth2_ofst = hdr->eth2_ofst;
+<<<<<<< HEAD
 	entry->cookie = IPA_COOKIE;
+=======
+	entry->cookie = IPA_HDR_COOKIE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (hdr->hdr_len <= ipa_hdr_bin_sz[IPA_HDR_BIN0])
 		bin = IPA_HDR_BIN0;
@@ -700,13 +843,18 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 	else if (hdr->hdr_len <= ipa_hdr_bin_sz[IPA_HDR_BIN4])
 		bin = IPA_HDR_BIN4;
 	else {
+<<<<<<< HEAD
 		IPAERR("unexpected hdr len %d\n", hdr->hdr_len);
+=======
+		IPAERR_RL("unexpected hdr len %d\n", hdr->hdr_len);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto bad_hdr_len;
 	}
 
 	mem_size = (ipa_ctx->hdr_tbl_lcl) ? IPA_MEM_PART(apps_hdr_size) :
 		IPA_MEM_PART(apps_hdr_size_ddr);
 
+<<<<<<< HEAD
 	/*
 	 * if header does not fit to table, place it in DDR
 	 * This is valid for IPA 2.5 and on,
@@ -726,6 +874,32 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 	} else {
 		entry->is_hdr_proc_ctx = false;
 		if (list_empty(&htbl->head_free_offset_list[bin])) {
+=======
+	if (list_empty(&htbl->head_free_offset_list[bin])) {
+		/*
+		 * if header does not fit to table, place it in DDR
+		 * This is valid for IPA 2.5 and on,
+		 * with the exception of IPA2.6L.
+		 */
+		if (htbl->end + ipa_hdr_bin_sz[bin] > mem_size) {
+			if (ipa_ctx->ipa_hw_type != IPA_HW_v2_5) {
+				IPAERR("not enough room for header\n");
+				goto bad_hdr_len;
+			} else {
+				entry->is_hdr_proc_ctx = true;
+				entry->phys_base = dma_map_single(ipa_ctx->pdev,
+					entry->hdr,
+					entry->hdr_len,
+					DMA_TO_DEVICE);
+				if (dma_mapping_error(ipa_ctx->pdev,
+					entry->phys_base)) {
+					IPAERR("dma_map_single failureed\n");
+					goto fail_dma_mapping;
+				}
+			}
+		} else {
+			entry->is_hdr_proc_ctx = false;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			offset = kmem_cache_zalloc(ipa_ctx->hdr_offset_cache,
 						   GFP_KERNEL);
 			if (!offset) {
@@ -742,6 +916,7 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 			htbl->end += ipa_hdr_bin_sz[bin];
 			list_add(&offset->link,
 					&htbl->head_offset_list[bin]);
+<<<<<<< HEAD
 		} else {
 			/* get the first free slot */
 			offset =
@@ -750,18 +925,37 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 			list_move(&offset->link, &htbl->head_offset_list[bin]);
 		}
 
+=======
+			entry->offset_entry = offset;
+		}
+	} else {
+		entry->is_hdr_proc_ctx = false;
+		/* get the first free slot */
+		offset =
+		list_first_entry(&htbl->head_free_offset_list[bin],
+				struct ipa_hdr_offset_entry, link);
+		list_move(&offset->link, &htbl->head_offset_list[bin]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		entry->offset_entry = offset;
 	}
 
 	list_add(&entry->link, &htbl->head_hdr_entry_list);
 	htbl->hdr_cnt++;
 	if (entry->is_hdr_proc_ctx)
+<<<<<<< HEAD
 		IPADBG("add hdr of sz=%d hdr_cnt=%d phys_base=%pa\n",
+=======
+		IPADBG_LOW("add hdr of sz=%d hdr_cnt=%d phys_base=%pa\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			hdr->hdr_len,
 			htbl->hdr_cnt,
 			&entry->phys_base);
 	else
+<<<<<<< HEAD
 		IPADBG("add hdr of sz=%d hdr_cnt=%d ofst=%d\n",
+=======
+		IPADBG_LOW("add hdr of sz=%d hdr_cnt=%d ofst=%d\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			hdr->hdr_len,
 			htbl->hdr_cnt,
 			entry->offset_entry->offset);
@@ -770,6 +964,10 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr)
 	if (id < 0) {
 		IPAERR("failed to alloc id\n");
 		WARN_ON(1);
+<<<<<<< HEAD
+=======
+		goto ipa_insert_failed;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	entry->id = id;
 	hdr->hdr_hdl = id;
@@ -794,10 +992,28 @@ fail_add_proc_ctx:
 	entry->ref_cnt--;
 	hdr->hdr_hdl = 0;
 	ipa_id_remove(id);
+<<<<<<< HEAD
 	htbl->hdr_cnt--;
 	list_del(&entry->link);
 	dma_unmap_single(ipa_ctx->pdev, entry->phys_base,
 			entry->hdr_len, DMA_TO_DEVICE);
+=======
+ipa_insert_failed:
+	if (entry->is_hdr_proc_ctx) {
+		dma_unmap_single(ipa_ctx->pdev, entry->phys_base,
+			entry->hdr_len, DMA_TO_DEVICE);
+	} else {
+		if (offset)
+			list_move(&offset->link,
+			&htbl->head_free_offset_list[offset->bin]);
+		entry->offset_entry = NULL;
+	}
+	htbl->hdr_cnt--;
+	list_del(&entry->link);
+
+fail_dma_mapping:
+	entry->is_hdr_proc_ctx = false;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 bad_hdr_len:
 	entry->cookie = 0;
 	kmem_cache_free(ipa_ctx->hdr_cache, entry);
@@ -812,8 +1028,13 @@ static int __ipa_del_hdr_proc_ctx(u32 proc_ctx_hdl,
 	struct ipa_hdr_proc_ctx_tbl *htbl = &ipa_ctx->hdr_proc_ctx_tbl;
 
 	entry = ipa_id_find(proc_ctx_hdl);
+<<<<<<< HEAD
 	if (!entry || (entry->cookie != IPA_COOKIE)) {
 		IPAERR("bad parm\n");
+=======
+	if (!entry || (entry->cookie != IPA_PROC_HDR_COOKIE)) {
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -821,7 +1042,11 @@ static int __ipa_del_hdr_proc_ctx(u32 proc_ctx_hdl,
 		htbl->proc_ctx_cnt, entry->offset_entry->offset);
 
 	if (by_user && entry->user_deleted) {
+<<<<<<< HEAD
 		IPAERR("proc_ctx already deleted by user\n");
+=======
+		IPAERR_RL("proc_ctx already deleted by user\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -859,12 +1084,21 @@ int __ipa_del_hdr(u32 hdr_hdl, bool by_user)
 
 	entry = ipa_id_find(hdr_hdl);
 	if (entry == NULL) {
+<<<<<<< HEAD
 		IPAERR("lookup failed\n");
 		return -EINVAL;
 	}
 
 	if (entry->cookie != IPA_COOKIE) {
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("lookup failed\n");
+		return -EINVAL;
+	}
+
+	if (entry->cookie != IPA_HDR_COOKIE) {
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -876,7 +1110,11 @@ int __ipa_del_hdr(u32 hdr_hdl, bool by_user)
 			htbl->hdr_cnt, entry->offset_entry->offset);
 
 	if (by_user && entry->user_deleted) {
+<<<<<<< HEAD
 		IPAERR("hdr already deleted by user\n");
+=======
+		IPAERR_RL("hdr already deleted by user\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -925,12 +1163,20 @@ int ipa2_add_hdr(struct ipa_ioc_add_hdr *hdrs)
 	int result = -EFAULT;
 
 	if (unlikely(!ipa_ctx)) {
+<<<<<<< HEAD
 		IPAERR("IPA driver was not initialized\n");
+=======
+		IPAERR_RL("IPA driver was not initialized\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	if (hdrs == NULL || hdrs->num_hdrs == 0) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -939,7 +1185,11 @@ int ipa2_add_hdr(struct ipa_ioc_add_hdr *hdrs)
 			hdrs->num_hdrs);
 	for (i = 0; i < hdrs->num_hdrs; i++) {
 		if (__ipa_add_hdr(&hdrs->hdr[i])) {
+<<<<<<< HEAD
 			IPAERR("failed to add hdr %d\n", i);
+=======
+			IPAERR_RL("failed to add hdr %d\n", i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			hdrs->hdr[i].status = -1;
 		} else {
 			hdrs->hdr[i].status = 0;
@@ -980,14 +1230,22 @@ int ipa2_del_hdr_by_user(struct ipa_ioc_del_hdr *hdls, bool by_user)
 	}
 
 	if (hdls == NULL || hdls->num_hdls == 0) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	mutex_lock(&ipa_ctx->lock);
 	for (i = 0; i < hdls->num_hdls; i++) {
 		if (__ipa_del_hdr(hdls->hdl[i].hdl, by_user)) {
+<<<<<<< HEAD
 			IPAERR("failed to del hdr %i\n", i);
+=======
+			IPAERR_RL("failed to del hdr %i\n", i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			hdls->hdl[i].status = -1;
 		} else {
 			hdls->hdl[i].status = 0;
@@ -1036,13 +1294,21 @@ int ipa2_add_hdr_proc_ctx(struct ipa_ioc_add_hdr_proc_ctx *proc_ctxs)
 
 	if (ipa_ctx->ipa_hw_type <= IPA_HW_v2_0 ||
 	    ipa_ctx->ipa_hw_type == IPA_HW_v2_6L) {
+<<<<<<< HEAD
 		IPAERR("Processing context not supported on IPA HW %d\n",
+=======
+		IPAERR_RL("Processing context not supported on IPA HW %d\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ipa_ctx->ipa_hw_type);
 		return -EFAULT;
 	}
 
 	if (proc_ctxs == NULL || proc_ctxs->num_proc_ctxs == 0) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -1051,7 +1317,11 @@ int ipa2_add_hdr_proc_ctx(struct ipa_ioc_add_hdr_proc_ctx *proc_ctxs)
 			proc_ctxs->num_proc_ctxs);
 	for (i = 0; i < proc_ctxs->num_proc_ctxs; i++) {
 		if (__ipa_add_hdr_proc_ctx(&proc_ctxs->proc_ctx[i], true)) {
+<<<<<<< HEAD
 			IPAERR("failed to add hdr pric ctx %d\n", i);
+=======
+			IPAERR_RL("failed to add hdr pric ctx %d\n", i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			proc_ctxs->proc_ctx[i].status = -1;
 		} else {
 			proc_ctxs->proc_ctx[i].status = 0;
@@ -1096,14 +1366,22 @@ int ipa2_del_hdr_proc_ctx_by_user(struct ipa_ioc_del_hdr_proc_ctx *hdls,
 	}
 
 	if (hdls == NULL || hdls->num_hdls == 0) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	mutex_lock(&ipa_ctx->lock);
 	for (i = 0; i < hdls->num_hdls; i++) {
 		if (__ipa_del_hdr_proc_ctx(hdls->hdl[i].hdl, true, by_user)) {
+<<<<<<< HEAD
 			IPAERR("failed to del hdr %i\n", i);
+=======
+			IPAERR_RL("failed to del hdr %i\n", i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			hdls->hdl[i].status = -1;
 		} else {
 			hdls->hdl[i].status = 0;
@@ -1340,7 +1618,11 @@ int ipa2_get_hdr(struct ipa_ioc_get_hdr *lookup)
 	}
 
 	if (lookup == NULL) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 	mutex_lock(&ipa_ctx->lock);
@@ -1427,13 +1709,22 @@ int ipa2_put_hdr(u32 hdr_hdl)
 
 	entry = ipa_id_find(hdr_hdl);
 	if (entry == NULL) {
+<<<<<<< HEAD
 		IPAERR("lookup failed\n");
+=======
+		IPAERR_RL("lookup failed\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		result = -EINVAL;
 		goto bail;
 	}
 
+<<<<<<< HEAD
 	if (entry->cookie != IPA_COOKIE) {
 		IPAERR("invalid header entry\n");
+=======
+	if (entry->cookie != IPA_HDR_COOKIE) {
+		IPAERR_RL("invalid header entry\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		result = -EINVAL;
 		goto bail;
 	}
@@ -1461,7 +1752,11 @@ int ipa2_copy_hdr(struct ipa_ioc_copy_hdr *copy)
 	int result = -EFAULT;
 
 	if (copy == NULL) {
+<<<<<<< HEAD
 		IPAERR("bad parm\n");
+=======
+		IPAERR_RL("bad parm\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 	mutex_lock(&ipa_ctx->lock);

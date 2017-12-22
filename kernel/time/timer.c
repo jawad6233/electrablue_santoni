@@ -441,6 +441,37 @@ static void internal_add_timer(struct tvec_base *base, struct timer_list *timer)
 		wake_up_nohz_cpu(base->cpu);
 }
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_TIMER_STATS
+void __timer_stats_timer_set_start_info(struct timer_list *timer, void *addr)
+{
+	if (timer->start_site)
+		return;
+
+	timer->start_site = addr;
+	memcpy(timer->start_comm, current->comm, TASK_COMM_LEN);
+	timer->start_pid = current->pid;
+}
+
+static void timer_stats_account_timer(struct timer_list *timer)
+{
+	unsigned int flag = 0;
+
+	if (likely(!timer->start_site))
+		return;
+	if (unlikely(tbase_get_deferrable(timer->base)))
+		flag |= TIMER_STATS_FLAG_DEFERRABLE;
+
+	timer_stats_update_stats(timer, timer->start_pid, timer->start_site,
+				 timer->function, timer->start_comm, flag);
+}
+
+#else
+static void timer_stats_account_timer(struct timer_list *timer) {}
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
 
 static struct debug_obj_descr timer_debug_descr;
@@ -702,6 +733,14 @@ static void do_init_timer(struct timer_list *timer, unsigned int flags,
 	timer->entry.next = NULL;
 	timer->base = (void *)((unsigned long)base | flags);
 	timer->slack = -1;
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_TIMER_STATS
+	timer->start_site = NULL;
+	timer->start_pid = -1;
+	memset(timer->start_comm, 0, TASK_COMM_LEN);
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	lockdep_init_map(&timer->lockdep_map, name, key, 0);
 }
 
@@ -803,6 +842,10 @@ __mod_timer(struct timer_list *timer, unsigned long expires,
 	unsigned long flags;
 	int ret = 0 , cpu;
 
+<<<<<<< HEAD
+=======
+	timer_stats_timer_set_start_info(timer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	BUG_ON(!timer->function);
 
 	base = lock_timer_base(timer, &flags);
@@ -998,6 +1041,10 @@ void add_timer_on(struct timer_list *timer, int cpu)
 	struct tvec_base *base;
 	unsigned long flags;
 
+<<<<<<< HEAD
+=======
+	timer_stats_timer_set_start_info(timer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	BUG_ON(timer_pending(timer) || !timer->function);
 
 	/*
@@ -1039,6 +1086,10 @@ int del_timer(struct timer_list *timer)
 
 	debug_assert_init(timer);
 
+<<<<<<< HEAD
+=======
+	timer_stats_timer_clear_start_info(timer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (timer_pending(timer)) {
 		base = lock_timer_base(timer, &flags);
 		ret = detach_if_pending(timer, base, true);
@@ -1066,9 +1117,16 @@ int try_to_del_timer_sync(struct timer_list *timer)
 
 	base = lock_timer_base(timer, &flags);
 
+<<<<<<< HEAD
 	if (base->running_timer != timer)
 		ret = detach_if_pending(timer, base, true);
 
+=======
+	if (base->running_timer != timer) {
+		timer_stats_timer_clear_start_info(timer);
+		ret = detach_if_pending(timer, base, true);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock_irqrestore(&base->lock, flags);
 
 	return ret;
@@ -1248,6 +1306,11 @@ static inline void __run_timers(struct tvec_base *base)
 			data = timer->data;
 			irqsafe = tbase_get_irqsafe(timer->base);
 
+<<<<<<< HEAD
+=======
+			timer_stats_account_timer(timer);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			base->running_timer = timer;
 			detach_expired_timer(timer, base);
 
@@ -1760,6 +1823,10 @@ void __init init_timers(void)
 
 	init_deferrable_timer();
 
+<<<<<<< HEAD
+=======
+	init_timer_stats();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	register_cpu_notifier(&timers_nb);
 	open_softirq(TIMER_SOFTIRQ, run_timer_softirq);
 }

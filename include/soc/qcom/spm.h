@@ -85,7 +85,11 @@ static inline int msm_spm_set_low_power_mode(unsigned int mode, bool notify_rpm)
 
 static inline void msm_spm_set_rpm_hs(bool allow_rpm_hs)
 {
+<<<<<<< HEAD
 	return -ENOSYS;
+=======
+	return;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline int msm_spm_probe_done(void)

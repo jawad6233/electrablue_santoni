@@ -75,10 +75,18 @@ extern int *get_migratetype_fallbacks(int mtype);
 bool is_cma_pageblock(struct page *page);
 #  define is_migrate_cma(migratetype) unlikely((migratetype) == MIGRATE_CMA)
 #  define get_cma_migrate_type() MIGRATE_CMA
+<<<<<<< HEAD
+=======
+#  define is_migrate_cma_page(_page) (get_pageblock_migratetype(_page) == MIGRATE_CMA)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else
 #  define is_cma_pageblock(page) false
 #  define is_migrate_cma(migratetype) false
 #  define get_cma_migrate_type() MIGRATE_MOVABLE
+<<<<<<< HEAD
+=======
+#  define is_migrate_cma_page(_page) false
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 #define for_each_migratetype_order(order, type) \

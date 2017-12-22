@@ -146,6 +146,21 @@ void kfree(const void *);
 void kzfree(const void *);
 size_t ksize(const void *);
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR
+const char *__check_heap_object(const void *ptr, unsigned long n,
+				struct page *page);
+#else
+static inline const char *__check_heap_object(const void *ptr,
+					      unsigned long n,
+					      struct page *page)
+{
+	return NULL;
+}
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Some archs want to perform DMA into kmalloc caches and need a guaranteed
  * alignment larger than the alignment of a 64-bit integer.

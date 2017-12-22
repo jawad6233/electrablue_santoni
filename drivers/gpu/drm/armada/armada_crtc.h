@@ -31,9 +31,36 @@ struct armada_regs {
 #define armada_reg_queue_end(_r, _i)		\
 	armada_reg_queue_mod(_r, _i, 0, 0, ~0)
 
+<<<<<<< HEAD
 struct armada_frame_work;
 struct armada_variant;
 
+=======
+struct armada_crtc;
+struct armada_plane;
+struct armada_variant;
+
+struct armada_plane_work {
+	void			(*fn)(struct armada_crtc *,
+				      struct armada_plane *,
+				      struct armada_plane_work *);
+};
+
+struct armada_plane {
+	struct drm_plane	base;
+	wait_queue_head_t	frame_wait;
+	struct armada_plane_work *work;
+};
+#define drm_to_armada_plane(p) container_of(p, struct armada_plane, base)
+
+int armada_drm_plane_init(struct armada_plane *plane);
+int armada_drm_plane_work_queue(struct armada_crtc *dcrtc,
+	struct armada_plane *plane, struct armada_plane_work *work);
+int armada_drm_plane_work_wait(struct armada_plane *plane, long timeout);
+struct armada_plane_work *armada_drm_plane_work_cancel(
+	struct armada_crtc *dcrtc, struct armada_plane *plane);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct armada_crtc {
 	struct drm_crtc		crtc;
 	const struct armada_variant *variant;
@@ -66,6 +93,7 @@ struct armada_crtc {
 	uint32_t		dumb_ctrl;
 	uint32_t		spu_iopad_ctrl;
 
+<<<<<<< HEAD
 	wait_queue_head_t	frame_wait;
 	struct armada_frame_work *frame_work;
 
@@ -79,12 +107,25 @@ struct device_node;
 int armada_drm_crtc_create(struct drm_device *, struct device *,
 	struct resource *, int, const struct armada_variant *,
 	struct device_node *);
+=======
+	spinlock_t		irq_lock;
+	uint32_t		irq_ena;
+};
+#define drm_to_armada_crtc(c) container_of(c, struct armada_crtc, crtc)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void armada_drm_crtc_gamma_set(struct drm_crtc *, u16, u16, u16, int);
 void armada_drm_crtc_gamma_get(struct drm_crtc *, u16 *, u16 *, u16 *, int);
 void armada_drm_crtc_disable_irq(struct armada_crtc *, u32);
 void armada_drm_crtc_enable_irq(struct armada_crtc *, u32);
 void armada_drm_crtc_update_regs(struct armada_crtc *, struct armada_regs *);
 
+<<<<<<< HEAD
+=======
+void armada_drm_crtc_plane_disable(struct armada_crtc *dcrtc,
+	struct drm_plane *plane);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern struct platform_driver armada_lcd_platform_driver;
 
 #endif

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -85,6 +89,11 @@ struct msm_camera_gpio_conf {
 	struct gpio *cam_gpio_common_tbl;
 	uint8_t cam_gpio_common_tbl_size;
 	struct gpio *cam_gpio_req_tbl;
+<<<<<<< HEAD
+=======
+	struct msm_gpio_set_tbl *cam_gpio_set_tbl;
+	uint8_t cam_gpio_set_tbl_size;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint8_t cam_gpio_req_tbl_size;
 	uint32_t gpio_no_mux;
 	uint32_t *camera_off_table;
@@ -146,6 +155,10 @@ struct msm_camera_sensor_board_info {
 	const char *sensor_name;
 	const char *eeprom_name;
 	const char *actuator_name;
+<<<<<<< HEAD
+=======
+	const char *flash_name;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	const char *ois_name;
 	struct msm_camera_slave_info *slave_info;
 	struct msm_camera_csi_lane_params *csi_lane_params;

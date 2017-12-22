@@ -30,6 +30,10 @@
 #include <drm/drmP.h>
 #include "radeon.h"
 #include "radeon_asic.h"
+<<<<<<< HEAD
+=======
+#include "radeon_audio.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/radeon_drm.h>
 #include "rv770d.h"
 #include "atom.h"
@@ -1788,7 +1792,11 @@ static int rv770_startup(struct radeon_device *rdev)
 		return r;
 	}
 
+<<<<<<< HEAD
 	r = r600_audio_init(rdev);
+=======
+	r = radeon_audio_init(rdev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (r) {
 		DRM_ERROR("radeon: audio init failed\n");
 		return r;
@@ -1829,7 +1837,11 @@ int rv770_resume(struct radeon_device *rdev)
 int rv770_suspend(struct radeon_device *rdev)
 {
 	radeon_pm_suspend(rdev);
+<<<<<<< HEAD
 	r600_audio_fini(rdev);
+=======
+	radeon_audio_fini(rdev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uvd_v1_0_fini(rdev);
 	radeon_uvd_suspend(rdev);
 	r700_cp_stop(rdev);

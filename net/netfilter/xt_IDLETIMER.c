@@ -306,6 +306,11 @@ static int idletimer_tg_create(struct idletimer_tg_info *info)
 		pr_debug("couldn't add file to sysfs");
 		goto out_free_attr;
 	}
+<<<<<<< HEAD
+=======
+	/* notify userspace */
+	kobject_uevent(idletimer_tg_kobj, KOBJ_ADD);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_add(&info->timer->entry, &idletimer_tg_list);
 
@@ -460,9 +465,15 @@ static void idletimer_tg_destroy(const struct xt_tgdtor_param *par)
 
 		list_del(&info->timer->entry);
 		del_timer_sync(&info->timer->timer);
+<<<<<<< HEAD
 		cancel_work_sync(&info->timer->work);
 		sysfs_remove_file(idletimer_tg_kobj, &info->timer->attr.attr);
 		unregister_pm_notifier(&info->timer->pm_nb);
+=======
+		sysfs_remove_file(idletimer_tg_kobj, &info->timer->attr.attr);
+		unregister_pm_notifier(&info->timer->pm_nb);
+		cancel_work_sync(&info->timer->work);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		kfree(info->timer->attr.attr.name);
 		kfree(info->timer);
 	} else {

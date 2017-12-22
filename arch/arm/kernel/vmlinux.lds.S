@@ -123,6 +123,11 @@ SECTIONS
 #ifdef CONFIG_DEBUG_RODATA
 	. = ALIGN(1<<SECTION_SHIFT);
 #endif
+<<<<<<< HEAD
+=======
+	_etext = .;			/* End of text section */
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	RO_DATA(PAGE_SIZE)
 
 	. = ALIGN(4);
@@ -153,8 +158,11 @@ SECTIONS
 
 	NOTES
 
+<<<<<<< HEAD
 	_etext = .;			/* End of text and rodata section */
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifndef CONFIG_XIP_KERNEL
 # ifdef CONFIG_ARM_KERNMEM_PERMS
 	. = ALIGN(1<<SECTION_SHIFT);

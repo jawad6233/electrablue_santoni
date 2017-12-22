@@ -416,7 +416,11 @@ int mga_driver_load(struct drm_device *dev, unsigned long flags)
 	return 0;
 }
 
+<<<<<<< HEAD
 #if __OS_HAS_AGP
+=======
+#if IS_ENABLED(CONFIG_AGP)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * Bootstrap the driver for AGP DMA.
  *
@@ -947,7 +951,11 @@ static int mga_do_cleanup_dma(struct drm_device *dev, int full_cleanup)
 			drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
 
 		if (dev_priv->used_new_dma_init) {
+<<<<<<< HEAD
 #if __OS_HAS_AGP
+=======
+#if IS_ENABLED(CONFIG_AGP)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (dev_priv->agp_handle != 0) {
 				struct drm_agp_binding unbind_req;
 				struct drm_agp_buffer free_req;

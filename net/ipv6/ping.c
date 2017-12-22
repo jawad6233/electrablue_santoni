@@ -85,7 +85,11 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	struct icmp6hdr user_icmph;
 	int addr_type;
 	struct in6_addr *daddr;
+<<<<<<< HEAD
 	int iif = 0;
+=======
+	int oif = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct flowi6 fl6;
 	int err;
 	int hlimit;
@@ -107,18 +111,25 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		if (u->sin6_family != AF_INET6) {
 			return -EAFNOSUPPORT;
 		}
+<<<<<<< HEAD
 		if (sk->sk_bound_dev_if &&
 		    sk->sk_bound_dev_if != u->sin6_scope_id) {
 			return -EINVAL;
 		}
 		daddr = &(u->sin6_addr);
 		iif = u->sin6_scope_id;
+=======
+		daddr = &(u->sin6_addr);
+		if (__ipv6_addr_needs_scope_id(ipv6_addr_type(daddr)))
+			oif = u->sin6_scope_id;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		if (sk->sk_state != TCP_ESTABLISHED)
 			return -EDESTADDRREQ;
 		daddr = &sk->sk_v6_daddr;
 	}
 
+<<<<<<< HEAD
 	if (!iif)
 		iif = sk->sk_bound_dev_if;
 
@@ -126,6 +137,23 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	if (__ipv6_addr_needs_scope_id(addr_type) && !iif)
 		return -EINVAL;
 	if (addr_type & IPV6_ADDR_MAPPED)
+=======
+	if (!oif)
+		oif = sk->sk_bound_dev_if;
+
+	if (!oif)
+		oif = np->sticky_pktinfo.ipi6_ifindex;
+
+	if (!oif && ipv6_addr_is_multicast(daddr))
+		oif = np->mcast_oif;
+	else if (!oif)
+		oif = np->ucast_oif;
+
+	addr_type = ipv6_addr_type(daddr);
+	if ((__ipv6_addr_needs_scope_id(addr_type) && !oif) ||
+	    (addr_type & IPV6_ADDR_MAPPED) ||
+	    (oif && sk->sk_bound_dev_if && oif != sk->sk_bound_dev_if))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 
 	/* TODO: use ip6_datagram_send_ctl to get options from cmsg */
@@ -135,17 +163,24 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	fl6.flowi6_proto = IPPROTO_ICMPV6;
 	fl6.saddr = np->saddr;
 	fl6.daddr = *daddr;
+<<<<<<< HEAD
+=======
+	fl6.flowi6_oif = oif;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fl6.flowi6_mark = sk->sk_mark;
 	fl6.flowi6_uid = sk->sk_uid;
 	fl6.fl6_icmp_type = user_icmph.icmp6_type;
 	fl6.fl6_icmp_code = user_icmph.icmp6_code;
 	security_sk_classify_flow(sk, flowi6_to_flowi(&fl6));
 
+<<<<<<< HEAD
 	if (!fl6.flowi6_oif && ipv6_addr_is_multicast(&fl6.daddr))
 		fl6.flowi6_oif = np->mcast_oif;
 	else if (!fl6.flowi6_oif)
 		fl6.flowi6_oif = np->ucast_oif;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dst = ip6_sk_dst_lookup_flow(sk, &fl6,  daddr);
 	if (IS_ERR(dst))
 		return PTR_ERR(dst);
@@ -155,11 +190,14 @@ int ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	if (!np)
 		return -EBADF;
 
+<<<<<<< HEAD
 	if (!fl6.flowi6_oif && ipv6_addr_is_multicast(&fl6.daddr))
 		fl6.flowi6_oif = np->mcast_oif;
 	else if (!fl6.flowi6_oif)
 		fl6.flowi6_oif = np->ucast_oif;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pfh.icmph.type = user_icmph.icmp6_type;
 	pfh.icmph.code = user_icmph.icmp6_code;
 	pfh.icmph.checksum = 0;

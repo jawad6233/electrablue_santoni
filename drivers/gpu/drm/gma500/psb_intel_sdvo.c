@@ -1631,6 +1631,7 @@ static int psb_intel_sdvo_get_modes(struct drm_connector *connector)
 	return !list_empty(&connector->probed_modes);
 }
 
+<<<<<<< HEAD
 static void
 psb_intel_sdvo_destroy_enhance_property(struct drm_connector *connector)
 {
@@ -1682,6 +1683,10 @@ static void psb_intel_sdvo_destroy(struct drm_connector *connector)
 				     psb_intel_sdvo_connector->tv_format);
 
 	psb_intel_sdvo_destroy_enhance_property(connector);
+=======
+static void psb_intel_sdvo_destroy(struct drm_connector *connector)
+{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_connector_unregister(connector);
 	drm_connector_cleanup(connector);
 	kfree(connector);

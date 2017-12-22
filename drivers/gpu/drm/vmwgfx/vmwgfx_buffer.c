@@ -1,6 +1,10 @@
 /**************************************************************************
  *
+<<<<<<< HEAD
  * Copyright © 2009 VMware, Inc., Palo Alto, CA., USA
+=======
+ * Copyright © 2009-2015 VMware, Inc., Palo Alto, CA., USA
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -72,6 +76,15 @@ static struct ttm_place mob_placement_flags = {
 	.flags = VMW_PL_FLAG_MOB | TTM_PL_FLAG_CACHED
 };
 
+<<<<<<< HEAD
+=======
+static struct ttm_place mob_ne_placement_flags = {
+	.fpfn = 0,
+	.lpfn = 0,
+	.flags = VMW_PL_FLAG_MOB | TTM_PL_FLAG_CACHED | TTM_PL_FLAG_NO_EVICT
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct ttm_placement vmw_vram_placement = {
 	.num_placement = 1,
 	.placement = &vram_placement_flags,
@@ -200,6 +213,16 @@ struct ttm_placement vmw_mob_placement = {
 	.busy_placement = &mob_placement_flags
 };
 
+<<<<<<< HEAD
+=======
+struct ttm_placement vmw_mob_ne_placement = {
+	.num_placement = 1,
+	.num_busy_placement = 1,
+	.placement = &mob_ne_placement_flags,
+	.busy_placement = &mob_ne_placement_flags
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct vmw_ttm_tt {
 	struct ttm_dma_tt dma_ttm;
 	struct vmw_private *dev_priv;
@@ -804,9 +827,15 @@ static int vmw_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
 /**
  * vmw_move_notify - TTM move_notify_callback
  *
+<<<<<<< HEAD
  * @bo:             The TTM buffer object about to move.
  * @mem:            The truct ttm_mem_reg indicating to what memory
  *                  region the move is taking place.
+=======
+ * @bo: The TTM buffer object about to move.
+ * @mem: The struct ttm_mem_reg indicating to what memory
+ *       region the move is taking place.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Calls move_notify for all subsystems needing it.
  * (currently only resources).
@@ -815,13 +844,21 @@ static void vmw_move_notify(struct ttm_buffer_object *bo,
 			    struct ttm_mem_reg *mem)
 {
 	vmw_resource_move_notify(bo, mem);
+<<<<<<< HEAD
+=======
+	vmw_query_move_notify(bo, mem);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 
 /**
  * vmw_swap_notify - TTM move_notify_callback
  *
+<<<<<<< HEAD
  * @bo:             The TTM buffer object about to be swapped out.
+=======
+ * @bo: The TTM buffer object about to be swapped out.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 static void vmw_swap_notify(struct ttm_buffer_object *bo)
 {

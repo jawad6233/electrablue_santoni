@@ -3043,6 +3043,7 @@ static int wcd_cpe_set_one_param(void *core_handle,
 		rc = wcd_cpe_send_param_epd_thres(core, session,
 						data, &ids);
 		break;
+<<<<<<< HEAD
 	case LSM_OPERATION_MODE: {
 		struct cpe_lsm_ids connectport_ids;
 
@@ -3062,6 +3063,11 @@ static int wcd_cpe_set_one_param(void *core_handle,
 				__func__, rc);
 		break;
 	}
+=======
+	case LSM_OPERATION_MODE:
+		rc = wcd_cpe_send_param_opmode(core, session, data, &ids);
+		break;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case LSM_GAIN:
 		rc = wcd_cpe_send_param_gain(core, session, data, &ids);
 		break;

@@ -22,8 +22,16 @@
 #ifdef CONFIG_SMP
 
 #define __futex_atomic_op(insn, ret, oldval, tmp, uaddr, oparg)	\
+<<<<<<< HEAD
 	smp_mb();						\
 	prefetchw(uaddr);					\
+=======
+({								\
+	unsigned int __ua_flags;				\
+	smp_mb();						\
+	prefetchw(uaddr);					\
+	__ua_flags = uaccess_save_and_enable();			\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__asm__ __volatile__(					\
 	"1:	ldrex	%1, [%3]\n"				\
 	"	" insn "\n"					\
@@ -34,12 +42,22 @@
 	__futex_atomic_ex_table("%5")				\
 	: "=&r" (ret), "=&r" (oldval), "=&r" (tmp)		\
 	: "r" (uaddr), "r" (oparg), "Ir" (-EFAULT)		\
+<<<<<<< HEAD
 	: "cc", "memory")
+=======
+	: "cc", "memory");					\
+	uaccess_restore(__ua_flags);				\
+})
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static inline int
 futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 			      u32 oldval, u32 newval)
 {
+<<<<<<< HEAD
+=======
+	unsigned int __ua_flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 	u32 val;
 
@@ -49,6 +67,10 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 	smp_mb();
 	/* Prefetching cannot fault */
 	prefetchw(uaddr);
+<<<<<<< HEAD
+=======
+	__ua_flags = uaccess_save_and_enable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__asm__ __volatile__("@futex_atomic_cmpxchg_inatomic\n"
 	"1:	ldrex	%1, [%4]\n"
 	"	teq	%1, %2\n"
@@ -61,6 +83,10 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 	: "=&r" (ret), "=&r" (val)
 	: "r" (oldval), "r" (newval), "r" (uaddr), "Ir" (-EFAULT)
 	: "cc", "memory");
+<<<<<<< HEAD
+=======
+	uaccess_restore(__ua_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	smp_mb();
 
 	*uval = val;
@@ -73,6 +99,11 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 #include <asm/domain.h>
 
 #define __futex_atomic_op(insn, ret, oldval, tmp, uaddr, oparg)	\
+<<<<<<< HEAD
+=======
+({								\
+	unsigned int __ua_flags = uaccess_save_and_enable();	\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__asm__ __volatile__(					\
 	"1:	" TUSER(ldr) "	%1, [%3]\n"			\
 	"	" insn "\n"					\
@@ -81,18 +112,33 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 	__futex_atomic_ex_table("%5")				\
 	: "=&r" (ret), "=&r" (oldval), "=&r" (tmp)		\
 	: "r" (uaddr), "r" (oparg), "Ir" (-EFAULT)		\
+<<<<<<< HEAD
 	: "cc", "memory")
+=======
+	: "cc", "memory");					\
+	uaccess_restore(__ua_flags);				\
+})
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static inline int
 futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 			      u32 oldval, u32 newval)
 {
+<<<<<<< HEAD
+=======
+	unsigned int __ua_flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret = 0;
 	u32 val;
 
 	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(u32)))
 		return -EFAULT;
 
+<<<<<<< HEAD
+=======
+	preempt_disable();
+	__ua_flags = uaccess_save_and_enable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__asm__ __volatile__("@futex_atomic_cmpxchg_inatomic\n"
 	"1:	" TUSER(ldr) "	%1, [%4]\n"
 	"	teq	%1, %2\n"
@@ -102,8 +148,16 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 	: "+r" (ret), "=&r" (val)
 	: "r" (oldval), "r" (newval), "r" (uaddr), "Ir" (-EFAULT)
 	: "cc", "memory");
+<<<<<<< HEAD
 
 	*uval = val;
+=======
+	uaccess_restore(__ua_flags);
+
+	*uval = val;
+	preempt_enable();
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -124,7 +178,14 @@ futex_atomic_op_inuser (int encoded_op, u32 __user *uaddr)
 	if (!access_ok(VERIFY_WRITE, uaddr, sizeof(u32)))
 		return -EFAULT;
 
+<<<<<<< HEAD
 	pagefault_disable();	/* implies preempt_disable() */
+=======
+#ifndef CONFIG_SMP
+	preempt_disable();
+#endif
+	pagefault_disable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	switch (op) {
 	case FUTEX_OP_SET:
@@ -146,7 +207,14 @@ futex_atomic_op_inuser (int encoded_op, u32 __user *uaddr)
 		ret = -ENOSYS;
 	}
 
+<<<<<<< HEAD
 	pagefault_enable();	/* subsumes preempt_enable() */
+=======
+	pagefault_enable();
+#ifndef CONFIG_SMP
+	preempt_enable();
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!ret) {
 		switch (cmp) {

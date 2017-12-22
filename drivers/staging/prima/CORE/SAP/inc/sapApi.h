@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, 2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -193,6 +197,10 @@ typedef enum {
     eSAP_MAC_TRIG_STOP_BSS_EVENT,
     eSAP_UNKNOWN_STA_JOIN, /* Event send when a STA in neither white list or black list tries to associate in softap mode */
     eSAP_MAX_ASSOC_EXCEEDED, /* Event send when a new STA is rejected association since softAP max assoc limit has reached */
+<<<<<<< HEAD
+=======
+    eSAP_CHANNEL_CHANGED_EVENT,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } eSapHddEvent;
 
 typedef enum {
@@ -374,6 +382,17 @@ typedef struct sap_MaxAssocExceededEvent_s {
     v_MACADDR_t    macaddr;  
 } tSap_MaxAssocExceededEvent;
 
+<<<<<<< HEAD
+=======
+/**
+ * struct sap_chan_selected - channel change indication to cfg layer
+ * @new_chan: new channel
+ */
+struct sap_chan_selected {
+   uint16_t new_chan;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* 
    This struct will be filled in and passed to tpWLAN_SAPEventCB that is provided during WLANSAP_StartBss call   
@@ -397,6 +416,10 @@ typedef struct sap_Event_s {
         tSap_SendActionCnf                        sapActionCnf;  /* eSAP_SEND_ACTION_CNF */ 
         tSap_UnknownSTAJoinEvent                  sapUnknownSTAJoin; /* eSAP_UNKNOWN_STA_JOIN */
         tSap_MaxAssocExceededEvent                sapMaxAssocExceeded; /* eSAP_MAX_ASSOC_EXCEEDED */
+<<<<<<< HEAD
+=======
+        struct sap_chan_selected                  sap_chan_selected;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     } sapevt;
 } tSap_Event, *tpSap_Event;
 
@@ -884,6 +907,33 @@ typedef VOS_STATUS (*tpWLAN_SAPEventCB)( tpSap_Event pSapEvent, v_PVOID_t  pUsrC
 v_U8_t WLANSAP_getState ( v_PVOID_t  pvosGCtx);
 
 /*==========================================================================
+<<<<<<< HEAD
+=======
+  FUNCTION    WLANSAP_get_sessionId
+
+  DESCRIPTION
+     This api returns the current SAP sessionId to the caller.
+
+  DEPENDENCIES
+
+  PARAMETERS
+
+    IN
+    pContext            : Pointer to Sap Context structure
+    v_U8_t              : Pointer to sessionID
+
+  RETURN VALUE
+     VOS_STATUS_SUCCESS on success.
+
+     VOS_STATUS_E_INVAL: Pointer to SAP cb is NULL ; access would cause a page
+                         fault
+============================================================================*/
+VOS_STATUS WLANSAP_get_sessionId
+(
+    v_PVOID_t  pvosGCtx, v_U8_t *sessionId
+);
+/*==========================================================================
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   FUNCTION    WLANSAP_StartBss
 
   DESCRIPTION 
@@ -1593,6 +1643,22 @@ void WLANSAP_PopulateDelStaParams(const v_U8_t *mac,
                                  v_U16_t reason_code,
                                  v_U8_t subtype,
                                  struct tagCsrDelStaParams *pDelStaParams);
+<<<<<<< HEAD
+=======
+/**
+ * wlansap_set_channel_change() -
+ * This function to support SAP channel change with CSA/ECSA IE
+ * set in the beacons.
+ *
+ * @vos_ctx: vos context.
+ * @new_channel: target channel number.
+ * @allow_dfs_chan: dont allow dfs channel
+ *
+ * Return: 0 for success, non zero for failure
+ */
+int wlansap_set_channel_change(v_PVOID_t vos_ctx,
+    uint32_t new_channel, bool allow_dfs_chan);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #ifdef __cplusplus
  }

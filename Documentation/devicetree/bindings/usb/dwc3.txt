@@ -5,6 +5,13 @@ DWC3- USB3 CONTROLLER
 Required properties:
  - compatible: must be "snps,dwc3"
  - reg : Address and length of the register set for the device
+<<<<<<< HEAD
+=======
+   Required regs are:
+   - "core_base" : USB DWC3 controller register set.
+   - "ahb2phy_base" : AHB2PHY register base. It is used to update read/write
+                      wait cycle for accessing PHY.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  - interrupts: Interrupts used by the dwc3 controller.
 
 Optional properties:
@@ -34,7 +41,14 @@ This is usually a subnode to DWC3 glue to which it is connected.
 
 dwc3@4a030000 {
 	compatible = "snps,dwc3";
+<<<<<<< HEAD
 	reg = <0x4a030000 0xcfff>;
+=======
+	reg = <0x07600000 0xfc000>,
+		<0x7416000 0x400>;
+	reg-names = "core_base",
+		    "ahb2phy_base";
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	interrupts = <0 92 4>
 	usb-phy = <&usb2_phy>, <&usb3,phy>;
 	tx-fifo-resize;

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -190,6 +194,12 @@ when        who    what, where, why
 #define WLANTL_RMC_HASH_TABLE_SIZE (32)
 #endif
 
+<<<<<<< HEAD
+=======
+#define WLANTL_SAMPLE_INTERVAL 50
+#define WLANTL_SAMPLE_COUNT 2
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*-------------------------------------------------------------------------
   BT-AMP related definition - !!! should probably be moved to BT-AMP header
 ---------------------------------------------------------------------------*/
@@ -254,6 +264,12 @@ when        who    what, where, why
    (WLANTL_BT_AMP_TYPE_LS_REQ == usType) || (WLANTL_BT_AMP_TYPE_LS_REP == usType))
 
 #define WLANTL_CACHE_TRACE_WATERMARK 100
+<<<<<<< HEAD
+=======
+
+#define WLANTL_RSSI_SAMPLE_CNT 20
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*---------------------------------------------------------------------------
   TL signals for TX thread
 ---------------------------------------------------------------------------*/
@@ -302,6 +318,11 @@ typedef enum
   /* Forwarding RX cached frames */
   WLANTL_RX_FWD_CACHED  = 0,
 
+<<<<<<< HEAD
+=======
+  /* Forward pre assoc cached frames */
+  WLANTL_RX_FWD_PRE_ASSOC_CACHED = 1,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }WLANTL_RxSignalsType;
 
 /*---------------------------------------------------------------------------
@@ -727,6 +748,28 @@ typedef struct
 
   /* Disassoc in progress */
   v_BOOL_t disassoc_progress;
+<<<<<<< HEAD
+=======
+
+  /* sample timer Tx frames */
+  uint64_t tx_frames;
+  uint32_t tx_sample[WLANTL_SAMPLE_COUNT];
+  uint64_t tx_samples_sum;
+
+  /* flow control */
+  uint8_t weight;
+  uint8_t weight_count;
+  uint8_t per;
+  uint8_t set_flag;
+  uint16_t queue;
+  uint16_t trate;
+
+  /* RSSI sample avg */
+  s8 rssi_sample[WLANTL_RSSI_SAMPLE_CNT];
+  s16 rssi_sample_sum;
+  uint8_t rssi_sample_cnt;
+  uint8_t rssi_stale_idx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }WLANTL_STAClientType;
 
 /*---------------------------------------------------------------------------
@@ -811,6 +854,22 @@ typedef struct
    vos_lock_t                           hosLock;
 } WLANTL_HO_SUPPORT_TYPE;
 
+<<<<<<< HEAD
+=======
+typedef struct {
+  uint8 sta_id;
+  uint8 avg_per;
+  uint16 queue_len;
+  uint16_t rate;
+  uint16_t reserved;
+} WLANTL_PerStaFlowControlParam;
+
+typedef struct {
+  uint8 num_stas;
+  WLANTL_PerStaFlowControlParam *sta_fc_info;
+} WLANTL_FlowControlInfo;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
 #define ROAM_MAX_INDEX_NUM              50
 #define ROAM_PER_INDEX_TIME             500 /* (msec) */
@@ -967,8 +1026,22 @@ typedef struct
   WLANTL_RoamMonitorType gDsRxRoamStats;
 #endif
 
+<<<<<<< HEAD
   uint8_t track_arp;
   uint32_t txbd_token;
+=======
+  /* TX sample data timer */
+  vos_timer_t tx_frames_timer;
+  uint8_t sample_count;
+
+  bool preassoc_caching;
+  vos_pkt_t* vosEapolCachedFrame;
+  WLANTL_FwdEapolCBType pfnEapolFwd;
+
+  uint8_t track_arp;
+  uint32_t txbd_token;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }WLANTL_CbType;
 
 

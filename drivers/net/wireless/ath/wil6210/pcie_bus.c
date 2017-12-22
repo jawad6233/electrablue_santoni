@@ -20,6 +20,10 @@
 #include <linux/interrupt.h>
 #include <linux/suspend.h>
 #include "wil6210.h"
+<<<<<<< HEAD
+=======
+#include <linux/rtnetlink.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static bool use_msi = true;
 module_param(use_msi, bool, S_IRUGO);
@@ -38,6 +42,10 @@ void wil_set_capabilities(struct wil6210_priv *wil)
 	u32 rev_id = wil_r(wil, RGF_USER_JTAG_DEV_ID);
 
 	bitmap_zero(wil->hw_capabilities, hw_capability_last);
+<<<<<<< HEAD
+=======
+	bitmap_zero(wil->fw_capabilities, WMI_FW_CAPABILITY_MAX);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	switch (rev_id) {
 	case JTAG_DEV_ID_SPARROW_B0:
@@ -51,6 +59,12 @@ void wil_set_capabilities(struct wil6210_priv *wil)
 	}
 
 	wil_info(wil, "Board hardware is %s\n", wil->hw_name);
+<<<<<<< HEAD
+=======
+
+	/* extract FW capabilities from file without loading the FW */
+	wil_request_firmware(wil, WIL_FW_NAME, false);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void wil_disable_irq(struct wil6210_priv *wil)
@@ -293,6 +307,12 @@ static void wil_pcie_remove(struct pci_dev *pdev)
 #endif /* CONFIG_PM */
 
 	wil6210_debugfs_remove(wil);
+<<<<<<< HEAD
+=======
+	rtnl_lock();
+	wil_p2p_wdev_free(wil);
+	rtnl_unlock();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wil_if_remove(wil);
 	wil_if_pcie_disable(wil);
 	pci_iounmap(pdev, csr);
@@ -300,7 +320,10 @@ static void wil_pcie_remove(struct pci_dev *pdev)
 	pci_disable_device(pdev);
 	if (wil->platform_ops.uninit)
 		wil->platform_ops.uninit(wil->platform_handle);
+<<<<<<< HEAD
 	wil_p2p_wdev_free(wil);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wil_if_free(wil);
 }
 

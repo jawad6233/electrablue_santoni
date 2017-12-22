@@ -135,7 +135,11 @@ __v7m_setup_stack_top:
 	string cpu_elf_name "v7m"
 	string cpu_v7m_name "ARMv7-M"
 
+<<<<<<< HEAD
 	.section ".proc.info.init", #alloc, #execinstr
+=======
+	.section ".proc.info.init", #alloc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * Match any ARMv7-M processor core.
@@ -146,7 +150,11 @@ __v7m_proc_info:
 	.long	0x000f0000		@ Mask for ID
 	.long   0			@ proc_info_list.__cpu_mm_mmu_flags
 	.long   0			@ proc_info_list.__cpu_io_mmu_flags
+<<<<<<< HEAD
 	b	__v7m_setup		@ proc_info_list.__cpu_flush
+=======
+	initfn	__v7m_setup, __v7m_proc_info	@ proc_info_list.__cpu_flush
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.long	cpu_arch_name
 	.long	cpu_elf_name
 	.long	HWCAP_HALF|HWCAP_THUMB|HWCAP_FAST_MULT

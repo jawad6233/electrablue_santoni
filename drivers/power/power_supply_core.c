@@ -271,6 +271,7 @@ int power_supply_set_low_power_state(struct power_supply *psy, int value)
 EXPORT_SYMBOL(power_supply_set_low_power_state);
 
 /**
+<<<<<<< HEAD
  * power_supply_get_battery_charge_state - agregado por @foxburu
  */
 
@@ -295,6 +296,8 @@ int power_supply_get_battery_charge_state(struct power_supply *psy)
 EXPORT_SYMBOL(power_supply_get_battery_charge_state);
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * power_supply_set_dp_dm -
  * @psy:	the power supply to control
  * @value:	value to be passed to the power_supply
@@ -568,7 +571,13 @@ EXPORT_SYMBOL_GPL(power_supply_is_system_supplied);
 
 int power_supply_set_battery_charged(struct power_supply *psy)
 {
+<<<<<<< HEAD
 	if (psy->type == POWER_SUPPLY_TYPE_BATTERY && psy->set_charged) {
+=======
+	if (atomic_read(&psy->use_cnt) >= 0 &&
+			psy->type == POWER_SUPPLY_TYPE_BATTERY &&
+			psy->set_charged) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		psy->set_charged(psy);
 		return 0;
 	}
@@ -620,6 +629,50 @@ struct power_supply *power_supply_get_by_phandle(struct device_node *np,
 EXPORT_SYMBOL_GPL(power_supply_get_by_phandle);
 #endif /* CONFIG_OF */
 
+<<<<<<< HEAD
+=======
+int power_supply_get_property(struct power_supply *psy,
+				enum power_supply_property psp,
+				union power_supply_propval *val)
+{
+	if (atomic_read(&psy->use_cnt) <= 0)
+		return -ENODEV;
+
+	return psy->get_property(psy, psp, val);
+}
+EXPORT_SYMBOL_GPL(power_supply_get_property);
+
+int power_supply_set_property(struct power_supply *psy,
+				enum power_supply_property psp,
+				const union power_supply_propval *val)
+{
+	if (atomic_read(&psy->use_cnt) <= 0 || !psy->set_property)
+		return -ENODEV;
+
+	return psy->set_property(psy, psp, val);
+}
+EXPORT_SYMBOL_GPL(power_supply_set_property);
+
+int power_supply_property_is_writeable(struct power_supply *psy,
+				enum power_supply_property psp)
+{
+	if (atomic_read(&psy->use_cnt) <= 0 || !psy->property_is_writeable)
+		return -ENODEV;
+
+	return psy->property_is_writeable(psy, psp);
+}
+EXPORT_SYMBOL_GPL(power_supply_property_is_writeable);
+
+void power_supply_external_power_changed(struct power_supply *psy)
+{
+	if (atomic_read(&psy->use_cnt) <= 0 || !psy->external_power_changed)
+		return;
+
+	psy->external_power_changed(psy);
+}
+EXPORT_SYMBOL_GPL(power_supply_external_power_changed);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int power_supply_powers(struct power_supply *psy, struct device *dev)
 {
 	return sysfs_create_link(&psy->dev->kobj, &dev->kobj, "powers");
@@ -807,6 +860,10 @@ static int __power_supply_register(struct device *parent,
 	dev->release = power_supply_dev_release;
 	dev_set_drvdata(dev, psy);
 	psy->dev = dev;
+<<<<<<< HEAD
+=======
+	atomic_inc(&psy->use_cnt);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	rc = dev_set_name(dev, "%s", psy->name);
 	if (rc)
@@ -873,6 +930,10 @@ EXPORT_SYMBOL_GPL(power_supply_register_no_ws);
 
 void power_supply_unregister(struct power_supply *psy)
 {
+<<<<<<< HEAD
+=======
+	WARN_ON(atomic_dec_return(&psy->use_cnt));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cancel_work_sync(&psy->changed_work);
 	sysfs_remove_link(&psy->dev->kobj, "powers");
 	power_supply_remove_triggers(psy);
@@ -883,6 +944,15 @@ void power_supply_unregister(struct power_supply *psy)
 }
 EXPORT_SYMBOL_GPL(power_supply_unregister);
 
+<<<<<<< HEAD
+=======
+void *power_supply_get_drvdata(struct power_supply *psy)
+{
+	return psy->drv_data;
+}
+EXPORT_SYMBOL_GPL(power_supply_get_drvdata);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int __init power_supply_class_init(void)
 {
 	power_supply_class = class_create(THIS_MODULE, "power_supply");

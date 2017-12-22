@@ -256,7 +256,11 @@ struct msm_vidc_inst {
 	void *session;
 	struct session_prop prop;
 	enum instance_state state;
+<<<<<<< HEAD
 	struct msm_vidc_format *fmts[MAX_PORT_NUM];
+=======
+	struct msm_vidc_format fmts[MAX_PORT_NUM];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct buf_queue bufq[MAX_PORT_NUM];
 	struct msm_vidc_list pendingq;
 	struct msm_vidc_list scratchbufs;

@@ -34,6 +34,10 @@
 
 static struct v4l2_device *msm_v4l2_dev;
 static struct list_head    ordered_sd_list;
+<<<<<<< HEAD
+=======
+static struct mutex        ordered_sd_mtx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static struct pm_qos_request msm_v4l2_pm_qos_request;
 
@@ -285,6 +289,10 @@ void msm_delete_stream(unsigned int session_id, unsigned int stream_id)
 		return;
 
 	while (1) {
+<<<<<<< HEAD
+=======
+		unsigned long wl_flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		if (try_count > 5) {
 			pr_err("%s : not able to delete stream %d\n",
@@ -292,18 +300,32 @@ void msm_delete_stream(unsigned int session_id, unsigned int stream_id)
 			break;
 		}
 
+<<<<<<< HEAD
 		write_lock(&session->stream_rwlock);
+=======
+		write_lock_irqsave(&session->stream_rwlock, wl_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		try_count++;
 		stream = msm_queue_find(&session->stream_q, struct msm_stream,
 			list, __msm_queue_find_stream, &stream_id);
 
 		if (!stream) {
+<<<<<<< HEAD
 			write_unlock(&session->stream_rwlock);
+=======
+			write_unlock_irqrestore(&session->stream_rwlock,
+				wl_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return;
 		}
 
 		if (msm_vb2_get_stream_state(stream) != 1) {
+<<<<<<< HEAD
 			write_unlock(&session->stream_rwlock);
+=======
+			write_unlock_irqrestore(&session->stream_rwlock,
+				wl_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 		}
 
@@ -313,7 +335,11 @@ void msm_delete_stream(unsigned int session_id, unsigned int stream_id)
 		kfree(stream);
 		stream = NULL;
 		spin_unlock_irqrestore(&(session->stream_q.lock), flags);
+<<<<<<< HEAD
 		write_unlock(&session->stream_rwlock);
+=======
+		write_unlock_irqrestore(&session->stream_rwlock, wl_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	}
 
@@ -383,6 +409,14 @@ static void msm_add_sd_in_position(struct msm_sd_subdev *msm_subdev,
 	struct msm_sd_subdev *temp_sd;
 
 	list_for_each_entry(temp_sd, sd_list, list) {
+<<<<<<< HEAD
+=======
+		if (temp_sd == msm_subdev) {
+			pr_err("%s :Fail to add the same sd %d\n",
+				__func__, __LINE__);
+			return;
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (msm_subdev->close_seq < temp_sd->close_seq) {
 			list_add_tail(&msm_subdev->list, &temp_sd->list);
 			return;
@@ -399,7 +433,13 @@ int msm_sd_register(struct msm_sd_subdev *msm_subdev)
 	if (WARN_ON(!msm_v4l2_dev) || WARN_ON(!msm_v4l2_dev->dev))
 		return -EIO;
 
+<<<<<<< HEAD
 	msm_add_sd_in_position(msm_subdev, &ordered_sd_list);
+=======
+	mutex_lock(&ordered_sd_mtx);
+	msm_add_sd_in_position(msm_subdev, &ordered_sd_list);
+	mutex_unlock(&ordered_sd_mtx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return __msm_sd_register_subdev(&msm_subdev->sd);
 }
 EXPORT_SYMBOL(msm_sd_register);
@@ -720,6 +760,19 @@ static long msm_private_ioctl(struct file *file, void *fh,
 	if (!event_data)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+	switch (cmd) {
+	case MSM_CAM_V4L2_IOCTL_NOTIFY:
+	case MSM_CAM_V4L2_IOCTL_CMD_ACK:
+	case MSM_CAM_V4L2_IOCTL_NOTIFY_DEBUG:
+	case MSM_CAM_V4L2_IOCTL_NOTIFY_ERROR:
+		break;
+	default:
+		return -ENOTTY;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	memset(&event, 0, sizeof(struct v4l2_event));
 	session_id = event_data->session_id;
 	stream_id = event_data->stream_id;
@@ -788,11 +841,19 @@ static long msm_private_ioctl(struct file *file, void *fh,
 				__func__);
 		}
 
+<<<<<<< HEAD
+=======
+		mutex_lock(&ordered_sd_mtx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!list_empty(&msm_v4l2_dev->subdevs)) {
 			list_for_each_entry(msm_sd, &ordered_sd_list, list)
 				__msm_sd_notify_freeze_subdevs(msm_sd,
 					event_data->status);
 		}
+<<<<<<< HEAD
+=======
+		mutex_unlock(&ordered_sd_mtx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 		break;
 
@@ -977,9 +1038,17 @@ static int msm_close(struct file *filep)
 	struct msm_sd_subdev *msm_sd;
 
 	/*stop all hardware blocks immediately*/
+<<<<<<< HEAD
 	if (!list_empty(&msm_v4l2_dev->subdevs))
 		list_for_each_entry(msm_sd, &ordered_sd_list, list)
 			__msm_sd_close_subdevs(msm_sd, &sd_close);
+=======
+	mutex_lock(&ordered_sd_mtx);
+	if (!list_empty(&msm_v4l2_dev->subdevs))
+		list_for_each_entry(msm_sd, &ordered_sd_list, list)
+			__msm_sd_close_subdevs(msm_sd, &sd_close);
+	mutex_unlock(&ordered_sd_mtx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* remove msm_v4l2_pm_qos_request */
 	msm_pm_qos_remove_request();
@@ -1335,6 +1404,10 @@ static int msm_probe(struct platform_device *pdev)
 	msm_init_queue(msm_session_q);
 	spin_lock_init(&msm_eventq_lock);
 	spin_lock_init(&msm_pid_lock);
+<<<<<<< HEAD
+=======
+	mutex_init(&ordered_sd_mtx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	INIT_LIST_HEAD(&ordered_sd_list);
 
 	cam_debugfs_root = debugfs_create_dir(MSM_CAM_LOGSYNC_FILE_BASEDIR,

@@ -209,17 +209,26 @@ void squashfs_cache_put(struct squashfs_cache_entry *entry)
  */
 void squashfs_cache_delete(struct squashfs_cache *cache)
 {
+<<<<<<< HEAD
 	int i, j;
+=======
+	int i;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (cache == NULL)
 		return;
 
 	for (i = 0; i < cache->entries; i++) {
+<<<<<<< HEAD
 		if (cache->entry[i].data) {
 			for (j = 0; j < cache->pages; j++)
 				kfree(cache->entry[i].data[j]);
 			kfree(cache->entry[i].data);
 		}
+=======
+		if (cache->entry[i].page)
+			free_page_array(cache->entry[i].page, cache->pages);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		kfree(cache->entry[i].actor);
 	}
 
@@ -236,7 +245,11 @@ void squashfs_cache_delete(struct squashfs_cache *cache)
 struct squashfs_cache *squashfs_cache_init(char *name, int entries,
 	int block_size)
 {
+<<<<<<< HEAD
 	int i, j;
+=======
+	int i;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct squashfs_cache *cache = kzalloc(sizeof(*cache), GFP_KERNEL);
 
 	if (cache == NULL) {
@@ -268,6 +281,7 @@ struct squashfs_cache *squashfs_cache_init(char *name, int entries,
 		init_waitqueue_head(&cache->entry[i].wait_queue);
 		entry->cache = cache;
 		entry->block = SQUASHFS_INVALID_BLK;
+<<<<<<< HEAD
 		entry->data = kcalloc(cache->pages, sizeof(void *), GFP_KERNEL);
 		if (entry->data == NULL) {
 			ERROR("Failed to allocate %s cache entry\n", name);
@@ -284,6 +298,15 @@ struct squashfs_cache *squashfs_cache_init(char *name, int entries,
 
 		entry->actor = squashfs_page_actor_init(entry->data,
 						cache->pages, 0);
+=======
+		entry->page = alloc_page_array(cache->pages, GFP_KERNEL);
+		if (!entry->page) {
+			ERROR("Failed to allocate %s cache entry\n", name);
+			goto cleanup;
+		}
+		entry->actor = squashfs_page_actor_init(entry->page,
+			cache->pages, 0, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (entry->actor == NULL) {
 			ERROR("Failed to allocate %s cache entry\n", name);
 			goto cleanup;
@@ -314,18 +337,31 @@ int squashfs_copy_data(void *buffer, struct squashfs_cache_entry *entry,
 		return min(length, entry->length - offset);
 
 	while (offset < entry->length) {
+<<<<<<< HEAD
 		void *buff = entry->data[offset / PAGE_CACHE_SIZE]
 				+ (offset % PAGE_CACHE_SIZE);
+=======
+		void *buff = kmap_atomic(entry->page[offset / PAGE_CACHE_SIZE])
+			     + (offset % PAGE_CACHE_SIZE);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		int bytes = min_t(int, entry->length - offset,
 				PAGE_CACHE_SIZE - (offset % PAGE_CACHE_SIZE));
 
 		if (bytes >= remaining) {
 			memcpy(buffer, buff, remaining);
+<<<<<<< HEAD
+=======
+			kunmap_atomic(buff);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			remaining = 0;
 			break;
 		}
 
 		memcpy(buffer, buff, bytes);
+<<<<<<< HEAD
+=======
+		kunmap_atomic(buff);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		buffer += bytes;
 		remaining -= bytes;
 		offset += bytes;
@@ -416,6 +452,7 @@ struct squashfs_cache_entry *squashfs_get_datablock(struct super_block *sb,
 void *squashfs_read_table(struct super_block *sb, u64 block, int length)
 {
 	int pages = (length + PAGE_CACHE_SIZE - 1) >> PAGE_CACHE_SHIFT;
+<<<<<<< HEAD
 	int i, res;
 	void *table, *buffer, **data;
 	struct squashfs_page_actor *actor;
@@ -454,5 +491,40 @@ failed2:
 	kfree(data);
 failed:
 	kfree(table);
+=======
+	struct page **page;
+	void *buff;
+	int res;
+	struct squashfs_page_actor *actor;
+
+	page = alloc_page_array(pages, GFP_KERNEL);
+	if (!page)
+		return ERR_PTR(-ENOMEM);
+
+	actor = squashfs_page_actor_init(page, pages, length, NULL);
+	if (actor == NULL) {
+		res = -ENOMEM;
+		goto failed;
+	}
+
+	res = squashfs_read_data(sb, block, length |
+		SQUASHFS_COMPRESSED_BIT_BLOCK, NULL, actor);
+
+	if (res < 0)
+		goto failed2;
+
+	buff = kmalloc(length, GFP_KERNEL);
+	if (!buff)
+		goto failed2;
+	squashfs_actor_to_buf(actor, buff, length);
+	squashfs_page_actor_free(actor, 0);
+	free_page_array(page, pages);
+	return buff;
+
+failed2:
+	squashfs_page_actor_free(actor, 0);
+failed:
+	free_page_array(page, pages);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ERR_PTR(res);
 }

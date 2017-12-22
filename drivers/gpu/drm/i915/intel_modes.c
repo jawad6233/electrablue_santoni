@@ -126,3 +126,15 @@ intel_attach_broadcast_rgb_property(struct drm_connector *connector)
 
 	drm_object_attach_property(&connector->base, prop, 0);
 }
+<<<<<<< HEAD
+=======
+
+void
+intel_attach_aspect_ratio_property(struct drm_connector *connector)
+{
+	if (!drm_mode_create_aspect_ratio_property(connector->dev))
+		drm_object_attach_property(&connector->base,
+			connector->dev->mode_config.aspect_ratio_property,
+			DRM_MODE_PICTURE_ASPECT_NONE);
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

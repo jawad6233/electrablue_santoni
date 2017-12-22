@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,6 +32,10 @@ enum buf_type {
 
 enum xprt_ids {
 	SMEM_XPRT_ID = 100,
+<<<<<<< HEAD
+=======
+	SPIV2_XPRT_ID = SMEM_XPRT_ID,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	SMD_TRANS_XPRT_ID = 200,
 	LLOOP_XPRT_ID = 300,
 	MOCK_XPRT_HIGH_ID = 390,
@@ -56,6 +64,10 @@ enum xprt_ids {
  * @iovec:		Pointer to the vector buffer packet.
  * @vprovider:		Packet-specific virtual buffer provider function.
  * @pprovider:		Packet-specific physical buffer provider function.
+<<<<<<< HEAD
+=======
+ * @cookie:		Transport-specific cookie
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @pkt_ref:		Active references to the packet.
  */
 struct glink_core_tx_pkt {
@@ -73,6 +85,10 @@ struct glink_core_tx_pkt {
 	void *iovec;
 	void * (*vprovider)(void *iovec, size_t offset, size_t *size);
 	void * (*pprovider)(void *iovec, size_t offset, size_t *size);
+<<<<<<< HEAD
+=======
+	void *cookie;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct rwref_lock pkt_ref;
 };
 

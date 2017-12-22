@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -346,6 +350,16 @@ static int msm_dai_slim_prepare(struct snd_pcm_substream *substream,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	if (dai_data->status & DAI_STATE_PREPARED) {
+		dev_dbg(dai->dev,
+			"%s: dai id (%d) has already prepared.\n",
+			__func__, dai->id);
+		return 0;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dma_data = &dai_data->dma_data;
 	snd_soc_dai_set_dma_data(dai, substream, dma_data);
 
@@ -482,7 +496,13 @@ static void msm_dai_slim_remove_dai_data(
 		dai_data_t = &drv_data->slim_dai_data[i];
 
 		kfree(dai_data_t->chan_h);
+<<<<<<< HEAD
 		kfree(dai_data_t->sh_ch);
+=======
+		dai_data_t->chan_h = NULL;
+		kfree(dai_data_t->sh_ch);
+		dai_data_t->sh_ch = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 

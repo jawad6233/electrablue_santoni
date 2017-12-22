@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -52,6 +56,10 @@ extern void limFTInit(tpAniSirGlobal pMac);
 extern int  limProcessFTPreAuthReq(tpAniSirGlobal pMac, tpSirMsgQ pMsg);
 extern void limPerformFTPreAuth(tpAniSirGlobal pMac, eHalStatus status, tANI_U32 *data, 
                 tpPESession psessionEntry);
+<<<<<<< HEAD
+=======
+void limFTSetupAuthSession(tpAniSirGlobal pMac, tpPESession psessionEntry);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void        limPerformPostFTPreAuth(tpAniSirGlobal pMac, eHalStatus status, tANI_U32 *data, 
                 tpPESession psessionEntry);
 void        limFTResumeLinkCb(tpAniSirGlobal pMac, eHalStatus status, tANI_U32 *data);

@@ -170,6 +170,7 @@ polling:
 	}
 
 	/* Process active pipe sources */
+<<<<<<< HEAD
 	if (!list_empty(&dev->pipes_q)) {
 		list_for_each_entry(pipe, &dev->pipes_q, list) {
 			/* Check this pipe's bit in the source mask */
@@ -183,6 +184,21 @@ polling:
 			if (source == 0)
 				break;
 		}
+=======
+	pipe = list_first_entry(&dev->pipes_q, struct sps_pipe, list);
+
+	list_for_each_entry(pipe, &dev->pipes_q, list) {
+		/* Check this pipe's bit in the source mask */
+		if (BAM_PIPE_IS_ASSIGNED(pipe)
+				&& (!pipe->disconnecting)
+				&& (source & pipe->pipe_index_mask)) {
+			/* This pipe has an interrupt pending */
+			pipe_handler(dev, pipe);
+			source &= ~pipe->pipe_index_mask;
+		}
+		if (source == 0)
+			break;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Process any inactive pipe sources */
@@ -1090,6 +1106,10 @@ int sps_bam_pipe_disconnect(struct sps_bam *dev, u32 pipe_index)
 {
 	struct sps_pipe *pipe;
 	int result;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (pipe_index >= dev->props.num_pipes) {
 		SPS_ERR(dev, "sps:Invalid BAM %pa pipe: %d\n", BAM_ID(dev),
@@ -1101,8 +1121,15 @@ int sps_bam_pipe_disconnect(struct sps_bam *dev, u32 pipe_index)
 	pipe = dev->pipes[pipe_index];
 	if (BAM_PIPE_IS_ASSIGNED(pipe)) {
 		if ((dev->pipe_active_mask & (1UL << pipe_index))) {
+<<<<<<< HEAD
 			list_del(&pipe->list);
 			dev->pipe_active_mask &= ~(1UL << pipe_index);
+=======
+			spin_lock_irqsave(&dev->isr_lock, flags);
+			list_del(&pipe->list);
+			dev->pipe_active_mask &= ~(1UL << pipe_index);
+			spin_unlock_irqrestore(&dev->isr_lock, flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		dev->pipe_remote_mask &= ~(1UL << pipe_index);
 		if (pipe->connect.options & SPS_O_NO_DISABLE)

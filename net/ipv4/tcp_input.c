@@ -2516,6 +2516,12 @@ static void tcp_cwnd_reduction(struct sock *sk, const int prior_unsacked,
 	int newly_acked_sacked = prior_unsacked -
 				 (tp->packets_out - tp->sacked_out);
 
+<<<<<<< HEAD
+=======
+	if (newly_acked_sacked <= 0 || WARN_ON_ONCE(!tp->prior_cwnd))
+		return;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tp->prr_delivered += newly_acked_sacked;
 	if (tcp_packets_in_flight(tp) > tp->snd_ssthresh) {
 		u64 dividend = (u64)tp->snd_ssthresh * tp->prr_delivered +
@@ -3324,7 +3330,12 @@ static void tcp_send_challenge_ack(struct sock *sk)
 	/* unprotected vars, we dont care of overwrites */
 	static u32 challenge_timestamp;
 	static unsigned int challenge_count;
+<<<<<<< HEAD
 	u32 count, now;
+=======
+	u32 now = jiffies / HZ;
+	u32 count;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Check host-wide RFC 5961 rate limit. */
 	now = jiffies / HZ;

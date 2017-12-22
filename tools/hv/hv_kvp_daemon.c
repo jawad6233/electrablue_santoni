@@ -196,11 +196,22 @@ static void kvp_update_mem_state(int pool)
 	for (;;) {
 		readp = &record[records_read];
 		records_read += fread(readp, sizeof(struct kvp_record),
+<<<<<<< HEAD
 					ENTRIES_PER_BLOCK * num_blocks,
 					filep);
 
 		if (ferror(filep)) {
 			syslog(LOG_ERR, "Failed to read file, pool: %d", pool);
+=======
+				ENTRIES_PER_BLOCK * num_blocks - records_read,
+				filep);
+
+		if (ferror(filep)) {
+			syslog(LOG_ERR,
+				"Failed to read file, pool: %d; error: %d %s",
+				 pool, errno, strerror(errno));
+			kvp_release_lock(pool);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			exit(EXIT_FAILURE);
 		}
 
@@ -213,6 +224,10 @@ static void kvp_update_mem_state(int pool)
 
 			if (record == NULL) {
 				syslog(LOG_ERR, "malloc failed");
+<<<<<<< HEAD
+=======
+				kvp_release_lock(pool);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				exit(EXIT_FAILURE);
 			}
 			continue;
@@ -227,6 +242,7 @@ static void kvp_update_mem_state(int pool)
 	fclose(filep);
 	kvp_release_lock(pool);
 }
+<<<<<<< HEAD
 static int kvp_file_init(void)
 {
 	int  fd;
@@ -236,6 +252,13 @@ static int kvp_file_init(void)
 	struct kvp_record *record;
 	struct kvp_record *readp;
 	int num_blocks;
+=======
+
+static int kvp_file_init(void)
+{
+	int  fd;
+	char *fname;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int i;
 	int alloc_unit = sizeof(struct kvp_record) * ENTRIES_PER_BLOCK;
 
@@ -249,14 +272,18 @@ static int kvp_file_init(void)
 
 	for (i = 0; i < KVP_POOL_COUNT; i++) {
 		fname = kvp_file_info[i].fname;
+<<<<<<< HEAD
 		records_read = 0;
 		num_blocks = 1;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		sprintf(fname, "%s/.kvp_pool_%d", KVP_CONFIG_LOC, i);
 		fd = open(fname, O_RDWR | O_CREAT | O_CLOEXEC, 0644 /* rw-r--r-- */);
 
 		if (fd == -1)
 			return 1;
 
+<<<<<<< HEAD
 
 		filep = fopen(fname, "re");
 		if (!filep) {
@@ -304,6 +331,15 @@ static int kvp_file_init(void)
 		kvp_file_info[i].num_records = records_read;
 		fclose(filep);
 
+=======
+		kvp_file_info[i].fd = fd;
+		kvp_file_info[i].num_blocks = 1;
+		kvp_file_info[i].records = malloc(alloc_unit);
+		if (kvp_file_info[i].records == NULL)
+			return 1;
+		kvp_file_info[i].num_records = 0;
+		kvp_update_mem_state(i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return 0;

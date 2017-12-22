@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -50,6 +54,12 @@ typedef enum
   eSAP_MAC_START_FAILS,
   eSAP_HDD_STOP_INFRA_BSS,
   eSAP_WRITE_REMOTE_AMP_ASSOC,
+<<<<<<< HEAD
+=======
+  eSAP_CHANNEL_SWITCH_ANNOUNCEMENT_START,
+  eWNI_ECSA_TX_COMPLETED,
+  eWNI_ECSA_CHANNEL_CHANGE_RSP,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
   eSAP_NO_MSG
 }eSapMsg_t;

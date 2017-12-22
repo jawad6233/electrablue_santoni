@@ -16,8 +16,11 @@
 #ifndef __ASM_PERCPU_H
 #define __ASM_PERCPU_H
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void set_my_cpu_offset(unsigned long off)
 {
 	asm volatile("msr tpidr_el1, %0" :: "r" (off) : "memory");
@@ -38,6 +41,7 @@ static inline unsigned long __my_cpu_offset(void)
 }
 #define __my_cpu_offset __my_cpu_offset()
 
+<<<<<<< HEAD
 #else	/* !CONFIG_SMP */
 
 #define set_my_cpu_offset(x)	do { } while (0)
@@ -281,6 +285,8 @@ do {									\
 #define this_cpu_xchg_4(pcp, val) _percpu_xchg(pcp, val)
 #define this_cpu_xchg_8(pcp, val) _percpu_xchg(pcp, val)
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm-generic/percpu.h>
 
 #endif /* __ASM_PERCPU_H */

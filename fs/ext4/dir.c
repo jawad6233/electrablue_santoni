@@ -110,7 +110,19 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
 	int err;
 	struct inode *inode = file_inode(file);
 	struct super_block *sb = inode->i_sb;
+<<<<<<< HEAD
 	int dir_has_error = 0;
+=======
+	struct buffer_head *bh = NULL;
+	int dir_has_error = 0;
+	struct ext4_str fname_crypto_str = {.name = NULL, .len = 0};
+
+	if (ext4_encrypted_inode(inode)) {
+		err = ext4_get_encryption_info(inode);
+		if (err && err != -ENOKEY)
+			return err;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (is_dx_dir(inode)) {
 		err = ext4_dx_readdir(file, ctx);
@@ -127,17 +139,34 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
 
 	if (ext4_has_inline_data(inode)) {
 		int has_inline_data = 1;
+<<<<<<< HEAD
 		int ret = ext4_read_inline_dir(file, ctx,
 					   &has_inline_data);
 		if (has_inline_data)
 			return ret;
+=======
+		err = ext4_read_inline_dir(file, ctx,
+					   &has_inline_data);
+		if (has_inline_data)
+			return err;
+	}
+
+	if (ext4_encrypted_inode(inode)) {
+		err = ext4_fname_crypto_alloc_buffer(inode, EXT4_NAME_LEN,
+						     &fname_crypto_str);
+		if (err < 0)
+			return err;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	offset = ctx->pos & (sb->s_blocksize - 1);
 
 	while (ctx->pos < inode->i_size) {
 		struct ext4_map_blocks map;
+<<<<<<< HEAD
 		struct buffer_head *bh = NULL;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		map.m_lblk = ctx->pos >> EXT4_BLOCK_SIZE_BITS(sb);
 		map.m_len = 1;
@@ -180,6 +209,10 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
 					(unsigned long long)ctx->pos);
 			ctx->pos += sb->s_blocksize - offset;
 			brelse(bh);
+<<<<<<< HEAD
+=======
+			bh = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 		}
 		set_buffer_verified(bh);
@@ -226,17 +259,41 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
 			offset += ext4_rec_len_from_disk(de->rec_len,
 					sb->s_blocksize);
 			if (le32_to_cpu(de->inode)) {
+<<<<<<< HEAD
 				if (!dir_emit(ctx, de->name,
 						de->name_len,
 						le32_to_cpu(de->inode),
 						get_dtype(sb, de->file_type))) {
 					brelse(bh);
 					return 0;
+=======
+				if (!ext4_encrypted_inode(inode)) {
+					if (!dir_emit(ctx, de->name,
+					    de->name_len,
+					    le32_to_cpu(de->inode),
+					    get_dtype(sb, de->file_type)))
+						goto done;
+				} else {
+					int save_len = fname_crypto_str.len;
+
+					/* Directory is encrypted */
+					err = ext4_fname_disk_to_usr(inode,
+						NULL, de, &fname_crypto_str);
+					fname_crypto_str.len = save_len;
+					if (err < 0)
+						goto errout;
+					if (!dir_emit(ctx,
+					    fname_crypto_str.name, err,
+					    le32_to_cpu(de->inode),
+					    get_dtype(sb, de->file_type)))
+						goto done;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				}
 			}
 			ctx->pos += ext4_rec_len_from_disk(de->rec_len,
 						sb->s_blocksize);
 		}
+<<<<<<< HEAD
 		offset = 0;
 		brelse(bh);
 		if (ctx->pos < inode->i_size) {
@@ -245,6 +302,22 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
 		}
 	}
 	return 0;
+=======
+		if ((ctx->pos < inode->i_size) && !dir_relax(inode))
+			goto done;
+		brelse(bh);
+		bh = NULL;
+		offset = 0;
+	}
+done:
+	err = 0;
+errout:
+#ifdef CONFIG_EXT4_FS_ENCRYPTION
+	ext4_fname_crypto_free_buffer(&fname_crypto_str);
+#endif
+	brelse(bh);
+	return err;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline int is_32bit_api(void)
@@ -384,10 +457,22 @@ void ext4_htree_free_dir_info(struct dir_private_info *p)
 
 /*
  * Given a directory entry, enter it into the fname rb tree.
+<<<<<<< HEAD
  */
 int ext4_htree_store_dirent(struct file *dir_file, __u32 hash,
 			     __u32 minor_hash,
 			     struct ext4_dir_entry_2 *dirent)
+=======
+ *
+ * When filename encryption is enabled, the dirent will hold the
+ * encrypted filename, while the htree will hold decrypted filename.
+ * The decrypted filename is passed in via ent_name.  parameter.
+ */
+int ext4_htree_store_dirent(struct file *dir_file, __u32 hash,
+			     __u32 minor_hash,
+			    struct ext4_dir_entry_2 *dirent,
+			    struct ext4_str *ent_name)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct rb_node **p, *parent = NULL;
 	struct fname *fname, *new_fn;
@@ -398,17 +483,28 @@ int ext4_htree_store_dirent(struct file *dir_file, __u32 hash,
 	p = &info->root.rb_node;
 
 	/* Create and allocate the fname structure */
+<<<<<<< HEAD
 	len = sizeof(struct fname) + dirent->name_len + 1;
+=======
+	len = sizeof(struct fname) + ent_name->len + 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	new_fn = kzalloc(len, GFP_KERNEL);
 	if (!new_fn)
 		return -ENOMEM;
 	new_fn->hash = hash;
 	new_fn->minor_hash = minor_hash;
 	new_fn->inode = le32_to_cpu(dirent->inode);
+<<<<<<< HEAD
 	new_fn->name_len = dirent->name_len;
 	new_fn->file_type = dirent->file_type;
 	memcpy(new_fn->name, dirent->name, dirent->name_len);
 	new_fn->name[dirent->name_len] = 0;
+=======
+	new_fn->name_len = ent_name->len;
+	new_fn->file_type = dirent->file_type;
+	memcpy(new_fn->name, ent_name->name, ent_name->len);
+	new_fn->name[ent_name->len] = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	while (*p) {
 		parent = *p;
@@ -561,6 +657,16 @@ finished:
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int ext4_dir_open(struct inode * inode, struct file * filp)
+{
+	if (ext4_encrypted_inode(inode))
+		return ext4_get_encryption_info(inode) ? -EACCES : 0;
+	return 0;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int ext4_release_dir(struct inode *inode, struct file *filp)
 {
 	if (filp->private_data)
@@ -603,5 +709,9 @@ const struct file_operations ext4_dir_operations = {
 	.compat_ioctl	= ext4_compat_ioctl,
 #endif
 	.fsync		= ext4_sync_file,
+<<<<<<< HEAD
+=======
+	.open		= ext4_dir_open,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.release	= ext4_release_dir,
 };

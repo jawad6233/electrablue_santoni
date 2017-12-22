@@ -1,6 +1,10 @@
 /*
  * Copyright (C) 2007 Google, Inc.
+<<<<<<< HEAD
  * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -601,10 +605,13 @@ static uint16_t msm_nand_flash_onfi_crc_check(uint8_t *buffer, uint16_t count)
 struct msm_nand_flash_onfi_data {
 	struct msm_nand_common_cfgs cfg;
 	uint32_t exec;
+<<<<<<< HEAD
 	uint32_t devcmd1_orig;
 	uint32_t devcmdvld_orig;
 	uint32_t devcmd1_mod;
 	uint32_t devcmdvld_mod;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t ecc_bch_cfg;
 };
 
@@ -676,11 +683,19 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	uint32_t onfi_signature = 0;
 
 	/* SPS command/data descriptors */
+<<<<<<< HEAD
 	uint32_t total_cnt = 13;
 	/*
 	 * The following 13 commands are required to get onfi parameters -
 	 * flash, addr0, addr1, cfg0, cfg1, dev0_ecc_cfg, cmd_vld, dev_cmd1,
 	 * read_loc_0, exec, flash_status (read cmd), dev_cmd1, cmd_vld.
+=======
+	uint32_t total_cnt = 9;
+	/*
+	 * The following 9 commands are required to get onfi parameters -
+	 * flash, addr0, addr1, cfg0, cfg1, dev0_ecc_cfg,
+	 * read_loc_0, exec, flash_status (read cmd).
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 */
 	struct {
 		struct sps_transfer xfer;
@@ -695,9 +710,15 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 
 	ret = msm_nand_version_check(info, &nandc_version);
 	if (!ret && !(nandc_version.nand_major == 1 &&
+<<<<<<< HEAD
 			nandc_version.nand_minor == 1 &&
 			nandc_version.qpic_major == 1 &&
 			nandc_version.qpic_minor == 1)) {
+=======
+			nandc_version.nand_minor >= 5 &&
+			nandc_version.qpic_major == 1 &&
+			nandc_version.qpic_minor >= 5)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = -EPERM;
 		goto out;
 	}
@@ -720,6 +741,7 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	}
 
 	memset(&data, 0, sizeof(struct msm_nand_flash_onfi_data));
+<<<<<<< HEAD
 	ret = msm_nand_flash_rd_reg(info, MSM_NAND_DEV_CMD1(info),
 				&data.devcmd1_orig);
 	if (ret < 0)
@@ -732,20 +754,38 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	/* Lookup the 'APPS' partition's first page address */
 	for (i = 0; i < FLASH_PTABLE_MAX_PARTS_V4; i++) {
 		if (!strcmp("apps", mtd_part[i].name)) {
+=======
+
+	/* Lookup the partition to which apps has access to */
+	for (i = 0; i < FLASH_PTABLE_MAX_PARTS_V4; i++) {
+		if (mtd_part[i].name && !strcmp("boot", mtd_part[i].name)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			page_address = mtd_part[i].offset << 6;
 			break;
 		}
 	}
+<<<<<<< HEAD
 	data.cfg.cmd = MSM_NAND_CMD_PAGE_READ_ALL;
+=======
+	if (!page_address) {
+		pr_info("%s: no apps partition found in smem\n", __func__);
+		ret = -EPERM;
+		goto free_dma;
+	}
+	data.cfg.cmd = MSM_NAND_CMD_PAGE_READ_ONFI;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	data.exec = 1;
 	data.cfg.addr0 = (page_address << 16) |
 				FLASH_READ_ONFI_PARAMETERS_ADDRESS;
 	data.cfg.addr1 = (page_address >> 16) & 0xFF;
 	data.cfg.cfg0 =	MSM_NAND_CFG0_RAW_ONFI_PARAM_INFO;
 	data.cfg.cfg1 = MSM_NAND_CFG1_RAW_ONFI_PARAM_INFO;
+<<<<<<< HEAD
 	data.devcmd1_mod = (data.devcmd1_orig & 0xFFFFFF00) |
 				FLASH_READ_ONFI_PARAMETERS_COMMAND;
 	data.devcmdvld_mod = data.devcmdvld_orig & 0xFFFFFFFE;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	data.ecc_bch_cfg = 1 << ECC_CFG_ECC_DISABLE;
 	dma_buffer->flash_status = 0xeeeeeeee;
 
@@ -757,6 +797,7 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 			data.ecc_bch_cfg, 0);
 	cmd++;
 
+<<<<<<< HEAD
 	msm_nand_prep_single_desc(cmd, MSM_NAND_DEV_CMD_VLD(info), WRITE,
 			data.devcmdvld_mod, 0);
 	cmd++;
@@ -765,6 +806,8 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 			data.devcmd1_mod, 0);
 	cmd++;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rdata = (0 << 0) | (ONFI_PARAM_INFO_LENGTH << 16) | (1 << 31);
 	msm_nand_prep_single_desc(cmd, MSM_NAND_READ_LOCATION_0(info), WRITE,
 			rdata, 0);
@@ -775,6 +818,7 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	cmd++;
 
 	msm_nand_prep_single_desc(cmd, MSM_NAND_FLASH_STATUS(info), READ,
+<<<<<<< HEAD
 		msm_virt_to_dma(chip, &dma_buffer->flash_status), 0);
 	cmd++;
 
@@ -785,6 +829,10 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	msm_nand_prep_single_desc(cmd, MSM_NAND_DEV_CMD_VLD(info), WRITE,
 			data.devcmdvld_orig,
 			SPS_IOVEC_FLAG_UNLOCK | SPS_IOVEC_FLAG_INT);
+=======
+		msm_virt_to_dma(chip, &dma_buffer->flash_status),
+		SPS_IOVEC_FLAG_UNLOCK | SPS_IOVEC_FLAG_INT);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cmd++;
 
 	BUG_ON(cmd - dma_buffer->cmd > ARRAY_SIZE(dma_buffer->cmd));
@@ -839,8 +887,14 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	}
 
 	ret = msm_nand_put_device(chip->dev);
+<<<<<<< HEAD
 	if (ret)
 		goto unlock_mutex;
+=======
+	mutex_unlock(&info->lock);
+	if (ret)
+		goto free_dma;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Check for flash status errors */
 	if (dma_buffer->flash_status & (FS_OP_ERR | FS_MPU_ERR)) {
@@ -880,6 +934,10 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 					flash->pagesize;
 	flash->oobsize  = onfi_param_page_ptr->number_of_spare_bytes_per_page;
 	flash->density  = onfi_param_page_ptr->number_of_blocks_per_logical_unit
+<<<<<<< HEAD
+=======
+				* onfi_param_page_ptr->number_of_logical_units
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					* flash->blksize;
 	flash->ecc_correctability = onfi_param_page_ptr->
 					number_of_bits_ecc_correctability;
@@ -894,7 +952,11 @@ static int msm_nand_flash_onfi_probe(struct msm_nand_info *info)
 	 */
 	if (!strcmp(onfi_param_page_ptr->device_model, "MT29F4G08ABC"))
 		flash->widebus  = 0;
+<<<<<<< HEAD
 	goto unlock_mutex;
+=======
+	goto free_dma;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 put_dev:
 	msm_nand_put_device(chip->dev);
 unlock_mutex:
@@ -1081,22 +1143,40 @@ static void msm_nand_update_rw_reg_data(struct msm_nand_chip *chip,
 			data->ecc_bch_cfg = chip->ecc_bch_cfg;
 		} else {
 			data->cmd = MSM_NAND_CMD_PAGE_READ_ALL;
+<<<<<<< HEAD
 			data->cfg0 = chip->cfg0_raw;
+=======
+			data->cfg0 =
+			(chip->cfg0_raw & ~(7U << CW_PER_PAGE)) |
+			(((args->cwperpage-1) - args->start_sector)
+			 << CW_PER_PAGE);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			data->cfg1 = chip->cfg1_raw;
 			data->ecc_bch_cfg = chip->ecc_cfg_raw;
 		}
 
 	} else {
 		if (ops->mode != MTD_OPS_RAW) {
+<<<<<<< HEAD
+=======
+			data->cmd = MSM_NAND_CMD_PRG_PAGE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			data->cfg0 = chip->cfg0;
 			data->cfg1 = chip->cfg1;
 			data->ecc_bch_cfg = chip->ecc_bch_cfg;
 		} else {
+<<<<<<< HEAD
+=======
+			data->cmd = MSM_NAND_CMD_PRG_PAGE_ALL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			data->cfg0 = chip->cfg0_raw;
 			data->cfg1 = chip->cfg1_raw;
 			data->ecc_bch_cfg = chip->ecc_cfg_raw;
 		}
+<<<<<<< HEAD
 		data->cmd = MSM_NAND_CMD_PRG_PAGE;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		data->clrfstatus = MSM_NAND_RESET_FLASH_STS;
 		data->clrrstatus = MSM_NAND_RESET_READ_STS;
 	}
@@ -2021,6 +2101,10 @@ static int msm_nand_read_partial_page(struct mtd_info *mtd,
 		if (err < 0) {
 			/* Clear previously set EUCLEAN / EBADMSG */
 			is_euclean = 0;
+<<<<<<< HEAD
+=======
+			is_ebadmsg = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ret_len = ops->retlen;
 			break;
 		}
@@ -2060,6 +2144,10 @@ static int msm_nand_read(struct mtd_info *mtd, loff_t from, size_t len,
 {
 	int ret;
 	int is_euclean = 0;
+<<<<<<< HEAD
+=======
+	int is_ebadmsg = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mtd_oob_ops ops;
 	unsigned char *bounce_buf = NULL;
 
@@ -2098,9 +2186,20 @@ static int msm_nand_read(struct mtd_info *mtd, loff_t from, size_t len,
 					is_euclean = 1;
 					ret = 0;
 				}
+<<<<<<< HEAD
 				if (ret < 0) {
 					/* Clear previously set EUCLEAN */
 					is_euclean = 0;
+=======
+				if (ret == -EBADMSG) {
+					is_ebadmsg = 1;
+					ret = 0;
+				}
+				if (ret < 0) {
+					/* Clear previously set errors */
+					is_euclean = 0;
+					is_ebadmsg = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					break;
 				}
 
@@ -2140,6 +2239,14 @@ static int msm_nand_read(struct mtd_info *mtd, loff_t from, size_t len,
 out:
 	if (is_euclean == 1)
 		ret = -EUCLEAN;
+<<<<<<< HEAD
+=======
+
+	/* Snub EUCLEAN if we also have EBADMSG */
+	if (is_ebadmsg == 1)
+		ret = -EBADMSG;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -3357,6 +3464,12 @@ static int msm_nand_parse_smem_ptable(int *nr_parts)
 }
 #endif
 
+<<<<<<< HEAD
+=======
+#define BOOT_DEV_MASK 0x1E
+#define BOOT_DEV_NAND 0x4
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * This function gets called when its device named msm-nand is added to
  * device tree .dts file with all its resources such as physical addresses
@@ -3374,6 +3487,29 @@ static int msm_nand_probe(struct platform_device *pdev)
 	int i, err, nr_parts;
 	struct device *dev;
 	u32 adjustment_offset;
+<<<<<<< HEAD
+=======
+	void __iomem *boot_cfg_base;
+	u32 boot_dev;
+
+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+						"boot_cfg");
+	if (res && res->start) {
+		boot_cfg_base = devm_ioremap(&pdev->dev, res->start,
+						resource_size(res));
+		if (!boot_cfg_base) {
+			pr_err("ioremap() failed for addr 0x%x size 0x%x\n",
+				res->start, resource_size(res));
+			return -ENOMEM;
+		}
+		boot_dev = (readl_relaxed(boot_cfg_base) & BOOT_DEV_MASK) >> 1;
+		if (boot_dev != BOOT_DEV_NAND) {
+			pr_err("disabling nand as boot device (%x) is not NAND\n",
+					boot_dev);
+			return -ENODEV;
+		}
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * The partition information can also be passed from kernel command
 	 * line. Also, the MTD core layer supports adding the whole device as

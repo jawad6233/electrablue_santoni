@@ -4,6 +4,16 @@
 #include <drm/drmP.h>
 #include <drm/drm_gem.h>
 
+<<<<<<< HEAD
+=======
+/**
+ * struct drm_gem_cma_object - GEM object backed by CMA memory allocations
+ * @base: base GEM object
+ * @paddr: physical address of the backing memory
+ * @sgt: scatter/gather table for imported PRIME buffers
+ * @vaddr: kernel virtual address of the backing memory
+ */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct drm_gem_cma_object {
 	struct drm_gem_object base;
 	dma_addr_t paddr;
@@ -19,6 +29,7 @@ to_drm_gem_cma_obj(struct drm_gem_object *gem_obj)
 	return container_of(gem_obj, struct drm_gem_cma_object, base);
 }
 
+<<<<<<< HEAD
 /* free gem object. */
 void drm_gem_cma_free_object(struct drm_gem_object *gem_obj);
 
@@ -36,6 +47,32 @@ int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
 /* allocate physical memory. */
 struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
 		unsigned int size);
+=======
+/* free GEM object */
+void drm_gem_cma_free_object(struct drm_gem_object *gem_obj);
+
+/* create memory region for DRM framebuffer */
+int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
+				     struct drm_device *drm,
+				     struct drm_mode_create_dumb *args);
+
+/* create memory region for DRM framebuffer */
+int drm_gem_cma_dumb_create(struct drm_file *file_priv,
+			    struct drm_device *drm,
+			    struct drm_mode_create_dumb *args);
+
+/* map memory region for DRM framebuffer to user space */
+int drm_gem_cma_dumb_map_offset(struct drm_file *file_priv,
+				struct drm_device *drm, u32 handle,
+				u64 *offset);
+
+/* set vm_flags and we can change the VM attribute to other one at here */
+int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
+
+/* allocate physical memory */
+struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+					      size_t size);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern const struct vm_operations_struct drm_gem_cma_vm_ops;
 

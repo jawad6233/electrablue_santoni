@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1330,6 +1334,13 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 		CDBG("%s:%d master %d\n", __func__, __LINE__, master);
 		if (master < MASTER_MAX && master >= 0) {
 			mutex_lock(&cci_dev->cci_master_info[master].mutex);
+<<<<<<< HEAD
+=======
+			mutex_lock(&cci_dev->cci_master_info[master].
+				mutex_q[PRIORITY_QUEUE]);
+			mutex_lock(&cci_dev->cci_master_info[master].
+				mutex_q[SYNC_QUEUE]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			flush_workqueue(cci_dev->write_wq[master]);
 			/* Re-initialize the completion */
 			reinit_completion(&cci_dev->
@@ -1354,6 +1365,13 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 			if (rc <= 0)
 				pr_err("%s:%d wait failed %d\n", __func__,
 					__LINE__, rc);
+<<<<<<< HEAD
+=======
+			mutex_unlock(&cci_dev->cci_master_info[master].
+				mutex_q[SYNC_QUEUE]);
+			mutex_unlock(&cci_dev->cci_master_info[master].
+				mutex_q[PRIORITY_QUEUE]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			mutex_unlock(&cci_dev->cci_master_info[master].mutex);
 		}
 		return 0;

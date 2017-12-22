@@ -17,11 +17,19 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<< HEAD
 #include "omap_drv.h"
 #include "omap_dmm_tiler.h"
 
 #include "drm_crtc.h"
 #include "drm_crtc_helper.h"
+=======
+#include <drm/drm_crtc.h>
+#include <drm/drm_crtc_helper.h>
+
+#include "omap_dmm_tiler.h"
+#include "omap_drv.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * framebuffer funcs
@@ -86,8 +94,16 @@ struct plane {
 
 struct omap_framebuffer {
 	struct drm_framebuffer base;
+<<<<<<< HEAD
 	const struct format *format;
 	struct plane planes[4];
+=======
+	int pin_count;
+	const struct format *format;
+	struct plane planes[4];
+	/* lock for pinning (pin_count and planes.paddr) */
+	struct mutex lock;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int omap_framebuffer_create_handle(struct drm_framebuffer *fb,
@@ -121,6 +137,7 @@ static int omap_framebuffer_dirty(struct drm_framebuffer *fb,
 		struct drm_file *file_priv, unsigned flags, unsigned color,
 		struct drm_clip_rect *clips, unsigned num_clips)
 {
+<<<<<<< HEAD
 	int i;
 
 	drm_modeset_lock_all(fb->dev);
@@ -133,6 +150,8 @@ static int omap_framebuffer_dirty(struct drm_framebuffer *fb,
 
 	drm_modeset_unlock_all(fb->dev);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -180,7 +199,11 @@ void omap_framebuffer_update_scanout(struct drm_framebuffer *fb,
 		uint32_t w = win->src_w;
 		uint32_t h = win->src_h;
 
+<<<<<<< HEAD
 		switch (win->rotation & 0xf) {
+=======
+		switch (win->rotation & DRM_ROTATE_MASK) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		default:
 			dev_err(fb->dev->dev, "invalid rotation: %02x",
 					(uint32_t)win->rotation);
@@ -218,7 +241,11 @@ void omap_framebuffer_update_scanout(struct drm_framebuffer *fb,
 		info->rotation_type = OMAP_DSS_ROT_TILER;
 		info->screen_width  = omap_gem_tiled_stride(plane->bo, orient);
 	} else {
+<<<<<<< HEAD
 		switch (win->rotation & 0xf) {
+=======
+		switch (win->rotation & DRM_ROTATE_MASK) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		case 0:
 		case BIT(DRM_ROTATE_0):
 			/* OK */
@@ -261,6 +288,17 @@ int omap_framebuffer_pin(struct drm_framebuffer *fb)
 	struct omap_framebuffer *omap_fb = to_omap_framebuffer(fb);
 	int ret, i, n = drm_format_num_planes(fb->pixel_format);
 
+<<<<<<< HEAD
+=======
+	mutex_lock(&omap_fb->lock);
+
+	if (omap_fb->pin_count > 0) {
+		omap_fb->pin_count++;
+		mutex_unlock(&omap_fb->lock);
+		return 0;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < n; i++) {
 		struct plane *plane = &omap_fb->planes[i];
 		ret = omap_gem_get_paddr(plane->bo, &plane->paddr, true);
@@ -269,6 +307,13 @@ int omap_framebuffer_pin(struct drm_framebuffer *fb)
 		omap_gem_dma_sync(plane->bo, DMA_TO_DEVICE);
 	}
 
+<<<<<<< HEAD
+=======
+	omap_fb->pin_count++;
+
+	mutex_unlock(&omap_fb->lock);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 
 fail:
@@ -278,10 +323,16 @@ fail:
 		plane->paddr = 0;
 	}
 
+<<<<<<< HEAD
+=======
+	mutex_unlock(&omap_fb->lock);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
 /* unpin, no longer being scanned out: */
+<<<<<<< HEAD
 int omap_framebuffer_unpin(struct drm_framebuffer *fb)
 {
 	struct omap_framebuffer *omap_fb = to_omap_framebuffer(fb);
@@ -299,6 +350,29 @@ int omap_framebuffer_unpin(struct drm_framebuffer *fb)
 
 fail:
 	return ret;
+=======
+void omap_framebuffer_unpin(struct drm_framebuffer *fb)
+{
+	struct omap_framebuffer *omap_fb = to_omap_framebuffer(fb);
+	int i, n = drm_format_num_planes(fb->pixel_format);
+
+	mutex_lock(&omap_fb->lock);
+
+	omap_fb->pin_count--;
+
+	if (omap_fb->pin_count > 0) {
+		mutex_unlock(&omap_fb->lock);
+		return;
+	}
+
+	for (i = 0; i < n; i++) {
+		struct plane *plane = &omap_fb->planes[i];
+		omap_gem_put_paddr(plane->bo);
+		plane->paddr = 0;
+	}
+
+	mutex_unlock(&omap_fb->lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 struct drm_gem_object *omap_framebuffer_bo(struct drm_framebuffer *fb, int p)
@@ -336,6 +410,7 @@ struct drm_connector *omap_framebuffer_get_next_connector(
 	return NULL;
 }
 
+<<<<<<< HEAD
 /* flush an area of the framebuffer (in case of manual update display that
  * is not automatically flushed)
  */
@@ -364,6 +439,8 @@ void omap_framebuffer_flush(struct drm_framebuffer *fb,
 	}
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_DEBUG_FS
 void omap_framebuffer_describe(struct drm_framebuffer *fb, struct seq_file *m)
 {
@@ -407,7 +484,11 @@ struct drm_framebuffer *omap_framebuffer_create(struct drm_device *dev,
 struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
 		struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos)
 {
+<<<<<<< HEAD
 	struct omap_framebuffer *omap_fb;
+=======
+	struct omap_framebuffer *omap_fb = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_framebuffer *fb = NULL;
 	const struct format *format = NULL;
 	int ret, i, n = drm_format_num_planes(mode_cmd->pixel_format);
@@ -438,6 +519,10 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
 
 	fb = &omap_fb->base;
 	omap_fb->format = format;
+<<<<<<< HEAD
+=======
+	mutex_init(&omap_fb->lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (i = 0; i < n; i++) {
 		struct plane *plane = &omap_fb->planes[i];
@@ -450,6 +535,17 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
 			goto fail;
 		}
 
+<<<<<<< HEAD
+=======
+		if (pitch % format->planes[i].stride_bpp != 0) {
+			dev_err(dev->dev,
+				"buffer pitch (%d bytes) is not a multiple of pixel size (%d bytes)\n",
+				pitch, format->planes[i].stride_bpp);
+			ret = -EINVAL;
+			goto fail;
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		size = pitch * mode_cmd->height / format->planes[i].sub_y;
 
 		if (size > (omap_gem_mmap_size(bos[i]) - mode_cmd->offsets[i])) {
@@ -478,8 +574,12 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
 	return fb;
 
 fail:
+<<<<<<< HEAD
 	if (fb)
 		omap_framebuffer_destroy(fb);
+=======
+	kfree(omap_fb);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ERR_PTR(ret);
 }

@@ -41,9 +41,15 @@ struct mm_struct;
 extern void show_pte(struct mm_struct *mm, unsigned long addr);
 extern void __show_regs(struct pt_regs *);
 
+<<<<<<< HEAD
 void soft_restart(unsigned long);
 extern void (*arm_pm_restart)(enum reboot_mode reboot_mode, const char *cmd);
 extern char* (*arch_read_hardware_id)(void);
+=======
+extern void (*arm_pm_restart)(enum reboot_mode reboot_mode, const char *cmd);
+extern char* (*arch_read_hardware_id)(void);
+extern const char *machine_name;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define UDBG_UNDEFINED	(1 << 0)
 #define UDBG_SYSCALL	(1 << 1)

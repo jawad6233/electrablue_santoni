@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2015 Qualcomm Atheros, Inc.
+=======
+ * Copyright (c) 2012-2016 Qualcomm Atheros, Inc.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -101,7 +105,11 @@ static void wil6210_mask_irq_misc(struct wil6210_priv *wil, bool mask_halp)
 	      mask_halp ? WIL6210_IRQ_DISABLE : WIL6210_IRQ_DISABLE_NO_HALP);
 }
 
+<<<<<<< HEAD
 static void wil6210_mask_halp(struct wil6210_priv *wil)
+=======
+void wil6210_mask_halp(struct wil6210_priv *wil)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	wil_dbg_irq(wil, "%s()\n", __func__);
 
@@ -503,6 +511,16 @@ static int wil6210_debug_irq_mask(struct wil6210_priv *wil, u32 pseudo_cause)
 				offsetof(struct RGF_ICR, ICR));
 		u32 imv_misc = wil_r(wil, RGF_DMA_EP_MISC_ICR +
 				     offsetof(struct RGF_ICR, IMV));
+<<<<<<< HEAD
+=======
+
+		/* HALP interrupt can be unmasked when misc interrupts are
+		 * masked
+		 */
+		if (icr_misc & BIT_DMA_EP_MISC_ICR_HALP)
+			return 0;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wil_err(wil, "IRQ when it should be masked: pseudo 0x%08x\n"
 				"Rx   icm:icr:imv 0x%08x 0x%08x 0x%08x\n"
 				"Tx   icm:icr:imv 0x%08x 0x%08x 0x%08x\n"
@@ -592,7 +610,11 @@ void wil6210_clear_irq(struct wil6210_priv *wil)
 
 void wil6210_set_halp(struct wil6210_priv *wil)
 {
+<<<<<<< HEAD
 	wil_dbg_misc(wil, "%s()\n", __func__);
+=======
+	wil_dbg_irq(wil, "%s()\n", __func__);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wil_w(wil, RGF_DMA_EP_MISC_ICR + offsetof(struct RGF_ICR, ICS),
 	      BIT_DMA_EP_MISC_ICR_HALP);
@@ -600,7 +622,11 @@ void wil6210_set_halp(struct wil6210_priv *wil)
 
 void wil6210_clear_halp(struct wil6210_priv *wil)
 {
+<<<<<<< HEAD
 	wil_dbg_misc(wil, "%s()\n", __func__);
+=======
+	wil_dbg_irq(wil, "%s()\n", __func__);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wil_w(wil, RGF_DMA_EP_MISC_ICR + offsetof(struct RGF_ICR, ICR),
 	      BIT_DMA_EP_MISC_ICR_HALP);

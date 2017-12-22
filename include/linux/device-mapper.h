@@ -408,6 +408,16 @@ union map_info *dm_get_rq_mapinfo(struct request *rq);
 
 struct queue_limits *dm_get_queue_limits(struct mapped_device *md);
 
+<<<<<<< HEAD
+=======
+void dm_lock_md_type(struct mapped_device *md);
+void dm_unlock_md_type(struct mapped_device *md);
+void dm_set_md_type(struct mapped_device *md, unsigned type);
+unsigned dm_get_md_type(struct mapped_device *md);
+int dm_setup_md_queue(struct mapped_device *md);
+unsigned dm_table_get_type(struct dm_table *t);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Geometry functions.
  */

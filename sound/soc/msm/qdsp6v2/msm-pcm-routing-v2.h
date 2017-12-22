@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,9 +21,17 @@
 #define LPASS_BE_PRI_I2S_TX "PRIMARY_I2S_TX"
 #define LPASS_BE_SLIMBUS_0_RX "SLIMBUS_0_RX"
 #define LPASS_BE_SLIMBUS_0_TX "SLIMBUS_0_TX"
+<<<<<<< HEAD
 #define LPASS_BE_HDMI "HDMI"
 #define LPASS_BE_INT_BT_SCO_RX "INT_BT_SCO_RX"
 #define LPASS_BE_INT_BT_SCO_TX "INT_BT_SCO_TX"
+=======
+#define LPASS_BE_SLIMBUS_2_TX "SLIMBUS_2_TX"
+#define LPASS_BE_HDMI "HDMI"
+#define LPASS_BE_INT_BT_SCO_RX "INT_BT_SCO_RX"
+#define LPASS_BE_INT_BT_SCO_TX "INT_BT_SCO_TX"
+#define LPASS_BE_INT_BT_A2DP_RX "INT_BT_A2DP_RX"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define LPASS_BE_INT_FM_RX "INT_FM_RX"
 #define LPASS_BE_INT_FM_TX "INT_FM_TX"
 #define LPASS_BE_AFE_PCM_RX "RT_PROXY_DAI_001_RX"
@@ -128,6 +140,10 @@
 #define LPASS_BE_QUAT_TDM_TX_6 "QUAT_TDM_TX_6"
 #define LPASS_BE_QUAT_TDM_RX_7 "QUAT_TDM_RX_7"
 #define LPASS_BE_QUAT_TDM_TX_7 "QUAT_TDM_TX_7"
+<<<<<<< HEAD
+=======
+#define LPASS_BE_AFE_LOOPBACK_TX "AFE_LOOPBACK_TX"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* For multimedia front-ends, asm session is allocated dynamically.
  * Hence, asm session/multimedia front-end mapping has to be maintained.
@@ -152,6 +168,16 @@ enum {
 	MSM_FRONTEND_DAI_MULTIMEDIA14,
 	MSM_FRONTEND_DAI_MULTIMEDIA15,
 	MSM_FRONTEND_DAI_MULTIMEDIA16,
+<<<<<<< HEAD
+=======
+	MSM_FRONTEND_DAI_MULTIMEDIA17,
+	MSM_FRONTEND_DAI_MULTIMEDIA18,
+	MSM_FRONTEND_DAI_MULTIMEDIA19,
+	MSM_FRONTEND_DAI_MULTIMEDIA20,
+	MSM_FRONTEND_DAI_MULTIMEDIA21,
+	MSM_FRONTEND_DAI_MULTIMEDIA28,
+	MSM_FRONTEND_DAI_MULTIMEDIA29,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MSM_FRONTEND_DAI_CS_VOICE,
 	MSM_FRONTEND_DAI_VOIP,
 	MSM_FRONTEND_DAI_AFE_RX,
@@ -177,8 +203,13 @@ enum {
 	MSM_FRONTEND_DAI_MAX,
 };
 
+<<<<<<< HEAD
 #define MSM_FRONTEND_DAI_MM_SIZE (MSM_FRONTEND_DAI_MULTIMEDIA16 + 1)
 #define MSM_FRONTEND_DAI_MM_MAX_ID MSM_FRONTEND_DAI_MULTIMEDIA16
+=======
+#define MSM_FRONTEND_DAI_MM_SIZE (MSM_FRONTEND_DAI_MULTIMEDIA29 + 1)
+#define MSM_FRONTEND_DAI_MM_MAX_ID MSM_FRONTEND_DAI_MULTIMEDIA29
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 enum {
 	MSM_BACKEND_DAI_PRI_I2S_RX = 0,
@@ -294,6 +325,12 @@ enum {
 	MSM_BACKEND_DAI_QUAT_TDM_TX_6,
 	MSM_BACKEND_DAI_QUAT_TDM_RX_7,
 	MSM_BACKEND_DAI_QUAT_TDM_TX_7,
+<<<<<<< HEAD
+=======
+	MSM_BACKEND_DAI_INT_BT_A2DP_RX,
+	MSM_BACKEND_DAI_SLIMBUS_2_TX,
+	MSM_BACKEND_DAI_AFE_LOOPBACK_TX,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MSM_BACKEND_DAI_MAX,
 };
 
@@ -303,6 +340,19 @@ enum msm_pcm_routing_event {
 	MSM_PCM_RT_EVT_MAX,
 };
 
+<<<<<<< HEAD
+=======
+enum {
+	EXT_EC_REF_NONE = 0,
+	EXT_EC_REF_PRI_MI2S_TX,
+	EXT_EC_REF_SEC_MI2S_TX,
+	EXT_EC_REF_TERT_MI2S_TX,
+	EXT_EC_REF_QUAT_MI2S_TX,
+	EXT_EC_REF_QUIN_MI2S_TX,
+	EXT_EC_REF_SLIM_1_TX,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define INVALID_SESSION -1
 #define SESSION_TYPE_RX 0
 #define SESSION_TYPE_TX 1
@@ -335,7 +385,11 @@ struct msm_pcm_routing_bdai_data {
 	unsigned int  sample_rate;
 	unsigned int  channel;
 	unsigned int  format;
+<<<<<<< HEAD
 	u32 compr_passthr_mode;
+=======
+	u32 passthr_mode[MSM_FRONTEND_DAI_MAX];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	char *name;
 };
 
@@ -388,5 +442,11 @@ void msm_pcm_routing_acquire_lock(void);
 void msm_pcm_routing_release_lock(void);
 
 void msm_pcm_routing_reg_stream_app_type_cfg(int fedai_id, int app_type,
+<<<<<<< HEAD
 					int acdb_dev_id, int sample_rate);
+=======
+			int acdb_dev_id, int sample_rate, int session_type);
+int msm_pcm_routing_get_stream_app_type_cfg(int fedai_id, int session_type,
+			int *app_type, int *acdb_dev_id, int *sample_rate);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /*_MSM_PCM_H*/

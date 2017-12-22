@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2015, 2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -46,8 +50,15 @@ struct esoc_eng {
  * struct esoc_clink: Representation of external esoc device
  * @name: Name of the external esoc.
  * @link_name: name of the physical link.
+<<<<<<< HEAD
  * @parent: parent device.
  * @dev: device for userspace interface.
+=======
+ * @link_info: additional info about the physical link.
+ * @parent: parent device.
+ * @dev: device for userspace interface.
+ * @pdev: platform device to interface with SSR driver.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @id: id of the external device.
  * @owner: owner of the device.
  * @clink_ops: control operations for the control link
@@ -58,12 +69,28 @@ struct esoc_eng {
  * @subsys_desc: descriptor for subsystem restart
  * @subsys_dev: ssr device handle.
  * @np: device tree node for esoc_clink.
+<<<<<<< HEAD
+=======
+ * @auto_boot: boots independently.
+ * @primary: primary esoc controls(reset/poweroff) all secondary
+ *	 esocs, but not	otherway around.
+ * @statusline_not_a_powersource: True if status line to esoc is not a
+ *				power source.
+ * @userspace_handle_shutdown: True if user space handles shutdown requests.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct esoc_clink {
 	const char *name;
 	const char *link_name;
+<<<<<<< HEAD
 	struct device *parent;
 	struct device dev;
+=======
+	const char *link_info;
+	struct device *parent;
+	struct device dev;
+	struct platform_device *pdev;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int id;
 	struct module *owner;
 	const struct esoc_clink_ops const *clink_ops;
@@ -75,17 +102,33 @@ struct esoc_clink {
 	struct subsys_desc subsys;
 	struct subsys_device *subsys_dev;
 	struct device_node *np;
+<<<<<<< HEAD
+=======
+	bool auto_boot;
+	bool primary;
+	bool statusline_not_a_powersource;
+	bool userspace_handle_shutdown;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /**
  * struct esoc_clink_ops: Operations to control external soc
  * @cmd_exe: Execute control command
  * @get_status: Get current status, or response to previous command
+<<<<<<< HEAD
+=======
+ * @get_err_fatal: Get status of err fatal signal
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @notify_esoc: notify external soc of events
  */
 struct esoc_clink_ops {
 	int (*cmd_exe)(enum esoc_cmd cmd, struct esoc_clink *dev);
+<<<<<<< HEAD
 	int (*get_status)(u32 *status, struct esoc_clink *dev);
+=======
+	void (*get_status)(u32 *status, struct esoc_clink *dev);
+	void (*get_err_fatal)(u32 *status, struct esoc_clink *dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void (*notify)(enum esoc_notify notify, struct esoc_clink *dev);
 };
 

@@ -116,6 +116,10 @@ static inline int driver_match_device(struct device_driver *drv,
 {
 	return drv->bus->match ? drv->bus->match(dev, drv) : 1;
 }
+<<<<<<< HEAD
+=======
+extern bool driver_allows_async_probing(struct device_driver *drv);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern int driver_add_groups(struct device_driver *drv,
 			     const struct attribute_group **groups);

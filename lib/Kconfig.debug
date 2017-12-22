@@ -661,6 +661,30 @@ source "lib/Kconfig.kasan"
 
 endmenu # "Memory Debugging"
 
+<<<<<<< HEAD
+=======
+config ARCH_HAS_KCOV
+	bool
+	help
+	  KCOV does not have any arch-specific code, but currently it is enabled
+	  only for x86_64. KCOV requires testing on other archs, and most likely
+	  disabling of instrumentation for some early boot code.
+
+config KCOV
+	bool "Code coverage for fuzzing"
+	depends on ARCH_HAS_KCOV
+	select DEBUG_FS
+	help
+	  KCOV exposes kernel code coverage information in a form suitable
+	  for coverage-guided fuzzing (randomized testing).
+
+	  If RANDOMIZE_BASE is enabled, PC values will not be stable across
+	  different machines and across reboots. If you need stable PC values,
+	  disable RANDOMIZE_BASE.
+
+	  For more details, see Documentation/kcov.txt.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config DEBUG_SHIRQ
 	bool "Debug shared IRQ handlers"
 	depends on DEBUG_KERNEL
@@ -911,6 +935,23 @@ config SCHED_STACK_END_CHECK
 	  data corruption or a sporadic crash at a later stage once the region
 	  is examined. The runtime overhead introduced is minimal.
 
+<<<<<<< HEAD
+=======
+config TIMER_STATS
+	bool "Collect kernel timers statistics"
+	depends on DEBUG_KERNEL && PROC_FS
+	help
+	  If you say Y here, additional code will be inserted into the
+	  timer routines to collect statistics about kernel timers being
+	  reprogrammed. The statistics can be read from /proc/timer_stats.
+	  The statistics collection is started by writing 1 to /proc/timer_stats,
+	  writing 0 stops it. This feature is useful to collect information
+	  about timer usage patterns in kernel and userspace. This feature
+	  is lightweight if enabled in the kernel config but not activated
+	  (it defaults to deactivated on bootup and will only be activated
+	  if some application like powertop activates it explicitly).
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config DEBUG_MODULE_SCAN_OFF
 	bool "Disable module memory scan for leaks by default"
 	depends on DEBUG_KMEMLEAK

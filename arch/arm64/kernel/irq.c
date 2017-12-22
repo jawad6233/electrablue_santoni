@@ -33,9 +33,13 @@ unsigned long irq_err_count;
 
 int arch_show_interrupts(struct seq_file *p, int prec)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	show_ipi_list(p, prec);
 #endif
+=======
+	show_ipi_list(p, prec);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	seq_printf(p, "%*s: %10lu\n", prec, "Err", irq_err_count);
 	return 0;
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -789,6 +793,15 @@ static bool get_rx_fifo(struct edge_info *einfo)
 							einfo->remote_proc_id,
 							SMEM_ITEM_CACHED_FLAG);
 		if (!einfo->rx_fifo)
+<<<<<<< HEAD
+=======
+			einfo->rx_fifo = (void __iomem *)smem_get_entry(
+						SMEM_GLINK_NATIVE_XPRT_FIFO_1,
+							&einfo->rx_fifo_size,
+							einfo->remote_proc_id,
+							0);
+		if (!einfo->rx_fifo)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return false;
 	}
 
@@ -2156,7 +2169,10 @@ static int parse_qos_dt_params(struct device_node *node,
 	for (i = 0; i < num_states; i++)
 		einfo->ramp_time_us[i] = arr32[i];
 
+<<<<<<< HEAD
 	kfree(arr32);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rc = 0;
 	return rc;
 
@@ -2314,7 +2330,11 @@ static int glink_smem_native_probe(struct platform_device *pdev)
 	einfo->tx_fifo = smem_alloc(SMEM_GLINK_NATIVE_XPRT_FIFO_0,
 							einfo->tx_fifo_size,
 							einfo->remote_proc_id,
+<<<<<<< HEAD
 							SMEM_ITEM_CACHED_FLAG);
+=======
+							0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!einfo->tx_fifo) {
 		pr_err("%s: smem alloc of tx fifo failed\n", __func__);
 		rc = -ENOMEM;

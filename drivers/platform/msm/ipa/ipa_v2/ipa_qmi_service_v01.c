@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1436,6 +1440,69 @@ struct elem_info ipa_fltr_installed_notif_req_msg_data_v01_ei[] = {
 			start_ipv6_filter_idx),
 	},
 	{
+<<<<<<< HEAD
+=======
+		.data_type	= QMI_OPT_FLAG,
+		.elem_len	= 1,
+		.elem_size	= sizeof(uint8_t),
+		.is_array	= NO_ARRAY,
+		.tlv_type	= 0x17,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			rule_id_valid),
+	},
+	{
+		.data_type	= QMI_DATA_LEN,
+		.elem_len	= 1,
+		.elem_size	= sizeof(uint8_t),
+		.is_array	= NO_ARRAY,
+		.tlv_type	= 0x17,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			rule_id_len),
+	},
+	{
+		.data_type	= QMI_UNSIGNED_4_BYTE,
+		.elem_len	= QMI_IPA_MAX_FILTERS_V01,
+		.elem_size	= sizeof(uint32_t),
+		.is_array	= VAR_LEN_ARRAY,
+		.tlv_type	= 0x17,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			rule_id),
+	},
+	{
+		.data_type	= QMI_OPT_FLAG,
+		.elem_len	= 1,
+		.elem_size	= sizeof(uint8_t),
+		.is_array	= NO_ARRAY,
+		.tlv_type	= 0x18,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			dst_pipe_id_valid),
+	},
+	{
+		.data_type	= QMI_DATA_LEN,
+		.elem_len	= 1,
+		.elem_size	= sizeof(uint8_t),
+		.is_array	= NO_ARRAY,
+		.tlv_type	= 0x18,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			dst_pipe_id_len),
+	},
+	{
+		.data_type	= QMI_UNSIGNED_4_BYTE,
+		.elem_len	= QMI_IPA_MAX_CLIENT_DST_PIPES_V01,
+		.elem_size	= sizeof(uint32_t),
+		.is_array	= VAR_LEN_ARRAY,
+		.tlv_type	= 0x18,
+		.offset		= offsetof(
+			struct ipa_fltr_installed_notif_req_msg_v01,
+			dst_pipe_id),
+	},
+	{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.data_type	= QMI_EOTI,
 		.is_array	= NO_ARRAY,
 		.tlv_type	= QMI_COMMON_TLV_TYPE,

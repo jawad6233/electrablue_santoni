@@ -2,12 +2,20 @@
     "getattr", "setattr", "lock", "relabelfrom", "relabelto", "append"
 
 #define COMMON_FILE_PERMS COMMON_FILE_SOCK_PERMS, "unlink", "link", \
+<<<<<<< HEAD
     "rename", "execute", "swapon", "quotaon", "mounton", "audit_access", \
+=======
+    "rename", "execute", "quotaon", "mounton", "audit_access", \
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     "open", "execmod"
 
 #define COMMON_SOCK_PERMS COMMON_FILE_SOCK_PERMS, "bind", "connect", \
     "listen", "accept", "getopt", "setopt", "shutdown", "recvfrom",  \
+<<<<<<< HEAD
     "sendto", "recv_msg", "send_msg", "name_bind"
+=======
+    "sendto", "name_bind"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define COMMON_IPC_PERMS "create", "destroy", "getattr", "setattr", "read", \
 	    "write", "associate", "unix_read", "unix_write"
@@ -44,7 +52,11 @@ struct security_class_mapping secclass_map[] = {
 	    "audit_control", "setfcap", NULL } },
 	{ "filesystem",
 	  { "mount", "remount", "unmount", "getattr",
+<<<<<<< HEAD
 	    "relabelfrom", "relabelto", "transition", "associate", "quotamod",
+=======
+	    "relabelfrom", "relabelto", "associate", "quotamod",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	    "quotaget", NULL } },
 	{ "file",
 	  { COMMON_FILE_PERMS,
@@ -67,7 +79,11 @@ struct security_class_mapping secclass_map[] = {
 	  { COMMON_SOCK_PERMS, NULL } },
 	{ "tcp_socket",
 	  { COMMON_SOCK_PERMS,
+<<<<<<< HEAD
 	    "connectto", "newconn", "acceptfrom", "node_bind", "name_connect",
+=======
+	    "node_bind", "name_connect",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	    NULL } },
 	{ "udp_socket",
 	  { COMMON_SOCK_PERMS,
@@ -76,6 +92,7 @@ struct security_class_mapping secclass_map[] = {
 	  { COMMON_SOCK_PERMS,
 	    "node_bind", NULL } },
 	{ "node",
+<<<<<<< HEAD
 	  { "tcp_recv", "tcp_send", "udp_recv", "udp_send",
 	    "rawip_recv", "rawip_send", "enforce_dest",
 	    "dccp_recv", "dccp_send", "recvfrom", "sendto", NULL } },
@@ -83,6 +100,11 @@ struct security_class_mapping secclass_map[] = {
 	  {  "tcp_recv", "tcp_send", "udp_recv", "udp_send",
 	     "rawip_recv", "rawip_send", "dccp_recv", "dccp_send",
 	     "ingress", "egress", NULL } },
+=======
+	  { "recvfrom", "sendto", NULL } },
+	{ "netif",
+	  { "ingress", "egress", NULL } },
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "netlink_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
 	{ "packet_socket",
@@ -90,11 +112,17 @@ struct security_class_mapping secclass_map[] = {
 	{ "key_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
 	{ "unix_stream_socket",
+<<<<<<< HEAD
 	  { COMMON_SOCK_PERMS, "connectto", "newconn", "acceptfrom", NULL
 	  } },
 	{ "unix_dgram_socket",
 	  { COMMON_SOCK_PERMS, NULL
 	  } },
+=======
+	  { COMMON_SOCK_PERMS, "connectto", NULL } },
+	{ "unix_dgram_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "sem",
 	  { COMMON_IPC_PERMS, NULL } },
 	{ "msg", { "send", "receive", NULL } },
@@ -107,9 +135,12 @@ struct security_class_mapping secclass_map[] = {
 	{ "netlink_route_socket",
 	  { COMMON_SOCK_PERMS,
 	    "nlmsg_read", "nlmsg_write", NULL } },
+<<<<<<< HEAD
 	{ "netlink_firewall_socket",
 	  { COMMON_SOCK_PERMS,
 	    "nlmsg_read", "nlmsg_write", NULL } },
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "netlink_tcpdiag_socket",
 	  { COMMON_SOCK_PERMS,
 	    "nlmsg_read", "nlmsg_write", NULL } },
@@ -120,19 +151,44 @@ struct security_class_mapping secclass_map[] = {
 	    "nlmsg_read", "nlmsg_write", NULL } },
 	{ "netlink_selinux_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
+<<<<<<< HEAD
+=======
+	{ "netlink_iscsi_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "netlink_audit_socket",
 	  { COMMON_SOCK_PERMS,
 	    "nlmsg_read", "nlmsg_write", "nlmsg_relay", "nlmsg_readpriv",
 	    "nlmsg_tty_audit", NULL } },
+<<<<<<< HEAD
 	{ "netlink_ip6fw_socket",
 	  { COMMON_SOCK_PERMS,
 	    "nlmsg_read", "nlmsg_write", NULL } },
+=======
+	{ "netlink_fib_lookup_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+	{ "netlink_connector_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+	{ "netlink_netfilter_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "netlink_dnrt_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
 	{ "association",
 	  { "sendto", "recvfrom", "setcontext", "polmatch", NULL } },
 	{ "netlink_kobject_uevent_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
+<<<<<<< HEAD
+=======
+	{ "netlink_generic_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+	{ "netlink_scsitransport_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+	{ "netlink_rdma_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+	{ "netlink_crypto_socket",
+	  { COMMON_SOCK_PERMS, NULL } },
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ "appletalk_socket",
 	  { COMMON_SOCK_PERMS, NULL } },
 	{ "packet",

@@ -31,6 +31,10 @@
 #define __GENALLOC_H__
 
 #include <linux/spinlock_types.h>
+<<<<<<< HEAD
+=======
+#include <linux/atomic.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct device;
 struct device_node;
@@ -66,7 +70,11 @@ struct gen_pool {
  */
 struct gen_pool_chunk {
 	struct list_head next_chunk;	/* next chunk in pool */
+<<<<<<< HEAD
 	atomic_t avail;
+=======
+	atomic_long_t avail;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	phys_addr_t phys_addr;		/* physical starting address of memory chunk */
 	unsigned long start_addr;	/* start address of memory chunk */
 	unsigned long end_addr;		/* end address of memory chunk (inclusive) */

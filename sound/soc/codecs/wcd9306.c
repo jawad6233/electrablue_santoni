@@ -2240,17 +2240,57 @@ static int tapan_codec_enable_dmic(struct snd_soc_dapm_widget *w,
 	case SND_SOC_DAPM_PRE_PMU:
 
 		(*dmic_clk_cnt)++;
+<<<<<<< HEAD
 		if (*dmic_clk_cnt == 1)
 			snd_soc_update_bits(codec, dmic_clk_reg,
 					dmic_clk_en, dmic_clk_en);
 
+=======
+		if (*dmic_clk_cnt == 1) {
+			snd_soc_update_bits(codec, dmic_clk_reg,
+					dmic_clk_en, dmic_clk_en);
+			if (dmic_clk_en & 0x01) {
+				snd_soc_update_bits(codec,
+					TAPAN_A_CDC_DMIC_CLK0_MODE, 0x7, 0x0);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_OE0, 0x1, 0x0);
+			} else if (dmic_clk_en & 0x10) {
+				snd_soc_update_bits(codec,
+					TAPAN_A_CDC_DMIC_CLK1_MODE, 0x7, 0x0);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_OE0, 0x4, 0x0);
+			}
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	case SND_SOC_DAPM_POST_PMD:
 
 		(*dmic_clk_cnt)--;
+<<<<<<< HEAD
 		if (*dmic_clk_cnt  == 0)
 			snd_soc_update_bits(codec, dmic_clk_reg,
 					dmic_clk_en, 0);
+=======
+		if (*dmic_clk_cnt  == 0) {
+			snd_soc_update_bits(codec, dmic_clk_reg,
+					dmic_clk_en, 0);
+			if (dmic_clk_en & 0x01) {
+				snd_soc_update_bits(codec,
+					TAPAN_A_CDC_DMIC_CLK0_MODE, 0x7, 0x4);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_OE0, 0x1, 0x1);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_DATA0, 0x1, 0x0);
+			} else if (dmic_clk_en & 0x10) {
+				snd_soc_update_bits(codec,
+					TAPAN_A_CDC_DMIC_CLK1_MODE, 0x7, 0x4);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_OE0, 0x4, 0x1);
+				snd_soc_update_bits(codec,
+					TAPAN_A_PIN_CTL_DATA0, 0x4, 0x0);
+			}
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	}
 	return 0;
@@ -5562,6 +5602,14 @@ static const struct tapan_reg_mask_val tapan_codec_reg_init_val[] = {
 	{TAPAN_A_RX_HPH_CNP_WG_TIME, 0xFF, 0x58},
 	{TAPAN_A_RX_HPH_BIAS_WG_OCP, 0xFF, 0x1A},
 	{TAPAN_A_RX_HPH_CHOP_CTL, 0xFF, 0x24},
+<<<<<<< HEAD
+=======
+
+	/* Set DMIC clock lines low */
+	{TAPAN_A_CDC_DMIC_CLK0_MODE, 0x7, 0x4},
+	{TAPAN_A_CDC_DMIC_CLK1_MODE, 0x7, 0x4},
+	{TAPAN_A_PIN_CTL_OE0, 0xA, 0xA},
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 void *tapan_get_afe_config(struct snd_soc_codec *codec,

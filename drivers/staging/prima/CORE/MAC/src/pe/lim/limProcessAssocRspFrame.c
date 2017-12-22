@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -56,6 +60,13 @@
 #include "eseApi.h"
 #endif
 
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+#include "lim_mbb.h"
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern tSirRetStatus schBeaconEdcaProcess(tpAniSirGlobal pMac, tSirMacEdcaParamSetIE *edca, tpPESession psessionEntry);
 
 
@@ -528,6 +539,7 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
         psessionEntry->assocRsp = NULL;
     }
 
+<<<<<<< HEAD
     psessionEntry->assocRsp = vos_mem_malloc(frameLen);
     if (NULL == psessionEntry->assocRsp)
     {
@@ -538,6 +550,20 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
         //Store the Assoc response. This is sent to csr/hdd in join cnf response. 
         vos_mem_copy(psessionEntry->assocRsp, pBody, frameLen);
         psessionEntry->assocRspLen = frameLen;
+=======
+    if (frameLen) {
+        psessionEntry->assocRsp = vos_mem_malloc(frameLen);
+        if (NULL == psessionEntry->assocRsp)
+        {
+            PELOGE(limLog(pMac, LOGE, FL("Unable to allocate memory to store assoc response, len = %d"), frameLen);)
+        }
+        else
+        {
+            //Store the Assoc response. This is sent to csr/hdd in join cnf response.
+            vos_mem_copy(psessionEntry->assocRsp, pBody, frameLen);
+            psessionEntry->assocRspLen = frameLen;
+        }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
 #ifdef WLAN_FEATURE_VOWIFI_11R
@@ -549,6 +575,7 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
     if(pAssocRsp->ricPresent)
     {
         psessionEntry->RICDataLen = pAssocRsp->num_RICData * sizeof(tDot11fIERICDataDesc);
+<<<<<<< HEAD
         psessionEntry->ricData = vos_mem_malloc(psessionEntry->RICDataLen);
         if ( NULL == psessionEntry->ricData )
         {
@@ -559,6 +586,21 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
         {
             vos_mem_copy(psessionEntry->ricData,
                          &pAssocRsp->RICData[0], psessionEntry->RICDataLen);
+=======
+        if (psessionEntry->RICDataLen)
+        {
+            psessionEntry->ricData = vos_mem_malloc(psessionEntry->RICDataLen);
+            if ( NULL == psessionEntry->ricData )
+            {
+                PELOGE(limLog(pMac, LOGE, FL("Unable to allocate memory to store assoc response"));)
+                psessionEntry->RICDataLen = 0;
+            }
+            else
+            {
+                vos_mem_copy(psessionEntry->ricData,
+                             &pAssocRsp->RICData[0], psessionEntry->RICDataLen);
+            }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         }
     }
     else
@@ -636,6 +678,14 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
         limDeactivateAndChangeTimer(pMac, eLIM_ASSOC_FAIL_TIMER);
     else        // Stop Reassociation failure timer
     {
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+    if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb)
+        limDeactivateAndChangeTimer(pMac, eLIM_REASSOC_MBB_RSP_TIMER);
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
         pMac->lim.reAssocRetryAttempt = 0;
         if ((NULL != pMac->lim.pSessionEntry) && (NULL != pMac->lim.pSessionEntry->pLimMlmReassocRetryReq))
@@ -644,7 +694,14 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
             pMac->lim.pSessionEntry->pLimMlmReassocRetryReq = NULL;
         }
 #endif
+<<<<<<< HEAD
         limDeactivateAndChangeTimer(pMac, eLIM_REASSOC_FAIL_TIMER);
+=======
+
+        /* Dactivate timer when it is not LFR MBB */
+        if (!pMac->ft.ftSmeContext.is_preauth_lfr_mbb)
+            limDeactivateAndChangeTimer(pMac, eLIM_REASSOC_FAIL_TIMER);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     if (pAssocRsp->statusCode != eSIR_MAC_SUCCESS_STATUS)
@@ -668,6 +725,12 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
         }else
             mlmAssocCnf.resultCode = eSIR_SME_ASSOC_REFUSED;
 
+<<<<<<< HEAD
+=======
+        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb)
+            goto assocReject;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         // Delete Pre-auth context for the associated BSS
         if (limSearchPreAuthList(pMac, pHdr->sa))
             limDeletePreAuthNode(pMac, pHdr->sa);
@@ -696,18 +759,34 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
      * assoc/reassoc response
      * NOTE: for BTAMP case, it is being handled in limProcessMlmAssocReq
      */
+<<<<<<< HEAD
     if (!((psessionEntry->bssType == eSIR_BTAMP_STA_MODE) ||
           ((psessionEntry->bssType == eSIR_BTAMP_AP_MODE) &&
           (psessionEntry->limSystemRole == eLIM_BT_AMP_STA_ROLE))))
     {
             if (limSetLinkState(pMac, eSIR_LINK_POSTASSOC_STATE, psessionEntry->bssId,
                                 psessionEntry->selfMacAddr, NULL, NULL) != eSIR_SUCCESS)
+=======
+    if (!pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
+       if (!((psessionEntry->bssType == eSIR_BTAMP_STA_MODE) ||
+              ((psessionEntry->bssType == eSIR_BTAMP_AP_MODE) &&
+              (psessionEntry->limSystemRole == eLIM_BT_AMP_STA_ROLE))))
+        {
+            if (limSetLinkState(pMac, eSIR_LINK_POSTASSOC_STATE,
+                                psessionEntry->bssId,
+                                psessionEntry->selfMacAddr,
+                                NULL, NULL) != eSIR_SUCCESS)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             {
                 PELOGE(limLog(pMac, LOGE, FL("Set link state to POSTASSOC failed"));)
                 vos_mem_free(pBeaconStruct);
                 vos_mem_free(pAssocRsp);
                 return;
             }
+<<<<<<< HEAD
+=======
+        }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
     if (subType == LIM_REASSOC)
     {
@@ -776,6 +855,24 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
             goto assocReject;
         }
 
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
+            limLog(pMac, LOG1, FL("Reassoc success for LFR MBB in state %d"),
+                   psessionEntry->limMlmState);
+            if (psessionEntry->limMlmState ==
+                             eLIM_MLM_WT_REASSOC_RSP_STATE) {
+                lim_handle_reassoc_mbb_success(pMac, psessionEntry,
+                                               pAssocRsp, pStaDs);
+                return;
+            }
+            goto assocReject;
+        }
+#endif
+
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #if defined(WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
         if (psessionEntry->limMlmState == eLIM_MLM_WT_FT_REASSOC_RSP_STATE)
         {
@@ -882,6 +979,21 @@ limProcessAssocRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U8 sub
       GET_IE_LEN_IN_BSS(psessionEntry->pLimJoinReq->bssDescription.length),
       pBeaconStruct);
 
+<<<<<<< HEAD
+=======
+    if (pBeaconStruct->VHTCaps.present)
+        pStaDs->parsed_ies.vht_caps = pBeaconStruct->VHTCaps;
+    if (pBeaconStruct->HTCaps.present)
+        pStaDs->parsed_ies.ht_caps = pBeaconStruct->HTCaps;
+    if (pBeaconStruct->hs20vendor_ie.present)
+        pStaDs->parsed_ies.hs20vendor_ie =
+            pBeaconStruct->hs20vendor_ie;
+    if (pBeaconStruct->HTInfo.present)
+        pStaDs->parsed_ies.ht_operation = pBeaconStruct->HTInfo;
+    if (pBeaconStruct->VHTOperation.present)
+        pStaDs->parsed_ies.vht_operation = pBeaconStruct->VHTOperation;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if(pMac->lim.gLimProtectionControl != WNI_CFG_FORCE_POLICY_PROTECTION_DISABLE)
         limDecideStaProtectionOnAssoc(pMac, pBeaconStruct, psessionEntry);
     
@@ -962,6 +1074,17 @@ assocReject:
         }
 #endif /* WLAN_FEATURE_VOWIFI_11R */
     } else {
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
+            lim_handle_reassoc_mbb_fail(pMac, psessionEntry);
+            vos_mem_free(pBeaconStruct);
+            vos_mem_free(pAssocRsp);
+            return;
+        }
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         limRestorePreReassocState( pMac, 
                   eSIR_SME_REASSOC_REFUSED, mlmAssocCnf.protStatusCode,psessionEntry); 
     }

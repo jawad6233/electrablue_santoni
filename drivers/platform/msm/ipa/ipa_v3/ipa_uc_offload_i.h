@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -26,6 +30,12 @@
 #define IPA_NTN_TX_DIR 1
 #define IPA_NTN_RX_DIR 2
 
+<<<<<<< HEAD
+=======
+#define IPA_WDI3_TX_DIR 1
+#define IPA_WDI3_RX_DIR 2
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  *  @brief   Enum value determined based on the feature it
  *           corresponds to
@@ -47,9 +57,15 @@
  * @IPA_HW_FEATURE_MHI : Feature related to MHI operation in IPA HW
  * @IPA_HW_FEATURE_POWER_COLLAPSE: Feature related to IPA Power collapse
  * @IPA_HW_FEATURE_WDI : Feature related to WDI operation in IPA HW
+<<<<<<< HEAD
  * @IPA_HW_FEATURE_ZIP: Feature related to CMP/DCMP operation in IPA HW
  * @IPA_HW_FEATURE_NTN : Feature related to NTN operation in IPA HW
  * @IPA_HW_FEATURE_OFFLOAD : Feature related to NTN operation in IPA HW
+=======
+ * @IPA_HW_FEATURE_NTN : Feature related to NTN operation in IPA HW
+ * @IPA_HW_FEATURE_OFFLOAD : Feature related to NTN operation in IPA HW
+ * @IPA_HW_FEATURE_WDI3 : Feature related to WDI operation in IPA HW
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 */
 enum ipa3_hw_features {
 	IPA_HW_FEATURE_COMMON		=	0x0,
@@ -58,7 +74,12 @@ enum ipa3_hw_features {
 	IPA_HW_FEATURE_WDI		=	0x3,
 	IPA_HW_FEATURE_ZIP		=	0x4,
 	IPA_HW_FEATURE_NTN		=	0x5,
+<<<<<<< HEAD
 	IPA_HW_FEATURE_OFFLOAD	=	0x6,
+=======
+	IPA_HW_FEATURE_OFFLOAD		=	0x6,
+	IPA_HW_FEATURE_WDI3		=	0x7,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	IPA_HW_FEATURE_MAX		=	IPA_HW_NUM_FEATURES
 };
 
@@ -340,6 +361,36 @@ struct Ipa3HwNtnSetUpCmdData_t {
 
 } __packed;
 
+<<<<<<< HEAD
+=======
+struct IpaHwWdi3SetUpCmdData_t {
+	u32  transfer_ring_base_pa;
+	u32  transfer_ring_base_pa_hi;
+
+	u32  transfer_ring_size;
+
+	u32  transfer_ring_doorbell_pa;
+	u32  transfer_ring_doorbell_pa_hi;
+
+	u32  event_ring_base_pa;
+	u32  event_ring_base_pa_hi;
+
+	u32  event_ring_size;
+
+	u32  event_ring_doorbell_pa;
+	u32  event_ring_doorbell_pa_hi;
+
+	u16  num_pkt_buffers;
+	u8   ipa_pipe_number;
+	u8   dir;
+
+	u16  pkt_offset;
+	u16  reserved0;
+
+	u32  desc_format_template[IPA_HW_WDI3_MAX_ER_DESC_SIZE];
+} __packed;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * struct Ipa3HwNtnCommonChCmdData_t - Structure holding the
  * parameters for Ntn Tear down command data params
@@ -354,6 +405,16 @@ union Ipa3HwNtnCommonChCmdData_t {
 	uint32_t raw32b;
 } __packed;
 
+<<<<<<< HEAD
+=======
+union IpaHwWdi3CommonChCmdData_t {
+	struct IpaHwWdi3CommonChCmdParams_t {
+		u32  ipa_pipe_number :8;
+		u32  reserved        :24;
+	} __packed params;
+	u32 raw32b;
+} __packed;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * struct Ipa3HwNTNErrorEventData_t - Structure holding the
@@ -380,6 +441,7 @@ union Ipa3HwNTNErrorEventData_t {
  * struct NTN3RxInfoData_t - NTN Structure holding the Rx pipe
  * information
  *
+<<<<<<< HEAD
  *@max_outstanding_pkts: Number of outstanding packets in Rx
  *		Ring
  *@num_pkts_processed: Number of packets processed - cumulative
@@ -410,11 +472,32 @@ struct NTN3RxInfoData_t {
 	u32  num_pkts_in_dis_uninit_state;
 	u32  num_bam_int_handled_while_not_in_bam;
 	u32  num_bam_int_handled_while_in_bam_state;
+=======
+ *@num_pkts_processed: Number of packets processed - cumulative
+ *
+ *@ring_stats:
+ *@gsi_stats:
+ *@num_db: Number of times the doorbell was rung
+ *@num_qmb_int_handled: Number of QMB interrupts handled
+ *@ipa_pipe_number: The IPA Rx/Tx pipe number.
+ */
+struct NTN3RxInfoData_t {
+	u32  num_pkts_processed;
+	struct IpaHwRingStats_t ring_stats;
+	struct IpaHwBamStats_t gsi_stats;
+	u32 num_db;
+	u32 num_qmb_int_handled;
+	u32 ipa_pipe_number;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __packed;
 
 
 /**
+<<<<<<< HEAD
  * struct NTNTxInfoData_t - Structure holding the NTN Tx channel
+=======
+ * struct NTN3TxInfoData_t - Structure holding the NTN Tx channel
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Ensure that this is always word aligned
  *
  *@num_pkts_processed: Number of packets processed - cumulative
@@ -424,6 +507,7 @@ struct NTN3RxInfoData_t {
  *@tx_comp_ring_stats:
  *@bam_stats:
  *@num_db: Number of times the doorbell was rung
+<<<<<<< HEAD
  *@num_unexpected_db: Number of unexpected doorbells
  *@num_bam_int_handled: Number of Bam Interrupts handled by FW
  *@num_bam_int_in_non_running_state: Number of Bam interrupts
@@ -445,6 +529,17 @@ struct NTNTxInfoData_t {
 	u32  num_qmb_int_handled;
 	u32  num_bam_int_handled_while_wait_for_bam;
 	u32  num_bam_int_handled_while_not_in_bam;
+=======
+ *@num_qmb_int_handled: Number of QMB interrupts handled
+ */
+struct NTN3TxInfoData_t {
+	u32  num_pkts_processed;
+	struct IpaHwRingStats_t ring_stats;
+	struct IpaHwBamStats_t gsi_stats;
+	u32 num_db;
+	u32 num_qmb_int_handled;
+	u32 ipa_pipe_number;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __packed;
 
 
@@ -455,7 +550,11 @@ struct NTNTxInfoData_t {
  */
 struct Ipa3HwStatsNTNInfoData_t {
 	struct NTN3RxInfoData_t rx_ch_stats[IPA_UC_MAX_NTN_RX_CHANNELS];
+<<<<<<< HEAD
 	struct NTNTxInfoData_t tx_ch_stats[IPA_UC_MAX_NTN_TX_CHANNELS];
+=======
+	struct NTN3TxInfoData_t tx_ch_stats[IPA_UC_MAX_NTN_TX_CHANNELS];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __packed;
 
 
@@ -471,13 +570,38 @@ struct Ipa3HwStatsNTNInfoData_t {
  * the offload commands from CPU
  * @IPA_CPU_2_HW_CMD_OFFLOAD_CHANNEL_SET_UP : Command to set up
  *				Offload protocol's Tx/Rx Path
+<<<<<<< HEAD
  * @IPA_CPU_2_HW_CMD_OFFLOAD_RX_SET_UP : Command to tear down
+=======
+ * @IPA_CPU_2_HW_CMD_OFFLOAD_TEAR_DOWN : Command to tear down
+ *				Offload protocol's Tx/ Rx Path
+ * @IPA_CPU_2_HW_CMD_OFFLOAD_ENABLE : Command to enable
+ *				Offload protocol's Tx/Rx Path
+ * @IPA_CPU_2_HW_CMD_OFFLOAD_DISABLE : Command to disable
+ *				Offload protocol's Tx/ Rx Path
+ * @IPA_CPU_2_HW_CMD_OFFLOAD_SUSPEND : Command to suspend
+ *				Offload protocol's Tx/Rx Path
+ * @IPA_CPU_2_HW_CMD_OFFLOAD_RESUME : Command to resume
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *				Offload protocol's Tx/ Rx Path
  */
 enum ipa_cpu_2_hw_offload_commands {
 	IPA_CPU_2_HW_CMD_OFFLOAD_CHANNEL_SET_UP  =
 		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 1),
+<<<<<<< HEAD
 	IPA_CPU_2_HW_CMD_OFFLOAD_TEAR_DOWN,
+=======
+	IPA_CPU_2_HW_CMD_OFFLOAD_TEAR_DOWN =
+		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 2),
+	IPA_CPU_2_HW_CMD_OFFLOAD_ENABLE  =
+		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 3),
+	IPA_CPU_2_HW_CMD_OFFLOAD_DISABLE =
+		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 4),
+	IPA_CPU_2_HW_CMD_OFFLOAD_SUSPEND  =
+		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 5),
+	IPA_CPU_2_HW_CMD_OFFLOAD_RESUME =
+		FEATURE_ENUM_VAL(IPA_HW_FEATURE_OFFLOAD, 6),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 
@@ -544,6 +668,10 @@ enum ipa3_hw_2_cpu_offload_cmd_resp_status {
  */
 union IpaHwSetUpCmd {
 	struct Ipa3HwNtnSetUpCmdData_t NtnSetupCh_params;
+<<<<<<< HEAD
+=======
+	struct IpaHwWdi3SetUpCmdData_t Wdi3SetupCh_params;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __packed;
 
 /**
@@ -564,6 +692,10 @@ struct IpaHwOffloadSetUpCmdData_t {
  */
 union IpaHwCommonChCmd {
 	union Ipa3HwNtnCommonChCmdData_t NtnCommonCh_params;
+<<<<<<< HEAD
+=======
+	union IpaHwWdi3CommonChCmdData_t Wdi3CommonCh_params;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __packed;
 
 struct IpaHwOffloadCommonChCmdData_t {

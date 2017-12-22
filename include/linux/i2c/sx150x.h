@@ -72,6 +72,12 @@ struct sx150x_platform_data {
 	int      irq_summary;
 	unsigned irq_base;
 	bool     reset_during_probe;
+<<<<<<< HEAD
+=======
+	struct regulator	*vdd_in;
+	int     vdd_in_minv;
+	int     vdd_in_maxv;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #endif /* __LINUX_I2C_SX150X_H */

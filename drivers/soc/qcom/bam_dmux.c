@@ -1933,8 +1933,12 @@ static void ul_wakeup(void)
 		}
 		if (wait_for_dfab) {
 			ret = wait_for_completion_timeout(
+<<<<<<< HEAD
 					&dfab_unvote_completion,
 					msecs_to_jiffies(1000));
+=======
+					&dfab_unvote_completion, HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			BUG_ON(ret == 0);
 		}
 		if (likely(do_vote_dfab))

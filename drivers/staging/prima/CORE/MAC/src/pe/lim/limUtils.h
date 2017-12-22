@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -203,6 +207,21 @@ void limStopTxAndSwitchChannel(tpAniSirGlobal pMac, tANI_U8 sessionId);
 void limProcessChannelSwitchTimeout(tpAniSirGlobal);
 tSirRetStatus limStartChannelSwitch(tpAniSirGlobal pMac, tpPESession psessionEntry);
 void limUpdateChannelSwitch(tpAniSirGlobal, tpSirProbeRespBeacon, tpPESession psessionEntry);
+<<<<<<< HEAD
+=======
+/**
+ * lim_handle_ecsa_req()- Process ECSA channel switch request
+ * @mac_ctx: pointer to global mac structure
+ * @ecsa_req: ecsa req
+ * @session: Session entry
+ *
+ * Return: void
+ */
+void lim_handle_ecsa_req(tpAniSirGlobal mac_ctx,
+                         struct ecsa_frame_params *ecsa_req,
+                         tpPESession session);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void limProcessQuietTimeout(tpAniSirGlobal);
 void limProcessQuietBssTimeout(tpAniSirGlobal);
 void limInitOBSSScanParams(tpAniSirGlobal pMac,
@@ -560,6 +579,13 @@ void limInitOperatingClasses(tHalHandle hHal);
 tANI_U8 limGetOPClassFromChannel(tANI_U8 *country,
                                  tANI_U8 channel,
                                  tANI_U8 offset);
+<<<<<<< HEAD
+=======
+tANI_U8 limGetOffChMaxBwOffsetFromChannel(tANI_U8 *country,
+                                          tANI_U8 channel,
+                                          tANI_U8 peerVHTCapability);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void limParseBeaconForTim(tpAniSirGlobal pMac, tANI_U8* pRxPacketInfo,
                           tpPESession psessionEntry);
 
@@ -573,9 +599,22 @@ extern tANI_U32 limGetMaxRateFlags(tpDphHashNode pStaDs,
 void limDecrementPendingMgmtCount (tpAniSirGlobal pMac);
 
 eHalStatus limTxBdComplete(tpAniSirGlobal pMac, void *pData);
+<<<<<<< HEAD
+=======
+eHalStatus limAssocRspTxCompleteCnf(tpAniSirGlobal pMac, void *pData);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 bool lim_is_robust_mgmt_action_frame(uint8 action_catagory);
 tANI_U8 lim_compute_ext_cap_ie_length (tDot11fIEExtCap *ext_cap);
 void lim_update_caps_info_for_bss(tpAniSirGlobal mac_ctx,
                              uint16_t *caps, uint16_t bss_caps);
+<<<<<<< HEAD
 
+=======
+#ifdef SAP_AUTH_OFFLOAD
+void lim_sap_offload_add_sta(tpAniSirGlobal pmac,
+        tSapOfldAddStaIndMsg *lim_msgq);
+void lim_sap_offload_del_sta(tpAniSirGlobal pmac,
+        tSapOfldDelStaIndMsg *lim_msgq);
+#endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* __LIM_UTILS_H */

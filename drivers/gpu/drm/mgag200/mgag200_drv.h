@@ -180,6 +180,10 @@ enum mga_type {
 	G200_EV,
 	G200_EH,
 	G200_ER,
+<<<<<<< HEAD
+=======
+	G200_EW3,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define IS_G200_SE(mdev) (mdev->type == G200_SE_A || mdev->type == G200_SE_B)

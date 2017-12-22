@@ -19,6 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+<<<<<<< HEAD
 
 #include <linux/clk.h>
 #include <linux/io.h>
@@ -144,10 +145,35 @@ power_down:
 	nouveau_platform_power_down(gpu);
 
 	return err;
+=======
+#include "nouveau_platform.h"
+
+static int nouveau_platform_probe(struct platform_device *pdev)
+{
+	const struct nvkm_device_tegra_func *func;
+	struct nvkm_device *device = NULL;
+	struct drm_device *drm;
+	int ret;
+
+	func = of_device_get_match_data(&pdev->dev);
+
+	drm = nouveau_platform_device_create(func, pdev, &device);
+	if (IS_ERR(drm))
+		return PTR_ERR(drm);
+
+	ret = drm_dev_register(drm, 0);
+	if (ret < 0) {
+		drm_dev_unref(drm);
+		return ret;
+	}
+
+	return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int nouveau_platform_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct drm_device *drm_dev = platform_get_drvdata(pdev);
 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
 	struct nouveau_device *device = nvkm_device(&drm->device);
@@ -161,6 +187,27 @@ static int nouveau_platform_remove(struct platform_device *pdev)
 #if IS_ENABLED(CONFIG_OF)
 static const struct of_device_id nouveau_platform_match[] = {
 	{ .compatible = "nvidia,gk20a" },
+=======
+	struct drm_device *dev = platform_get_drvdata(pdev);
+	nouveau_drm_device_remove(dev);
+	return 0;
+}
+
+#if IS_ENABLED(CONFIG_OF)
+static const struct nvkm_device_tegra_func gk20a_platform_data = {
+	.iommu_bit = 34,
+};
+
+static const struct of_device_id nouveau_platform_match[] = {
+	{
+		.compatible = "nvidia,gk20a",
+		.data = &gk20a_platform_data,
+	},
+	{
+		.compatible = "nvidia,gm20b",
+		.data = &gk20a_platform_data,
+	},
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ }
 };
 
@@ -175,9 +222,12 @@ struct platform_driver nouveau_platform_driver = {
 	.probe = nouveau_platform_probe,
 	.remove = nouveau_platform_remove,
 };
+<<<<<<< HEAD
 
 module_platform_driver(nouveau_platform_driver);
 
 MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_LICENSE("GPL and additional rights");
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

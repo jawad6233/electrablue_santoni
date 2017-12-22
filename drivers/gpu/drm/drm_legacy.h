@@ -42,7 +42,11 @@ struct drm_file;
 #define DRM_KERNEL_CONTEXT		0
 #define DRM_RESERVED_CONTEXTS		1
 
+<<<<<<< HEAD
 int drm_legacy_ctxbitmap_init(struct drm_device *dev);
+=======
+void drm_legacy_ctxbitmap_init(struct drm_device *dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void drm_legacy_ctxbitmap_cleanup(struct drm_device *dev);
 void drm_legacy_ctxbitmap_free(struct drm_device *dev, int ctx_handle);
 void drm_legacy_ctxbitmap_flush(struct drm_device *dev, struct drm_file *file);

@@ -2,7 +2,11 @@
  * Diag Function Device - Route ARM9 and ARM11 DIAG messages
  * between HOST and DEVICE.
  * Copyright (C) 2007 Google, Inc.
+<<<<<<< HEAD
  * Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Author: Brian Swetland <swetland@google.com>
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -322,9 +326,17 @@ struct usb_diag_ch *usb_diag_open(const char *name, void *priv,
 	ch->priv = priv;
 	ch->notify = notify;
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&ch_lock, flags);
 	list_add_tail(&ch->list, &usb_diag_ch_list);
 	spin_unlock_irqrestore(&ch_lock, flags);
+=======
+	if (!found) {
+		spin_lock_irqsave(&ch_lock, flags);
+		list_add_tail(&ch->list, &usb_diag_ch_list);
+		spin_unlock_irqrestore(&ch_lock, flags);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ch;
 }
@@ -791,6 +803,10 @@ int diag_function_add(struct usb_configuration *c, const char *name,
 	struct diag_context *dev;
 	struct usb_diag_ch *_ch;
 	int found = 0, ret;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	DBG(c->cdev, "diag_function_add\n");
 
@@ -800,9 +816,25 @@ int diag_function_add(struct usb_configuration *c, const char *name,
 			break;
 		}
 	}
+<<<<<<< HEAD
 	if (!found) {
 		ERROR(c->cdev, "unable to get diag usb channel\n");
 		return -ENODEV;
+=======
+
+	if (!found) {
+		DBG(c->cdev, "%s: unable to get diag usb channel\n", __func__);
+
+		_ch = kzalloc(sizeof(*_ch), GFP_KERNEL);
+		if (_ch == NULL)
+			return -ENOMEM;
+
+		_ch->name = name;
+
+		spin_lock_irqsave(&ch_lock, flags);
+		list_add_tail(&_ch->list, &usb_diag_ch_list);
+		spin_unlock_irqrestore(&ch_lock, flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);

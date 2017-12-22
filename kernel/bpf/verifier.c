@@ -315,7 +315,12 @@ static const char *const bpf_jmp_string[] = {
 	[BPF_EXIT >> 4] = "exit",
 };
 
+<<<<<<< HEAD
 static void print_bpf_insn(struct bpf_insn *insn)
+=======
+static void print_bpf_insn(const struct bpf_verifier_env *env,
+			   const struct bpf_insn *insn)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	u8 class = BPF_CLASS(insn->code);
 
@@ -379,9 +384,25 @@ static void print_bpf_insn(struct bpf_insn *insn)
 				insn->code,
 				bpf_ldst_string[BPF_SIZE(insn->code) >> 3],
 				insn->src_reg, insn->imm);
+<<<<<<< HEAD
 		} else if (BPF_MODE(insn->code) == BPF_IMM) {
 			verbose("(%02x) r%d = 0x%x\n",
 				insn->code, insn->dst_reg, insn->imm);
+=======
+		} else if (BPF_MODE(insn->code) == BPF_IMM &&
+			   BPF_SIZE(insn->code) == BPF_DW) {
+			/* At this point, we already made sure that the second
+			 * part of the ldimm64 insn is accessible.
+			 */
+			u64 imm = ((u64)(insn + 1)->imm << 32) | (u32)insn->imm;
+			bool map_ptr = insn->src_reg == BPF_PSEUDO_MAP_FD;
+
+			if (map_ptr && !env->allow_ptr_leaks)
+				imm = 0;
+
+			verbose("(%02x) r%d = 0x%llx\n", insn->code,
+				insn->dst_reg, (unsigned long long)imm);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else {
 			verbose("BUG_ld_%02x\n", insn->code);
 			return;
@@ -1535,7 +1556,11 @@ static int do_check(struct verifier_env *env)
 
 		if (log_level) {
 			verbose("%d: ", insn_idx);
+<<<<<<< HEAD
 			print_bpf_insn(insn);
+=======
+			print_bpf_insn(env, insn);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		if (class == BPF_ALU || class == BPF_ALU64) {

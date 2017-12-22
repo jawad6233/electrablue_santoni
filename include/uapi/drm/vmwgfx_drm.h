@@ -1,6 +1,10 @@
 /**************************************************************************
  *
+<<<<<<< HEAD
  * Copyright © 2009 VMware, Inc., Palo Alto, CA., USA
+=======
+ * Copyright © 2009-2015 VMware, Inc., Palo Alto, CA., USA
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -64,6 +68,10 @@
 #define DRM_VMW_GB_SURFACE_CREATE    23
 #define DRM_VMW_GB_SURFACE_REF       24
 #define DRM_VMW_SYNCCPU              25
+<<<<<<< HEAD
+=======
+#define DRM_VMW_CREATE_EXTENDED_CONTEXT 26
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*************************************************************************/
 /**
@@ -88,6 +96,11 @@
 #define DRM_VMW_PARAM_3D_CAPS_SIZE     8
 #define DRM_VMW_PARAM_MAX_MOB_MEMORY   9
 #define DRM_VMW_PARAM_MAX_MOB_SIZE     10
+<<<<<<< HEAD
+=======
+#define DRM_VMW_PARAM_SCREEN_TARGET    11
+#define DRM_VMW_PARAM_DX               12
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * enum drm_vmw_handle_type - handle type for ref ioctls
@@ -296,7 +309,11 @@ union drm_vmw_surface_reference_arg {
  * Argument to the DRM_VMW_EXECBUF Ioctl.
  */
 
+<<<<<<< HEAD
 #define DRM_VMW_EXECBUF_VERSION 1
+=======
+#define DRM_VMW_EXECBUF_VERSION 2
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct drm_vmw_execbuf_arg {
 	uint64_t commands;
@@ -305,6 +322,11 @@ struct drm_vmw_execbuf_arg {
 	uint64_t fence_rep;
 	uint32_t version;
 	uint32_t flags;
+<<<<<<< HEAD
+=======
+	uint32_t context_handle;
+	uint32_t pad64;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /**
@@ -825,7 +847,10 @@ struct drm_vmw_update_layout_arg {
 enum drm_vmw_shader_type {
 	drm_vmw_shader_type_vs = 0,
 	drm_vmw_shader_type_ps,
+<<<<<<< HEAD
 	drm_vmw_shader_type_gs
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 
@@ -907,6 +932,11 @@ enum drm_vmw_surface_flags {
  * @buffer_handle     Buffer handle of backup buffer. SVGA3D_INVALID_ID
  *                    if none.
  * @base_size         Size of the base mip level for all faces.
+<<<<<<< HEAD
+=======
+ * @array_size        Must be zero for non-DX hardware, and if non-zero
+ *                    svga3d_flags must have proper bind flags setup.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Input argument to the  DRM_VMW_GB_SURFACE_CREATE Ioctl.
  * Part of output argument for the DRM_VMW_GB_SURFACE_REF Ioctl.
@@ -919,7 +949,11 @@ struct drm_vmw_gb_surface_create_req {
 	uint32_t multisample_count;
 	uint32_t autogen_filter;
 	uint32_t buffer_handle;
+<<<<<<< HEAD
 	uint32_t pad64;
+=======
+	uint32_t array_size;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_vmw_size base_size;
 };
 
@@ -1059,4 +1093,31 @@ struct drm_vmw_synccpu_arg {
 	uint32_t pad64;
 };
 
+<<<<<<< HEAD
+=======
+/*************************************************************************/
+/**
+ * DRM_VMW_CREATE_EXTENDED_CONTEXT - Create a host context.
+ *
+ * Allocates a device unique context id, and queues a create context command
+ * for the host. Does not wait for host completion.
+ */
+enum drm_vmw_extended_context {
+	drm_vmw_context_legacy,
+	drm_vmw_context_dx
+};
+
+/**
+ * union drm_vmw_extended_context_arg
+ *
+ * @req: Context type.
+ * @rep: Context identifier.
+ *
+ * Argument to the DRM_VMW_CREATE_EXTENDED_CONTEXT Ioctl.
+ */
+union drm_vmw_extended_context_arg {
+	enum drm_vmw_extended_context req;
+	struct drm_vmw_context_arg rep;
+};
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

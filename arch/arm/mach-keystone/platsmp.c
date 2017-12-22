@@ -39,6 +39,7 @@ static int keystone_smp_boot_secondary(unsigned int cpu,
 	return error;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_ARM_LPAE
 static void __cpuinit keystone_smp_secondary_initmem(unsigned int cpu)
 {
@@ -54,4 +55,8 @@ static inline void __cpuinit keystone_smp_secondary_initmem(unsigned int cpu)
 struct smp_operations keystone_smp_ops __initdata = {
 	.smp_boot_secondary	= keystone_smp_boot_secondary,
 	.smp_secondary_init     = keystone_smp_secondary_initmem,
+=======
+struct smp_operations keystone_smp_ops __initdata = {
+	.smp_boot_secondary	= keystone_smp_boot_secondary,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };

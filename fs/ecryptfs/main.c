@@ -168,14 +168,21 @@ void ecryptfs_put_lower_file(struct inode *inode)
 				get_events()->is_hw_crypt_cb())
 			clear_cache_needed = true;
 
+<<<<<<< HEAD
+=======
+		filemap_write_and_wait(inode->i_mapping);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (clear_cache_needed) {
 			ret = vfs_fsync(inode_info->lower_file, false);
 
 			if (ret)
 				pr_err("failed to sync file ret = %d.\n", ret);
 		}
+<<<<<<< HEAD
 
 		filemap_write_and_wait(inode->i_mapping);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		fput(inode_info->lower_file);
 		inode_info->lower_file = NULL;
 		mutex_unlock(&inode_info->lower_file_mutex);

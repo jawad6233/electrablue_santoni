@@ -442,6 +442,21 @@ static inline int rdev_connect(struct cfg80211_registered_device *rdev,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static inline int
+rdev_update_connect_params(struct cfg80211_registered_device *rdev,
+			   struct net_device *dev,
+			   struct cfg80211_connect_params *sme, u32 changed)
+{
+	int ret;
+	trace_rdev_update_connect_params(&rdev->wiphy, dev, sme, changed);
+	ret = rdev->ops->update_connect_params(&rdev->wiphy, dev, sme, changed);
+	trace_rdev_return_int(&rdev->wiphy, ret);
+	return ret;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline int rdev_disconnect(struct cfg80211_registered_device *rdev,
 				  struct net_device *dev, u16 reason_code)
 {

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -397,7 +401,11 @@ static void msm_vfe44_process_error_status(struct vfe_device *vfe_dev)
 	}
 }
 
+<<<<<<< HEAD
 static void msm_vfe44_read_irq_status(struct vfe_device *vfe_dev,
+=======
+static void msm_vfe44_read_irq_status_and_clear(struct vfe_device *vfe_dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t *irq_status0, uint32_t *irq_status1)
 {
 	*irq_status0 = msm_camera_io_r(vfe_dev->vfe_base + 0x38);
@@ -425,6 +433,16 @@ static void msm_vfe44_read_irq_status(struct vfe_device *vfe_dev,
 
 }
 
+<<<<<<< HEAD
+=======
+static void msm_vfe44_read_irq_status(struct vfe_device *vfe_dev,
+	uint32_t *irq_status0, uint32_t *irq_status1)
+{
+	*irq_status0 = msm_camera_io_r(vfe_dev->vfe_base + 0x38);
+	*irq_status1 = msm_camera_io_r(vfe_dev->vfe_base + 0x3C);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void msm_vfe44_process_reg_update(struct vfe_device *vfe_dev,
 	uint32_t irq_status0, uint32_t irq_status1,
 	struct msm_isp_timestamp *ts)
@@ -551,6 +569,15 @@ static void msm_vfe44_reg_update(struct vfe_device *vfe_dev,
 		vfe_dev->reg_update_requested;
 	if ((vfe_dev->is_split && vfe_dev->pdev->id == ISP_VFE1) &&
 		((frame_src == VFE_PIX_0) || (frame_src == VFE_SRC_MAX))) {
+<<<<<<< HEAD
+=======
+		if (!vfe_dev->common_data->dual_vfe_res->vfe_base[ISP_VFE0]) {
+			pr_err("%s vfe_base for ISP_VFE0 is NULL\n", __func__);
+			spin_unlock_irqrestore(&vfe_dev->reg_update_lock,
+				flags);
+			return;
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		msm_camera_io_w_mb(update_mask,
 			vfe_dev->common_data->dual_vfe_res->vfe_base[ISP_VFE0]
 			+ 0x378);
@@ -676,6 +703,15 @@ static void msm_vfe44_axi_clear_wm_irq_mask(struct vfe_device *vfe_dev,
 			MSM_ISP_IRQ_DISABLE);
 }
 
+<<<<<<< HEAD
+=======
+static void msm_vfe44_axi_clear_irq_mask(struct vfe_device *vfe_dev)
+{
+	msm_camera_io_w_mb(0x0, vfe_dev->vfe_base + 0x28);
+	msm_camera_io_w_mb(0x0, vfe_dev->vfe_base + 0x2C);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void msm_vfe44_cfg_framedrop(void __iomem *vfe_base,
 	struct msm_vfe_axi_stream *stream_info, uint32_t framedrop_pattern,
 	uint32_t framedrop_period)
@@ -1772,6 +1808,11 @@ struct msm_vfe_hardware_info vfe44_hw_info = {
 	.vfe_ops = {
 		.irq_ops = {
 			.read_irq_status = msm_vfe44_read_irq_status,
+<<<<<<< HEAD
+=======
+			.read_irq_status_and_clear =
+				msm_vfe44_read_irq_status_and_clear,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.process_camif_irq = msm_vfe44_process_input_irq,
 			.process_reset_irq = msm_vfe44_process_reset_irq,
 			.process_halt_irq = msm_vfe44_process_halt_irq,
@@ -1791,6 +1832,11 @@ struct msm_vfe_hardware_info vfe44_hw_info = {
 			.clear_comp_mask = msm_vfe44_axi_clear_comp_mask,
 			.cfg_wm_irq_mask = msm_vfe44_axi_cfg_wm_irq_mask,
 			.clear_wm_irq_mask = msm_vfe44_axi_clear_wm_irq_mask,
+<<<<<<< HEAD
+=======
+			.clear_irq_mask =
+				msm_vfe44_axi_clear_irq_mask,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.cfg_framedrop = msm_vfe44_cfg_framedrop,
 			.clear_framedrop = msm_vfe44_clear_framedrop,
 			.cfg_wm_reg = msm_vfe44_axi_cfg_wm_reg,

@@ -216,8 +216,11 @@ struct platform_driver sti_vtac_driver = {
 	.remove = sti_vtac_remove,
 };
 
+<<<<<<< HEAD
 module_platform_driver(sti_vtac_driver);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
 MODULE_DESCRIPTION("STMicroelectronics SoC DRM driver");
 MODULE_LICENSE("GPL");

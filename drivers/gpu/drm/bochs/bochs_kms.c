@@ -6,6 +6,10 @@
  */
 
 #include "bochs.h"
+<<<<<<< HEAD
+=======
+#include <drm/drm_plane_helper.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int defx = 1024;
 static int defy = 768;
@@ -17,10 +21,13 @@ MODULE_PARM_DESC(defy, "default y resolution");
 
 /* ---------------------------------------------------------------------- */
 
+<<<<<<< HEAD
 static void bochs_crtc_load_lut(struct drm_crtc *crtc)
 {
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void bochs_crtc_dpms(struct drm_crtc *crtc, int mode)
 {
 	switch (mode) {
@@ -108,11 +115,38 @@ static void bochs_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *green,
 {
 }
 
+<<<<<<< HEAD
+=======
+static int bochs_crtc_page_flip(struct drm_crtc *crtc,
+				struct drm_framebuffer *fb,
+				struct drm_pending_vblank_event *event,
+				uint32_t page_flip_flags)
+{
+	struct bochs_device *bochs =
+		container_of(crtc, struct bochs_device, crtc);
+	struct drm_framebuffer *old_fb = crtc->primary->fb;
+	unsigned long irqflags;
+
+	crtc->primary->fb = fb;
+	bochs_crtc_mode_set_base(crtc, 0, 0, old_fb);
+	if (event) {
+		spin_lock_irqsave(&bochs->dev->event_lock, irqflags);
+		drm_send_vblank_event(bochs->dev, -1, event);
+		spin_unlock_irqrestore(&bochs->dev->event_lock, irqflags);
+	}
+	return 0;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* These provide the minimum set of functions required to handle a CRTC */
 static const struct drm_crtc_funcs bochs_crtc_funcs = {
 	.gamma_set = bochs_crtc_gamma_set,
 	.set_config = drm_crtc_helper_set_config,
 	.destroy = drm_crtc_cleanup,
+<<<<<<< HEAD
+=======
+	.page_flip = bochs_crtc_page_flip,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static const struct drm_crtc_helper_funcs bochs_helper_funcs = {
@@ -122,7 +156,10 @@ static const struct drm_crtc_helper_funcs bochs_helper_funcs = {
 	.mode_set_base = bochs_crtc_mode_set_base,
 	.prepare = bochs_crtc_prepare,
 	.commit = bochs_crtc_commit,
+<<<<<<< HEAD
 	.load_lut = bochs_crtc_load_lut,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static void bochs_crtc_init(struct drm_device *dev)

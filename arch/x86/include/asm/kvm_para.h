@@ -17,6 +17,7 @@ static inline bool kvm_check_and_clear_guest_paused(void)
 }
 #endif /* CONFIG_KVM_GUEST */
 
+<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
 #define KVM_HYPERCALL \
         ALTERNATIVE(".byte 0x0f,0x01,0xc1", ".byte 0x0f,0x01,0xd9", X86_FEATURE_VMMCALL)
@@ -26,6 +27,10 @@ static inline bool kvm_check_and_clear_guest_paused(void)
  */
 #define KVM_HYPERCALL ".byte 0x0f,0x01,0xc1"
 #endif
+=======
+#define KVM_HYPERCALL \
+        ALTERNATIVE(".byte 0x0f,0x01,0xc1", ".byte 0x0f,0x01,0xd9", X86_FEATURE_VMMCALL)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* For KVM hypercalls, a three-byte sequence of either the vmcall or the vmmcall
  * instruction.  The hypervisor may replace it with something else but only the

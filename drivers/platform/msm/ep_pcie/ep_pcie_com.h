@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,6 +25,10 @@
 #include <linux/regulator/consumer.h>
 #include <linux/types.h>
 #include <linux/uaccess.h>
+<<<<<<< HEAD
+=======
+#include <linux/delay.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/msm_ep_pcie.h>
 
 #define PCIE20_PARF_SYS_CTRL           0x00
@@ -42,6 +50,10 @@
 #define PCIE20_PARF_AXI_MSTR_WR_ADDR_HALT      0x1A8
 #define PCIE20_PARF_Q2A_FLUSH          0x1AC
 #define PCIE20_PARF_LTSSM              0x1B0
+<<<<<<< HEAD
+=======
+#define PCIE20_PARF_CFG_BITS           0x210
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define PCIE20_PARF_LTR_MSI_EXIT_L1SS  0x214
 #define PCIE20_PARF_INT_ALL_STATUS     0x224
 #define PCIE20_PARF_INT_ALL_CLEAR      0x228
@@ -118,6 +130,10 @@
 #define MSI_EXIT_L1SS_WAIT	              10
 #define MSI_EXIT_L1SS_WAIT_MAX_COUNT          100
 #define XMLH_LINK_UP                          0x400
+<<<<<<< HEAD
+=======
+#define PARF_XMLH_LINK_UP                     0x40000000
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define MAX_PROP_SIZE 32
 #define MAX_MSG_LEN 80
@@ -208,6 +224,10 @@ enum ep_pcie_irq {
 	EP_PCIE_INT_LINK_UP,
 	EP_PCIE_INT_LINK_DOWN,
 	EP_PCIE_INT_BRIDGE_FLUSH_N,
+<<<<<<< HEAD
+=======
+	EP_PCIE_INT_BME,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	EP_PCIE_INT_GLOBAL,
 	EP_PCIE_MAX_IRQ,
 };
@@ -255,6 +275,17 @@ struct ep_pcie_irq_info_t {
 	u32          num;
 };
 
+<<<<<<< HEAD
+=======
+/* phy info structure */
+struct ep_pcie_phy_info_t {
+	u32	offset;
+	u32	val;
+	u32	delay;
+	u32	direction;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* pcie endpoint device structure */
 struct ep_pcie_dev_t {
 	struct platform_device       *pdev;
@@ -278,6 +309,16 @@ struct ep_pcie_dev_t {
 	u32                          link_speed;
 	bool                         active_config;
 	bool                         aggregated_irq;
+<<<<<<< HEAD
+=======
+	bool                         mhi_a7_irq;
+	u32                          dbi_base_reg;
+	u32                          slv_space_reg;
+	u32                          phy_status_reg;
+	u32                          phy_init_len;
+	struct ep_pcie_phy_info_t    *phy_init;
+	bool                         perst_enum;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	u32                          rev;
 	u32                          phy_rev;
@@ -293,6 +334,10 @@ struct ep_pcie_dev_t {
 	unsigned long                isr_save_flags;
 	ulong                        linkdown_counter;
 	ulong                        linkup_counter;
+<<<<<<< HEAD
+=======
+	ulong                        bme_counter;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ulong                        pm_to_counter;
 	ulong                        d0_counter;
 	ulong                        d3_counter;
@@ -314,6 +359,11 @@ struct ep_pcie_dev_t {
 	struct ep_pcie_msi_config    msi_cfg;
 
 	struct ep_pcie_register_event *event_reg;
+<<<<<<< HEAD
+=======
+	struct work_struct	     handle_perst_work;
+	struct work_struct           handle_bme_work;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 extern struct ep_pcie_dev_t ep_pcie_dev;
@@ -330,14 +380,22 @@ static inline void ep_pcie_write_mask(void __iomem *addr,
 	wmb();
 }
 
+<<<<<<< HEAD
 static inline void ep_pcie_write_reg(void *base, u32 offset, u32 value)
+=======
+static inline void ep_pcie_write_reg(void __iomem *base, u32 offset, u32 value)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	writel_relaxed(value, base + offset);
 	/* ensure register write goes through before next regiser operation */
 	wmb();
 }
 
+<<<<<<< HEAD
 static inline void ep_pcie_write_reg_field(void *base, u32 offset,
+=======
+static inline void ep_pcie_write_reg_field(void __iomem *base, u32 offset,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	const u32 mask, u32 val)
 {
 	u32 shift = find_first_bit((void *)&mask, 32);
@@ -350,6 +408,10 @@ static inline void ep_pcie_write_reg_field(void *base, u32 offset,
 	wmb();
 }
 
+<<<<<<< HEAD
+=======
+extern int ep_pcie_core_register_event(struct ep_pcie_register_event *reg);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int ep_pcie_get_debug_mask(void);
 extern void ep_pcie_phy_init(struct ep_pcie_dev_t *dev);
 extern bool ep_pcie_phy_is_ready(struct ep_pcie_dev_t *dev);

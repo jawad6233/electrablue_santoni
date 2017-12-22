@@ -15,32 +15,79 @@
 #define __RCAR_DU_CRTC_H__
 
 #include <linux/mutex.h>
+<<<<<<< HEAD
 #include <linux/platform_data/rcar-du.h>
+=======
+#include <linux/wait.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <drm/drmP.h>
 #include <drm/drm_crtc.h>
 
 struct rcar_du_group;
+<<<<<<< HEAD
 struct rcar_du_plane;
 
+=======
+
+/**
+ * struct rcar_du_crtc - the CRTC, representing a DU superposition processor
+ * @crtc: base DRM CRTC
+ * @clock: the CRTC functional clock
+ * @extclock: external pixel dot clock (optional)
+ * @mmio_offset: offset of the CRTC registers in the DU MMIO block
+ * @index: CRTC software and hardware index
+ * @started: whether the CRTC has been started and is running
+ * @event: event to post when the pending page flip completes
+ * @flip_wait: wait queue used to signal page flip completion
+ * @outputs: bitmask of the outputs (enum rcar_du_output) driven by this CRTC
+ * @enabled: whether the CRTC is enabled, used to control system resume
+ * @group: CRTC group this CRTC belongs to
+ */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct rcar_du_crtc {
 	struct drm_crtc crtc;
 
 	struct clk *clock;
+<<<<<<< HEAD
+=======
+	struct clk *extclock;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int mmio_offset;
 	unsigned int index;
 	bool started;
 
 	struct drm_pending_vblank_event *event;
+<<<<<<< HEAD
 	unsigned int outputs;
 	int dpms;
 
 	struct rcar_du_group *group;
 	struct rcar_du_plane *plane;
+=======
+	wait_queue_head_t flip_wait;
+
+	unsigned int outputs;
+	bool enabled;
+
+	struct rcar_du_group *group;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define to_rcar_crtc(c)	container_of(c, struct rcar_du_crtc, crtc)
 
+<<<<<<< HEAD
+=======
+enum rcar_du_output {
+	RCAR_DU_OUTPUT_DPAD0,
+	RCAR_DU_OUTPUT_DPAD1,
+	RCAR_DU_OUTPUT_LVDS0,
+	RCAR_DU_OUTPUT_LVDS1,
+	RCAR_DU_OUTPUT_TCON,
+	RCAR_DU_OUTPUT_MAX,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int index);
 void rcar_du_crtc_enable_vblank(struct rcar_du_crtc *rcrtc, bool enable);
 void rcar_du_crtc_cancel_page_flip(struct rcar_du_crtc *rcrtc,
@@ -50,6 +97,9 @@ void rcar_du_crtc_resume(struct rcar_du_crtc *rcrtc);
 
 void rcar_du_crtc_route_output(struct drm_crtc *crtc,
 			       enum rcar_du_output output);
+<<<<<<< HEAD
 void rcar_du_crtc_update_planes(struct drm_crtc *crtc);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* __RCAR_DU_CRTC_H__ */

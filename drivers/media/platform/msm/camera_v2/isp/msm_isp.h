@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -134,6 +138,11 @@ struct msm_isp_timestamp {
 };
 
 struct msm_vfe_irq_ops {
+<<<<<<< HEAD
+=======
+	void (*read_irq_status_and_clear)(struct vfe_device *vfe_dev,
+		uint32_t *irq_status0, uint32_t *irq_status1);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void (*read_irq_status)(struct vfe_device *vfe_dev,
 		uint32_t *irq_status0, uint32_t *irq_status1);
 	void (*process_reg_update)(struct vfe_device *vfe_dev,
@@ -185,6 +194,10 @@ struct msm_vfe_axi_ops {
 		struct msm_vfe_axi_stream *stream_info);
 	void (*clear_wm_irq_mask)(struct vfe_device *vfe_dev,
 		struct msm_vfe_axi_stream *stream_info);
+<<<<<<< HEAD
+=======
+	void (*clear_irq_mask)(struct vfe_device *vfe_dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	void (*cfg_wm_reg)(struct vfe_device *vfe_dev,
 		struct msm_vfe_axi_stream *stream_info,
@@ -445,9 +458,16 @@ struct msm_vfe_axi_stream {
 
 	uint32_t runtime_num_burst_capture;
 	uint32_t runtime_output_format;
+<<<<<<< HEAD
 	enum msm_stream_memory_input_t  memory_input;
 	struct msm_isp_sw_framskip sw_skip;
 	uint8_t sw_ping_pong_bit;
+=======
+	enum msm_stream_rdi_input_type  rdi_input_type;
+	struct msm_isp_sw_framskip sw_skip;
+	uint8_t sw_ping_pong_bit;
+	uint8_t sw_sof_ping_pong_bit;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct msm_vfe_axi_composite_info {
@@ -464,6 +484,10 @@ enum msm_vfe_camif_state {
 
 struct msm_vfe_src_info {
 	uint32_t frame_id;
+<<<<<<< HEAD
+=======
+	uint32_t session_id;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t reg_update_frame_id;
 	uint8_t active;
 	uint8_t flag;
@@ -780,6 +804,11 @@ struct vfe_device {
 	/* before halt irq info */
 	uint32_t recovery_irq0_mask;
 	uint32_t recovery_irq1_mask;
+<<<<<<< HEAD
+=======
+	/* Store the buf_idx for pd stats RDI stream */
+	uint8_t pd_buf_idx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t ms_frame_id;
 };
 

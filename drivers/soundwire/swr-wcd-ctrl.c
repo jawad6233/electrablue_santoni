@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -753,7 +757,11 @@ inc_loop:
 			list_del(&mport->list);
 			kfree(mport);
 		}
+<<<<<<< HEAD
 		if (!mport_next) {
+=======
+		if (!mport_next || (&mport_next->list == &swrm->mport_list)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			dev_err(swrm->dev, "%s: end of list\n", __func__);
 			break;
 		}

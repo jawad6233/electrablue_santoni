@@ -26,7 +26,10 @@
 #include <linux/export.h>
 #include <linux/bug.h>
 #include <linux/errno.h>
+<<<<<<< HEAD
 #include <linux/memcopy.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <asm/byteorder.h>
 #include <asm/word-at-a-time.h>
@@ -716,11 +719,19 @@ EXPORT_SYMBOL(memzero_explicit);
  */
 void *memcpy(void *dest, const void *src, size_t count)
 {
+<<<<<<< HEAD
 	unsigned long dstp = (unsigned long)dest;
 	unsigned long srcp = (unsigned long)src;
 
 	/* Copy from the beginning to the end */
 	mem_copy_fwd(dstp, srcp, count);
+=======
+	char *tmp = dest;
+	const char *s = src;
+
+	while (count--)
+		*tmp++ = *s++;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return dest;
 }
 EXPORT_SYMBOL(memcpy);
@@ -737,6 +748,7 @@ EXPORT_SYMBOL(memcpy);
  */
 void *memmove(void *dest, const void *src, size_t count)
 {
+<<<<<<< HEAD
 	unsigned long dstp = (unsigned long)dest;
 	unsigned long srcp = (unsigned long)src;
 
@@ -746,6 +758,23 @@ void *memmove(void *dest, const void *src, size_t count)
 	} else {
 		/* Copy from the end to the beginning */
 		mem_copy_bwd(dstp, srcp, count);
+=======
+	char *tmp;
+	const char *s;
+
+	if (dest <= src) {
+		tmp = dest;
+		s = src;
+		while (count--)
+			*tmp++ = *s++;
+	} else {
+		tmp = dest;
+		tmp += count;
+		s = src;
+		s += count;
+		while (count--)
+			*--tmp = *--s;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return dest;
 }

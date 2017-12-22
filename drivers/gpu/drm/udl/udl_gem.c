@@ -25,6 +25,10 @@ struct udl_gem_object *udl_gem_alloc_object(struct drm_device *dev,
 		return NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	obj->flags = UDL_BO_CACHEABLE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return obj;
 }
 
@@ -56,6 +60,26 @@ udl_gem_create(struct drm_file *file,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static void update_vm_cache_attr(struct udl_gem_object *obj,
+				 struct vm_area_struct *vma)
+{
+	DRM_DEBUG_KMS("flags = 0x%x\n", obj->flags);
+
+	/* non-cacheable as default. */
+	if (obj->flags & UDL_BO_CACHEABLE) {
+		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+	} else if (obj->flags & UDL_BO_WC) {
+		vma->vm_page_prot =
+			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+	} else {
+		vma->vm_page_prot =
+			pgprot_noncached(vm_get_page_prot(vma->vm_flags));
+	}
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int udl_dumb_create(struct drm_file *file,
 		    struct drm_device *dev,
 		    struct drm_mode_create_dumb *args)
@@ -77,6 +101,11 @@ int udl_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
 	vma->vm_flags &= ~VM_PFNMAP;
 	vma->vm_flags |= VM_MIXEDMAP;
 
+<<<<<<< HEAD
+=======
+	update_vm_cache_attr(to_udl_bo(vma->vm_private_data), vma);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -107,7 +136,11 @@ int udl_gem_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	}
 }
 
+<<<<<<< HEAD
 static int udl_gem_get_pages(struct udl_gem_object *obj)
+=======
+int udl_gem_get_pages(struct udl_gem_object *obj)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct page **pages;
 
@@ -123,7 +156,11 @@ static int udl_gem_get_pages(struct udl_gem_object *obj)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void udl_gem_put_pages(struct udl_gem_object *obj)
+=======
+void udl_gem_put_pages(struct udl_gem_object *obj)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	if (obj->base.import_attach) {
 		drm_free_large(obj->pages);
@@ -164,8 +201,12 @@ void udl_gem_vunmap(struct udl_gem_object *obj)
 		return;
 	}
 
+<<<<<<< HEAD
 	if (obj->vmapping)
 		vunmap(obj->vmapping);
+=======
+	vunmap(obj->vmapping);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	udl_gem_put_pages(obj);
 }
@@ -220,6 +261,7 @@ unlock:
 	mutex_unlock(&dev->struct_mutex);
 	return ret;
 }
+<<<<<<< HEAD
 
 static int udl_prime_create(struct drm_device *dev,
 			    size_t size,
@@ -290,3 +332,5 @@ fail_detach:
 	put_device(dev->dev);
 	return ERR_PTR(ret);
 }
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

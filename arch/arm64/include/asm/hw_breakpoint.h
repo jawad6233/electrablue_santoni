@@ -65,7 +65,15 @@ static inline void decode_ctrl_reg(u32 reg,
 /* Lengths */
 #define ARM_BREAKPOINT_LEN_1	0x1
 #define ARM_BREAKPOINT_LEN_2	0x3
+<<<<<<< HEAD
 #define ARM_BREAKPOINT_LEN_4	0xf
+=======
+#define ARM_BREAKPOINT_LEN_3	0x7
+#define ARM_BREAKPOINT_LEN_4	0xf
+#define ARM_BREAKPOINT_LEN_5	0x1f
+#define ARM_BREAKPOINT_LEN_6	0x3f
+#define ARM_BREAKPOINT_LEN_7	0x7f
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define ARM_BREAKPOINT_LEN_8	0xff
 
 /* Kernel stepping */
@@ -107,7 +115,11 @@ struct perf_event;
 struct pmu;
 
 extern int arch_bp_generic_fields(struct arch_hw_breakpoint_ctrl ctrl,
+<<<<<<< HEAD
 				  int *gen_len, int *gen_type);
+=======
+				  int *gen_len, int *gen_type, int *offset);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int arch_check_bp_in_kernelspace(struct perf_event *bp);
 extern int arch_validate_hwbkpt_settings(struct perf_event *bp);
 extern int hw_breakpoint_exceptions_notify(struct notifier_block *unused,

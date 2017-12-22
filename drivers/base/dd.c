@@ -425,13 +425,81 @@ int driver_probe_device(struct device_driver *drv, struct device *dev)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int __device_attach(struct device_driver *drv, void *data)
 {
 	struct device *dev = data;
+=======
+bool driver_allows_async_probing(struct device_driver *drv)
+{
+	switch (drv->probe_type) {
+	case PROBE_PREFER_ASYNCHRONOUS:
+		return true;
+
+	case PROBE_FORCE_SYNCHRONOUS:
+		return false;
+
+	default:
+		if (module_requested_async_probing(drv->owner))
+			return true;
+
+		return false;
+	}
+}
+
+struct device_attach_data {
+	struct device *dev;
+
+	/*
+	 * Indicates whether we are are considering asynchronous probing or
+	 * not. Only initial binding after device or driver registration
+	 * (including deferral processing) may be done asynchronously, the
+	 * rest is always synchronous, as we expect it is being done by
+	 * request from userspace.
+	 */
+	bool check_async;
+
+	/*
+	 * Indicates if we are binding synchronous or asynchronous drivers.
+	 * When asynchronous probing is enabled we'll execute 2 passes
+	 * over drivers: first pass doing synchronous probing and second
+	 * doing asynchronous probing (if synchronous did not succeed -
+	 * most likely because there was no driver requiring synchronous
+	 * probing - and we found asynchronous driver during first pass).
+	 * The 2 passes are done because we can't shoot asynchronous
+	 * probe for given device and driver from bus_for_each_drv() since
+	 * driver pointer is not guaranteed to stay valid once
+	 * bus_for_each_drv() iterates to the next driver on the bus.
+	 */
+	bool want_async;
+
+	/*
+	 * We'll set have_async to 'true' if, while scanning for matching
+	 * driver, we'll encounter one that requests asynchronous probing.
+	 */
+	bool have_async;
+};
+
+static int __device_attach_driver(struct device_driver *drv, void *_data)
+{
+	struct device_attach_data *data = _data;
+	struct device *dev = data->dev;
+	bool async_allowed;
+
+	/*
+	 * Check if device has already been claimed. This may
+	 * happen with driver loading, device discovery/registration,
+	 * and deferred probe processing happens all at once with
+	 * multiple threads.
+	 */
+	if (dev->driver)
+		return -EBUSY;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!driver_match_device(drv, dev))
 		return 0;
 
+<<<<<<< HEAD
 	return driver_probe_device(drv, dev);
 }
 
@@ -450,6 +518,41 @@ static int __device_attach(struct device_driver *drv, void *data)
  * When called for a USB interface, @dev->parent lock must be held.
  */
 int device_attach(struct device *dev)
+=======
+	async_allowed = driver_allows_async_probing(drv);
+
+	if (async_allowed)
+		data->have_async = true;
+
+	if (data->check_async && async_allowed != data->want_async)
+		return 0;
+
+	return driver_probe_device(drv, dev);
+}
+
+static void __device_attach_async_helper(void *_dev, async_cookie_t cookie)
+{
+	struct device *dev = _dev;
+	struct device_attach_data data = {
+		.dev		= dev,
+		.check_async	= true,
+		.want_async	= true,
+	};
+
+	device_lock(dev);
+
+	bus_for_each_drv(dev->bus, NULL, &data, __device_attach_driver);
+	dev_dbg(dev, "async probe completed\n");
+
+	pm_request_idle(dev);
+
+	device_unlock(dev);
+
+	put_device(dev);
+}
+
+static int __device_attach(struct device *dev, bool allow_async)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int ret = 0;
 
@@ -467,15 +570,69 @@ int device_attach(struct device *dev)
 			ret = 0;
 		}
 	} else {
+<<<<<<< HEAD
 		ret = bus_for_each_drv(dev->bus, NULL, dev, __device_attach);
 		pm_request_idle(dev);
+=======
+		struct device_attach_data data = {
+			.dev = dev,
+			.check_async = allow_async,
+			.want_async = false,
+		};
+
+		ret = bus_for_each_drv(dev->bus, NULL, &data,
+					__device_attach_driver);
+		if (!ret && allow_async && data.have_async) {
+			/*
+			 * If we could not find appropriate driver
+			 * synchronously and we are allowed to do
+			 * async probes and there are drivers that
+			 * want to probe asynchronously, we'll
+			 * try them.
+			 */
+			dev_dbg(dev, "scheduling asynchronous probe\n");
+			get_device(dev);
+			async_schedule(__device_attach_async_helper, dev);
+		} else {
+			pm_request_idle(dev);
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 out_unlock:
 	device_unlock(dev);
 	return ret;
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(device_attach);
 
+=======
+
+/**
+ * device_attach - try to attach device to a driver.
+ * @dev: device.
+ *
+ * Walk the list of drivers that the bus has and call
+ * driver_probe_device() for each pair. If a compatible
+ * pair is found, break out and return.
+ *
+ * Returns 1 if the device was bound to a driver;
+ * 0 if no matching driver was found;
+ * -ENODEV if the device is not registered.
+ *
+ * When called for a USB interface, @dev->parent lock must be held.
+ */
+int device_attach(struct device *dev)
+{
+	return __device_attach(dev, false);
+}
+EXPORT_SYMBOL_GPL(device_attach);
+
+void device_initial_probe(struct device *dev)
+{
+	__device_attach(dev, true);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int __driver_attach(struct device *dev, void *data)
 {
 	struct device_driver *drv = data;
@@ -530,6 +687,12 @@ static void __device_release_driver(struct device *dev)
 
 	drv = dev->driver;
 	if (drv) {
+<<<<<<< HEAD
+=======
+		if (driver_allows_async_probing(drv))
+			async_synchronize_full();
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pm_runtime_get_sync(dev);
 
 		driver_sysfs_remove(dev);

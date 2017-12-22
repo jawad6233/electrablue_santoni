@@ -38,7 +38,10 @@
 #include <linux/regulator/fixed.h>
 #include <linux/spi/spi.h>
 #include <linux/spi/flash.h>
+<<<<<<< HEAD
 #include <linux/wl12xx.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <mach/common.h>
 #include <mach/cp_intc.h>
@@ -60,9 +63,12 @@
 #define DA850_MMCSD_CD_PIN		GPIO_TO_PIN(4, 0)
 #define DA850_MMCSD_WP_PIN		GPIO_TO_PIN(4, 1)
 
+<<<<<<< HEAD
 #define DA850_WLAN_EN			GPIO_TO_PIN(6, 9)
 #define DA850_WLAN_IRQ			GPIO_TO_PIN(6, 10)
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define DA850_MII_MDIO_CLKEN_PIN	GPIO_TO_PIN(2, 6)
 
 static struct mtd_partition da850evm_spiflash_part[] = {
@@ -1346,6 +1352,7 @@ static __init void da850_vpif_init(void)
 static __init void da850_vpif_init(void) {}
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_DA850_WL12XX
 
 static void wl12xx_set_power(int index, bool power_on)
@@ -1449,6 +1456,8 @@ static __init int da850_wl12xx_init(void)
 
 #endif /* CONFIG_DA850_WL12XX */
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define DA850EVM_SATA_REFCLKPN_RATE	(100 * 1000 * 1000)
 
 static __init void da850_evm_init(void)
@@ -1505,11 +1514,14 @@ static __init void da850_evm_init(void)
 		if (ret)
 			pr_warn("%s: MMCSD0 registration failed: %d\n",
 				__func__, ret);
+<<<<<<< HEAD
 
 		ret = da850_wl12xx_init();
 		if (ret)
 			pr_warn("%s: WL12xx initialization failed: %d\n",
 				__func__, ret);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	davinci_serial_init(da8xx_serial_device);

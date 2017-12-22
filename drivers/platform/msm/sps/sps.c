@@ -1612,10 +1612,13 @@ int sps_transfer(struct sps_pipe *h, struct sps_transfer *transfer)
 	} else if (transfer->iovec_count == 0) {
 		SPS_ERR(sps, "sps:%s:iovec list is empty.\n", __func__);
 		return SPS_ERROR;
+<<<<<<< HEAD
 	} else if (transfer->iovec_phys == 0) {
 		SPS_ERR(sps,
 			"sps:%s:iovec list address is invalid.\n", __func__);
 		return SPS_ERROR;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Verify content of IOVECs */
@@ -2322,8 +2325,16 @@ int sps_deregister_bam_device(unsigned long dev_handle)
 	mutex_lock(&bam->lock);
 	sps_bam_device_de_init(bam);
 	mutex_unlock(&bam->lock);
+<<<<<<< HEAD
 	ipc_log_context_destroy(bam->ipc_log1);
 	ipc_log_context_destroy(bam->ipc_log2);
+=======
+	ipc_log_context_destroy(bam->ipc_log0);
+	ipc_log_context_destroy(bam->ipc_log1);
+	ipc_log_context_destroy(bam->ipc_log2);
+	ipc_log_context_destroy(bam->ipc_log3);
+	ipc_log_context_destroy(bam->ipc_log4);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (bam->props.virt_size)
 		(void)iounmap(bam->props.virt_addr);
 

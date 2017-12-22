@@ -1,7 +1,11 @@
 /*
  * u_uac1.c -- ALSA audio utilities for Gadget stack
  *
+<<<<<<< HEAD
  * Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Copyright (C) 2008 Bryan Wu <cooloney@kernel.org>
  * Copyright (C) 2008 Analog Devices, Inc
  *
@@ -699,6 +703,10 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
 		filp_close(snd->filp, NULL);
 		snd->filp = NULL;
 	}
+<<<<<<< HEAD
+=======
+	snd->card = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Close PCM playback device and setup substream */
 	snd = &gau->playback;
@@ -706,6 +714,10 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
 		filp_close(snd->filp, NULL);
 		snd->filp = NULL;
 	}
+<<<<<<< HEAD
+=======
+	snd->card = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Close PCM capture device and setup substream */
 	snd = &gau->capture;
@@ -713,6 +725,10 @@ static int gaudio_close_snd_dev(struct gaudio *gau)
 		filp_close(snd->filp, NULL);
 		snd->filp = NULL;
 	}
+<<<<<<< HEAD
+=======
+	snd->card = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

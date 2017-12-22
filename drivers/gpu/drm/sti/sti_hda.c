@@ -10,6 +10,10 @@
 #include <linux/platform_device.h>
 
 #include <drm/drmP.h>
+<<<<<<< HEAD
+=======
+#include <drm/drm_atomic_helper.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drm_crtc_helper.h>
 
 /* HDformatter registers */
@@ -508,19 +512,25 @@ static void sti_hda_bridge_nope(struct drm_bridge *bridge)
 	/* do nothing */
 }
 
+<<<<<<< HEAD
 static void sti_hda_brigde_destroy(struct drm_bridge *bridge)
 {
 	drm_bridge_cleanup(bridge);
 	kfree(bridge);
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static const struct drm_bridge_funcs sti_hda_bridge_funcs = {
 	.pre_enable = sti_hda_pre_enable,
 	.enable = sti_hda_bridge_nope,
 	.disable = sti_hda_disable,
 	.post_disable = sti_hda_bridge_nope,
 	.mode_set = sti_hda_set_mode,
+<<<<<<< HEAD
 	.destroy = sti_hda_brigde_destroy,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int sti_hda_connector_get_modes(struct drm_connector *connector)
@@ -595,7 +605,12 @@ struct drm_encoder *sti_hda_best_encoder(struct drm_connector *connector)
 	return hda_connector->encoder;
 }
 
+<<<<<<< HEAD
 static struct drm_connector_helper_funcs sti_hda_connector_helper_funcs = {
+=======
+static const
+struct drm_connector_helper_funcs sti_hda_connector_helper_funcs = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.get_modes = sti_hda_connector_get_modes,
 	.mode_valid = sti_hda_connector_mode_valid,
 	.best_encoder = sti_hda_best_encoder,
@@ -617,11 +632,22 @@ static void sti_hda_connector_destroy(struct drm_connector *connector)
 	kfree(hda_connector);
 }
 
+<<<<<<< HEAD
 static struct drm_connector_funcs sti_hda_connector_funcs = {
 	.dpms = drm_helper_connector_dpms,
 	.fill_modes = drm_helper_probe_single_connector_modes,
 	.detect = sti_hda_connector_detect,
 	.destroy = sti_hda_connector_destroy,
+=======
+static const struct drm_connector_funcs sti_hda_connector_funcs = {
+	.dpms = drm_atomic_helper_connector_dpms,
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.detect = sti_hda_connector_detect,
+	.destroy = sti_hda_connector_destroy,
+	.reset = drm_atomic_helper_connector_reset,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct drm_encoder *sti_hda_find_encoder(struct drm_device *dev)
@@ -664,7 +690,12 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
 		return -ENOMEM;
 
 	bridge->driver_private = hda;
+<<<<<<< HEAD
 	drm_bridge_init(drm_dev, bridge, &sti_hda_bridge_funcs);
+=======
+	bridge->funcs = &sti_hda_bridge_funcs;
+	drm_bridge_attach(drm_dev, bridge);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	encoder->bridge = bridge;
 	connector->encoder = encoder;
@@ -693,7 +724,10 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
 err_sysfs:
 	drm_connector_unregister(drm_connector);
 err_connector:
+<<<<<<< HEAD
 	drm_bridge_cleanup(bridge);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_connector_cleanup(drm_connector);
 	return -EINVAL;
 }
@@ -787,8 +821,11 @@ struct platform_driver sti_hda_driver = {
 	.remove = sti_hda_remove,
 };
 
+<<<<<<< HEAD
 module_platform_driver(sti_hda_driver);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
 MODULE_DESCRIPTION("STMicroelectronics SoC DRM driver");
 MODULE_LICENSE("GPL");

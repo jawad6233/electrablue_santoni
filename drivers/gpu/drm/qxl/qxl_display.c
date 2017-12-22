@@ -29,6 +29,10 @@
 #include "qxl_drv.h"
 #include "qxl_object.h"
 #include "drm_crtc_helper.h"
+<<<<<<< HEAD
+=======
+#include <drm/drm_plane_helper.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static bool qxl_head_enabled(struct qxl_head *head)
 {
@@ -66,7 +70,11 @@ static int qxl_display_copy_rom_client_monitors_config(struct qxl_device *qdev)
 	crc = crc32(0, (const uint8_t *)&qdev->rom->client_monitors_config,
 		  sizeof(qdev->rom->client_monitors_config));
 	if (crc != qdev->rom->client_monitors_config_crc) {
+<<<<<<< HEAD
 		qxl_io_log(qdev, "crc mismatch: have %X (%d) != %X\n", crc,
+=======
+		qxl_io_log(qdev, "crc mismatch: have %X (%zd) != %X\n", crc,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			   sizeof(qdev->rom->client_monitors_config),
 			   qdev->rom->client_monitors_config_crc);
 		return 1;
@@ -100,14 +108,46 @@ static int qxl_display_copy_rom_client_monitors_config(struct qxl_device *qdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 void qxl_display_read_client_monitors_config(struct qxl_device *qdev)
 {
 
+=======
+static void qxl_update_offset_props(struct qxl_device *qdev)
+{
+	struct drm_device *dev = qdev->ddev;
+	struct drm_connector *connector;
+	struct qxl_output *output;
+	struct qxl_head *head;
+
+	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
+		output = drm_connector_to_qxl_output(connector);
+
+		head = &qdev->client_monitors_config->heads[output->index];
+
+		drm_object_property_set_value(&connector->base,
+			dev->mode_config.suggested_x_property, head->x);
+		drm_object_property_set_value(&connector->base,
+			dev->mode_config.suggested_y_property, head->y);
+	}
+}
+
+void qxl_display_read_client_monitors_config(struct qxl_device *qdev)
+{
+
+	struct drm_device *dev = qdev->ddev;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	while (qxl_display_copy_rom_client_monitors_config(qdev)) {
 		qxl_io_log(qdev, "failed crc check for client_monitors_config,"
 				 " retrying\n");
 	}
 
+<<<<<<< HEAD
+=======
+	drm_modeset_lock_all(dev);
+	qxl_update_offset_props(qdev);
+	drm_modeset_unlock_all(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!drm_helper_hpd_irq_event(qdev->ddev)) {
 		/* notify that the monitor configuration changed, to
 		   adjust at the arbitrary resolution */
@@ -220,6 +260,13 @@ static int qxl_crtc_page_flip(struct drm_crtc *crtc,
 	ret = qxl_bo_reserve(bo, false);
 	if (ret)
 		return ret;
+<<<<<<< HEAD
+=======
+	ret = qxl_bo_pin(bo, bo->type, NULL);
+	qxl_bo_unreserve(bo);
+	if (ret)
+		return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	qxl_draw_dirty_fb(qdev, qfb_src, bo, 0, 0,
 			  &norect, one_clip_rect, inc);
@@ -233,7 +280,15 @@ static int qxl_crtc_page_flip(struct drm_crtc *crtc,
 	}
 	drm_vblank_put(dev, qcrtc->index);
 
+<<<<<<< HEAD
 	qxl_bo_unreserve(bo);
+=======
+	ret = qxl_bo_reserve(bo, false);
+	if (!ret) {
+		qxl_bo_unpin(bo);
+		qxl_bo_unreserve(bo);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -576,7 +631,10 @@ static int qxl_crtc_mode_set(struct drm_crtc *crtc,
 {
 	struct drm_device *dev = crtc->dev;
 	struct qxl_device *qdev = dev->dev_private;
+<<<<<<< HEAD
 	struct qxl_mode *m = (void *)mode->private;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct qxl_framebuffer *qfb;
 	struct qxl_bo *bo, *old_bo = NULL;
 	struct qxl_crtc *qcrtc = to_qxl_crtc(crtc);
@@ -594,12 +652,15 @@ static int qxl_crtc_mode_set(struct drm_crtc *crtc,
 	}
 	qfb = to_qxl_framebuffer(crtc->primary->fb);
 	bo = gem_to_qxl_bo(qfb->obj);
+<<<<<<< HEAD
 	if (!m)
 		/* and do we care? */
 		DRM_DEBUG("%dx%d: not a native mode\n", x, y);
 	else
 		DRM_DEBUG("%dx%d: qxl id %d\n",
 			  mode->hdisplay, mode->vdisplay, m->id);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG("+%d+%d (%d,%d) => (%d,%d)\n",
 		  x, y,
 		  mode->hdisplay, mode->vdisplay,
@@ -972,6 +1033,13 @@ static int qdev_output_init(struct drm_device *dev, int num_output)
 
 	drm_object_attach_property(&connector->base,
 				   qdev->hotplug_mode_update_property, 0);
+<<<<<<< HEAD
+=======
+	drm_object_attach_property(&connector->base,
+				   dev->mode_config.suggested_x_property, 0);
+	drm_object_attach_property(&connector->base,
+				   dev->mode_config.suggested_y_property, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_connector_register(connector);
 	return 0;
 }
@@ -1085,6 +1153,10 @@ int qxl_modeset_init(struct qxl_device *qdev)
 
 	qdev->ddev->mode_config.fb_base = qdev->vram_base;
 
+<<<<<<< HEAD
+=======
+	drm_mode_create_suggested_offset_properties(qdev->ddev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	qxl_mode_create_hotplug_mode_update_property(qdev);
 
 	for (i = 0 ; i < qxl_num_crtc; ++i) {

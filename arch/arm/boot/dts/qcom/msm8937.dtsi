@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,6 +29,35 @@
 		bootargs = "sched_enable_hmp=1";
 	};
 
+<<<<<<< HEAD
+=======
+	firmware: firmware {
+		android {
+			compatible = "android,firmware";
+			fstab {
+				compatible = "android,fstab";
+				vendor {
+					compatible = "android,vendor";
+					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/vendor";
+					type = "ext4";
+					mnt_flags = "ro,barrier=1,discard";
+					fsmgr_flags = "wait";
+					status = "ok";
+				};
+				system {
+					compatible = "android,system";
+					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/system";
+					type = "ext4";
+					mnt_flags = "ro,barrier=1,discard";
+					fsmgr_flags = "wait";
+					status = "ok";
+				};
+
+			};
+		};
+	};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -410,7 +443,10 @@
 		qcom,freq-mitigation-temp = <105>;
 		qcom,freq-mitigation-temp-hysteresis = <15>;
 		qcom,freq-mitigation-value = <400000>;
+<<<<<<< HEAD
 		qcom,therm-reset-temp = <115>;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,online-hotplug-core;
 		qcom,synchronous-cluster-id = <0 1>;
 		qcom,synchronous-cluster-map = <1 4 &CPU0 &CPU1 &CPU2 &CPU3>,
@@ -1079,9 +1115,19 @@
 		clocks = <&clock_gcc clk_xo_wlan_clk>,
 			 <&clock_gcc clk_rf_clk2>,
 			 <&clock_debug clk_gcc_debug_mux_8937>,
+<<<<<<< HEAD
 			 <&clock_gcc clk_wcnss_m_clk>;
 
 		clock-names = "xo", "rf_clk", "measure", "wcnss_debug";
+=======
+			 <&clock_gcc clk_wcnss_m_clk>,
+			 <&clock_gcc clk_snoc_wcnss_a_clk>;
+
+		clock-names = "xo", "rf_clk", "measure", "wcnss_debug",
+				"snoc_wcnss";
+
+		qcom,snoc-wcnss-clock-freq = <200000000>;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		qcom,has-autodetect-xo;
 		qcom,is-pronto-v3;

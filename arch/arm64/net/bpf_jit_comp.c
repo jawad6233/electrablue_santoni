@@ -454,8 +454,16 @@ emit_cond_jmp:
 
 		ctx->tmp_used = 1;
 		emit_a64_mov_i64(tmp, func, ctx);
+<<<<<<< HEAD
 		emit(A64_BLR(tmp), ctx);
 		emit(A64_MOV(1, r0, A64_R(0)), ctx);
+=======
+		emit(A64_PUSH(A64_FP, A64_LR, A64_SP), ctx);
+		emit(A64_MOV(1, A64_FP, A64_SP), ctx);
+		emit(A64_BLR(tmp), ctx);
+		emit(A64_MOV(1, r0, A64_R(0)), ctx);
+		emit(A64_POP(A64_FP, A64_LR, A64_SP), ctx);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	}
 	/* function return */

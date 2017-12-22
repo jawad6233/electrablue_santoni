@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -260,7 +264,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 limSendAssocRspMgmtFrame( pMac, eSIR_SUCCESS,
                     pStaDs->assocId, pStaDs->staAddr,
                     pStaDs->mlmStaContext.subType, pStaDs,
+<<<<<<< HEAD
                     psessionEntry);
+=======
+                    psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 limLog(pMac, LOGE,
                     FL("DUT already received an assoc request frame "
                         "and STA is sending another assoc req.So, do not "
@@ -300,7 +308,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     eSIR_MAC_UNSPEC_FAILURE_STATUS,
                     1,
                     pHdr->sa,
+<<<<<<< HEAD
                     subType, 0,psessionEntry);
+=======
+                    subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         return ;
     }
 
@@ -312,7 +324,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                     eSIR_MAC_MIC_FAILURE_REASON,
                                     1,
                                     pHdr->sa,
+<<<<<<< HEAD
                                     subType, 0, psessionEntry);
+=======
+                                    subType, 0, psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         return;
     }
 
@@ -336,7 +352,12 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         limLog(pMac, LOGW,
                FL("Parse error AssocRequest, length=%d from "MAC_ADDRESS_STR),
                              framelen, MAC_ADDR_ARRAY(pHdr->sa));
+<<<<<<< HEAD
         limSendAssocRspMgmtFrame(pMac, eSIR_MAC_UNSPEC_FAILURE_STATUS, 1, pHdr->sa, subType, 0, psessionEntry);
+=======
+        limSendAssocRspMgmtFrame(pMac, eSIR_MAC_UNSPEC_FAILURE_STATUS, 1,
+                                 pHdr->sa, subType, 0, psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         goto error;
     }
 
@@ -378,7 +399,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                         eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS,
                         1,
                         pHdr->sa,
+<<<<<<< HEAD
                         subType, 0,psessionEntry);
+=======
+                        subType, 0,psessionEntry ,NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         goto error;
     }
@@ -403,7 +428,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                              eSIR_MAC_UNSPEC_FAILURE_STATUS,
                              1,
                              pHdr->sa,
+<<<<<<< HEAD
                              subType, 0,psessionEntry);
+=======
+                             subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         goto error;
     }
@@ -442,7 +471,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     eSIR_MAC_BASIC_RATES_NOT_SUPPORTED_STATUS,
                     1,
                     pHdr->sa,
+<<<<<<< HEAD
                     subType, 0,psessionEntry);
+=======
+                    subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         goto error;
     }
@@ -455,7 +488,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         limLog(pMac, LOGE, FL("SOFTAP was in 11G only mode, rejecting legacy "
                               "STA : "MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
         limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
+<<<<<<< HEAD
                                   1, pHdr->sa, subType, 0, psessionEntry );
+=======
+                                  1, pHdr->sa, subType, 0, psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         goto error;
 
     }//end if phyMode == 11G_only
@@ -467,7 +504,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         limLog(pMac, LOGE, FL("SOFTAP was in 11N only mode, rejecting legacy "
                               "STA : "MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
         limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
+<<<<<<< HEAD
                                   1, pHdr->sa, subType, 0, psessionEntry );
+=======
+                                  1, pHdr->sa, subType, 0, psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         goto error;
     }//end if PhyMode == 11N_only
 
@@ -554,7 +595,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     eSIR_MAC_OUTSIDE_SCOPE_OF_SPEC_STATUS,
                     1,
                     pHdr->sa,
+<<<<<<< HEAD
                     subType, 0,psessionEntry);
+=======
+                    subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         goto error;
     }
@@ -584,7 +629,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                            eSIR_MAC_BASIC_RATES_NOT_SUPPORTED_STATUS,
                            1,
                            pHdr->sa,
+<<<<<<< HEAD
                            subType, 0,psessionEntry);
+=======
+                           subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
             
 #ifdef WLAN_DEBUG    
@@ -621,7 +670,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                            eSIR_MAC_WME_REFUSED_STATUS,
                            1,
                            pHdr->sa,
+<<<<<<< HEAD
                            subType, 0,psessionEntry);
+=======
+                           subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
             goto error;
         }
@@ -701,10 +754,25 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 if(pAssocReq->rsn.length)
                 {
                     // Unpack the RSN IE 
+<<<<<<< HEAD
                     dot11fUnpackIeRSN(pMac, 
                                         &pAssocReq->rsn.info[0], 
                                         pAssocReq->rsn.length, 
                                         &Dot11fIERSN);
+=======
+                    if (dot11fUnpackIeRSN(pMac,
+                                        &pAssocReq->rsn.info[0], 
+                                        pAssocReq->rsn.length, 
+                                        &Dot11fIERSN) != DOT11F_PARSE_SUCCESS)
+                    {
+                        limLog(pMac, LOGE,
+                               FL("Invalid RSNIE received"));
+                        limSendAssocRspMgmtFrame(pMac,
+                              eSIR_MAC_INVALID_RSN_IE_CAPABILITIES_STATUS,
+                              1, pHdr->sa, subType, 0,psessionEntry, NULL);
+                        goto error;
+                    }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
                     /* Check RSN version is supported or not */
                     if(SIR_MAC_OUI_VERSION_1 == Dot11fIERSN.version)
@@ -724,7 +792,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                            status,
                                            1,
                                            pHdr->sa,
+<<<<<<< HEAD
                                            subType, 0,psessionEntry);
+=======
+                                           subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
                             goto error;
 
@@ -743,7 +815,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                        eSIR_MAC_UNSUPPORTED_RSN_IE_VERSION_STATUS,
                                        1,
                                        pHdr->sa,
+<<<<<<< HEAD
                                        subType, 0,psessionEntry);
+=======
+                                       subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                         goto error;
 
                     }
@@ -760,7 +836,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                    eSIR_MAC_INVALID_INFORMATION_ELEMENT_STATUS,
                                    1,
                                    pHdr->sa,
+<<<<<<< HEAD
                                    subType, 0,psessionEntry);
+=======
+                                   subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
                     goto error;
                     
@@ -771,10 +851,24 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 // Unpack the WPA IE 
                 if(pAssocReq->wpa.length)
                 {
+<<<<<<< HEAD
                     dot11fUnpackIeWPA(pMac, 
                                         &pAssocReq->wpa.info[4], //OUI is not taken care
                                         pAssocReq->wpa.length, 
                                         &Dot11fIEWPA);
+=======
+                    if (dot11fUnpackIeWPA(pMac,
+                                        &pAssocReq->wpa.info[4], //OUI is not taken care
+                                        pAssocReq->wpa.length, 
+                                        &Dot11fIEWPA) != DOT11F_PARSE_SUCCESS)
+                    {
+                        limLog(pMac, LOGE, FL("Invalid WPA IE"));
+                        limSendAssocRspMgmtFrame(pMac,
+                            eSIR_MAC_INVALID_INFORMATION_ELEMENT_STATUS,
+                            1, pHdr->sa, subType, 0,psessionEntry, NULL);
+                        goto error;
+                    }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                     /* check the groupwise and pairwise cipher suites */
                     if(eSIR_SUCCESS != (status = limCheckRxWPAIeMatch(pMac, Dot11fIEWPA, psessionEntry, pAssocReq->HTCaps.present)))
                     {
@@ -788,7 +882,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                        status,
                                        1,
                                        pHdr->sa,
+<<<<<<< HEAD
                                        subType, 0,psessionEntry);
+=======
+                                       subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                         goto error;
 
                     }
@@ -805,7 +903,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                    eSIR_MAC_INVALID_INFORMATION_ELEMENT_STATUS,
                                    1,
                                    pHdr->sa,
+<<<<<<< HEAD
                                    subType, 0,psessionEntry);
+=======
+                                   subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
                     goto error;
                 }/* end - if(pAssocReq->wpa.length) */
@@ -934,7 +1036,12 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                  */
                 pStaDs->pmfSaQueryRetryCount = 0;
                 limSendAssocRspMgmtFrame(pMac, eSIR_MAC_TRY_AGAIN_LATER, 1,
+<<<<<<< HEAD
                                          pHdr->sa, subType, pStaDs, psessionEntry);
+=======
+                                         pHdr->sa, subType, pStaDs,
+                                         psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 limSendSaQueryRequestFrame(
                     pMac, (tANI_U8 *)&(pStaDs->pmfSaQueryCurrentTransId),
                     pHdr->sa, psessionEntry);
@@ -955,7 +1062,12 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
             // Request with try again later
             case DPH_SA_QUERY_IN_PROGRESS:
                 limSendAssocRspMgmtFrame(pMac, eSIR_MAC_TRY_AGAIN_LATER, 1,
+<<<<<<< HEAD
                                          pHdr->sa, subType, 0, psessionEntry);
+=======
+                                         pHdr->sa, subType, 0, psessionEntry,
+                                         NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 goto error;
 
             // SA Query procedure timed out, accept Association Request
@@ -1031,7 +1143,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                eSIR_MAC_QAP_NO_BANDWIDTH_REASON,
                                1,
                                pHdr->sa,
+<<<<<<< HEAD
                                subType, 0,psessionEntry);
+=======
+                               subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef WLAN_DEBUG    
                 pMac->lim.gLimNumAssocReqDropACRejectTS++;
 #endif
@@ -1047,7 +1163,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     eSIR_MAC_QAP_NO_BANDWIDTH_REASON,
                     1,
                     pHdr->sa,
+<<<<<<< HEAD
                     subType, 0,psessionEntry);
+=======
+                    subType, 0,psessionEntry, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef WLAN_DEBUG    
             pMac->lim.gLimNumAssocReqDropACRejectSta++;
 #endif

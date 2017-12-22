@@ -12,6 +12,10 @@
  */
 
 #include <drm/drmP.h>
+<<<<<<< HEAD
+=======
+#include <drm/drm_atomic_helper.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drm_crtc.h>
 #include <drm/drm_crtc_helper.h>
 
@@ -43,15 +47,29 @@ rcar_du_vga_connector_detect(struct drm_connector *connector, bool force)
 }
 
 static const struct drm_connector_funcs connector_funcs = {
+<<<<<<< HEAD
 	.dpms = drm_helper_connector_dpms,
 	.detect = rcar_du_vga_connector_detect,
 	.fill_modes = drm_helper_probe_single_connector_modes,
 	.destroy = rcar_du_vga_connector_destroy,
+=======
+	.dpms = drm_atomic_helper_connector_dpms,
+	.reset = drm_atomic_helper_connector_reset,
+	.detect = rcar_du_vga_connector_detect,
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.destroy = rcar_du_vga_connector_destroy,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 int rcar_du_vga_connector_init(struct rcar_du_device *rcdu,
 			       struct rcar_du_encoder *renc)
 {
+<<<<<<< HEAD
+=======
+	struct drm_encoder *encoder = rcar_encoder_to_drm_encoder(renc);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct rcar_du_connector *rcon;
 	struct drm_connector *connector;
 	int ret;
@@ -63,6 +81,10 @@ int rcar_du_vga_connector_init(struct rcar_du_device *rcdu,
 	connector = &rcon->connector;
 	connector->display_info.width_mm = 0;
 	connector->display_info.height_mm = 0;
+<<<<<<< HEAD
+=======
+	connector->interlace_allowed = true;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = drm_connector_init(rcdu->ddev, connector, &connector_funcs,
 				 DRM_MODE_CONNECTOR_VGA);
@@ -74,6 +96,7 @@ int rcar_du_vga_connector_init(struct rcar_du_device *rcdu,
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
 	drm_helper_connector_dpms(connector, DRM_MODE_DPMS_OFF);
 	drm_object_property_set_value(&connector->base,
 		rcdu->ddev->mode_config.dpms_property, DRM_MODE_DPMS_OFF);
@@ -83,6 +106,16 @@ int rcar_du_vga_connector_init(struct rcar_du_device *rcdu,
 		return ret;
 
 	connector->encoder = &renc->encoder;
+=======
+	connector->dpms = DRM_MODE_DPMS_OFF;
+	drm_object_property_set_value(&connector->base,
+		rcdu->ddev->mode_config.dpms_property, DRM_MODE_DPMS_OFF);
+
+	ret = drm_mode_connector_attach_encoder(connector, encoder);
+	if (ret < 0)
+		return ret;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rcon->encoder = renc;
 
 	return 0;

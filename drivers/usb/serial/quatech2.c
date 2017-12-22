@@ -141,7 +141,10 @@ static void qt2_release(struct usb_serial *serial)
 
 	serial_priv = usb_get_serial_data(serial);
 
+<<<<<<< HEAD
 	usb_kill_urb(serial_priv->read_urb);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	usb_free_urb(serial_priv->read_urb);
 	kfree(serial_priv->read_buffer);
 	kfree(serial_priv);
@@ -188,11 +191,22 @@ static inline int qt2_setdevice(struct usb_device *dev, u8 *data)
 }
 
 
+<<<<<<< HEAD
+=======
+static inline int qt2_getdevice(struct usb_device *dev, u8 *data)
+{
+	return usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
+			       QT_SET_GET_DEVICE, 0xc0, 0, 0,
+			       data, 3, QT2_USB_TIMEOUT);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline int qt2_getregister(struct usb_device *dev,
 				  u8 uart,
 				  u8 reg,
 				  u8 *data)
 {
+<<<<<<< HEAD
 	int ret;
 
 	ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
@@ -204,6 +218,12 @@ static inline int qt2_getregister(struct usb_device *dev,
 	}
 
 	return ret;
+=======
+	return usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
+			       QT_SET_GET_REGISTER, 0xc0, reg,
+			       uart, data, sizeof(*data), QT2_USB_TIMEOUT);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline int qt2_setregister(struct usb_device *dev,
@@ -372,11 +392,17 @@ static int qt2_open(struct tty_struct *tty, struct usb_serial_port *port)
 				 0xc0, 0,
 				 device_port, data, 2, QT2_USB_TIMEOUT);
 
+<<<<<<< HEAD
 	if (status < 2) {
 		dev_err(&port->dev, "%s - open port failed %i\n", __func__,
 			status);
 		if (status >= 0)
 			status = -EIO;
+=======
+	if (status < 0) {
+		dev_err(&port->dev, "%s - open port failed %i\n", __func__,
+			status);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		kfree(data);
 		return status;
 	}

@@ -15,5 +15,14 @@
 int mmc_register_host_class(void);
 void mmc_unregister_host_class(void);
 
+<<<<<<< HEAD
+=======
+void mmc_retune_enable(struct mmc_host *host);
+void mmc_retune_disable(struct mmc_host *host);
+void mmc_retune_hold(struct mmc_host *host);
+void mmc_retune_release(struct mmc_host *host);
+int mmc_retune(struct mmc_host *host);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 

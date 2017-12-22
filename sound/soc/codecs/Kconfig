@@ -8,9 +8,12 @@ config SND_SOC_I2C_AND_SPI
 	default y if I2C=y
 	default y if SPI_MASTER=y
 
+<<<<<<< HEAD
 config SOUND_CONTROL
 	bool "Sound control for wcd9335"
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 menu "CODEC drivers"
 
 config SND_SOC_ALL_CODECS
@@ -631,7 +634,10 @@ config SND_SOC_WCD9320
 
 config SND_SOC_WCD9330
         tristate
+<<<<<<< HEAD
 	depends on WCD9330_CODEC
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 config SND_SOC_WCD9335
         tristate
@@ -671,7 +677,11 @@ config AUDIO_EXT_CLK
 
 config SND_SOC_WCD_MBHC
 	tristate
+<<<<<<< HEAD
 	default y if (SND_SOC_MSM8909_WCD=y || SND_SOC_MSM8X16_WCD=y || SND_SOC_WCD9335=y) && SND_SOC_MDMCALIFORNIUM!=y
+=======
+	default y if (SND_SOC_MSM8909_WCD=y || SND_SOC_MSM8X16_WCD=y || SND_SOC_WCD9335=y) && SND_SOC_MDM9650!=y
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 config SND_SOC_WL1273
 	tristate

@@ -186,7 +186,11 @@ arm720_crval:
  * See <asm/procinfo.h> for a definition of this structure.
  */
 	
+<<<<<<< HEAD
 		.section ".proc.info.init", #alloc, #execinstr
+=======
+		.section ".proc.info.init", #alloc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 .macro arm720_proc_info name:req, cpu_val:req, cpu_mask:req, cpu_name:req, cpu_flush:req
 		.type	__\name\()_proc_info,#object
@@ -203,7 +207,11 @@ __\name\()_proc_info:
 			PMD_BIT4 | \
 			PMD_SECT_AP_WRITE | \
 			PMD_SECT_AP_READ
+<<<<<<< HEAD
 		b	\cpu_flush				@ cpu_flush
+=======
+		initfn	\cpu_flush, __\name\()_proc_info	@ cpu_flush
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.long	cpu_arch_name				@ arch_name
 		.long	cpu_elf_name				@ elf_name
 		.long	HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB	@ elf_hwcap

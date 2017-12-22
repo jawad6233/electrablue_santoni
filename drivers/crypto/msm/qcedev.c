@@ -1,6 +1,10 @@
 /* Qualcomm CE device driver.
  *
+<<<<<<< HEAD
  * Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -201,7 +205,11 @@ static int qcedev_release(struct inode *inode, struct file *file)
 	handle =  file->private_data;
 	podev =  handle->cntl;
 	if (podev != NULL && podev->magic != QCEDEV_MAGIC) {
+<<<<<<< HEAD
 		pr_err("%s: invalid handle %p\n",
+=======
+		pr_err("%s: invalid handle %pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					__func__, podev);
 	}
 	kzfree(handle);
@@ -273,8 +281,11 @@ void qcedev_sha_req_cb(void *cookie, unsigned char *digest,
 	if (authdata) {
 		handle->sha_ctxt.auth_data[0] = auth32[0];
 		handle->sha_ctxt.auth_data[1] = auth32[1];
+<<<<<<< HEAD
 		handle->sha_ctxt.auth_data[2] = auth32[2];
 		handle->sha_ctxt.auth_data[3] = auth32[3];
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	tasklet_schedule(&pdev->done_tasklet);
@@ -1382,7 +1393,11 @@ static int qcedev_check_cipher_key(struct qcedev_cipher_op_req *req,
 			/* if not using HW key make sure key
 			 * length is valid
 			 */
+<<<<<<< HEAD
 			if ((req->mode == QCEDEV_AES_MODE_XTS)) {
+=======
+			if (req->mode == QCEDEV_AES_MODE_XTS) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				if ((req->encklen != QCEDEV_AES_KEY_128*2) &&
 				(req->encklen != QCEDEV_AES_KEY_256*2)) {
 					pr_err("%s: unsupported key size: %d\n",
@@ -1607,7 +1622,11 @@ long qcedev_ioctl(struct file *file, unsigned cmd, unsigned long arg)
 	podev =  handle->cntl;
 	qcedev_areq.handle = handle;
 	if (podev == NULL || podev->magic != QCEDEV_MAGIC) {
+<<<<<<< HEAD
 		pr_err("%s: invalid handle %p\n",
+=======
+		pr_err("%s: invalid handle %pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			__func__, podev);
 		return -ENOENT;
 	}

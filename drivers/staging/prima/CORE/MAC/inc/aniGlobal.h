@@ -44,12 +44,15 @@
 #ifndef _ANIGLOBAL_H
 #define _ANIGLOBAL_H
 
+<<<<<<< HEAD
 // Take care to avoid redefinition of this type, if it is
 // already defined in "halWmmApi.h"
 #if !defined(_HALMAC_WMM_API_H)
 typedef struct sAniSirGlobal *tpAniSirGlobal;
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "halTypes.h"
 #include "sirCommon.h"
 #include "aniSystemDefs.h"
@@ -230,6 +233,14 @@ typedef struct sLimTimers
     TX_TIMER           gLimFTPreAuthRspTimer;
 #endif
 
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_LFR_MBB
+    TX_TIMER           glim_pre_auth_mbb_rsp_timer;
+    TX_TIMER           glim_reassoc_mbb_rsp_timer;
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef FEATURE_WLAN_ESE
     TX_TIMER           gLimEseTsmTimer;
 #endif
@@ -244,6 +255,10 @@ typedef struct sLimTimers
      * for a period of time on a particular DFS channel
      */
     TX_TIMER           gLimActiveToPassiveChannelTimer;
+<<<<<<< HEAD
+=======
+    TX_TIMER           g_lim_ap_ecsa_timer;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 //********************TIMER SECTION ENDS**************************************************
 // ALL THE FIELDS BELOW THIS CAN BE ZEROED OUT in limInitialize
 //****************************************************************************************
@@ -260,12 +275,15 @@ typedef struct {
     v_TIME_t failed_timestamp[MAX_TIDS];
 } tLimStaBAInfo;
 
+<<<<<<< HEAD
 typedef struct {
    bool tx_aggr;
    uint8_t sta_id;
    uint8_t tid;
 } t_test_status_bainfo;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 typedef struct sAniSirLim
 {
     //////////////////////////////////////     TIMER RELATED START ///////////////////////////////////////////
@@ -920,7 +938,10 @@ tLimMlmOemDataRsp       *gpLimMlmOemDataRsp;
     tANI_U32 txBdToken;
     tANI_U32 EnableTdls2040BSSCoexIE;
     tLimStaBAInfo staBaInfo[WLAN_MAX_STA_COUNT];
+<<<<<<< HEAD
     t_test_status_bainfo test_status_bainfo;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tAniSirLim, *tpAniSirLim;
 
 typedef struct sLimMgmtFrameRegistration
@@ -948,6 +969,17 @@ typedef struct sFTContext
 } tftContext, *tpFTContext;
 #endif
 
+<<<<<<< HEAD
+=======
+typedef struct assoc_rsp_tx_context
+{
+  vos_list_node_t node;
+  tANI_U8 psessionID;
+  tANI_U16 staId;
+  tANI_U32 txBdToken;
+} assoc_rsp_tx_context;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 //Check if this definition can actually move here even for Volans. In that case
 //this featurization can be removed.
 /** ------------------------------------------------------------------------- * 
@@ -1052,7 +1084,11 @@ typedef struct sAniSirGlobal
 #if defined WLAN_FEATURE_VOWIFI_11R
     tftContext   ft;
 #endif
+<<<<<<< HEAD
 
+=======
+    vos_list_t assoc_rsp_completion_list;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     tANI_U32     gCurrentLogSize;
     tANI_U32     menuCurrent;
     /* logDump specific */
@@ -1093,7 +1129,16 @@ typedef struct sAniSirGlobal
     v_U32_t PERroamTimeout;
     v_U32_t currentBssScore;
 #endif
+<<<<<<< HEAD
    bool max_power_cmd_pending;
+=======
+#ifdef SAP_AUTH_OFFLOAD
+    bool sap_auth_offload;
+    uint32_t sap_auth_offload_sec_type;
+#endif /* SAP_AUTH_OFFLOAD */
+   bool max_power_cmd_pending;
+   uint32_t sta_auth_retries_for_code17;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tAniSirGlobal;
 
 #ifdef FEATURE_WLAN_TDLS

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2014,2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -72,7 +76,11 @@ enum qpnp_misc_version_name {
 	PM8941,
 	PM8226,
 	PMA8084,
+<<<<<<< HEAD
 	PMDCALIFORNIUM,
+=======
+	PMD9650,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct qpnp_misc_version irq_support_version[] = {
@@ -80,7 +88,11 @@ static struct qpnp_misc_version irq_support_version[] = {
 	{0x01, 0x02}, /* PM8941 */
 	{0x07, 0x00}, /* PM8226 */
 	{0x09, 0x00}, /* PMA8084 */
+<<<<<<< HEAD
 	{0x16, 0x00}, /* PMDCALIFORNIUM */
+=======
+	{0x16, 0x00}, /* PMD9650 */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int qpnp_write_byte(struct spmi_device *spmi, u16 addr, u8 val)
@@ -128,6 +140,50 @@ static bool __misc_irqs_available(struct qpnp_misc_dev *dev)
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+int qpnp_misc_read_reg(struct device_node *node, u16 addr, u8 *val)
+{
+	struct qpnp_misc_dev *mdev = NULL;
+	struct qpnp_misc_dev *mdev_found = NULL;
+	int rc;
+	u8 temp;
+
+	if (IS_ERR_OR_NULL(node)) {
+		pr_err("Invalid device node pointer\n");
+		return -EINVAL;
+	}
+
+	mutex_lock(&qpnp_misc_dev_list_mutex);
+	list_for_each_entry(mdev, &qpnp_misc_dev_list, list) {
+		if (mdev->dev->of_node == node) {
+			mdev_found = mdev;
+			break;
+		}
+	}
+	mutex_unlock(&qpnp_misc_dev_list_mutex);
+
+	if (!mdev_found) {
+		/*
+		 * No MISC device was found. This API should only
+		 * be called by drivers which have specified the
+		 * misc phandle in their device tree node.
+		 */
+		pr_err("no probed misc device found\n");
+		return -EPROBE_DEFER;
+	}
+
+	rc = qpnp_read_byte(mdev->spmi, addr, &temp);
+	if (rc < 0) {
+		dev_err(mdev->dev, "Failed to read addr %x, rc=%d\n", addr, rc);
+		return rc;
+	}
+
+	*val = temp;
+	return 0;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int qpnp_misc_irqs_available(struct device *consumer_dev)
 {
 	struct device_node *misc_node = NULL;
@@ -195,7 +251,11 @@ static int qpnp_misc_config(struct qpnp_misc_dev *mdev)
 	version_name = get_qpnp_misc_version_name(mdev);
 
 	switch (version_name) {
+<<<<<<< HEAD
 	case PMDCALIFORNIUM:
+=======
+	case PMD9650:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (mdev->pwm_sel > 0 && mdev->enable_gp_driver) {
 			rc = qpnp_write_byte(mdev->spmi,
 				mdev->resource->start + REG_PWM_SEL,
@@ -298,7 +358,11 @@ static void __exit qpnp_misc_exit(void)
 	return spmi_driver_unregister(&qpnp_misc_driver);
 }
 
+<<<<<<< HEAD
 module_init(qpnp_misc_init);
+=======
+subsys_initcall(qpnp_misc_init);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 module_exit(qpnp_misc_exit);
 
 MODULE_DESCRIPTION(QPNP_MISC_DEV_NAME);

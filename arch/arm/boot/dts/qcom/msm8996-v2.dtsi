@@ -480,7 +480,15 @@
 	gdsc-venus-supply = <&gdsc_venus>;
 };
 
+<<<<<<< HEAD
 &mdss_dsi {
+=======
+&sde_hdmi {
+	hpd-gdsc-venus-supply = <&gdsc_venus>;
+};
+
+&mdss_dsi0 {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	gdsc-venus-supply = <&gdsc_venus>;
 	qcom,core-supply-entries {
 		#address-cells = <1>;

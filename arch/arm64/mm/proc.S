@@ -23,22 +23,31 @@
 #include <asm/assembler.h>
 #include <asm/asm-offsets.h>
 #include <asm/hwcap.h>
+<<<<<<< HEAD
 #include <asm/pgtable-hwdef.h>
 #include <asm/pgtable.h>
 
 #include "proc-macros.S"
 
+=======
+#include <asm/pgtable.h>
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_ARM64_64K_PAGES
 #define TCR_TG_FLAGS	TCR_TG0_64K | TCR_TG1_64K
 #else
 #define TCR_TG_FLAGS	TCR_TG0_4K | TCR_TG1_4K
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 #define TCR_SMP_FLAGS	TCR_SHARED
 #else
 #define TCR_SMP_FLAGS	0
 #endif
+=======
+#define TCR_SMP_FLAGS	TCR_SHARED
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* PTWs cacheable, inner/outer WBWA */
 #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
@@ -46,6 +55,7 @@
 #define MAIR(attr, mt)	((attr) << ((mt) * 8))
 
 /*
+<<<<<<< HEAD
  *	cpu_cache_off()
  *
  *	Turn the CPU D-cache off.
@@ -92,6 +102,8 @@ ENTRY(cpu_soft_restart)
 ENDPROC(cpu_soft_restart)
 
 /*
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *	cpu_do_idle()
  *
  *	Idle the processor (wait for interrupt).
@@ -156,6 +168,10 @@ ENTRY(cpu_do_resume)
 	msr	cpacr_el1, x6
 	msr	ttbr0_el1, x1
 	msr	ttbr1_el1, x7
+<<<<<<< HEAD
+=======
+	tcr_set_idmap_t0sz x8, x7
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	msr	tcr_el1, x8
 	msr	vbar_el1, x9
 	msr	mdscr_el1, x10
@@ -179,7 +195,11 @@ ENDPROC(cpu_do_resume)
  *	- pgd_phys - physical address of new TTB
  */
 ENTRY(cpu_do_switch_mm)
+<<<<<<< HEAD
 	mmid	w1, x1				// get mm->context.id
+=======
+	mmid	x1, x1				// get mm->context.id
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bfi	x0, x1, #48, #16		// set the ASID
 	msr	ttbr0_el1, x0			// set TTBR0
 	isb
@@ -195,6 +215,7 @@ ENDPROC(cpu_do_switch_mm)
  *	value of the SCTLR_EL1 register.
  */
 ENTRY(__cpu_setup)
+<<<<<<< HEAD
 	ic	iallu				// I+BTB cache invalidate
 	tlbi	vmalle1is			// invalidate I + D TLBs
 	dsb	ish
@@ -202,6 +223,15 @@ ENTRY(__cpu_setup)
 	mov	x0, #3 << 20
 	msr	cpacr_el1, x0			// Enable FP/ASIMD
 	msr	mdscr_el1, xzr			// Reset mdscr_el1
+=======
+	tlbi	vmalle1				// Invalidate local TLB
+	dsb	nsh
+
+	mov	x0, #3 << 20
+	msr	cpacr_el1, x0			// Enable FP/ASIMD
+	mov	x0, #1 << 12			// Reset mdscr_el1 and disable
+	msr	mdscr_el1, x0			// access to the DCC from EL0
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	isb					// Unmask debug exceptions now,
 	enable_dbg				// since this is per-cpu
 	/*
@@ -235,6 +265,11 @@ ENTRY(__cpu_setup)
 	 */
 	ldr	x10, =TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
 			TCR_TG_FLAGS | TCR_ASID16 | TCR_TBI0
+<<<<<<< HEAD
+=======
+	tcr_set_idmap_t0sz	x10, x9
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * Read the PARange bits from ID_AA64MMFR0_EL1 and set the IPS bits in
 	 * TCR_EL1.

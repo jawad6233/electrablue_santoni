@@ -3,8 +3,13 @@
 #ifndef _DRM_INTEL_GTT_H
 #define	_DRM_INTEL_GTT_H
 
+<<<<<<< HEAD
 void intel_gtt_get(size_t *gtt_total, size_t *stolen_size,
 		   phys_addr_t *mappable_base, unsigned long *mappable_end);
+=======
+void intel_gtt_get(u64 *gtt_total, size_t *stolen_size,
+		   phys_addr_t *mappable_base, u64 *mappable_end);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
 		     struct agp_bridge_data *bridge);

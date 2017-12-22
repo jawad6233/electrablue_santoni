@@ -35,6 +35,13 @@
 #define F2FS_XATTR_INDEX_LUSTRE			5
 #define F2FS_XATTR_INDEX_SECURITY		6
 #define F2FS_XATTR_INDEX_ADVISE			7
+<<<<<<< HEAD
+=======
+/* Should be same as EXT4_XATTR_INDEX_ENCRYPTION */
+#define F2FS_XATTR_INDEX_ENCRYPTION		9
+
+#define F2FS_XATTR_NAME_ENCRYPTION_CONTEXT	"c"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct f2fs_xattr_header {
 	__le32  h_magic;        /* magic number for identification */
@@ -54,10 +61,17 @@ struct f2fs_xattr_entry {
 #define XATTR_FIRST_ENTRY(ptr)	(XATTR_ENTRY(XATTR_HDR(ptr) + 1))
 #define XATTR_ROUND		(3)
 
+<<<<<<< HEAD
 #define XATTR_ALIGN(size)	((size + XATTR_ROUND) & ~XATTR_ROUND)
 
 #define ENTRY_SIZE(entry) (XATTR_ALIGN(sizeof(struct f2fs_xattr_entry) + \
 			entry->e_name_len + le16_to_cpu(entry->e_value_size)))
+=======
+#define XATTR_ALIGN(size)	(((size) + XATTR_ROUND) & ~XATTR_ROUND)
+
+#define ENTRY_SIZE(entry) (XATTR_ALIGN(sizeof(struct f2fs_xattr_entry) + \
+			(entry)->e_name_len + le16_to_cpu((entry)->e_value_size)))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define XATTR_NEXT_ENTRY(entry)	((struct f2fs_xattr_entry *)((char *)(entry) +\
 			ENTRY_SIZE(entry)))
@@ -68,9 +82,16 @@ struct f2fs_xattr_entry {
 		for (entry = XATTR_FIRST_ENTRY(addr);\
 				!IS_XATTR_LAST_ENTRY(entry);\
 				entry = XATTR_NEXT_ENTRY(entry))
+<<<<<<< HEAD
 
 #define MIN_OFFSET(i)	XATTR_ALIGN(inline_xattr_size(i) + PAGE_SIZE -	\
 				sizeof(struct node_footer) - sizeof(__u32))
+=======
+#define VALID_XATTR_BLOCK_SIZE	(PAGE_SIZE - sizeof(struct node_footer))
+#define XATTR_PADDING_SIZE	(sizeof(__u32))
+#define MIN_OFFSET(i)		XATTR_ALIGN(inline_xattr_size(i) +	\
+						VALID_XATTR_BLOCK_SIZE)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define MAX_VALUE_LEN(i)	(MIN_OFFSET(i) -			\
 				sizeof(struct f2fs_xattr_header) -	\
@@ -115,18 +136,33 @@ extern const struct xattr_handler *f2fs_xattr_handlers[];
 
 extern int f2fs_setxattr(struct inode *, int, const char *,
 				const void *, size_t, struct page *, int);
+<<<<<<< HEAD
 extern int f2fs_getxattr(struct inode *, int, const char *, void *, size_t);
+=======
+extern int f2fs_getxattr(struct inode *, int, const char *, void *,
+						size_t, struct page *);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern ssize_t f2fs_listxattr(struct dentry *, char *, size_t);
 #else
 
 #define f2fs_xattr_handlers	NULL
 static inline int f2fs_setxattr(struct inode *inode, int index,
+<<<<<<< HEAD
 		const char *name, const void *value, size_t size, int flags)
+=======
+		const char *name, const void *value, size_t size,
+		struct page *page, int flags)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	return -EOPNOTSUPP;
 }
 static inline int f2fs_getxattr(struct inode *inode, int index,
+<<<<<<< HEAD
 		const char *name, void *buffer, size_t buffer_size)
+=======
+			const char *name, void *buffer,
+			size_t buffer_size, struct page *dpage)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	return -EOPNOTSUPP;
 }

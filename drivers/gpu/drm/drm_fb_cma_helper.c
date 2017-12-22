@@ -209,6 +209,7 @@ int drm_fb_cma_debugfs_show(struct seq_file *m, void *arg)
 	struct drm_info_node *node = (struct drm_info_node *) m->private;
 	struct drm_device *dev = node->minor->dev;
 	struct drm_framebuffer *fb;
+<<<<<<< HEAD
 	int ret;
 
 	ret = mutex_lock_interruptible(&dev->mode_config.mutex);
@@ -226,6 +227,13 @@ int drm_fb_cma_debugfs_show(struct seq_file *m, void *arg)
 
 	mutex_unlock(&dev->struct_mutex);
 	mutex_unlock(&dev->mode_config.mutex);
+=======
+
+	mutex_lock(&dev->mode_config.fb_lock);
+	drm_for_each_fb(fb, dev)
+		drm_fb_cma_describe(fb, m);
+	mutex_unlock(&dev->mode_config.fb_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -234,9 +242,15 @@ EXPORT_SYMBOL_GPL(drm_fb_cma_debugfs_show);
 
 static struct fb_ops drm_fbdev_cma_ops = {
 	.owner		= THIS_MODULE,
+<<<<<<< HEAD
 	.fb_fillrect	= sys_fillrect,
 	.fb_copyarea	= sys_copyarea,
 	.fb_imageblit	= sys_imageblit,
+=======
+	.fb_fillrect	= drm_fb_helper_sys_fillrect,
+	.fb_copyarea	= drm_fb_helper_sys_copyarea,
+	.fb_imageblit	= drm_fb_helper_sys_imageblit,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.fb_check_var	= drm_fb_helper_check_var,
 	.fb_set_par	= drm_fb_helper_set_par,
 	.fb_blank	= drm_fb_helper_blank,
@@ -275,10 +289,16 @@ static int drm_fbdev_cma_create(struct drm_fb_helper *helper,
 	if (IS_ERR(obj))
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	fbi = framebuffer_alloc(0, dev->dev);
 	if (!fbi) {
 		dev_err(dev->dev, "Failed to allocate framebuffer info.\n");
 		ret = -ENOMEM;
+=======
+	fbi = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(fbi)) {
+		ret = PTR_ERR(fbi);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto err_drm_gem_cma_free_object;
 	}
 
@@ -286,17 +306,25 @@ static int drm_fbdev_cma_create(struct drm_fb_helper *helper,
 	if (IS_ERR(fbdev_cma->fb)) {
 		dev_err(dev->dev, "Failed to allocate DRM framebuffer.\n");
 		ret = PTR_ERR(fbdev_cma->fb);
+<<<<<<< HEAD
 		goto err_framebuffer_release;
+=======
+		goto err_fb_info_destroy;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	fb = &fbdev_cma->fb->fb;
 	helper->fb = fb;
+<<<<<<< HEAD
 	helper->fbdev = fbi;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	fbi->par = helper;
 	fbi->flags = FBINFO_FLAG_DEFAULT;
 	fbi->fbops = &drm_fbdev_cma_ops;
 
+<<<<<<< HEAD
 	ret = fb_alloc_cmap(&fbi->cmap, 256, 0);
 	if (ret) {
 		dev_err(dev->dev, "Failed to allocate color map.\n");
@@ -305,6 +333,10 @@ static int drm_fbdev_cma_create(struct drm_fb_helper *helper,
 
 	drm_fb_helper_fill_fix(fbi, fb->pitches[0], fb->depth);
 	drm_fb_helper_fill_var(fbi, helper, fb->width, fb->height);
+=======
+	drm_fb_helper_fill_fix(fbi, fb->pitches[0], fb->depth);
+	drm_fb_helper_fill_var(fbi, helper, sizes->fb_width, sizes->fb_height);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	offset = fbi->var.xoffset * bytes_per_pixel;
 	offset += fbi->var.yoffset * fb->pitches[0];
@@ -317,11 +349,16 @@ static int drm_fbdev_cma_create(struct drm_fb_helper *helper,
 
 	return 0;
 
+<<<<<<< HEAD
 err_drm_fb_cma_destroy:
 	drm_framebuffer_unregister_private(fb);
 	drm_fb_cma_destroy(fb);
 err_framebuffer_release:
 	framebuffer_release(fbi);
+=======
+err_fb_info_destroy:
+	drm_fb_helper_release_fbi(helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 err_drm_gem_cma_free_object:
 	drm_gem_cma_free_object(&obj->base);
 	return ret;
@@ -397,6 +434,7 @@ EXPORT_SYMBOL_GPL(drm_fbdev_cma_init);
  */
 void drm_fbdev_cma_fini(struct drm_fbdev_cma *fbdev_cma)
 {
+<<<<<<< HEAD
 	if (fbdev_cma->fb_helper.fbdev) {
 		struct fb_info *info;
 		int ret;
@@ -411,6 +449,10 @@ void drm_fbdev_cma_fini(struct drm_fbdev_cma *fbdev_cma)
 
 		framebuffer_release(info);
 	}
+=======
+	drm_fb_helper_unregister_fbi(&fbdev_cma->fb_helper);
+	drm_fb_helper_release_fbi(&fbdev_cma->fb_helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (fbdev_cma->fb) {
 		drm_framebuffer_unregister_private(&fbdev_cma->fb->fb);

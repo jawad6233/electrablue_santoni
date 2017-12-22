@@ -53,6 +53,10 @@
 #include <linux/oom.h>
 #include <linux/writeback.h>
 #include <linux/shm.h>
+<<<<<<< HEAD
+=======
+#include <linux/kcov.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <asm/uaccess.h>
 #include <asm/unistd.h>
@@ -681,6 +685,10 @@ void do_exit(long code)
 	TASKS_RCU(int tasks_rcu_i);
 
 	profile_task_exit(tsk);
+<<<<<<< HEAD
+=======
+	kcov_task_exit(tsk);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	WARN_ON(blk_needs_flush_plug(tsk));
 

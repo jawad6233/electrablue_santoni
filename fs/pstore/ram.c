@@ -305,6 +305,27 @@ static int notrace ramoops_pstore_write_buf(enum pstore_type_id type,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int notrace ramoops_pstore_write_buf_user(enum pstore_type_id type,
+						 enum kmsg_dump_reason reason,
+						 u64 *id, unsigned int part,
+						 const char __user *buf,
+						 bool compressed, size_t size,
+						 struct pstore_info *psi)
+{
+	if (type == PSTORE_TYPE_PMSG) {
+		struct ramoops_context *cxt = psi->data;
+
+		if (!cxt->mprz)
+			return -ENOMEM;
+		return persistent_ram_write_user(cxt->mprz, buf, size);
+	}
+
+	return -EINVAL;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int ramoops_pstore_erase(enum pstore_type_id type, u64 id, int count,
 				struct timespec time, struct pstore_info *psi)
 {
@@ -343,6 +364,10 @@ static struct ramoops_context oops_cxt = {
 		.open	= ramoops_pstore_open,
 		.read	= ramoops_pstore_read,
 		.write_buf	= ramoops_pstore_write_buf,
+<<<<<<< HEAD
+=======
+		.write_buf_user	= ramoops_pstore_write_buf_user,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.erase	= ramoops_pstore_erase,
 	},
 };

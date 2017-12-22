@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,7 +32,25 @@ struct msm_isp_event_data32 {
 		struct msm_isp_sof_info sof_info;
 	} u;
 };
+<<<<<<< HEAD
 #endif
 
 #endif
 
+=======
+
+struct msm_isp32_event_data32 {
+	struct compat_timeval timestamp;
+	struct compat_timeval mono_timestamp;
+	enum msm_vfe_input_src input_intf;
+	uint32_t frame_id;
+	union {
+		struct msm_isp_stats_event stats;
+		struct msm_isp_buf_event buf_done;
+		struct msm_isp32_error_info error_info;
+	} u;
+};
+
+#endif
+#endif /* __MSMB_ISP__ */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

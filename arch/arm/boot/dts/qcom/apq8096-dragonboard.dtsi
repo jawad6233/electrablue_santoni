@@ -325,7 +325,11 @@
 	};
 };
 
+<<<<<<< HEAD
 #include "msm8996-mdss-panels.dtsi"
+=======
+#include "msm8996-sde-display.dtsi"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 &dsi_hx8379a_fwvga_truly_vid {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_pwm";
@@ -341,9 +345,12 @@
 	qcom,mdss-pref-prim-intf = "dsi";
 };
 
+<<<<<<< HEAD
 &mdss_dsi {
 	hw-config = "single_dsi";
 };
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 &mdss_dsi0 {
 	qcom,dsi-pref-prim-pan = <&dsi_hx8379a_fwvga_truly_vid>;

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -85,6 +89,10 @@ dump_pmc_state( tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 arg3
     p += log_sprintf( pMac,p, " PMC: RequestFullPowerPending = %d\n", pMac->pmc.requestFullPowerPending);
     p += log_sprintf( pMac,p, " PMC: UapsdSessionRequired = %d\n", pMac->pmc.uapsdSessionRequired);
     p += log_sprintf( pMac,p, " PMC: wowlModeRequired = %d\n\n", pMac->pmc.wowlModeRequired);
+<<<<<<< HEAD
+=======
+    p += log_sprintf( pMac,p, " PMC: isAPWOWExit  = %d\n\n", pMac->pmc.isAPWOWExit);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     pmcLog(pMac, LOGW, "\n%s", ptr);
 

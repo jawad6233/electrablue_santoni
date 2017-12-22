@@ -160,6 +160,7 @@ config SND_BCD2000
 	  To compile this driver as a module, choose M here: the module
 	  will be called snd-bcd2000.
 
+<<<<<<< HEAD
 config SND_USB_AUDIO_QMI
 	tristate "USB Audio QMI Service driver"
 	depends on MSM_QMI_INTERFACE
@@ -168,5 +169,7 @@ config SND_USB_AUDIO_QMI
 	  to perform operations like enable or disable particular audio
 	  stream on a connected USB device.
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endif	# SND_USB
 

@@ -177,6 +177,10 @@ void save_stack_trace_tsk(struct task_struct *tsk, struct stack_trace *trace)
 {
 	__save_stack_trace(tsk, trace, 1);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(save_stack_trace_tsk);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void save_stack_trace(struct stack_trace *trace)
 {

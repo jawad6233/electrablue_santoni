@@ -20,6 +20,12 @@
 
 #ifndef __ASSEMBLY__
 
+<<<<<<< HEAD
+=======
+#define __nops(n)	".rept	" #n "\nnop\n.endr\n"
+#define nops(n)		asm volatile(__nops(n))
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define sev()		asm volatile("sev" : : : "memory")
 #define wfe()		asm volatile("wfe" : : : "memory")
 #define wfi()		asm volatile("wfi" : : : "memory")
@@ -32,6 +38,7 @@
 #define rmb()		dsb(ld)
 #define wmb()		dsb(st)
 
+<<<<<<< HEAD
 #ifndef CONFIG_SMP
 #define smp_mb()	barrier()
 #define smp_rmb()	barrier()
@@ -53,6 +60,10 @@ do {									\
 })
 
 #else
+=======
+#define dma_rmb()	dmb(oshld)
+#define dma_wmb()	dmb(oshst)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define smp_mb()	dmb(ish)
 #define smp_rmb()	dmb(ishld)
@@ -96,8 +107,11 @@ do {									\
 	___p1;								\
 })
 
+<<<<<<< HEAD
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define read_barrier_depends()		do { } while(0)
 #define smp_read_barrier_depends()	do { } while(0)
 

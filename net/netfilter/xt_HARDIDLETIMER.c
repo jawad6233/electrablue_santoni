@@ -4,7 +4,11 @@
  * Netfilter module to trigger a timer when packet matches.
  * After timer expires a kevent will be sent.
  *
+<<<<<<< HEAD
  * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Copyright (C) 2004, 2010 Nokia Corporation
  *
@@ -187,6 +191,11 @@ static int hardidletimer_tg_create(struct hardidletimer_tg_info *info)
 		pr_debug("couldn't add file to sysfs");
 		goto out_free_attr;
 	}
+<<<<<<< HEAD
+=======
+	/*  notify userspace  */
+	kobject_uevent(hardidletimer_tg_kobj, KOBJ_ADD);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_add(&info->timer->entry, &hardidletimer_tg_list);
 

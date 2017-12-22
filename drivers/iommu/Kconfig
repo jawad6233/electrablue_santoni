@@ -39,7 +39,11 @@ config IOMMU_IO_PGTABLE_LPAE_SELFTEST
 
 config IOMMU_IO_PGTABLE_FAST
 	bool "Fast ARMv7/v8 Long Descriptor Format"
+<<<<<<< HEAD
 	select IOMMU_IO_PGTABLE
+=======
+	depends on ARM64_DMA_USE_IOMMU
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	help
           Enable support for a subset of the ARM long descriptor pagetable
 	  format.  This allocator achieves fast performance by
@@ -105,7 +109,11 @@ config MSM_IOMMU
 # MSM IOMMUv1 support
 config MSM_IOMMU_V1
 	bool "MSM IOMMUv1 Support"
+<<<<<<< HEAD
 	depends on ARCH_MSM8974 || ARCH_MSM8226 || ARCH_APQ8084 || ARCH_MSM8916 || ARCH_MSM8994 || ARCH_MSM8992 || ARCH_MSM8909
+=======
+	depends on ARCH_MSM8974 || ARCH_MSM8226 || ARCH_APQ8084 || ARCH_MSM8916 ||  ARCH_MSM8953 || ARCH_MSM8994 || ARCH_MSM8992 || ARCH_MSM8909
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select IOMMU_API
 	select MSM_IOMMU
 	help
@@ -294,6 +302,12 @@ config OMAP_IOMMU
 	bool "OMAP IOMMU Support"
 	depends on ARCH_OMAP2PLUS
 	select IOMMU_API
+<<<<<<< HEAD
+=======
+	---help---
+	  The OMAP3 media platform drivers depend on iommu support,
+	  if you need them say Y here.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 config OMAP_IOMMU_DEBUG
        tristate "Export OMAP IOMMU internals in DebugFS"

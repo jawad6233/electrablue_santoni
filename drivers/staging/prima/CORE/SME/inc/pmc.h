@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, 2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -174,6 +178,10 @@ typedef struct sPmcInfo
     tANI_BOOLEAN wowlEnabled;  /* TRUE if WoWL is enabled */
     tANI_BOOLEAN wowlModeRequired; /* TRUE if device should go to WOWL on entering BMPS */
     tWowlExitSource wowlExitSrc; /*WoWl exiting because of wakeup pkt or user explicitly disabling WoWL*/
+<<<<<<< HEAD
+=======
+    tANI_BOOLEAN isAPWOWExit; /* TRUE if last WOW exit is from soft ap */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     void (*enterWowlCallbackRoutine) (void *callbackContext, eHalStatus status); /* routine to call for wowl request */ 
     void *enterWowlCallbackContext;/* value to be passed as parameter to routine specified above */
     tSirSmeWowlEnterParams wowlEnterParams; /* WOWL mode configuration */

@@ -143,7 +143,11 @@ extern void cpuidle_resume(void);
 extern int cpuidle_enable_device(struct cpuidle_device *dev);
 extern void cpuidle_disable_device(struct cpuidle_device *dev);
 extern int cpuidle_play_dead(void);
+<<<<<<< HEAD
 extern void cpuidle_use_deepest_state(bool enable);
+=======
+extern void cpuidle_enter_freeze(void);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern struct cpuidle_driver *cpuidle_get_cpu_driver(struct cpuidle_device *dev);
 #else
@@ -176,11 +180,21 @@ static inline int cpuidle_enable_device(struct cpuidle_device *dev)
 {return -ENODEV; }
 static inline void cpuidle_disable_device(struct cpuidle_device *dev) { }
 static inline int cpuidle_play_dead(void) {return -ENODEV; }
+<<<<<<< HEAD
 static inline void cpuidle_use_deepest_state(bool enable) {}
+=======
+static inline void cpuidle_enter_freeze(void) { }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline struct cpuidle_driver *cpuidle_get_cpu_driver(
 	struct cpuidle_device *dev) {return NULL; }
 #endif
 
+<<<<<<< HEAD
+=======
+/* kernel/sched/idle.c */
+extern void sched_idle_set_state(struct cpuidle_state *idle_state, int index);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_ARCH_NEEDS_CPU_IDLE_COUPLED
 void cpuidle_coupled_parallel_barrier(struct cpuidle_device *dev, atomic_t *a);
 #else

@@ -106,6 +106,10 @@ static int dwc3_exynos_remove_child(struct device *dev, void *unused)
 static int dwc3_exynos_probe(struct platform_device *pdev)
 {
 	struct dwc3_exynos	*exynos;
+<<<<<<< HEAD
+=======
+	struct clk		*clk;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct device		*dev = &pdev->dev;
 	struct device_node	*node = dev->of_node;
 
@@ -126,6 +130,7 @@ static int dwc3_exynos_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, exynos);
 
+<<<<<<< HEAD
 	exynos->dev	= dev;
 
 	exynos->clk = devm_clk_get(dev, "usbdrd30");
@@ -133,6 +138,23 @@ static int dwc3_exynos_probe(struct platform_device *pdev)
 		dev_err(dev, "couldn't get clock\n");
 		return -EINVAL;
 	}
+=======
+	ret = dwc3_exynos_register_phys(exynos);
+	if (ret) {
+		dev_err(dev, "couldn't register PHYs\n");
+		return ret;
+	}
+
+	clk = devm_clk_get(dev, "usbdrd30");
+	if (IS_ERR(clk)) {
+		dev_err(dev, "couldn't get clock\n");
+		return -EINVAL;
+	}
+
+	exynos->dev	= dev;
+	exynos->clk	= clk;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	clk_prepare_enable(exynos->clk);
 
 	exynos->vdd33 = devm_regulator_get(dev, "vdd33");
@@ -157,35 +179,53 @@ static int dwc3_exynos_probe(struct platform_device *pdev)
 		goto err3;
 	}
 
+<<<<<<< HEAD
 	ret = dwc3_exynos_register_phys(exynos);
 	if (ret) {
 		dev_err(dev, "couldn't register PHYs\n");
 		goto err4;
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (node) {
 		ret = of_platform_populate(node, NULL, NULL, dev);
 		if (ret) {
 			dev_err(dev, "failed to add dwc3 core\n");
+<<<<<<< HEAD
 			goto err5;
+=======
+			goto err4;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	} else {
 		dev_err(dev, "no device node, failed to add dwc3 core\n");
 		ret = -ENODEV;
+<<<<<<< HEAD
 		goto err5;
+=======
+		goto err4;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return 0;
 
+<<<<<<< HEAD
 err5:
 	platform_device_unregister(exynos->usb2_phy);
 	platform_device_unregister(exynos->usb3_phy);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 err4:
 	regulator_disable(exynos->vdd10);
 err3:
 	regulator_disable(exynos->vdd33);
 err2:
+<<<<<<< HEAD
 	clk_disable_unprepare(exynos->clk);
+=======
+	clk_disable_unprepare(clk);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 

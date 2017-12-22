@@ -365,15 +365,30 @@ do_alignment_ldrhstrh(unsigned long addr, unsigned long instr, struct pt_regs *r
  user:
 	if (LDST_L_BIT(instr)) {
 		unsigned long val;
+<<<<<<< HEAD
 		get16t_unaligned_check(val, addr);
+=======
+		unsigned int __ua_flags = uaccess_save_and_enable();
+
+		get16t_unaligned_check(val, addr);
+		uaccess_restore(__ua_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* signed half-word? */
 		if (instr & 0x40)
 			val = (signed long)((signed short) val);
 
 		regs->uregs[rd] = val;
+<<<<<<< HEAD
 	} else
 		put16t_unaligned_check(regs->uregs[rd], addr);
+=======
+	} else {
+		unsigned int __ua_flags = uaccess_save_and_enable();
+		put16t_unaligned_check(regs->uregs[rd], addr);
+		uaccess_restore(__ua_flags);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return TYPE_LDST;
 
@@ -420,6 +435,7 @@ do_alignment_ldrdstrd(unsigned long addr, unsigned long instr,
 
  user:
 	if (load) {
+<<<<<<< HEAD
 		unsigned long val;
 		get32t_unaligned_check(val, addr);
 		regs->uregs[rd] = val;
@@ -428,6 +444,23 @@ do_alignment_ldrdstrd(unsigned long addr, unsigned long instr,
 	} else {
 		put32t_unaligned_check(regs->uregs[rd], addr);
 		put32t_unaligned_check(regs->uregs[rd2], addr + 4);
+=======
+		unsigned long val, val2;
+		unsigned int __ua_flags = uaccess_save_and_enable();
+
+		get32t_unaligned_check(val, addr);
+		get32t_unaligned_check(val2, addr + 4);
+
+		uaccess_restore(__ua_flags);
+
+		regs->uregs[rd] = val;
+		regs->uregs[rd2] = val2;
+	} else {
+		unsigned int __ua_flags = uaccess_save_and_enable();
+		put32t_unaligned_check(regs->uregs[rd], addr);
+		put32t_unaligned_check(regs->uregs[rd2], addr + 4);
+		uaccess_restore(__ua_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return TYPE_LDST;
@@ -458,10 +491,22 @@ do_alignment_ldrstr(unsigned long addr, unsigned long instr, struct pt_regs *reg
  trans:
 	if (LDST_L_BIT(instr)) {
 		unsigned int val;
+<<<<<<< HEAD
 		get32t_unaligned_check(val, addr);
 		regs->uregs[rd] = val;
 	} else
 		put32t_unaligned_check(regs->uregs[rd], addr);
+=======
+		unsigned int __ua_flags = uaccess_save_and_enable();
+		get32t_unaligned_check(val, addr);
+		uaccess_restore(__ua_flags);
+		regs->uregs[rd] = val;
+	} else {
+		unsigned int __ua_flags = uaccess_save_and_enable();
+		put32t_unaligned_check(regs->uregs[rd], addr);
+		uaccess_restore(__ua_flags);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return TYPE_LDST;
 
  fault:
@@ -531,6 +576,10 @@ do_alignment_ldmstm(unsigned long addr, unsigned long instr, struct pt_regs *reg
 #endif
 
 	if (user_mode(regs)) {
+<<<<<<< HEAD
+=======
+		unsigned int __ua_flags = uaccess_save_and_enable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		for (regbits = REGMASK_BITS(instr), rd = 0; regbits;
 		     regbits >>= 1, rd += 1)
 			if (regbits & 1) {
@@ -542,6 +591,10 @@ do_alignment_ldmstm(unsigned long addr, unsigned long instr, struct pt_regs *reg
 					put32t_unaligned_check(regs->uregs[rd], eaddr);
 				eaddr += 4;
 			}
+<<<<<<< HEAD
+=======
+		uaccess_restore(__ua_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		for (regbits = REGMASK_BITS(instr), rd = 0; regbits;
 		     regbits >>= 1, rd += 1)

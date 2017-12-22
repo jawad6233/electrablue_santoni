@@ -27,6 +27,11 @@ config ADIS16480
 
 source "drivers/iio/imu/inv_mpu6050/Kconfig"
 source "drivers/iio/imu/inv_icm20689/Kconfig"
+<<<<<<< HEAD
+=======
+source "drivers/iio/imu/bmi160/Kconfig"
+source "drivers/iio/imu/inv_mpu9250/Kconfig"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 endmenu
 

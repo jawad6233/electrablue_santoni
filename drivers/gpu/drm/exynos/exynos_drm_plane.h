@@ -9,6 +9,7 @@
  *
  */
 
+<<<<<<< HEAD
 int exynos_plane_mode_set(struct drm_plane *plane, struct drm_crtc *crtc,
 			  struct drm_framebuffer *fb, int crtc_x, int crtc_y,
 			  unsigned int crtc_w, unsigned int crtc_h,
@@ -19,3 +20,12 @@ void exynos_plane_dpms(struct drm_plane *plane, int mode);
 struct drm_plane *exynos_plane_init(struct drm_device *dev,
 				    unsigned long possible_crtcs,
 				    enum drm_plane_type type);
+=======
+enum drm_plane_type exynos_plane_get_type(unsigned int zpos,
+					  unsigned int cursor_win);
+int exynos_plane_init(struct drm_device *dev,
+		      struct exynos_drm_plane *exynos_plane,
+		      unsigned long possible_crtcs, enum drm_plane_type type,
+		      const uint32_t *formats, unsigned int fcount,
+		      unsigned int zpos);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

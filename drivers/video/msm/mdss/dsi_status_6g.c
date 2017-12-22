@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,6 +18,10 @@
 #include <linux/delay.h>
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
+<<<<<<< HEAD
+=======
+#include <linux/interrupt.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "mdss_dsi.h"
 #include "mdss_mdp.h"
@@ -22,7 +30,11 @@
  * mdss_check_te_status() - Check the status of panel for TE based ESD.
  * @ctrl_pdata   : dsi controller data
  * @pstatus_data : dsi status data
+<<<<<<< HEAD
  * @interval     : duration in milliseconds to schedule work queue
+=======
+ * @interval     : duration in milliseconds for panel TE wait
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This function is called when the TE signal from the panel doesn't arrive
  * after 'interval' milliseconds. If the TE IRQ is not ready, the workqueue
@@ -33,6 +45,7 @@ static bool mdss_check_te_status(struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 {
 	bool ret;
 
+<<<<<<< HEAD
 	/*
 	 * During resume, the panel status will be ON but due to race condition
 	 * between ESD thread and display UNBLANK (or rather can be put as
@@ -48,6 +61,16 @@ static bool mdss_check_te_status(struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 		pr_debug("%s: TE IRQ line not enabled yet\n", __func__);
 	}
 
+=======
+	atomic_set(&ctrl_pdata->te_irq_ready, 0);
+	reinit_completion(&ctrl_pdata->te_irq_comp);
+	enable_irq(gpio_to_irq(ctrl_pdata->disp_te_gpio));
+	/* Define TE interrupt timeout value as 3x(1/fps) */
+	ret = wait_for_completion_timeout(&ctrl_pdata->te_irq_comp,
+			msecs_to_jiffies(interval));
+	disable_irq(gpio_to_irq(ctrl_pdata->disp_te_gpio));
+	pr_debug("%s: Panel TE check done with ret = %d\n", __func__, ret);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -110,13 +133,26 @@ void mdss_check_dsi_ctrl_status(struct work_struct *work, uint32_t interval)
 	}
 
 	if (ctrl_pdata->status_mode == ESD_TE) {
+<<<<<<< HEAD
 		if (mdss_check_te_status(ctrl_pdata, pstatus_data, interval))
 			return;
+=======
+		uint32_t fps = mdss_panel_get_framerate(&pdata->panel_info,
+							FPS_RESOLUTION_HZ);
+		uint32_t timeout = ((1000 / fps) + 1) *
+					MDSS_STATUS_TE_WAIT_MAX;
+
+		if (mdss_check_te_status(ctrl_pdata, pstatus_data, timeout))
+			goto sim;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		else
 			goto status_dead;
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * TODO: Because mdss_dsi_cmd_mdp_busy has made sure DMA to
 	 * be idle in mdss_dsi_cmdlist_commit, it is not necessary
@@ -173,7 +209,11 @@ void mdss_check_dsi_ctrl_status(struct work_struct *work, uint32_t interval)
 		else
 			goto status_dead;
 	}
+<<<<<<< HEAD
 
+=======
+sim:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (pdata->panel_info.panel_force_dead) {
 		pr_debug("force_dead=%d\n", pdata->panel_info.panel_force_dead);
 		pdata->panel_info.panel_force_dead--;

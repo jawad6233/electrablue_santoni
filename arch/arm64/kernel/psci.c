@@ -450,8 +450,11 @@ int __init psci_init(void)
 	return init_fn(np);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int __init cpu_psci_cpu_init(struct device_node *dn, unsigned int cpu)
 {
 	pr_info("Initializing psci_cpu_init\n");
@@ -531,7 +534,10 @@ static int cpu_psci_cpu_kill(unsigned int cpu)
 	return 0;
 }
 #endif
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int psci_suspend_finisher(unsigned long state_id)
 {
@@ -555,7 +561,10 @@ static struct cpu_operations cpu_psci_ops = {
 	.cpu_init_idle	= cpu_psci_cpu_init_idle,
 	.cpu_suspend	= cpu_psci_cpu_suspend,
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.cpu_init	= cpu_psci_cpu_init,
 #ifdef CONFIG_ARM64_CPU_SUSPEND
 	.cpu_suspend	= cpu_psci_cpu_suspend,
@@ -567,6 +576,9 @@ static struct cpu_operations cpu_psci_ops = {
 	.cpu_die	= cpu_psci_cpu_die,
 	.cpu_kill	= cpu_psci_cpu_kill,
 #endif
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 CPU_METHOD_OF_DECLARE(psci, "psci", &cpu_psci_ops);

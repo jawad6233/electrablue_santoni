@@ -96,8 +96,15 @@ define archhelp
   echo '* unwcheck	- Check vmlinux for invalid unwind info'
 endef
 
+<<<<<<< HEAD
 archprepare: make_nr_irqs_h FORCE
 PHONY += make_nr_irqs_h FORCE
 
 make_nr_irqs_h: FORCE
+=======
+archprepare: make_nr_irqs_h
+PHONY += make_nr_irqs_h FORCE
+
+make_nr_irqs_h:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)$(MAKE) $(build)=arch/ia64/kernel include/generated/nr-irqs.h

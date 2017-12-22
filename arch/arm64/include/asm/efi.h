@@ -1,15 +1,24 @@
 #ifndef _ASM_EFI_H
 #define _ASM_EFI_H
 
+<<<<<<< HEAD
+=======
+#include <asm/cpufeature.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/io.h>
 #include <asm/neon.h>
 
 #ifdef CONFIG_EFI
 extern void efi_init(void);
+<<<<<<< HEAD
 extern void efi_virtmap_init(void);
 #else
 #define efi_init()
 #define efi_virtmap_init()
+=======
+#else
+#define efi_init()
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 #define efi_call_virt(f, ...)						\
@@ -53,12 +62,17 @@ extern void efi_virtmap_init(void);
 #define EFI_ALLOC_ALIGN		SZ_64K
 
 /*
+<<<<<<< HEAD
  * On ARM systems, virtually remapped UEFI runtime services are set up in three
+=======
+ * On ARM systems, virtually remapped UEFI runtime services are set up in two
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * distinct stages:
  * - The stub retrieves the final version of the memory map from UEFI, populates
  *   the virt_addr fields and calls the SetVirtualAddressMap() [SVAM] runtime
  *   service to communicate the new mapping to the firmware (Note that the new
  *   mapping is not live at this time)
+<<<<<<< HEAD
  * - During early boot, the page tables are allocated and populated based on the
  *   virt_addr fields in the memory map, but only if all descriptors with the
  *   EFI_MEMORY_RUNTIME attribute have a non-zero value for virt_addr. If this
@@ -70,6 +84,13 @@ extern void efi_virtmap_init(void);
  *   installed.
  */
 #define EFI_VIRTMAP		EFI_ARCH_1
+=======
+ * - During an early initcall(), the EFI system table is permanently remapped
+ *   and the virtual remapping of the UEFI Runtime Services regions is loaded
+ *   into a private set of page tables. If this all succeeds, the Runtime
+ *   Services are enabled and the EFI_RUNTIME_SERVICES bit set.
+ */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void efi_virtmap_load(void);
 void efi_virtmap_unload(void);

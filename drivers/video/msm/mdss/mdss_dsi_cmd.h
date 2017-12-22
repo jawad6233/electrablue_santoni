@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -98,7 +102,10 @@ struct dsi_cmd_desc {
 #define CMD_REQ_MAX     4
 #define CMD_REQ_RX      0x0001
 #define CMD_REQ_COMMIT  0x0002
+<<<<<<< HEAD
 #define CMD_CLK_CTRL    0x0004
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define CMD_REQ_UNICAST 0x0008
 #define CMD_REQ_DMA_TPG 0x0040
 #define CMD_REQ_NO_MAX_PKT_SIZE 0x0008

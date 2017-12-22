@@ -26,10 +26,15 @@
 #include <drm/drmP.h>
 #include "i915_drv.h"
 #include "intel_drv.h"
+<<<<<<< HEAD
+=======
+#include <drm/drm_atomic_helper.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_edid.h>
 
 static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
+<<<<<<< HEAD
 					struct intel_crtc_config *pipe_config)
 {
 	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(&encoder->base);
@@ -40,6 +45,21 @@ static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
 	int lane_count, slots;
 	struct drm_display_mode *adjusted_mode = &pipe_config->adjusted_mode;
 	struct intel_connector *found = NULL, *intel_connector;
+=======
+					struct intel_crtc_state *pipe_config)
+{
+	struct drm_device *dev = encoder->base.dev;
+	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(&encoder->base);
+	struct intel_digital_port *intel_dig_port = intel_mst->primary;
+	struct intel_dp *intel_dp = &intel_dig_port->dp;
+	struct drm_atomic_state *state;
+	int bpp, i;
+	int lane_count, slots;
+	const struct drm_display_mode *adjusted_mode = &pipe_config->base.adjusted_mode;
+	struct drm_connector *drm_connector;
+	struct intel_connector *connector, *found = NULL;
+	struct drm_connector_state *connector_state;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int mst_pbn;
 
 	pipe_config->dp_encoder_is_mst = true;
@@ -51,6 +71,7 @@ static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
 	 * seem to suggest we should do otherwise.
 	 */
 	lane_count = drm_dp_max_lane_count(intel_dp->dpcd);
+<<<<<<< HEAD
 	intel_dp->link_bw = intel_dp_max_link_bw(intel_dp);
 	intel_dp->lane_count = lane_count;
 
@@ -60,6 +81,22 @@ static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
 	list_for_each_entry(intel_connector, &dev->mode_config.connector_list, base.head) {
 		if (intel_connector->new_encoder == encoder) {
 			found = intel_connector;
+=======
+
+
+	pipe_config->lane_count = lane_count;
+
+	pipe_config->pipe_bpp = 24;
+	pipe_config->port_clock = intel_dp_max_link_rate(intel_dp);
+
+	state = pipe_config->base.state;
+
+	for_each_connector_in_state(state, drm_connector, connector_state, i) {
+		connector = to_intel_connector(drm_connector);
+
+		if (connector_state->best_encoder == &encoder->base) {
+			found = connector;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	}
@@ -69,7 +106,11 @@ static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
 		return false;
 	}
 
+<<<<<<< HEAD
 	mst_pbn = drm_dp_calc_pbn_mode(adjusted_mode->clock, bpp);
+=======
+	mst_pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock, bpp);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	pipe_config->pbn = mst_pbn;
 	slots = drm_dp_find_vcpi_slots(&intel_dp->mst_mgr, mst_pbn);
@@ -80,6 +121,13 @@ static bool intel_dp_mst_compute_config(struct intel_encoder *encoder,
 			       &pipe_config->dp_m_n);
 
 	pipe_config->dp_m_n.tu = slots;
+<<<<<<< HEAD
+=======
+
+	if (IS_HASWELL(dev) || IS_BROADWELL(dev))
+		hsw_dp_set_ddi_pll_sel(pipe_config);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return true;
 
 }
@@ -134,14 +182,24 @@ static void intel_mst_pre_enable_dp(struct intel_encoder *encoder)
 	enum port port = intel_dig_port->port;
 	int ret;
 	uint32_t temp;
+<<<<<<< HEAD
 	struct intel_connector *found = NULL, *intel_connector;
+=======
+	struct intel_connector *found = NULL, *connector;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int slots;
 	struct drm_crtc *crtc = encoder->base.crtc;
 	struct intel_crtc *intel_crtc = to_intel_crtc(crtc);
 
+<<<<<<< HEAD
 	list_for_each_entry(intel_connector, &dev->mode_config.connector_list, base.head) {
 		if (intel_connector->new_encoder == encoder) {
 			found = intel_connector;
+=======
+	for_each_intel_connector(dev, connector) {
+		if (connector->base.state->best_encoder == &encoder->base) {
+			found = connector;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	}
@@ -151,13 +209,30 @@ static void intel_mst_pre_enable_dp(struct intel_encoder *encoder)
 		return;
 	}
 
+<<<<<<< HEAD
+=======
+	/* MST encoders are bound to a crtc, not to a connector,
+	 * force the mapping here for get_hw_state.
+	 */
+	found->encoder = encoder;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG_KMS("%d\n", intel_dp->active_mst_links);
 	intel_mst->port = found->port;
 
 	if (intel_dp->active_mst_links == 0) {
 		enum port port = intel_ddi_get_encoder_port(encoder);
 
+<<<<<<< HEAD
 		I915_WRITE(PORT_CLK_SEL(port), intel_crtc->config.ddi_pll_sel);
+=======
+		intel_dp_set_link_params(intel_dp, intel_crtc->config);
+
+		/* FIXME: add support for SKL */
+		if (INTEL_INFO(dev)->gen < 9)
+			I915_WRITE(PORT_CLK_SEL(port),
+				   intel_crtc->config->ddi_pll_sel);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		intel_ddi_init_dp_buf_reg(&intel_dig_port->base);
 
@@ -165,12 +240,20 @@ static void intel_mst_pre_enable_dp(struct intel_encoder *encoder)
 
 
 		intel_dp_start_link_train(intel_dp);
+<<<<<<< HEAD
 		intel_dp_complete_link_train(intel_dp);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		intel_dp_stop_link_train(intel_dp);
 	}
 
 	ret = drm_dp_mst_allocate_vcpi(&intel_dp->mst_mgr,
+<<<<<<< HEAD
 				       intel_mst->port, intel_crtc->config.pbn, &slots);
+=======
+				       intel_mst->port,
+				       intel_crtc->config->pbn, &slots);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret == false) {
 		DRM_ERROR("failed to allocate vcpi\n");
 		return;
@@ -216,14 +299,22 @@ static bool intel_dp_mst_enc_get_hw_state(struct intel_encoder *encoder,
 }
 
 static void intel_dp_mst_enc_get_config(struct intel_encoder *encoder,
+<<<<<<< HEAD
 					struct intel_crtc_config *pipe_config)
+=======
+					struct intel_crtc_state *pipe_config)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(&encoder->base);
 	struct intel_digital_port *intel_dig_port = intel_mst->primary;
 	struct intel_crtc *crtc = to_intel_crtc(encoder->base.crtc);
 	struct drm_device *dev = encoder->base.dev;
 	struct drm_i915_private *dev_priv = dev->dev_private;
+<<<<<<< HEAD
 	enum transcoder cpu_transcoder = crtc->config.cpu_transcoder;
+=======
+	enum transcoder cpu_transcoder = pipe_config->cpu_transcoder;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 temp, flags = 0;
 
 	pipe_config->has_dp_encoder = true;
@@ -254,7 +345,15 @@ static void intel_dp_mst_enc_get_config(struct intel_encoder *encoder,
 	default:
 		break;
 	}
+<<<<<<< HEAD
 	pipe_config->adjusted_mode.flags |= flags;
+=======
+	pipe_config->base.adjusted_mode.flags |= flags;
+
+	pipe_config->lane_count =
+		((temp & DDI_PORT_WIDTH_MASK) >> DDI_PORT_WIDTH_SHIFT) + 1;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	intel_dp_get_m_n(crtc, pipe_config);
 
 	intel_ddi_clock_get(&intel_dig_port->base, pipe_config);
@@ -278,11 +377,16 @@ static int intel_dp_mst_get_ddc_modes(struct drm_connector *connector)
 }
 
 static enum drm_connector_status
+<<<<<<< HEAD
 intel_mst_port_dp_detect(struct drm_connector *connector)
+=======
+intel_dp_mst_detect(struct drm_connector *connector, bool force)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct intel_connector *intel_connector = to_intel_connector(connector);
 	struct intel_dp *intel_dp = intel_connector->mst_port;
 
+<<<<<<< HEAD
 	return drm_dp_mst_detect_port(&intel_dp->mst_mgr, intel_connector->port);
 }
 
@@ -292,6 +396,9 @@ intel_dp_mst_detect(struct drm_connector *connector, bool force)
 	enum drm_connector_status status;
 	status = intel_mst_port_dp_detect(connector);
 	return status;
+=======
+	return drm_dp_mst_detect_port(connector, &intel_dp->mst_mgr, intel_connector->port);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int
@@ -315,11 +422,22 @@ intel_dp_mst_connector_destroy(struct drm_connector *connector)
 }
 
 static const struct drm_connector_funcs intel_dp_mst_connector_funcs = {
+<<<<<<< HEAD
 	.dpms = intel_connector_dpms,
 	.detect = intel_dp_mst_detect,
 	.fill_modes = drm_helper_probe_single_connector_modes,
 	.set_property = intel_dp_mst_set_property,
 	.destroy = intel_dp_mst_connector_destroy,
+=======
+	.dpms = drm_atomic_helper_connector_dpms,
+	.detect = intel_dp_mst_detect,
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.set_property = intel_dp_mst_set_property,
+	.atomic_get_property = intel_connector_atomic_get_property,
+	.destroy = intel_dp_mst_connector_destroy,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int intel_dp_mst_get_modes(struct drm_connector *connector)
@@ -341,6 +459,19 @@ intel_dp_mst_mode_valid(struct drm_connector *connector,
 	return MODE_OK;
 }
 
+<<<<<<< HEAD
+=======
+static struct drm_encoder *intel_mst_atomic_best_encoder(struct drm_connector *connector,
+							 struct drm_connector_state *state)
+{
+	struct intel_connector *intel_connector = to_intel_connector(connector);
+	struct intel_dp *intel_dp = intel_connector->mst_port;
+	struct intel_crtc *crtc = to_intel_crtc(state->crtc);
+
+	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct drm_encoder *intel_mst_best_encoder(struct drm_connector *connector)
 {
 	struct intel_connector *intel_connector = to_intel_connector(connector);
@@ -351,6 +482,10 @@ static struct drm_encoder *intel_mst_best_encoder(struct drm_connector *connecto
 static const struct drm_connector_helper_funcs intel_dp_mst_connector_helper_funcs = {
 	.get_modes = intel_dp_mst_get_modes,
 	.mode_valid = intel_dp_mst_mode_valid,
+<<<<<<< HEAD
+=======
+	.atomic_best_encoder = intel_mst_atomic_best_encoder,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.best_encoder = intel_mst_best_encoder,
 };
 
@@ -368,7 +503,11 @@ static const struct drm_encoder_funcs intel_dp_mst_enc_funcs = {
 
 static bool intel_dp_mst_get_hw_state(struct intel_connector *connector)
 {
+<<<<<<< HEAD
 	if (connector->encoder) {
+=======
+	if (connector->encoder && connector->base.state->crtc) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		enum pipe pipe;
 		if (!connector->encoder->get_hw_state(connector->encoder, &pipe))
 			return false;
@@ -379,7 +518,11 @@ static bool intel_dp_mst_get_hw_state(struct intel_connector *connector)
 
 static void intel_connector_add_to_fbdev(struct intel_connector *connector)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_DRM_I915_FBDEV
+=======
+#ifdef CONFIG_DRM_FBDEV_EMULATION
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
 	drm_fb_helper_add_one_connector(&dev_priv->fbdev->helper, &connector->base);
 #endif
@@ -387,13 +530,21 @@ static void intel_connector_add_to_fbdev(struct intel_connector *connector)
 
 static void intel_connector_remove_from_fbdev(struct intel_connector *connector)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_DRM_I915_FBDEV
+=======
+#ifdef CONFIG_DRM_FBDEV_EMULATION
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
 	drm_fb_helper_remove_one_connector(&dev_priv->fbdev->helper, &connector->base);
 #endif
 }
 
+<<<<<<< HEAD
 static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port, char *pathprop)
+=======
+static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port, const char *pathprop)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct intel_dp *intel_dp = container_of(mgr, struct intel_dp, mst_mgr);
 	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
@@ -402,7 +553,11 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
 	struct drm_connector *connector;
 	int i;
 
+<<<<<<< HEAD
 	intel_connector = kzalloc(sizeof(*intel_connector), GFP_KERNEL);
+=======
+	intel_connector = intel_connector_alloc();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!intel_connector)
 		return NULL;
 
@@ -422,6 +577,7 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
 	intel_dp_add_properties(intel_dp, connector);
 
 	drm_object_attach_property(&connector->base, dev->mode_config.path_property, 0);
+<<<<<<< HEAD
 	drm_mode_connector_set_path_property(connector, pathprop);
 	drm_reinit_primary_mode_group(dev);
 	mutex_lock(&dev->mode_config.mutex);
@@ -429,6 +585,22 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
 	mutex_unlock(&dev->mode_config.mutex);
 	drm_connector_register(&intel_connector->base);
 	return connector;
+=======
+	drm_object_attach_property(&connector->base, dev->mode_config.tile_property, 0);
+
+	drm_mode_connector_set_path_property(connector, pathprop);
+	return connector;
+}
+
+static void intel_dp_register_mst_connector(struct drm_connector *connector)
+{
+	struct intel_connector *intel_connector = to_intel_connector(connector);
+	struct drm_device *dev = connector->dev;
+	drm_modeset_lock_all(dev);
+	intel_connector_add_to_fbdev(intel_connector);
+	drm_modeset_unlock_all(dev);
+	drm_connector_register(&intel_connector->base);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void intel_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
@@ -436,6 +608,7 @@ static void intel_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
 {
 	struct intel_connector *intel_connector = to_intel_connector(connector);
 	struct drm_device *dev = connector->dev;
+<<<<<<< HEAD
 	/* need to nuke the connector */
 	mutex_lock(&dev->mode_config.mutex);
 	intel_connector_dpms(connector, DRM_MODE_DPMS_OFF);
@@ -449,6 +622,28 @@ static void intel_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
 	mutex_unlock(&dev->mode_config.mutex);
 
 	drm_reinit_primary_mode_group(dev);
+=======
+
+	intel_connector->unregister(intel_connector);
+
+	/* need to nuke the connector */
+	drm_modeset_lock_all(dev);
+	if (connector->state->crtc) {
+		struct drm_mode_set set;
+		int ret;
+
+		memset(&set, 0, sizeof(set));
+		set.crtc = connector->state->crtc,
+
+		ret = drm_atomic_helper_set_config(&set);
+
+		WARN(ret, "Disabling mst crtc failed with %i\n", ret);
+	}
+
+	intel_connector_remove_from_fbdev(intel_connector);
+	drm_connector_cleanup(connector);
+	drm_modeset_unlock_all(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	kfree(intel_connector);
 	DRM_DEBUG_KMS("\n");
@@ -465,6 +660,10 @@ static void intel_dp_mst_hotplug(struct drm_dp_mst_topology_mgr *mgr)
 
 static struct drm_dp_mst_topology_cbs mst_cbs = {
 	.add_connector = intel_dp_add_mst_connector,
+<<<<<<< HEAD
+=======
+	.register_connector = intel_dp_register_mst_connector,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.destroy_connector = intel_dp_destroy_mst_connector,
 	.hotplug = intel_dp_mst_hotplug,
 };

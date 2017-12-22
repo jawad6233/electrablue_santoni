@@ -8,6 +8,7 @@ http://github.com/freedreno/envytools/
 git clone https://github.com/freedreno/envytools.git
 
 The rules-ng-ng source files this header was generated from are:
+<<<<<<< HEAD
 - /home/robclark/src/freedreno/envytools/rnndb/msm.xml                 (    647 bytes, from 2013-11-30 14:45:35)
 - /home/robclark/src/freedreno/envytools/rnndb/freedreno_copyright.xml (   1453 bytes, from 2013-03-31 16:51:27)
 - /home/robclark/src/freedreno/envytools/rnndb/mdp/mdp4.xml            (  17996 bytes, from 2013-12-01 19:10:31)
@@ -20,6 +21,21 @@ The rules-ng-ng source files this header was generated from are:
 - /home/robclark/src/freedreno/envytools/rnndb/hdmi/hdmi.xml           (  23613 bytes, from 2014-06-25 12:53:44)
 
 Copyright (C) 2013 by the following authors:
+=======
+- /home/robclark/src/freedreno/envytools/rnndb/msm.xml                 (    676 bytes, from 2015-05-20 20:03:14)
+- /home/robclark/src/freedreno/envytools/rnndb/freedreno_copyright.xml (   1453 bytes, from 2015-05-20 20:03:07)
+- /home/robclark/src/freedreno/envytools/rnndb/mdp/mdp4.xml            (  20915 bytes, from 2015-05-20 20:03:14)
+- /home/robclark/src/freedreno/envytools/rnndb/mdp/mdp_common.xml      (   2849 bytes, from 2015-09-18 12:07:28)
+- /home/robclark/src/freedreno/envytools/rnndb/mdp/mdp5.xml            (  37194 bytes, from 2015-09-18 12:07:28)
+- /home/robclark/src/freedreno/envytools/rnndb/dsi/dsi.xml             (  27887 bytes, from 2015-10-22 16:34:52)
+- /home/robclark/src/freedreno/envytools/rnndb/dsi/sfpb.xml            (    602 bytes, from 2015-10-22 16:35:02)
+- /home/robclark/src/freedreno/envytools/rnndb/dsi/mmss_cc.xml         (   1686 bytes, from 2015-05-20 20:03:14)
+- /home/robclark/src/freedreno/envytools/rnndb/hdmi/qfprom.xml         (    600 bytes, from 2015-05-20 20:03:07)
+- /home/robclark/src/freedreno/envytools/rnndb/hdmi/hdmi.xml           (  29154 bytes, from 2015-08-10 21:25:43)
+- /home/robclark/src/freedreno/envytools/rnndb/edp/edp.xml             (  10416 bytes, from 2015-05-20 20:03:14)
+
+Copyright (C) 2013-2015 by the following authors:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - Rob Clark <robdclark@gmail.com> (robclark)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -44,6 +60,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
+<<<<<<< HEAD
+=======
+enum mdp_chroma_samp_type {
+	CHROMA_FULL = 0,
+	CHROMA_H2V1 = 1,
+	CHROMA_H1V2 = 2,
+	CHROMA_420 = 3,
+};
+
+enum mdp_fetch_type {
+	MDP_PLANE_INTERLEAVED = 0,
+	MDP_PLANE_PLANAR = 1,
+	MDP_PLANE_PSEUDO_PLANAR = 2,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum mdp_mixer_stage_id {
 	STAGE_UNUSED = 0,
 	STAGE_BASE = 1,
@@ -51,6 +83,13 @@ enum mdp_mixer_stage_id {
 	STAGE1 = 3,
 	STAGE2 = 4,
 	STAGE3 = 5,
+<<<<<<< HEAD
+=======
+	STAGE4 = 6,
+	STAGE5 = 7,
+	STAGE6 = 8,
+	STAGE_MAX = 8,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 enum mdp_alpha_type {
@@ -60,6 +99,16 @@ enum mdp_alpha_type {
 	BG_PIXEL = 3,
 };
 
+<<<<<<< HEAD
+=======
+enum mdp_component_type {
+	COMP_0 = 0,
+	COMP_1_2 = 1,
+	COMP_3 = 2,
+	COMP_MAX = 3,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum mdp_bpc {
 	BPC1 = 0,
 	BPC5 = 1,

@@ -55,6 +55,7 @@ static int intel_fbdev_set_par(struct fb_info *info)
 	ret = drm_fb_helper_set_par(info);
 
 	if (ret == 0) {
+<<<<<<< HEAD
 		/*
 		 * FIXME: fbdev presumes that all callbacks also work from
 		 * atomic contexts and relies on that for emergency oops
@@ -65,6 +66,47 @@ static int intel_fbdev_set_par(struct fb_info *info)
 		mutex_lock(&fb_helper->dev->struct_mutex);
 		ret = i915_gem_object_set_to_gtt_domain(ifbdev->fb->obj,
 							true);
+=======
+		mutex_lock(&fb_helper->dev->struct_mutex);
+		intel_fb_obj_invalidate(ifbdev->fb->obj, ORIGIN_GTT);
+		mutex_unlock(&fb_helper->dev->struct_mutex);
+	}
+
+	return ret;
+}
+
+static int intel_fbdev_blank(int blank, struct fb_info *info)
+{
+	struct drm_fb_helper *fb_helper = info->par;
+	struct intel_fbdev *ifbdev =
+		container_of(fb_helper, struct intel_fbdev, helper);
+	int ret;
+
+	ret = drm_fb_helper_blank(blank, info);
+
+	if (ret == 0) {
+		mutex_lock(&fb_helper->dev->struct_mutex);
+		intel_fb_obj_invalidate(ifbdev->fb->obj, ORIGIN_GTT);
+		mutex_unlock(&fb_helper->dev->struct_mutex);
+	}
+
+	return ret;
+}
+
+static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+				   struct fb_info *info)
+{
+	struct drm_fb_helper *fb_helper = info->par;
+	struct intel_fbdev *ifbdev =
+		container_of(fb_helper, struct intel_fbdev, helper);
+
+	int ret;
+	ret = drm_fb_helper_pan_display(var, info);
+
+	if (ret == 0) {
+		mutex_lock(&fb_helper->dev->struct_mutex);
+		intel_fb_obj_invalidate(ifbdev->fb->obj, ORIGIN_GTT);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mutex_unlock(&fb_helper->dev->struct_mutex);
 	}
 
@@ -75,11 +117,19 @@ static struct fb_ops intelfb_ops = {
 	.owner = THIS_MODULE,
 	.fb_check_var = drm_fb_helper_check_var,
 	.fb_set_par = intel_fbdev_set_par,
+<<<<<<< HEAD
 	.fb_fillrect = cfb_fillrect,
 	.fb_copyarea = cfb_copyarea,
 	.fb_imageblit = cfb_imageblit,
 	.fb_pan_display = drm_fb_helper_pan_display,
 	.fb_blank = drm_fb_helper_blank,
+=======
+	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+	.fb_pan_display = intel_fbdev_pan_display,
+	.fb_blank = intel_fbdev_blank,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.fb_setcmap = drm_fb_helper_setcmap,
 	.fb_debug_enter = drm_fb_helper_debug_enter,
 	.fb_debug_leave = drm_fb_helper_debug_leave,
@@ -92,8 +142,14 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
 		container_of(helper, struct intel_fbdev, helper);
 	struct drm_framebuffer *fb;
 	struct drm_device *dev = helper->dev;
+<<<<<<< HEAD
 	struct drm_mode_fb_cmd2 mode_cmd = {};
 	struct drm_i915_gem_object *obj;
+=======
+	struct drm_i915_private *dev_priv = to_i915(dev);
+	struct drm_mode_fb_cmd2 mode_cmd = {};
+	struct drm_i915_gem_object *obj = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int size, ret;
 
 	/* we don't do packed 24bpp */
@@ -110,7 +166,16 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
 
 	size = mode_cmd.pitches[0] * mode_cmd.height;
 	size = PAGE_ALIGN(size);
+<<<<<<< HEAD
 	obj = i915_gem_object_create_stolen(dev, size);
+=======
+
+	/* If the FB is too big, just don't use it since fbdev is not very
+	 * important and we should probably use that space with FBC or other
+	 * features. */
+	if (size * 2 < dev_priv->gtt.stolen_usable_size)
+		obj = i915_gem_object_create_stolen(dev, size);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (obj == NULL)
 		obj = i915_gem_alloc_object(dev, size);
 	if (!obj) {
@@ -119,6 +184,7 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	/* Flush everything out, we'll be doing GTT only from now on */
 	ret = intel_pin_and_fence_fb_obj(dev, obj, NULL);
 	if (ret) {
@@ -130,14 +196,32 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
 	if (IS_ERR(fb)) {
 		ret = PTR_ERR(fb);
 		goto out_unpin;
+=======
+	fb = __intel_framebuffer_create(dev, &mode_cmd, obj);
+	if (IS_ERR(fb)) {
+		ret = PTR_ERR(fb);
+		goto out_unref;
+	}
+
+	/* Flush everything out, we'll be doing GTT only from now on */
+	ret = intel_pin_and_fence_fb_obj(NULL, fb, NULL, NULL, NULL);
+	if (ret) {
+		DRM_ERROR("failed to pin obj: %d\n", ret);
+		goto out_fb;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	ifbdev->fb = to_intel_framebuffer(fb);
 
 	return 0;
 
+<<<<<<< HEAD
 out_unpin:
 	i915_gem_object_ggtt_unpin(obj);
+=======
+out_fb:
+	drm_framebuffer_remove(fb);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out_unref:
 	drm_gem_object_unreference(&obj->base);
 out:
@@ -186,9 +270,15 @@ static int intelfb_create(struct drm_fb_helper *helper,
 	obj = intel_fb->obj;
 	size = obj->base.size;
 
+<<<<<<< HEAD
 	info = framebuffer_alloc(0, &dev->pdev->dev);
 	if (!info) {
 		ret = -ENOMEM;
+=======
+	info = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(info)) {
+		ret = PTR_ERR(info);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto out_unpin;
 	}
 
@@ -197,13 +287,17 @@ static int intelfb_create(struct drm_fb_helper *helper,
 	fb = &ifbdev->fb->base;
 
 	ifbdev->helper.fb = fb;
+<<<<<<< HEAD
 	ifbdev->helper.fbdev = info;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	strcpy(info->fix.id, "inteldrmfb");
 
 	info->flags = FBINFO_DEFAULT | FBINFO_CAN_FORCE_OUTPUT;
 	info->fbops = &intelfb_ops;
 
+<<<<<<< HEAD
 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
 	if (ret) {
 		ret = -ENOMEM;
@@ -215,6 +309,9 @@ static int intelfb_create(struct drm_fb_helper *helper,
 		ret = -ENOMEM;
 		goto out_unpin;
 	}
+=======
+	/* setup aperture base/size for vesafb takeover */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	info->apertures->ranges[0].base = dev->mode_config.fb_base;
 	info->apertures->ranges[0].size = dev_priv->gtt.mappable_end;
 
@@ -226,7 +323,11 @@ static int intelfb_create(struct drm_fb_helper *helper,
 			   size);
 	if (!info->screen_base) {
 		ret = -ENOSPC;
+<<<<<<< HEAD
 		goto out_unpin;
+=======
+		goto out_destroy_fbi;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	info->screen_size = size;
 
@@ -245,7 +346,11 @@ static int intelfb_create(struct drm_fb_helper *helper,
 
 	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
 
+<<<<<<< HEAD
 	DRM_DEBUG_KMS("allocated %dx%d fb: 0x%08lx, bo %p\n",
+=======
+	DRM_DEBUG_KMS("allocated %dx%d fb: 0x%08llx, bo %p\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		      fb->width, fb->height,
 		      i915_gem_obj_ggtt_offset(obj), obj);
 
@@ -253,6 +358,11 @@ static int intelfb_create(struct drm_fb_helper *helper,
 	vga_switcheroo_client_fb_set(dev->pdev, info);
 	return 0;
 
+<<<<<<< HEAD
+=======
+out_destroy_fbi:
+	drm_fb_helper_release_fbi(helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out_unpin:
 	i915_gem_object_ggtt_unpin(obj);
 	drm_gem_object_unreference(&obj->base);
@@ -324,6 +434,10 @@ intel_fb_helper_crtc(struct drm_fb_helper *fb_helper, struct drm_crtc *crtc)
 static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 				    struct drm_fb_helper_crtc **crtcs,
 				    struct drm_display_mode **modes,
+<<<<<<< HEAD
+=======
+				    struct drm_fb_offset *offsets,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				    bool *enabled, int width, int height)
 {
 	struct drm_device *dev = fb_helper->dev;
@@ -332,14 +446,27 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 	bool fallback = true;
 	int num_connectors_enabled = 0;
 	int num_connectors_detected = 0;
+<<<<<<< HEAD
 
 	save_enabled = kcalloc(dev->mode_config.num_connector, sizeof(bool),
+=======
+	uint64_t conn_configured = 0, mask;
+	int pass = 0;
+
+	save_enabled = kcalloc(fb_helper->connector_count, sizeof(bool),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       GFP_KERNEL);
 	if (!save_enabled)
 		return false;
 
+<<<<<<< HEAD
 	memcpy(save_enabled, enabled, dev->mode_config.num_connector);
 
+=======
+	memcpy(save_enabled, enabled, fb_helper->connector_count);
+	mask = (1 << fb_helper->connector_count) - 1;
+retry:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < fb_helper->connector_count; i++) {
 		struct drm_fb_helper_connector *fb_conn;
 		struct drm_connector *connector;
@@ -349,12 +476,25 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 		fb_conn = fb_helper->connector_info[i];
 		connector = fb_conn->connector;
 
+<<<<<<< HEAD
+=======
+		if (conn_configured & (1 << i))
+			continue;
+
+		if (pass == 0 && !connector->has_tile)
+			continue;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (connector->status == connector_status_connected)
 			num_connectors_detected++;
 
 		if (!enabled[i]) {
 			DRM_DEBUG_KMS("connector %s not enabled, skipping\n",
 				      connector->name);
+<<<<<<< HEAD
+=======
+			conn_configured |= (1 << i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 		}
 
@@ -373,6 +513,10 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 			DRM_DEBUG_KMS("connector %s has no encoder or crtc, skipping\n",
 				      connector->name);
 			enabled[i] = false;
+<<<<<<< HEAD
+=======
+			conn_configured |= (1 << i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 		}
 
@@ -400,8 +544,13 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 
 		/* try for preferred next */
 		if (!modes[i]) {
+<<<<<<< HEAD
 			DRM_DEBUG_KMS("looking for preferred mode on connector %s\n",
 				      connector->name);
+=======
+			DRM_DEBUG_KMS("looking for preferred mode on connector %s %d\n",
+				      connector->name, connector->has_tile);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			modes[i] = drm_has_preferred_mode(fb_conn, width,
 							  height);
 		}
@@ -421,6 +570,7 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 			 * IMPORTANT: We want to use the adjusted mode (i.e.
 			 * after the panel fitter upscaling) as the initial
 			 * config, not the input mode, which is what crtc->mode
+<<<<<<< HEAD
 			 * usually contains. But since our current fastboot
 			 * code puts a mode derived from the post-pfit timings
 			 * into crtc->mode this works out correctly. We don't
@@ -433,6 +583,15 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 			intel_mode_from_pipe_config(&encoder->crtc->hwmode,
 						    &to_intel_crtc(encoder->crtc)->config);
 			modes[i] = &encoder->crtc->hwmode;
+=======
+			 * usually contains. But since our current
+			 * code puts a mode derived from the post-pfit timings
+			 * into crtc->mode this works out correctly.
+			 */
+			DRM_DEBUG_KMS("looking for current mode on connector %s\n",
+				      connector->name);
+			modes[i] = &encoder->crtc->mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		crtcs[i] = new_crtc;
 
@@ -444,6 +603,15 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 			      modes[i]->flags & DRM_MODE_FLAG_INTERLACE ? "i" :"");
 
 		fallback = false;
+<<<<<<< HEAD
+=======
+		conn_configured |= (1 << i);
+	}
+
+	if ((conn_configured & mask) != mask) {
+		pass++;
+		goto retry;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/*
@@ -462,7 +630,11 @@ static bool intel_fb_initial_config(struct drm_fb_helper *fb_helper,
 	if (fallback) {
 bail:
 		DRM_DEBUG_KMS("Not using firmware configuration\n");
+<<<<<<< HEAD
 		memcpy(enabled, save_enabled, dev->mode_config.num_connector);
+=======
+		memcpy(enabled, save_enabled, fb_helper->connector_count);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		kfree(save_enabled);
 		return false;
 	}
@@ -481,6 +653,7 @@ static const struct drm_fb_helper_funcs intel_fb_helper_funcs = {
 static void intel_fbdev_destroy(struct drm_device *dev,
 				struct intel_fbdev *ifbdev)
 {
+<<<<<<< HEAD
 	if (ifbdev->helper.fbdev) {
 		struct fb_info *info = ifbdev->helper.fbdev;
 
@@ -491,6 +664,11 @@ static void intel_fbdev_destroy(struct drm_device *dev,
 
 		framebuffer_release(info);
 	}
+=======
+
+	drm_fb_helper_unregister_fbi(&ifbdev->helper);
+	drm_fb_helper_release_fbi(&ifbdev->helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	drm_fb_helper_fini(&ifbdev->helper);
 
@@ -513,6 +691,7 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 	struct intel_framebuffer *fb = NULL;
 	struct drm_crtc *crtc;
 	struct intel_crtc *intel_crtc;
+<<<<<<< HEAD
 	struct intel_plane_config *plane_config = NULL;
 	unsigned int max_size = 0;
 
@@ -524,17 +703,36 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 		intel_crtc = to_intel_crtc(crtc);
 
 		if (!intel_crtc->active || !crtc->primary->fb) {
+=======
+	unsigned int max_size = 0;
+
+	/* Find the largest fb */
+	for_each_crtc(dev, crtc) {
+		struct drm_i915_gem_object *obj =
+			intel_fb_obj(crtc->primary->state->fb);
+		intel_crtc = to_intel_crtc(crtc);
+
+		if (!crtc->state->active || !obj) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			DRM_DEBUG_KMS("pipe %c not active or no fb, skipping\n",
 				      pipe_name(intel_crtc->pipe));
 			continue;
 		}
 
+<<<<<<< HEAD
 		if (intel_crtc->plane_config.size > max_size) {
 			DRM_DEBUG_KMS("found possible fb from plane %c\n",
 				      pipe_name(intel_crtc->pipe));
 			plane_config = &intel_crtc->plane_config;
 			fb = to_intel_framebuffer(crtc->primary->fb);
 			max_size = plane_config->size;
+=======
+		if (obj->base.size > max_size) {
+			DRM_DEBUG_KMS("found possible fb from plane %c\n",
+				      pipe_name(intel_crtc->pipe));
+			fb = to_intel_framebuffer(crtc->primary->state->fb);
+			max_size = obj->base.size;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 
@@ -549,7 +747,11 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 
 		intel_crtc = to_intel_crtc(crtc);
 
+<<<<<<< HEAD
 		if (!intel_crtc->active) {
+=======
+		if (!crtc->state->active) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			DRM_DEBUG_KMS("pipe %c not active, skipping\n",
 				      pipe_name(intel_crtc->pipe));
 			continue;
@@ -563,17 +765,25 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 		 * pipe.  Note we need to use the selected fb's pitch and bpp
 		 * rather than the current pipe's, since they differ.
 		 */
+<<<<<<< HEAD
 		cur_size = intel_crtc->config.adjusted_mode.crtc_hdisplay;
+=======
+		cur_size = intel_crtc->config->base.adjusted_mode.crtc_hdisplay;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cur_size = cur_size * fb->base.bits_per_pixel / 8;
 		if (fb->base.pitches[0] < cur_size) {
 			DRM_DEBUG_KMS("fb not wide enough for plane %c (%d vs %d)\n",
 				      pipe_name(intel_crtc->pipe),
 				      cur_size, fb->base.pitches[0]);
+<<<<<<< HEAD
 			plane_config = NULL;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			fb = NULL;
 			break;
 		}
 
+<<<<<<< HEAD
 		cur_size = intel_crtc->config.adjusted_mode.crtc_vdisplay;
 		cur_size = ALIGN(cur_size, plane_config->tiled ? (IS_GEN2(dev) ? 16 : 8) : 1);
 		cur_size *= fb->base.pitches[0];
@@ -581,6 +791,17 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 			      pipe_name(intel_crtc->pipe),
 			      intel_crtc->config.adjusted_mode.crtc_hdisplay,
 			      intel_crtc->config.adjusted_mode.crtc_vdisplay,
+=======
+		cur_size = intel_crtc->config->base.adjusted_mode.crtc_vdisplay;
+		cur_size = intel_fb_align_height(dev, cur_size,
+						 fb->base.pixel_format,
+						 fb->base.modifier[0]);
+		cur_size *= fb->base.pitches[0];
+		DRM_DEBUG_KMS("pipe %c area: %dx%d, bpp: %d, size: %d\n",
+			      pipe_name(intel_crtc->pipe),
+			      intel_crtc->config->base.adjusted_mode.crtc_hdisplay,
+			      intel_crtc->config->base.adjusted_mode.crtc_vdisplay,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			      fb->base.bits_per_pixel,
 			      cur_size);
 
@@ -588,7 +809,10 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 			DRM_DEBUG_KMS("fb not big enough for plane %c (%d vs %d)\n",
 				      pipe_name(intel_crtc->pipe),
 				      cur_size, max_size);
+<<<<<<< HEAD
 			plane_config = NULL;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			fb = NULL;
 			break;
 		}
@@ -612,7 +836,11 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
 	for_each_crtc(dev, crtc) {
 		intel_crtc = to_intel_crtc(crtc);
 
+<<<<<<< HEAD
 		if (!intel_crtc->active)
+=======
+		if (!crtc->state->active)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 
 		WARN(!crtc->primary->fb,
@@ -663,6 +891,11 @@ int intel_fbdev_init(struct drm_device *dev)
 		return ret;
 	}
 
+<<<<<<< HEAD
+=======
+	ifbdev->helper.atomic = true;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dev_priv->fbdev = ifbdev;
 	INIT_WORK(&dev_priv->fbdev_suspend_work, intel_fbdev_suspend_worker);
 
@@ -739,7 +972,11 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
 	if (state == FBINFO_STATE_RUNNING && ifbdev->fb->obj->stolen)
 		memset_io(info->screen_base, 0, info->screen_size);
 
+<<<<<<< HEAD
 	fb_set_suspend(info, state);
+=======
+	drm_fb_helper_set_suspend(&ifbdev->helper, state);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	console_unlock();
 }
 
@@ -754,6 +991,7 @@ void intel_fbdev_restore_mode(struct drm_device *dev)
 {
 	int ret;
 	struct drm_i915_private *dev_priv = dev->dev_private;
+<<<<<<< HEAD
 
 	if (!dev_priv->fbdev)
 		return;
@@ -761,4 +999,22 @@ void intel_fbdev_restore_mode(struct drm_device *dev)
 	ret = drm_fb_helper_restore_fbdev_mode_unlocked(&dev_priv->fbdev->helper);
 	if (ret)
 		DRM_DEBUG("failed to restore crtc mode\n");
+=======
+	struct intel_fbdev *ifbdev = dev_priv->fbdev;
+	struct drm_fb_helper *fb_helper;
+
+	if (!ifbdev)
+		return;
+
+	fb_helper = &ifbdev->helper;
+
+	ret = drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper);
+	if (ret) {
+		DRM_DEBUG("failed to restore crtc mode\n");
+	} else {
+		mutex_lock(&fb_helper->dev->struct_mutex);
+		intel_fb_obj_invalidate(ifbdev->fb->obj, ORIGIN_GTT);
+		mutex_unlock(&fb_helper->dev->struct_mutex);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

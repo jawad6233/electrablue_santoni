@@ -256,8 +256,11 @@ struct iface_stat_work {
 struct sock_tag {
 	struct rb_node sock_node;
 	struct sock *sk;  /* Only used as a number, never dereferenced */
+<<<<<<< HEAD
 	/* The socket is needed for sockfd_put() */
 	struct socket *socket;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Used to associate with a given pid */
 	struct list_head list;   /* in proc_qtu_data.sock_tag_list */
 	pid_t pid;
@@ -291,10 +294,17 @@ struct qtaguid_event_counts {
 	 */
 	atomic64_t match_no_sk;
 	/*
+<<<<<<< HEAD
 	 * The file ptr in the sk_socket wasn't there.
 	 * This might happen for traffic while the socket is being closed.
 	 */
 	atomic64_t match_no_sk_file;
+=======
+	 * The file ptr in the sk_socket wasn't there and we couldn't get GID.
+	 * This might happen for traffic while the socket is being closed.
+	 */
+	atomic64_t match_no_sk_gid;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* Track the set active_set for the given tag. */

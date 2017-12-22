@@ -38,6 +38,15 @@ struct tegra_bo {
 	dma_addr_t paddr;
 	void *vaddr;
 
+<<<<<<< HEAD
+=======
+	struct drm_mm_node *mm;
+	unsigned long num_pages;
+	struct page **pages;
+	/* size of IOMMU mapping */
+	size_t size;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct tegra_bo_tiling tiling;
 };
 
@@ -46,6 +55,7 @@ static inline struct tegra_bo *to_tegra_bo(struct drm_gem_object *gem)
 	return container_of(gem, struct tegra_bo, gem);
 }
 
+<<<<<<< HEAD
 struct tegra_bo *tegra_bo_create(struct drm_device *drm, unsigned int size,
 				 unsigned long flags);
 struct tegra_bo *tegra_bo_create_with_handle(struct drm_file *file,
@@ -53,11 +63,24 @@ struct tegra_bo *tegra_bo_create_with_handle(struct drm_file *file,
 					     unsigned int size,
 					     unsigned long flags,
 					     unsigned int *handle);
+=======
+struct tegra_bo *tegra_bo_create(struct drm_device *drm, size_t size,
+				 unsigned long flags);
+struct tegra_bo *tegra_bo_create_with_handle(struct drm_file *file,
+					     struct drm_device *drm,
+					     size_t size,
+					     unsigned long flags,
+					     u32 *handle);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void tegra_bo_free_object(struct drm_gem_object *gem);
 int tegra_bo_dumb_create(struct drm_file *file, struct drm_device *drm,
 			 struct drm_mode_create_dumb *args);
 int tegra_bo_dumb_map_offset(struct drm_file *file, struct drm_device *drm,
+<<<<<<< HEAD
 			     uint32_t handle, uint64_t *offset);
+=======
+			     u32 handle, u64 *offset);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int tegra_drm_mmap(struct file *file, struct vm_area_struct *vma);
 

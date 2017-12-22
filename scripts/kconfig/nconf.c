@@ -1482,6 +1482,14 @@ int main(int ac, char **av)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+<<<<<<< HEAD
+=======
+	if (ac > 1 && strcmp(av[1], "-s") == 0) {
+		/* Silence conf_read() until the real callback is set up */
+		conf_set_message_callback(NULL);
+		av++;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	conf_parse(av[1]);
 	conf_read(NULL);
 

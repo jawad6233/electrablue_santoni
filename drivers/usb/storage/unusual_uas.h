@@ -54,6 +54,7 @@ UNUSUAL_DEV(0x0bc2, 0x3312, 0x0000, 0x9999,
 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
 		US_FL_NO_ATA_1X),
 
+<<<<<<< HEAD
 /* Reported-by: David Webb <djw@noc.ac.uk> */
 UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
 		"Seagate",
@@ -61,6 +62,8 @@ UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
 		US_FL_NO_REPORT_LUNS),
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
 UNUSUAL_DEV(0x0bc2, 0x3320, 0x0000, 0x9999,
 		"Seagate",
@@ -113,9 +116,15 @@ UNUSUAL_DEV(0x0bc2, 0xab2a, 0x0000, 0x9999,
 /* Reported-by: Benjamin Tissoires <benjamin.tissoires@redhat.com> */
 UNUSUAL_DEV(0x13fd, 0x3940, 0x0000, 0x9999,
 		"Initio Corporation",
+<<<<<<< HEAD
 		"INIC-3069",
 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
 		US_FL_NO_ATA_1X | US_FL_IGNORE_RESIDUE),
+=======
+		"",
+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+		US_FL_NO_ATA_1X),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Reported-by: Tom Arild Naess <tanaess@gmail.com> */
 UNUSUAL_DEV(0x152d, 0x0539, 0x0000, 0x9999,

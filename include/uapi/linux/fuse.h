@@ -360,6 +360,10 @@ enum fuse_opcode {
 	FUSE_FALLOCATE     = 43,
 	FUSE_READDIRPLUS   = 44,
 	FUSE_RENAME2       = 45,
+<<<<<<< HEAD
+=======
+	FUSE_CANONICAL_PATH= 2016,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* CUSE specific operations */
 	CUSE_INIT          = 4096,

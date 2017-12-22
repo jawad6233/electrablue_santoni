@@ -37,6 +37,10 @@
 #include <drm/drmP.h>
 #include <drm/drm_gem.h>
 
+<<<<<<< HEAD
+=======
+#include "drm_internal.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "drm_legacy.h"
 
 /**
@@ -153,6 +157,7 @@ int drm_bufs_info(struct seq_file *m, void *data)
 }
 
 /**
+<<<<<<< HEAD
  * Called when "/proc/dri/.../vblank" is read.
  */
 int drm_vblank_info(struct seq_file *m, void *data)
@@ -177,6 +182,8 @@ int drm_vblank_info(struct seq_file *m, void *data)
 }
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Called when "/proc/dri/.../clients" is read.
  *
  */

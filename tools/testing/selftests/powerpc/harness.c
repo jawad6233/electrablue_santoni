@@ -105,9 +105,17 @@ int test_harness(int (test_function)(void), char *name)
 
 	rc = run_test(test_function, name);
 
+<<<<<<< HEAD
 	if (rc == MAGIC_SKIP_RETURN_VALUE)
 		test_skip(name);
 	else
+=======
+	if (rc == MAGIC_SKIP_RETURN_VALUE) {
+		test_skip(name);
+		/* so that skipped test is not marked as failed */
+		rc = 0;
+	} else
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		test_finish(name, rc);
 
 	return rc;

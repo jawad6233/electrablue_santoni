@@ -22,7 +22,11 @@
 /* Max number of clocks defined in device tree */
 #define MSM_JPEGDMA_MAX_CLK 10
 /* Core clock index */
+<<<<<<< HEAD
 #define MSM_JPEGDMA_CORE_CLK "core_clk"
+=======
+#define MSM_JPEGDMA_CORE_CLK 0
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Max number of regulators defined in device tree */
 #define MSM_JPEGDMA_MAX_REGULATOR_NUM 3
 /* Max number of planes supported */
@@ -109,8 +113,11 @@ struct msm_jpegdma_size_config {
 	struct msm_jpegdma_size out_size;
 	struct msm_jpegdma_format format;
 	unsigned int fps;
+<<<<<<< HEAD
 	unsigned int in_offset;
 	unsigned int out_offset;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /*
@@ -264,8 +271,11 @@ struct jpegdma_ctx {
 	struct v4l2_format format_out;
 	struct v4l2_rect crop;
 	struct v4l2_fract timeperframe;
+<<<<<<< HEAD
 	unsigned int in_offset;
 	unsigned int out_offset;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	unsigned int config_idx;
 	struct msm_jpegdma_plane_config plane_config[MSM_JPEGDMA_MAX_CONFIGS];

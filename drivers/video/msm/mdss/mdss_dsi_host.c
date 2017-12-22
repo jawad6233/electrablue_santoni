@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -294,6 +298,19 @@ void mdss_dsi_read_phy_revision(struct mdss_dsi_ctrl_pdata *ctrl)
 		return;
 
 	reg_val = MIPI_INP(ctrl->phy_io.base);
+<<<<<<< HEAD
+=======
+	if (!reg_val) {
+		/*
+		 * DSI_0_PHY_DSIPHY_REVISION_ID3 for phy 1.0
+		 * reset value = 0x10
+		 * 7:4 Major
+		 * 3:0 Minor
+		 */
+		reg_val = MIPI_INP(ctrl->phy_io.base + 0x20c);
+		reg_val = reg_val >> 4;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (reg_val == DSI_PHY_REV_20)
 		ctrl->shared_data->phy_rev = DSI_PHY_REV_20;
@@ -1110,7 +1127,11 @@ static int mdss_dsi_read_status(struct mdss_dsi_ctrl_pdata *ctrl)
 		memset(&cmdreq, 0, sizeof(cmdreq));
 		cmdreq.cmds = ctrl->status_cmds.cmds + i;
 		cmdreq.cmds_cnt = 1;
+<<<<<<< HEAD
 		cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL | CMD_REQ_RX;
+=======
+		cmdreq.flags = CMD_REQ_COMMIT | CMD_REQ_RX;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cmdreq.rlen = ctrl->status_cmds_rlen[i];
 		cmdreq.cb = NULL;
 		cmdreq.rbuf = ctrl->status_buf.data;
@@ -2471,6 +2492,7 @@ void mdss_dsi_cmd_mdp_busy(struct mdss_dsi_ctrl_pdata *ctrl)
 		if (!ctrl->mdp_busy)
 			rc = 1;
 		spin_unlock_irqrestore(&ctrl->mdp_lock, flags);
+<<<<<<< HEAD
 		if (!rc) {
 			if (mdss_dsi_mdp_busy_tout_check(ctrl)) {
 				pr_err("%s: timeout error\n", __func__);
@@ -2480,6 +2502,10 @@ void mdss_dsi_cmd_mdp_busy(struct mdss_dsi_ctrl_pdata *ctrl)
 					"vbif_dbg_bus", "panic");
 			}
 		}
+=======
+		if (!rc && mdss_dsi_mdp_busy_tout_check(ctrl))
+			pr_err("%s: timeout error\n", __func__);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	pr_debug("%s: done pid=%d\n", __func__, current->pid);
 	MDSS_XLOG(ctrl->ndx, ctrl->mdp_busy, current->pid, XLOG_FUNC_EXIT);
@@ -2813,7 +2839,11 @@ static int dsi_event_thread(void *data)
 	spin_lock_init(&ev->event_lock);
 
 	while (1) {
+<<<<<<< HEAD
 		wait_event_interruptible(ev->event_q, (ev->event_pndx != ev->event_gndx));
+=======
+		wait_event(ev->event_q, (ev->event_pndx != ev->event_gndx));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		spin_lock_irqsave(&ev->event_lock, flag);
 		evq = &ev->todo_list[ev->event_gndx++];
 		todo = evq->todo;

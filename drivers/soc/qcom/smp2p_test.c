@@ -1,6 +1,10 @@
 /* drivers/soc/qcom/smp2p_test.c
  *
+<<<<<<< HEAD
  * Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -16,6 +20,10 @@
 #include <linux/jiffies.h>
 #include <linux/delay.h>
 #include <linux/completion.h>
+<<<<<<< HEAD
+=======
+#include <linux/mutex.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <soc/qcom/subsystem_restart.h>
 #include "smp2p_private.h"
 #include "smp2p_test_common.h"
@@ -85,8 +93,12 @@ static void smp2p_ut_local_basic(struct seq_file *s)
 		/* verify port was opened */
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_data.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_data.cb_completion, HZ / 2), >, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_data.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_data.event_open, ==, 1);
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 2);
@@ -174,8 +186,13 @@ static void smp2p_ut_local_late_open(struct seq_file *s)
 		/* verify port was opened */
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_data.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_data.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_data.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_data.event_open, ==, 1);
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 2);
@@ -266,8 +283,13 @@ static void smp2p_ut_local_early_open(struct seq_file *s)
 
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_data.cb_completion,
 					msecs_to_jiffies(125)), ==, 0);
+=======
+					&cb_data.cb_completion, HZ / 8),
+			==, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_data.cb_count, ==, 0);
 		UT_ASSERT_INT(cb_data.event_open, ==, 0);
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 1);
@@ -295,8 +317,13 @@ static void smp2p_ut_local_early_open(struct seq_file *s)
 
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_data.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_data.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_data.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_data.event_open, ==, 1);
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 2);
@@ -385,8 +412,13 @@ static void smp2p_ut_mock_loopback(struct seq_file *s)
 		local = msm_smp2p_init_rmt_lpb_proc(SMP2P_REMOTE_MOCK_PROC);
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&rmp->cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&rmp->cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 2);
 
 		/* Send Echo Command */
@@ -399,8 +431,13 @@ static void smp2p_ut_mock_loopback(struct seq_file *s)
 		rmp->tx_interrupt();
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&rmp->cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&rmp->cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* Verify Echo Response */
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 1);
@@ -422,8 +459,13 @@ static void smp2p_ut_mock_loopback(struct seq_file *s)
 		rmp->tx_interrupt();
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&rmp->cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&rmp->cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* Verify PINGPONG Response */
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 1);
@@ -444,8 +486,13 @@ static void smp2p_ut_mock_loopback(struct seq_file *s)
 		rmp->tx_interrupt();
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&rmp->cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&rmp->cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* Verify CLEARALL response */
 		UT_ASSERT_INT(rmp->rx_interrupt_count, ==, 1);
@@ -495,8 +542,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 		UT_ASSERT_INT(ret, ==, 0);
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_out.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_out.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_out.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_out.event_open, ==, 1);
 
@@ -506,8 +558,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 		UT_ASSERT_INT(ret, ==, 0);
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_in.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_in.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in.event_open, ==, 1);
 
@@ -524,8 +581,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 		/* Verify inbound reply */
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_in.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_in.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in.event_entry_update, ==, 1);
 		UT_ASSERT_INT(SMP2P_GET_RMT_DATA(
@@ -550,8 +612,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 		/* Verify inbound reply */
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_in.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_in.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in.event_entry_update, ==, 1);
 		UT_ASSERT_INT(SMP2P_GET_RMT_DATA(
@@ -574,8 +641,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 		/* Verify inbound reply */
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_in.cb_completion,
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&cb_in.cb_completion, HZ / 2),
+			>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in.event_entry_update, ==, 1);
 		UT_ASSERT_INT(SMP2P_GET_RMT_DATA(
@@ -599,8 +671,13 @@ static void smp2p_ut_remote_inout_core(struct seq_file *s, int remote_pid)
 
 		UT_ASSERT_INT(
 			(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&cb_in.cb_completion,
 					msecs_to_jiffies(500)), ==, 0);
+=======
+					&cb_in.cb_completion, HZ / 2),
+			==, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in.cb_count, ==, 0);
 		UT_ASSERT_INT(cb_in.event_entry_update, ==, 0);
 		ret = msm_smp2p_in_read(remote_pid, "smp2p", &test_response);
@@ -813,8 +890,13 @@ static void smp2p_ut_local_in_max_entries(struct seq_file *s)
 			UT_ASSERT_INT(ret, ==, 0);
 			UT_ASSERT_INT(
 				(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 					&(cb_in[j].cb_completion),
 					msecs_to_jiffies(500)), >, 0);
+=======
+					&(cb_in[j].cb_completion), HZ / 2),
+				>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			UT_ASSERT_INT(cb_in[j].cb_count, ==, 1);
 			UT_ASSERT_INT(cb_in[j].event_entry_update, ==, 0);
 		}
@@ -908,8 +990,13 @@ static void smp2p_ut_local_in_multiple(struct seq_file *s)
 		UT_ASSERT_INT(ret, ==, 0);
 		UT_ASSERT_INT(
 				(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 				&(cb_in_1.cb_completion),
 				msecs_to_jiffies(500)), >, 0);
+=======
+				&(cb_in_1.cb_completion), HZ / 2),
+				>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in_1.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in_1.event_entry_update, ==, 0);
 
@@ -919,8 +1006,13 @@ static void smp2p_ut_local_in_multiple(struct seq_file *s)
 		UT_ASSERT_INT(ret, ==, 0);
 		UT_ASSERT_INT(
 				(int)wait_for_completion_timeout(
+<<<<<<< HEAD
 				&(cb_in_2.cb_completion),
 				msecs_to_jiffies(500)), >, 0);
+=======
+				&(cb_in_2.cb_completion), HZ / 2),
+				>, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		UT_ASSERT_INT(cb_in_2.cb_count, ==, 1);
 		UT_ASSERT_INT(cb_in_2.event_entry_update, ==, 0);
 
@@ -1239,12 +1331,22 @@ static void smp2p_ut_remote_ssr_ack(struct seq_file *s)
 }
 
 static struct dentry *dent;
+<<<<<<< HEAD
+=======
+static DEFINE_MUTEX(show_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int debugfs_show(struct seq_file *s, void *data)
 {
 	void (*show)(struct seq_file *) = s->private;
 
+<<<<<<< HEAD
 	show(s);
+=======
+	mutex_lock(&show_lock);
+	show(s);
+	mutex_unlock(&show_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

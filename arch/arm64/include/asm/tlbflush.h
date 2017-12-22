@@ -24,17 +24,23 @@
 #include <linux/sched.h>
 #include <asm/cputype.h>
 
+<<<<<<< HEAD
 extern void __cpu_flush_user_tlb_range(unsigned long, unsigned long, struct vm_area_struct *);
 extern void __cpu_flush_kern_tlb_range(unsigned long, unsigned long);
 
 extern struct cpu_tlb_fns cpu_tlb;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  *	TLB Management
  *	==============
  *
+<<<<<<< HEAD
  *	The arch/arm64/mm/tlb.S files implement these methods.
  *
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *	The TLB specific code is expected to perform whatever tests it needs
  *	to determine if it should invalidate the TLB for each call.  Start
  *	addresses are inclusive and end addresses are exclusive; it is safe to
@@ -70,6 +76,17 @@ extern struct cpu_tlb_fns cpu_tlb;
  *		only require the D-TLB to be invalidated.
  *		- kaddr - Kernel virtual memory address
  */
+<<<<<<< HEAD
+=======
+static inline void local_flush_tlb_all(void)
+{
+	dsb(nshst);
+	asm("tlbi	vmalle1");
+	dsb(nsh);
+	isb();
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void flush_tlb_all(void)
 {
 	dsb(ishst);
@@ -107,20 +124,46 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
 		((unsigned long)ASID(vma->vm_mm) << 48);
 
 	dsb(ishst);
+<<<<<<< HEAD
 	asm("tlbi	vae1is, %0" : : "r" (addr));
+=======
+	asm("tlbi	vale1is, %0" : : "r" (addr));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dsb(ish);
 #endif
 }
 
+<<<<<<< HEAD
 static inline void __flush_tlb_range(struct vm_area_struct *vma,
 				     unsigned long start, unsigned long end)
 {
 	unsigned long asid = (unsigned long)ASID(vma->vm_mm) << 48;
 	unsigned long addr;
+=======
+/*
+ * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
+ * necessarily a performance improvement.
+ */
+#define MAX_TLB_RANGE	(1024UL << PAGE_SHIFT)
+
+static inline void __flush_tlb_range(struct vm_area_struct *vma,
+				     unsigned long start, unsigned long end,
+				     bool last_level)
+{
+	unsigned long asid = ASID(vma->vm_mm) << 48;
+	unsigned long addr;
+
+	if ((end - start) > MAX_TLB_RANGE) {
+		flush_tlb_mm(vma->vm_mm);
+		return;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	start = asid | (start >> 12);
 	end = asid | (end >> 12);
 
 	dsb(ishst);
+<<<<<<< HEAD
 	for (addr = start; addr < end; addr += 1 << (PAGE_SHIFT - 12))
 		asm("tlbi vae1is, %0" : : "r"(addr));
 	dsb(ish);
@@ -129,6 +172,32 @@ static inline void __flush_tlb_range(struct vm_area_struct *vma,
 static inline void __flush_tlb_kernel_range(unsigned long start, unsigned long end)
 {
 	unsigned long addr;
+=======
+	for (addr = start; addr < end; addr += 1 << (PAGE_SHIFT - 12)) {
+		if (last_level)
+			asm("tlbi vale1is, %0" : : "r"(addr));
+		else
+			asm("tlbi vae1is, %0" : : "r"(addr));
+	}
+	dsb(ish);
+}
+
+static inline void flush_tlb_range(struct vm_area_struct *vma,
+				   unsigned long start, unsigned long end)
+{
+	__flush_tlb_range(vma, start, end, false);
+}
+
+static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end)
+{
+	unsigned long addr;
+
+	if ((end - start) > MAX_TLB_RANGE) {
+		flush_tlb_all();
+		return;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	start >>= 12;
 	end >>= 12;
 
@@ -140,6 +209,7 @@ static inline void __flush_tlb_kernel_range(unsigned long start, unsigned long e
 }
 
 /*
+<<<<<<< HEAD
  * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
  * necessarily a performance improvement.
  */
@@ -163,12 +233,15 @@ static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end
 }
 
 /*
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Used to invalidate the TLB (walk caches) corresponding to intermediate page
  * table levels (pgd/pud/pmd).
  */
 static inline void __flush_tlb_pgtable(struct mm_struct *mm,
 				       unsigned long uaddr)
 {
+<<<<<<< HEAD
 	unsigned long addr = uaddr >> 12 | ((unsigned long)ASID(mm) << 48);
 
 	dsb(ishst);
@@ -189,6 +262,13 @@ static inline void update_mmu_cache(struct vm_area_struct *vma,
 }
 
 #define update_mmu_cache_pmd(vma, address, pmd) do { } while (0)
+=======
+	unsigned long addr = uaddr >> 12 | (ASID(mm) << 48);
+
+	asm("tlbi	vae1is, %0" : : "r" (addr));
+	dsb(ish);
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif
 

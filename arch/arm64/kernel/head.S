@@ -29,6 +29,10 @@
 #include <asm/asm-offsets.h>
 #include <asm/cache.h>
 #include <asm/cputype.h>
+<<<<<<< HEAD
+=======
+#include <asm/kernel-pgtable.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/memory.h>
 #include <asm/thread_info.h>
 #include <asm/pgtable-hwdef.h>
@@ -36,7 +40,11 @@
 #include <asm/page.h>
 #include <asm/virt.h>
 
+<<<<<<< HEAD
 #define KERNEL_RAM_VADDR	(PAGE_OFFSET + TEXT_OFFSET)
+=======
+#define __PHYS_OFFSET	(KERNEL_START - TEXT_OFFSET)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #if (TEXT_OFFSET & 0xfff) != 0
 #error TEXT_OFFSET must be at least 4KB aligned
@@ -46,6 +54,7 @@
 #error TEXT_OFFSET must be less than 2MB
 #endif
 
+<<<<<<< HEAD
 	.macro	pgtbl, ttb0, ttb1, virt_to_phys
 	ldr	\ttb1, =swapper_pg_dir
 	ldr	\ttb0, =idmap_pg_dir
@@ -84,6 +93,12 @@
 #endif
 
 /*
+=======
+#define KERNEL_START	_text
+#define KERNEL_END	_end
+
+/*
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Kernel startup entry point.
  * ---------------------------
  *
@@ -240,6 +255,7 @@ section_table:
 #endif
 
 ENTRY(stext)
+<<<<<<< HEAD
 	mov	x21, x0				// x21=FDT
 	bl	el2_setup			// Drop to EL1, w20=cpu_boot_mode
 	bl	__calc_phys_offset		// x24=PHYS_OFFSET, x28=PHYS_OFFSET-PAGE_OFFSET
@@ -274,6 +290,45 @@ ENTRY(stext)
 ENDPROC(stext)
 
 /*
+=======
+	bl	preserve_boot_args
+	bl	el2_setup			// Drop to EL1, w20=cpu_boot_mode
+	adrp	x24, __PHYS_OFFSET
+	bl	set_cpu_boot_mode_flag
+
+	bl	__vet_fdt
+	bl	__create_page_tables		// x25=TTBR0, x26=TTBR1
+	/*
+	 * The following calls CPU setup code, see arch/arm64/mm/proc.S for
+	 * details.
+	 * On return, the CPU will be ready for the MMU to be turned on and
+	 * the TCR will have been set.
+	 */
+	ldr	x27, =__mmap_switched		// address to jump to after
+						// MMU has been enabled
+	adr_l	lr, __enable_mmu		// return (PIC) address
+	b	__cpu_setup			// initialise processor
+ENDPROC(stext)
+
+/*
+ * Preserve the arguments passed by the bootloader in x0 .. x3
+ */
+preserve_boot_args:
+	mov	x21, x0				// x21=FDT
+
+	adr_l	x0, boot_args			// record the contents of
+	stp	x21, x1, [x0]			// x0 .. x3 at kernel entry
+	stp	x2, x3, [x0, #16]
+
+	dmb	sy				// needed before dc ivac with
+						// MMU off
+
+	add	x1, x0, #0x20			// 4 x 8 bytes
+	b	__inval_cache_range		// tail call
+ENDPROC(preserve_boot_args)
+
+/*
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Determine validity of the x21 FDT pointer.
  * The dtb must be 8-byte aligned and live in the first 512M of memory.
  */
@@ -322,7 +377,11 @@ ENDPROC(__vet_fdt)
 	.macro	create_pgd_entry, tbl, virt, tmp1, tmp2
 	create_table_entry \tbl, \virt, PGDIR_SHIFT, PTRS_PER_PGD, \tmp1, \tmp2
 #if SWAPPER_PGTABLE_LEVELS == 3
+<<<<<<< HEAD
 	create_table_entry \tbl, \virt, TABLE_SHIFT, PTRS_PER_PTE, \tmp1, \tmp2
+=======
+	create_table_entry \tbl, \virt, SWAPPER_TABLE_SHIFT, PTRS_PER_PTE, \tmp1, \tmp2
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 	.endm
 
@@ -334,6 +393,7 @@ ENDPROC(__vet_fdt)
  * Corrupts:	phys, start, end, pstate
  */
 	.macro	create_block_map, tbl, flags, phys, start, end
+<<<<<<< HEAD
 	lsr	\phys, \phys, #BLOCK_SHIFT
 	lsr	\start, \start, #BLOCK_SHIFT
 	and	\start, \start, #PTRS_PER_PTE - 1	// table index
@@ -343,6 +403,17 @@ ENDPROC(__vet_fdt)
 9999:	str	\phys, [\tbl, \start, lsl #3]		// store the entry
 	add	\start, \start, #1			// next entry
 	add	\phys, \phys, #BLOCK_SIZE		// next block
+=======
+	lsr	\phys, \phys, #SWAPPER_BLOCK_SHIFT
+	lsr	\start, \start, #SWAPPER_BLOCK_SHIFT
+	and	\start, \start, #PTRS_PER_PTE - 1	// table index
+	orr	\phys, \flags, \phys, lsl #SWAPPER_BLOCK_SHIFT	// table entry
+	lsr	\end, \end, #SWAPPER_BLOCK_SHIFT
+	and	\end, \end, #PTRS_PER_PTE - 1		// table end index
+9999:	str	\phys, [\tbl, \start, lsl #3]		// store the entry
+	add	\start, \start, #1			// next entry
+	add	\phys, \phys, #SWAPPER_BLOCK_SIZE		// next block
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cmp	\start, \end
 	b.ls	9999b
 	.endm
@@ -356,7 +427,12 @@ ENDPROC(__vet_fdt)
  *   - pgd entry for fixed mappings (TTBR1)
  */
 __create_page_tables:
+<<<<<<< HEAD
 	pgtbl	x25, x26, x28			// idmap_pg_dir and swapper_pg_dir addresses
+=======
+	adrp	x25, idmap_pg_dir
+	adrp	x26, swapper_pg_dir
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mov	x27, lr
 
 	/*
@@ -364,14 +440,22 @@ __create_page_tables:
 	 * dirty cache lines being evicted.
 	 */
 	mov	x0, x25
+<<<<<<< HEAD
 	add	x1, x26, #SWAPPER_DIR_SIZE
+=======
+	add	x1, x26, #SWAPPER_DIR_SIZE + RESERVED_TTBR0_SIZE
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bl	__inval_cache_range
 
 	/*
 	 * Clear the idmap and swapper page tables.
 	 */
 	mov	x0, x25
+<<<<<<< HEAD
 	add	x6, x26, #SWAPPER_DIR_SIZE
+=======
+	add	x6, x26, #SWAPPER_DIR_SIZE + RESERVED_TTBR0_SIZE
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 1:	stp	xzr, xzr, [x0], #16
 	stp	xzr, xzr, [x0], #16
 	stp	xzr, xzr, [x0], #16
@@ -379,18 +463,69 @@ __create_page_tables:
 	cmp	x0, x6
 	b.lo	1b
 
+<<<<<<< HEAD
 	ldr	x7, =MM_MMUFLAGS
+=======
+	ldr	x7, =SWAPPER_MM_MMUFLAGS
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * Create the identity mapping.
 	 */
 	mov	x0, x25				// idmap_pg_dir
+<<<<<<< HEAD
 	ldr	x3, =KERNEL_START
 	add	x3, x3, x28			// __pa(KERNEL_START)
 	create_pgd_entry x0, x3, x5, x6
 	ldr	x6, =KERNEL_END
 	mov	x5, x3				// __pa(KERNEL_START)
 	add	x6, x6, x28			// __pa(KERNEL_END)
+=======
+	adrp	x3, KERNEL_START		// __pa(KERNEL_START)
+
+#ifndef CONFIG_ARM64_VA_BITS_48
+#define EXTRA_SHIFT	(PGDIR_SHIFT + PAGE_SHIFT - 3)
+#define EXTRA_PTRS	(1 << (48 - EXTRA_SHIFT))
+
+	/*
+	 * If VA_BITS < 48, it may be too small to allow for an ID mapping to be
+	 * created that covers system RAM if that is located sufficiently high
+	 * in the physical address space. So for the ID map, use an extended
+	 * virtual range in that case, by configuring an additional translation
+	 * level.
+	 * First, we have to verify our assumption that the current value of
+	 * VA_BITS was chosen such that all translation levels are fully
+	 * utilised, and that lowering T0SZ will always result in an additional
+	 * translation level to be configured.
+	 */
+#if VA_BITS != EXTRA_SHIFT
+#error "Mismatch between VA_BITS and page size/number of translation levels"
+#endif
+
+	/*
+	 * Calculate the maximum allowed value for TCR_EL1.T0SZ so that the
+	 * entire kernel image can be ID mapped. As T0SZ == (64 - #bits used),
+	 * this number conveniently equals the number of leading zeroes in
+	 * the physical address of KERNEL_END.
+	 */
+	adrp	x5, KERNEL_END
+	clz	x5, x5
+	cmp	x5, TCR_T0SZ(VA_BITS)	// default T0SZ small enough?
+	b.ge	1f			// .. then skip additional level
+
+	adr_l	x6, idmap_t0sz
+	str	x5, [x6]
+	dmb	sy
+	dc	ivac, x6		// Invalidate potentially stale cache line
+
+	create_table_entry x0, x3, EXTRA_SHIFT, EXTRA_PTRS, x5, x6
+1:
+#endif
+
+	create_pgd_entry x0, x3, x5, x6
+	mov	x5, x3				// __pa(KERNEL_START)
+	adr_l	x6, KERNEL_END			// __pa(KERNEL_END)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	create_block_map x0, x7, x3, x5, x6
 
 	/*
@@ -399,7 +534,11 @@ __create_page_tables:
 	mov	x0, x26				// swapper_pg_dir
 	mov	x5, #PAGE_OFFSET
 	create_pgd_entry x0, x5, x3, x6
+<<<<<<< HEAD
 	ldr	x6, =KERNEL_END
+=======
+	ldr	x6, =KERNEL_END			// __va(KERNEL_END)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mov	x3, x24				// phys offset
 	create_block_map x0, x7, x3, x5, x6
 
@@ -425,7 +564,12 @@ __create_page_tables:
 	 * tables again to remove any speculatively loaded cache lines.
 	 */
 	mov	x0, x25
+<<<<<<< HEAD
 	add	x1, x26, #SWAPPER_DIR_SIZE
+=======
+	add	x1, x26, #SWAPPER_DIR_SIZE + RESERVED_TTBR0_SIZE
+	dmb	sy
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bl	__inval_cache_range
 
 	mov	lr, x27
@@ -433,6 +577,7 @@ __create_page_tables:
 ENDPROC(__create_page_tables)
 	.ltorg
 
+<<<<<<< HEAD
 	.align	3
 	.type	__switch_data, %object
 __switch_data:
@@ -464,6 +609,27 @@ __mmap_switched:
 	str	x22, [x4]			// Save processor ID
 	str	x21, [x5]			// Save FDT pointer
 	str	x24, [x6]			// Save PHYS_OFFSET
+=======
+/*
+ * The following fragment of code is executed with the MMU enabled.
+ */
+	.set	initial_sp, init_thread_union + THREAD_START_SP
+__mmap_switched:
+	// Clear BSS
+	adr_l	x0, __bss_start
+	mov	x1, xzr
+	adr_l	x2, __bss_stop
+	sub	x2, x2, x0
+	bl	__pi_memset
+	dsb	ishst				// Make zero page visible to PTW
+
+	adr_l	sp, initial_sp, x4
+	mov	x4, sp
+	and	x4, x4, #~(THREAD_SIZE - 1)
+	msr	sp_el0, x4			// Save thread_info
+	str_l	x21, __fdt_pointer, x5		// Save FDT pointer
+	str_l	x24, memstart_addr, x6		// Save PHYS_OFFSET
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mov	x29, #0
 #ifdef CONFIG_KASAN
 	bl	kasan_early_init
@@ -575,8 +741,12 @@ ENDPROC(el2_setup)
  * in x20. See arch/arm64/include/asm/virt.h for more info.
  */
 ENTRY(set_cpu_boot_mode_flag)
+<<<<<<< HEAD
 	ldr	x1, =__boot_cpu_mode		// Compute __boot_cpu_mode
 	add	x1, x1, x28
+=======
+	adr_l	x1, __boot_cpu_mode
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cmp	w20, #BOOT_CPU_MODE_EL2
 	b.ne	1f
 	add	x1, x1, #4
@@ -600,7 +770,10 @@ ENTRY(__boot_cpu_mode)
 	.long	0
 	.popsection
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.align	3
 1:	.quad	.
 	.quad	secondary_holding_pen_release
@@ -611,15 +784,22 @@ ENTRY(__boot_cpu_mode)
 	 */
 ENTRY(secondary_holding_pen)
 	bl	el2_setup			// Drop to EL1, w20=cpu_boot_mode
+<<<<<<< HEAD
 	bl	__calc_phys_offset		// x24=PHYS_OFFSET, x28=PHYS_OFFSET-PAGE_OFFSET
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bl	set_cpu_boot_mode_flag
 	mrs	x0, mpidr_el1
 	ldr     x1, =MPIDR_HWID_BITMASK
 	and	x0, x0, x1
+<<<<<<< HEAD
 	adr	x1, 1b
 	ldp	x2, x3, [x1]
 	sub	x1, x1, x2
 	add	x3, x3, x1
+=======
+	adr_l	x3, secondary_holding_pen_release
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 pen:	ldr	x4, [x3]
 	cmp	x4, x0
 	b.eq	secondary_startup
@@ -632,7 +812,10 @@ ENDPROC(secondary_holding_pen)
 	 */
 ENTRY(secondary_entry)
 	bl	el2_setup			// Drop to EL1
+<<<<<<< HEAD
 	bl	__calc_phys_offset		// x24=PHYS_OFFSET, x28=PHYS_OFFSET-PAGE_OFFSET
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bl	set_cpu_boot_mode_flag
 	b	secondary_startup
 ENDPROC(secondary_entry)
@@ -641,6 +824,7 @@ ENTRY(secondary_startup)
 	/*
 	 * Common entry point for secondary CPUs.
 	 */
+<<<<<<< HEAD
 	mrs	x22, midr_el1			// x22=cpuid
 	mov	x0, x22
 	bl	lookup_processor_type
@@ -651,6 +835,11 @@ ENTRY(secondary_startup)
 	ldr	x12, [x23, #CPU_INFO_SETUP]
 	add	x12, x12, x28			// __virt_to_phys
 	blr	x12				// initialise processor
+=======
+	adrp	x25, idmap_pg_dir
+	adrp	x26, swapper_pg_dir
+	bl	__cpu_setup			// initialise processor
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ldr	x21, =secondary_data
 	ldr	x27, =__secondary_switched	// address to jump to after enabling the MMU
@@ -660,6 +849,7 @@ ENDPROC(secondary_startup)
 ENTRY(__secondary_switched)
 	ldr	x0, [x21]			// get secondary_data.stack
 	mov	sp, x0
+<<<<<<< HEAD
 	mov	x29, #0
 	b	secondary_start_kernel
 ENDPROC(__secondary_switched)
@@ -671,6 +861,21 @@ ENDPROC(__secondary_switched)
  *
  * On entry to this code, x0 must contain the SCTLR_EL1 value for turning on
  * the MMU.
+=======
+	and	x0, x0, #~(THREAD_SIZE - 1)
+	msr	sp_el0, x0			// save thread_info
+	mov	x29, #0
+	b	secondary_start_kernel
+ENDPROC(__secondary_switched)
+
+/*
+ * Enable the MMU.
+ *
+ *  x0  = SCTLR_EL1 value for turning on the MMU.
+ *  x27 = *virtual* address to jump to upon completion
+ *
+ * other registers depend on the function called upon completion
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 __enable_mmu:
 	ldr	x5, =vectors
@@ -678,6 +883,7 @@ __enable_mmu:
 	msr	ttbr0_el1, x25			// load TTBR0
 	msr	ttbr1_el1, x26			// load TTBR1
 	isb
+<<<<<<< HEAD
 	b	__turn_mmu_on
 ENDPROC(__enable_mmu)
 
@@ -764,3 +970,17 @@ __lookup_processor_type_data:
 	.quad	.
 	.quad	cpu_table
 	.size	__lookup_processor_type_data, . - __lookup_processor_type_data
+=======
+	msr	sctlr_el1, x0
+	isb
+	/*
+	 * Invalidate the local I-cache so that any instructions fetched
+	 * speculatively from the PoC are discarded, since they may have
+	 * been dynamically patched at the PoU.
+	 */
+	ic	iallu
+	dsb	nsh
+	isb
+	br	x27
+ENDPROC(__enable_mmu)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

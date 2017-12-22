@@ -129,6 +129,15 @@ static int omninet_port_remove(struct usb_serial_port *port)
 
 static int omninet_open(struct tty_struct *tty, struct usb_serial_port *port)
 {
+<<<<<<< HEAD
+=======
+	struct usb_serial	*serial = port->serial;
+	struct usb_serial_port	*wport;
+
+	wport = serial->port[1];
+	tty_port_tty_set(&wport->port, tty);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return usb_serial_generic_open(tty, port);
 }
 

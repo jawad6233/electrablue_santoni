@@ -25,7 +25,11 @@
 #include <linux/seq_file.h>
 #include <linux/slab.h>
 #include <linux/smp.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+#include <linux/tracefs.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/types.h>
 #include <linux/string.h>
 #include <linux/ctype.h>

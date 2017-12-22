@@ -230,7 +230,11 @@ static void vos_pkti_replenish_raw_pool(void)
       didOne = VOS_TRUE;
 
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                 "VPKT [%d]: [%p] Packet replenished",
+=======
+                "VPKT [%d]: [%pK] Packet replenished",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, pVosPacket);
 
    }
@@ -256,7 +260,11 @@ static void vos_pkti_replenish_raw_pool(void)
       pVosPacket->timestamp = vos_timer_get_system_ticks();
 
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                 "VPKT [%d]: [%p] Packet replenish callback",
+=======
+                "VPKT [%d]: [%pK] Packet replenish callback",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, pVosPacket);
 
       callback = gpVosPacketContext->rxRawLowResourceInfo.callback;
@@ -775,7 +783,11 @@ VOS_STATUS vos_pkt_get_packet( vos_pkt_t **ppPacket,
    }
 
    VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
              "VPKT [%d]: [%p] Packet allocated, type %d[%s]",
+=======
+             "VPKT [%d]: [%pK] Packet allocated, type %d[%s]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
              __LINE__, pVosPacket, pktType, vos_pkti_packet_type_str(pktType));
 
    *ppPacket = pVosPacket;
@@ -959,7 +971,11 @@ VOS_STATUS vos_pkt_wrap_data_packet( vos_pkt_t **ppPacket,
    pVosPacket->timestamp = vos_timer_get_system_ticks();
 
    VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
              "VPKT [%d]: [%p] Packet allocated, type %s",
+=======
+             "VPKT [%d]: [%pK] Packet allocated, type %s",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
              __LINE__, pVosPacket, vos_pkti_packet_type_str(pktType));
 
    *ppPacket = pVosPacket;
@@ -1393,12 +1409,20 @@ VOS_STATUS vos_pkt_return_packet( vos_pkt_t *pPacket )
          if(callback)
          {
              // [DEBUG]
+<<<<<<< HEAD
              VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,"VPKT [%d]: recycle %p",  __LINE__, pPacket);
+=======
+             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,"VPKT [%d]: recycle %pK",  __LINE__, pPacket);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
              // yes, so rather than placing the packet back in the free pool
              // we will invoke the low resource callback
              VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                        "VPKT [%d]: [%p] Packet recycled, type %d[%s]",
+=======
+                       "VPKT [%d]: [%pK] Packet recycled, type %d[%s]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                        __LINE__, pPacket, pPacket->packetType,
                        vos_pkti_packet_type_str(pPacket->packetType));
 
@@ -1424,7 +1448,11 @@ VOS_STATUS vos_pkt_return_packet( vos_pkt_t *pPacket )
          // this packet does not satisfy a low resource condition
          // so put it back in the appropriate free pool
          VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                    "VPKT [%d]: [%p] Packet returned, type %d[%s]",
+=======
+                   "VPKT [%d]: [%pK] Packet returned, type %d[%s]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                    __LINE__, pPacket, pPacket->packetType,
                    vos_pkti_packet_type_str(pPacket->packetType));
          mutex_lock(mlock);
@@ -1597,6 +1625,18 @@ VOS_STATUS vos_pkt_walk_packet_chain( vos_pkt_t *pPacket,
    }
 }
 
+<<<<<<< HEAD
+=======
+
+bool vos_is_pkt_chain(vos_pkt_t *pPacket)
+{
+   if (pPacket->pNext != NULL)
+      return true;
+   else
+      return false;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**--------------------------------------------------------------------------
 
   \brief vos_pkt_get_data_vector() - Get data vectors from a voss Packet
@@ -2137,7 +2177,11 @@ VOS_STATUS vos_pkt_push_head( vos_pkt_t *pPacket,
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                 "VPKT [%d]: Insufficient headroom, "
+<<<<<<< HEAD
                 "head[%p], data[%p], req[%d]",
+=======
+                "head[%pK], data[%pK], req[%d]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, skb->head, skb->data, dataSize);
       return VOS_STATUS_E_INVAL;
    }
@@ -2219,7 +2263,11 @@ VOS_STATUS vos_pkt_reserve_head( vos_pkt_t *pPacket,
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
                 "VPKT [%d]: Insufficient headroom, "
+<<<<<<< HEAD
                 "head[%p], data[%p], req[%d]",
+=======
+                "head[%pK], data[%pK], req[%d]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, skb->head, skb->data, dataSize);
     
       if ((newskb = skb_realloc_headroom(skb, dataSize)) == NULL) {
@@ -2301,7 +2349,11 @@ VOS_STATUS vos_pkt_reserve_head_fast( vos_pkt_t *pPacket,
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
                 "VPKT [%d]: Insufficient headroom, "
+<<<<<<< HEAD
                 "head[%p], data[%p], req[%d]",
+=======
+                "head[%pK], data[%pK], req[%d]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, skb->head, skb->data, dataSize);
     
       if ((newskb = skb_realloc_headroom(skb, dataSize)) == NULL) {
@@ -2528,7 +2580,11 @@ VOS_STATUS vos_pkt_push_tail( vos_pkt_t *pPacket,
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                 "VPKT [%d]: Insufficient tailroom, "
+<<<<<<< HEAD
                 "tail[%p], end[%p], req[%d]",
+=======
+                "tail[%pK], end[%pK], req[%d]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, skb_tail_pointer(skb),
                 skb_end_pointer(skb), dataSize);
       return VOS_STATUS_E_INVAL;
@@ -2609,7 +2665,11 @@ VOS_STATUS vos_pkt_reserve_tail( vos_pkt_t *pPacket,
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                 "VPKT [%d]: Insufficient tailroom, "
+<<<<<<< HEAD
                 "tail[%p], end[%p], req[%d]",
+=======
+                "tail[%pK], end[%pK], req[%d]",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 __LINE__, skb_tail_pointer(skb),
                 skb_end_pointer(skb), dataSize);
       return VOS_STATUS_E_INVAL;

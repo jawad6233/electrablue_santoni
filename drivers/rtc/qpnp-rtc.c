@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2015,2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,7 +24,10 @@
 #include <linux/spmi.h>
 #include <linux/spinlock.h>
 #include <linux/spmi.h>
+<<<<<<< HEAD
 #include <linux/alarmtimer.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* RTC/ALARM Register offsets */
 #define REG_OFFSET_ALARM_RW	0x40
@@ -377,6 +384,18 @@ qpnp_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 				alarm->time.tm_sec, alarm->time.tm_mday,
 				alarm->time.tm_mon, alarm->time.tm_year);
 
+<<<<<<< HEAD
+=======
+	rc = qpnp_read_wrapper(rtc_dd, value,
+		rtc_dd->alarm_base + REG_OFFSET_ALARM_CTRL1, 1);
+	if (rc) {
+		dev_err(dev, "Read from ALARM CTRL1 failed\n");
+		return rc;
+	}
+
+	alarm->enabled = !!(value[0] & BIT_RTC_ALARM_ENABLE);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -596,9 +615,12 @@ static int qpnp_rtc_probe(struct spmi_device *spmi)
 		goto fail_rtc_enable;
 	}
 
+<<<<<<< HEAD
 	/* Init power_on_alarm after adding rtc device */
 	power_on_alarm_init();
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Request the alarm IRQ */
 	rc = request_any_context_irq(rtc_dd->rtc_alarm_irq,
 				 qpnp_alarm_trigger, IRQF_TRIGGER_RISING,

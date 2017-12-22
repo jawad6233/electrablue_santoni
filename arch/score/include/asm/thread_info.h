@@ -42,7 +42,10 @@ struct thread_info {
 	 * 0-0xFFFFFFFF for kernel-thread
 	 */
 	mm_segment_t		addr_limit;
+<<<<<<< HEAD
 	struct restart_block	restart_block;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct pt_regs		*regs;
 };
 
@@ -58,9 +61,12 @@ struct thread_info {
 	.cpu		= 0,			\
 	.preempt_count	= 1,			\
 	.addr_limit	= KERNEL_DS,		\
+<<<<<<< HEAD
 	.restart_block	= {			\
 		.fn = do_no_restart_syscall,	\
 	},					\
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #define init_thread_info	(init_thread_union.thread_info)

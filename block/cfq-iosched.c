@@ -4477,6 +4477,7 @@ out_free:
 	return ret;
 }
 
+<<<<<<< HEAD
 static void cfq_registered_queue(struct request_queue *q)
 {
 	struct elevator_queue *e = q->elevator;
@@ -4489,6 +4490,8 @@ static void cfq_registered_queue(struct request_queue *q)
 		cfqd->cfq_slice_idle = 0;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * sysfs parts below -->
  */
@@ -4604,7 +4607,10 @@ static struct elevator_type iosched_cfq = {
 		.elevator_may_queue_fn =	cfq_may_queue,
 		.elevator_init_fn =		cfq_init_queue,
 		.elevator_exit_fn =		cfq_exit_queue,
+<<<<<<< HEAD
 		.elevator_registered_fn =	cfq_registered_queue,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	},
 	.icq_size	=	sizeof(struct cfq_io_cq),
 	.icq_align	=	__alignof__(struct cfq_io_cq),

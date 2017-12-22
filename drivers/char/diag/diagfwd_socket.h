@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,10 +28,29 @@
 #define PORT_TYPE_SERVER		0
 #define PORT_TYPE_CLIENT		1
 
+<<<<<<< HEAD
+=======
+#define PEPIPHERAL_AFTER_BOOT		0
+#define PEPIPHERAL_SSR_DOWN		1
+#define PEPIPHERAL_SSR_UP		2
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define CNTL_CMD_NEW_SERVER		4
 #define CNTL_CMD_REMOVE_SERVER		5
 #define CNTL_CMD_REMOVE_CLIENT		6
 
+<<<<<<< HEAD
+=======
+enum {
+	SOCKET_MODEM,
+	SOCKET_ADSP,
+	SOCKET_WCNSS,
+	SOCKET_SLPI,
+	SOCKET_APPS,
+	NUM_SOCKET_SUBSYSTEMS,
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct diag_socket_info {
 	uint8_t peripheral;
 	uint8_t type;

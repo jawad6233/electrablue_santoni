@@ -26,6 +26,7 @@
 
 #include <linux/err.h>
 
+<<<<<<< HEAD
 /* Reference clock values */
 enum {
 	WL12XX_REFCLOCK_19	= 0, /* 19.2 MHz */
@@ -48,6 +49,8 @@ enum {
 	WL12XX_TCXOCLOCK_33_6	= 7, /* 33.6 MHz */
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct wl1251_platform_data {
 	int power_gpio;
 	/* SDIO only: IRQ number if WLAN_IRQ line is used, 0 for SDIO IRQs */
@@ -55,6 +58,7 @@ struct wl1251_platform_data {
 	bool use_eeprom;
 };
 
+<<<<<<< HEAD
 struct wl12xx_platform_data {
 	int irq;
 	int board_ref_clock;
@@ -72,6 +76,10 @@ int wl12xx_set_platform_data(const struct wl12xx_platform_data *data);
 
 struct wl12xx_platform_data *wl12xx_get_platform_data(void);
 
+=======
+#ifdef CONFIG_WILINK_PLATFORM_DATA
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int wl1251_set_platform_data(const struct wl1251_platform_data *data);
 
 struct wl1251_platform_data *wl1251_get_platform_data(void);
@@ -79,6 +87,7 @@ struct wl1251_platform_data *wl1251_get_platform_data(void);
 #else
 
 static inline
+<<<<<<< HEAD
 int wl12xx_set_platform_data(const struct wl12xx_platform_data *data)
 {
 	return -ENOSYS;
@@ -91,6 +100,8 @@ struct wl12xx_platform_data *wl12xx_get_platform_data(void)
 }
 
 static inline
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int wl1251_set_platform_data(const struct wl1251_platform_data *data)
 {
 	return -ENOSYS;

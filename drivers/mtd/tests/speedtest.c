@@ -41,6 +41,13 @@ module_param(count, int, S_IRUGO);
 MODULE_PARM_DESC(count, "Maximum number of eraseblocks to use "
 			"(0 means use all)");
 
+<<<<<<< HEAD
+=======
+static int test_multiblock_erase;
+module_param(test_multiblock_erase, int, S_IRUGO);
+MODULE_PARM_DESC(test_multiblock_erase, "Set test_multiblock_erase = 1 to test the speed of multiblock erases");
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct mtd_info *mtd;
 static unsigned char *iobuf;
 static unsigned char *bbt;
@@ -369,6 +376,7 @@ static int __init mtd_speedtest_init(void)
 	pr_info("erase speed is %ld KiB/s\n", speed);
 
 	/* Multi-block erase all eraseblocks */
+<<<<<<< HEAD
 	for (k = 1; k < 7; k++) {
 		blocks = 1 << k;
 		pr_info("Testing %dx multi-block erase speed\n",
@@ -392,6 +400,33 @@ static int __init mtd_speedtest_init(void)
 		speed = calc_speed();
 		pr_info("%dx multi-block erase speed is %ld KiB/s\n",
 		       blocks, speed);
+=======
+	if (test_multiblock_erase) {
+		for (k = 1; k < 7; k++) {
+			blocks = 1 << k;
+			pr_info("Testing %dx multi-block erase speed\n",
+			       blocks);
+			start_timing();
+			for (i = 0; i < ebcnt; ) {
+				for (j = 0; j < blocks && (i + j) < ebcnt; j++)
+					if (bbt[i + j])
+						break;
+				if (j < 1) {
+					i++;
+					continue;
+				}
+				err = multiblock_erase(i, j);
+				if (err)
+					goto out;
+				cond_resched();
+				i += j;
+			}
+			stop_timing();
+			speed = calc_speed();
+			pr_info("%dx multi-block erase speed is %ld KiB/s\n",
+			       blocks, speed);
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	pr_info("finished\n");
 out:

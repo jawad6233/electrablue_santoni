@@ -338,7 +338,11 @@ static int inotify_find_inode(const char __user *dirname, struct path *path, uns
 	if (error)
 		return error;
 	/* you can only watch an inode if you have read permissions on it */
+<<<<<<< HEAD
 	error = inode_permission(path->dentry->d_inode, MAY_READ);
+=======
+	error = inode_permission2(path->mnt, path->dentry->d_inode, MAY_READ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (error)
 		path_put(path);
 	return error;
@@ -735,7 +739,11 @@ SYSCALL_DEFINE3(inotify_add_watch, int, fd, const char __user *, pathname,
 	/* support stacked filesystems */
 	if(path.dentry && path.dentry->d_op) {
 		if (path.dentry->d_op->d_canonical_path) {
+<<<<<<< HEAD
 			path.dentry->d_op->d_canonical_path(path.dentry, &alteredpath);
+=======
+			path.dentry->d_op->d_canonical_path(&path, &alteredpath);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			canonical_path = &alteredpath;
 			path_put(&path);
 		}

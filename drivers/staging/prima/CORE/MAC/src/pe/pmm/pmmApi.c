@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -2176,6 +2180,7 @@ void pmmEnterWowlRequestHandler(tpAniSirGlobal pMac, tpSirMsgQ pMsg)
         goto end;
     }
 #endif
+<<<<<<< HEAD
 
 
     if ((pMac->pmm.gPmmState != ePMM_STATE_BMPS_SLEEP) && (pMac->pmm.gPmmState != ePMM_STATE_WOWLAN))
@@ -2184,6 +2189,24 @@ void pmmEnterWowlRequestHandler(tpAniSirGlobal pMac, tpSirMsgQ pMsg)
         limSendSmeRsp(pMac, eWNI_PMC_ENTER_WOWL_RSP, eSIR_SME_INVALID_PMM_STATE, 0, 0);
         goto end;
     }
+=======
+    /**
+     * In SAP mode BMPS is not supported skip bmps validation and
+     * send command directly.
+     */
+    if (pSessionEntry->operMode != BSS_OPERATIONAL_MODE_AP)
+    {
+       if ((pMac->pmm.gPmmState != ePMM_STATE_BMPS_SLEEP) &&
+           (pMac->pmm.gPmmState != ePMM_STATE_WOWLAN))
+       {
+          pmmLog(pMac, LOGE, FL("Rcvd PMC_ENTER_WOWL_REQ in invalid Power Save state "));
+          limSendSmeRsp(pMac, eWNI_PMC_ENTER_WOWL_RSP,
+                        eSIR_SME_INVALID_PMM_STATE, 0, 0);
+          goto end;
+        }
+    } else
+         pmmLog(pMac,LOG1, FL("SAP dosn't support BMPS mode directly post wowl request"));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     pHalWowlParams = vos_mem_malloc(sizeof(*pHalWowlParams));
     if ( NULL == pHalWowlParams )
@@ -2363,6 +2386,10 @@ void pmmExitWowlanRequestHandler(tpAniSirGlobal pMac)
     tpPESession pSessionEntry;
     tpSirHalWowlExitParams  pHalWowlMsg = NULL;
     tANI_U8            PowersavesessionId = 0;
+<<<<<<< HEAD
+=======
+    tANI_U8 smeSessionId = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     PowersavesessionId = pMac->pmm.sessionId;
 
@@ -2373,6 +2400,11 @@ void pmmExitWowlanRequestHandler(tpAniSirGlobal pMac)
         goto failure;
     }
 
+<<<<<<< HEAD
+=======
+    smeSessionId = pSessionEntry->smeSessionId;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     pHalWowlMsg = vos_mem_malloc(sizeof(*pHalWowlMsg));
     if ( NULL == pHalWowlMsg )
     {
@@ -2410,7 +2442,11 @@ void pmmExitWowlanRequestHandler(tpAniSirGlobal pMac)
 failure:
     if (pHalWowlMsg != NULL)
        vos_mem_free(pHalWowlMsg);
+<<<<<<< HEAD
     limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, smeRspCode, 0, 0);
+=======
+    limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, smeRspCode, smeSessionId, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     return;
 }
 
@@ -2461,6 +2497,11 @@ void pmmExitWowlanResponseHandler(tpAniSirGlobal pMac, tpSirMsgQ limMsg)
 
     tpSirHalWowlExitParams  pHalWowlRspMsg;
     eHalStatus   rspStatus = eHAL_STATUS_FAILURE;
+<<<<<<< HEAD
+=======
+    tpPESession psessionEntry = NULL;
+    tANI_U8 smeSessionId = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     /* we need to process all the deferred messages enqueued
      * since the initiating the WDA_WOWL_EXIT_REQ.
@@ -2477,17 +2518,34 @@ void pmmExitWowlanResponseHandler(tpAniSirGlobal pMac, tpSirMsgQ limMsg)
         // restore PMM state to BMPS mode
         pMac->pmm.gPmmState = ePMM_STATE_BMPS_SLEEP;
         rspStatus = pHalWowlRspMsg->status;
+<<<<<<< HEAD
+=======
+        psessionEntry = peFindSessionByBssIdx(pMac, pHalWowlRspMsg->bssIdx);
+        if (psessionEntry) {
+            smeSessionId = psessionEntry->smeSessionId;
+            if (LIM_IS_AP_ROLE(psessionEntry))
+                pMac->pmm.gPmmState = ePMM_STATE_READY;
+        }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     if( rspStatus == eHAL_STATUS_SUCCESS)
     {
         pmmLog(pMac, LOGW, FL("Rcvd successful rsp from HAL to exit WOWLAN "));
+<<<<<<< HEAD
         limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, eSIR_SME_SUCCESS, 0, 0);
+=======
+        limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, eSIR_SME_SUCCESS, smeSessionId, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
     else
     {
         pmmLog(pMac, LOGE, FL("Rcvd failure rsp from HAL to exit WOWLAN "));
+<<<<<<< HEAD
         limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, eSIR_SME_WOWL_EXIT_REQ_FAILED, 0, 0);
+=======
+        limSendSmeRsp(pMac, eWNI_PMC_EXIT_WOWL_RSP, eSIR_SME_WOWL_EXIT_REQ_FAILED, smeSessionId, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
     return;
 }

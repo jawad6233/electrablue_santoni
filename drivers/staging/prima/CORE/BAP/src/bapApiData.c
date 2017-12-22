@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -1013,7 +1017,11 @@ WLANBAP_TxCompCB
 #ifdef BAP_DEBUG
     /* Trace the bapContext referenced. */
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
               "WLAN BAP Context Monitor: bapContext value = %p in %s:%d. vosDataBuff=%p", bapContext, __func__, __LINE__, vosDataBuff );
+=======
+              "WLAN BAP Context Monitor: bapContext value = %pK in %s:%d. vosDataBuff=%pK", bapContext, __func__, __LINE__, vosDataBuff );
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif //BAP_DEBUG
 
     // Sanity check the log_link_handle value 
@@ -1164,7 +1172,11 @@ WLANBAP_STAPktPending
 #ifdef BAP_DEBUG
     /* Trace the tBtampCtx being passed in. */
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
               "WLAN BAP Context Monitor: pBtampCtx value = %p in %s:%d", pBtampCtx, __func__, __LINE__ );
+=======
+              "WLAN BAP Context Monitor: pBtampCtx value = %pK in %s:%d", pBtampCtx, __func__, __LINE__ );
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif //BAP_DEBUG
 
     /*------------------------------------------------------------------------

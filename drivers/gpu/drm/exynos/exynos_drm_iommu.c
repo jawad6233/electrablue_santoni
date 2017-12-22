@@ -87,10 +87,15 @@ int drm_iommu_attach_device(struct drm_device *drm_dev,
 	struct device *dev = drm_dev->dev;
 	int ret;
 
+<<<<<<< HEAD
 	if (!dev->archdata.mapping) {
 		DRM_ERROR("iommu_mapping is null.\n");
 		return -EFAULT;
 	}
+=======
+	if (!dev->archdata.mapping)
+		return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	subdrv_dev->dma_parms = devm_kzalloc(subdrv_dev,
 					sizeof(*subdrv_dev->dma_parms),
@@ -100,6 +105,12 @@ int drm_iommu_attach_device(struct drm_device *drm_dev,
 
 	dma_set_max_seg_size(subdrv_dev, 0xffffffffu);
 
+<<<<<<< HEAD
+=======
+	if (subdrv_dev->archdata.mapping)
+		arm_iommu_detach_device(subdrv_dev);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = arm_iommu_attach_device(subdrv_dev, dev->archdata.mapping);
 	if (ret < 0) {
 		DRM_DEBUG_KMS("failed iommu attach.\n");
@@ -114,8 +125,13 @@ int drm_iommu_attach_device(struct drm_device *drm_dev,
 	 * If iommu attach succeeded, the sub driver would have dma_ops
 	 * for iommu and also all sub drivers have same dma_ops.
 	 */
+<<<<<<< HEAD
 	if (!dev->archdata.dma_ops)
 		dev->archdata.dma_ops = subdrv_dev->archdata.dma_ops;
+=======
+	if (get_dma_ops(dev) == get_dma_ops(NULL))
+		set_dma_ops(dev, get_dma_ops(subdrv_dev));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -138,6 +154,10 @@ void drm_iommu_detach_device(struct drm_device *drm_dev,
 	if (!mapping || !mapping->domain)
 		return;
 
+<<<<<<< HEAD
 	iommu_detach_device(mapping->domain, subdrv_dev);
 	drm_release_iommu_mapping(drm_dev);
+=======
+	arm_iommu_detach_device(subdrv_dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

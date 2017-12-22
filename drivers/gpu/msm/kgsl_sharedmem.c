@@ -20,6 +20,10 @@
 #include <linux/scatterlist.h>
 #include <soc/qcom/scm.h>
 #include <soc/qcom/secure_buffer.h>
+<<<<<<< HEAD
+=======
+#include <linux/ratelimit.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "kgsl.h"
 #include "kgsl_sharedmem.h"
@@ -623,6 +627,12 @@ int kgsl_cache_range_op(struct kgsl_memdesc *memdesc, uint64_t offset,
 		uint64_t size, unsigned int op)
 {
 	void *addr = NULL;
+<<<<<<< HEAD
+=======
+	struct sg_table *sgt = NULL;
+	struct scatterlist *sg;
+	unsigned int i, pos = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret = 0;
 
 	if (size == 0 || size > UINT_MAX)
@@ -650,6 +660,7 @@ int kgsl_cache_range_op(struct kgsl_memdesc *memdesc, uint64_t offset,
 	 * If the buffer is not to mapped to kernel, perform cache
 	 * operations after mapping to kernel.
 	 */
+<<<<<<< HEAD
 	if (memdesc->sgt != NULL) {
 		struct scatterlist *sg;
 		unsigned int i, pos = 0;
@@ -684,10 +695,45 @@ int kgsl_cache_range_op(struct kgsl_memdesc *memdesc, uint64_t offset,
 		ret = kgsl_do_cache_op(NULL, addr, offset, size, op);
 		vunmap(addr);
 	}
+=======
+	if (memdesc->sgt != NULL)
+		sgt = memdesc->sgt;
+	else {
+		if (memdesc->pages == NULL)
+			return ret;
+
+		sgt = kgsl_alloc_sgt_from_pages(memdesc);
+		if (IS_ERR(sgt))
+			return PTR_ERR(sgt);
+	}
+
+	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+		uint64_t sg_offset, sg_left;
+
+		if (offset >= (pos + sg->length)) {
+			pos += sg->length;
+			continue;
+		}
+		sg_offset = offset > pos ? offset - pos : 0;
+		sg_left = (sg->length - sg_offset > size) ? size :
+					sg->length - sg_offset;
+		ret = kgsl_do_cache_op(sg_page(sg), NULL, sg_offset,
+							sg_left, op);
+		size -= sg_left;
+		if (size == 0)
+			break;
+		pos += sg->length;
+	}
+
+	if (memdesc->sgt == NULL)
+		kgsl_free_sgt(sgt);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 EXPORT_SYMBOL(kgsl_cache_range_op);
 
+<<<<<<< HEAD
 #ifndef CONFIG_ALLOC_BUFFERS_IN_4K_CHUNKS
 static inline int get_page_size(size_t size, unsigned int align)
 {
@@ -751,6 +797,8 @@ static void kgsl_zero_pages(struct page **pages, unsigned int pcount)
 	}
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int
 kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 			uint64_t size)
@@ -761,21 +809,39 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 	size_t len;
 	unsigned int align;
 
+<<<<<<< HEAD
+=======
+	static DEFINE_RATELIMIT_STATE(_rs,
+					DEFAULT_RATELIMIT_INTERVAL,
+					DEFAULT_RATELIMIT_BURST);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	size = PAGE_ALIGN(size);
 	if (size == 0 || size > UINT_MAX)
 		return -EINVAL;
 
 	align = (memdesc->flags & KGSL_MEMALIGN_MASK) >> KGSL_MEMALIGN_SHIFT;
 
+<<<<<<< HEAD
 	page_size = get_page_size(size, align);
+=======
+	page_size = kgsl_get_page_size(size, align);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * The alignment cannot be less than the intended page size - it can be
 	 * larger however to accomodate hardware quirks
 	 */
 
+<<<<<<< HEAD
 	if (align < ilog2(page_size))
 		kgsl_memdesc_set_align(memdesc, ilog2(page_size));
+=======
+	if (align < ilog2(page_size)) {
+		kgsl_memdesc_set_align(memdesc, ilog2(page_size));
+		align = ilog2(page_size);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * There needs to be enough room in the page array to be able to
@@ -806,6 +872,7 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 	while (len > 0) {
 		int page_count;
 
+<<<<<<< HEAD
 		/* don't waste space at the end of the allocation*/
 		if (len < page_size)
 			page_size = PAGE_SIZE;
@@ -818,6 +885,15 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 				page_size = PAGE_SIZE;
 				continue;
 			}
+=======
+		page_count = kgsl_pool_alloc_page(&page_size,
+					memdesc->pages + pcount,
+					len_alloc - pcount,
+					&align);
+		if (page_count <= 0) {
+			if (page_count == -EAGAIN)
+				continue;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			/*
 			 * Update sglen and memdesc size,as requested allocation
@@ -826,7 +902,12 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 			 */
 			memdesc->size = (size - len);
 
+<<<<<<< HEAD
 			if (sharedmem_noretry_flag != true)
+=======
+			if (sharedmem_noretry_flag != true &&
+					__ratelimit(&_rs))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				KGSL_CORE_ERR(
 					"Out of memory: only allocated %lldKB of %lldKB requested\n",
 					(size - len) >> 10, size >> 10);
@@ -839,6 +920,12 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 		len -= page_size;
 		memdesc->size += page_size;
 		memdesc->page_count += page_count;
+<<<<<<< HEAD
+=======
+
+		/* Get the needed page size for the next iteration */
+		page_size = kgsl_get_page_size(len, align);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Call to the hypervisor to lock any secure buffer allocations */
@@ -896,11 +983,14 @@ kgsl_sharedmem_page_alloc_user(struct kgsl_memdesc *memdesc,
 	KGSL_STATS_ADD(memdesc->size, &kgsl_driver.stats.page_alloc,
 		&kgsl_driver.stats.page_alloc_max);
 
+<<<<<<< HEAD
 	/*
 	 * Zero out the pages.
 	 */
 	kgsl_zero_pages(memdesc->pages, pcount);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 done:
 	if (ret) {
 		if (memdesc->pages) {

@@ -35,7 +35,11 @@
 
 #include <drm/i2c/ch7006.h>
 
+<<<<<<< HEAD
 static struct nouveau_i2c_board_info nv04_tv_encoder_info[] = {
+=======
+static struct nvkm_i2c_bus_probe nv04_tv_encoder_info[] = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{
 		{
 			I2C_BOARD_INFO("ch7006", 0x75),
@@ -54,10 +58,21 @@ static struct nouveau_i2c_board_info nv04_tv_encoder_info[] = {
 int nv04_tv_identify(struct drm_device *dev, int i2c_index)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
+<<<<<<< HEAD
 	struct nouveau_i2c *i2c = nvkm_i2c(&drm->device);
 
 	return i2c->identify(i2c, i2c_index, "TV encoder",
 			     nv04_tv_encoder_info, NULL, NULL);
+=======
+	struct nvkm_i2c *i2c = nvxx_i2c(&drm->device);
+	struct nvkm_i2c_bus *bus = nvkm_i2c_bus_find(i2c, i2c_index);
+	if (bus) {
+		return nvkm_i2c_bus_probe(bus, "TV encoder",
+					  nv04_tv_encoder_info,
+					  NULL, NULL);
+	}
+	return -ENODEV;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 
@@ -122,7 +137,11 @@ static void nv04_tv_prepare(struct drm_encoder *encoder)
 {
 	struct drm_device *dev = encoder->dev;
 	int head = nouveau_crtc(encoder->crtc)->index;
+<<<<<<< HEAD
 	struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+=======
+	const struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	helper->dpms(encoder, DRM_MODE_DPMS_OFF);
 
@@ -164,7 +183,11 @@ static void nv04_tv_commit(struct drm_encoder *encoder)
 	struct drm_device *dev = encoder->dev;
 	struct nouveau_drm *drm = nouveau_drm(dev);
 	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
+<<<<<<< HEAD
 	struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+=======
+	const struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
 
@@ -204,8 +227,13 @@ nv04_tv_create(struct drm_connector *connector, struct dcb_output *entry)
 	struct drm_encoder *encoder;
 	struct drm_device *dev = connector->dev;
 	struct nouveau_drm *drm = nouveau_drm(dev);
+<<<<<<< HEAD
 	struct nouveau_i2c *i2c = nvkm_i2c(&drm->device);
 	struct nouveau_i2c_port *port = i2c->find(i2c, entry->i2c_index);
+=======
+	struct nvkm_i2c *i2c = nvxx_i2c(&drm->device);
+	struct nvkm_i2c_bus *bus = nvkm_i2c_bus_find(i2c, entry->i2c_index);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int type, ret;
 
 	/* Ensure that we can talk to this encoder */
@@ -231,7 +259,11 @@ nv04_tv_create(struct drm_connector *connector, struct dcb_output *entry)
 
 	/* Run the slave-specific initialization */
 	ret = drm_i2c_encoder_init(dev, to_encoder_slave(encoder),
+<<<<<<< HEAD
 				   &port->adapter,
+=======
+				   &bus->i2c,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				   &nv04_tv_encoder_info[type].dev);
 	if (ret < 0)
 		goto fail_cleanup;

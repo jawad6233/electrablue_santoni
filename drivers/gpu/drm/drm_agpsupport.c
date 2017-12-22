@@ -36,8 +36,11 @@
 #include <linux/slab.h>
 #include "drm_legacy.h"
 
+<<<<<<< HEAD
 #if __OS_HAS_AGP
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/agp.h>
 
 /**
@@ -502,5 +505,8 @@ drm_agp_bind_pages(struct drm_device *dev,
 	return mem;
 }
 EXPORT_SYMBOL(drm_agp_bind_pages);
+<<<<<<< HEAD
 
 #endif /* __OS_HAS_AGP */
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

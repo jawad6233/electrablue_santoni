@@ -17,12 +17,21 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+<<<<<<< HEAD
 #include "omap_drv.h"
 #include "omap_dmm_tiler.h"
 
 #include "drm_fb_helper.h"
 
 
+=======
+#include <drm/drm_crtc.h>
+#include <drm/drm_fb_helper.h>
+
+#include "omap_drv.h"
+#include "omap_dmm_tiler.h"
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_DEBUG_FS
 
 static int gem_show(struct seq_file *m, void *arg)

@@ -2942,6 +2942,7 @@ AU0828_DEVICE(0x2040, 0x7260, "Hauppauge", "HVR-950Q"),
 AU0828_DEVICE(0x2040, 0x7213, "Hauppauge", "HVR-950Q"),
 AU0828_DEVICE(0x2040, 0x7270, "Hauppauge", "HVR-950Q"),
 
+<<<<<<< HEAD
 /* Syntek STK1160 */
 {
 	.match_flags = USB_DEVICE_ID_MATCH_DEVICE |
@@ -2976,6 +2977,8 @@ AU0828_DEVICE(0x2040, 0x7270, "Hauppauge", "HVR-950Q"),
 	}
 },
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Digidesign Mbox */
 {
 	/* Thanks to Clemens Ladisch <clemens@ladisch.de> */

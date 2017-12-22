@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2015 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -526,7 +530,11 @@ WPT_STATIC WPT_INLINE void* itGetOSPktAddrFromDevice( wpt_packet *pPacket )
 #else
        WPAL_TRACE(eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_FATAL,
                 "%s: skb->data == skb->tail. Attempting recovery "
+<<<<<<< HEAD
                 "skb:%p, head:%p, tail:%p, data:%p",
+=======
+                "skb:%pK, head:%pK, tail:%pK, data:%pK",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, skb, skb->head, skb->tail, skb->data);
 
       skb->data = skb->head;
@@ -576,7 +584,11 @@ wpt_status wpalIteratorInit(wpt_iterator *pIter, wpt_packet *pPacket)
    if (unlikely((NULL == pPacket)||(NULL==pIter)))
    {
       WPAL_TRACE(eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 "%s : NULL input pointers %p %p", __func__, pPacket, pIter);
+=======
+                "%s : NULL input pointers %pK %pK", __func__, pPacket, pIter);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       return eWLAN_PAL_STATUS_E_INVAL;
    }
 

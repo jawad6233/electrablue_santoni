@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,6 +22,11 @@
 #include <linux/mutex.h>
 #include <sound/audio_cal_utils.h>
 
+<<<<<<< HEAD
+=======
+static int unmap_memory(struct cal_type_data *cal_type,
+			struct cal_block_data *cal_block);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 size_t get_cal_info_size(int32_t cal_type)
 {
@@ -89,6 +98,25 @@ size_t get_cal_info_size(int32_t cal_type)
 	case AFE_FB_SPKR_PROT_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_spk_prot_cfg);
 		break;
+<<<<<<< HEAD
+=======
+	case AFE_FB_SPKR_PROT_TH_VI_CAL_TYPE:
+		/*
+		 * Since get and set parameter structures are different in size
+		 * use the maximum size of get and set parameter structure
+		 */
+		size = max(sizeof(struct audio_cal_info_sp_th_vi_ftm_cfg),
+			   sizeof(struct audio_cal_info_sp_th_vi_param));
+		break;
+	case AFE_FB_SPKR_PROT_EX_VI_CAL_TYPE:
+		/*
+		 * Since get and set parameter structures are different in size
+		 * use the maximum size of get and set parameter structure
+		 */
+		size = max(sizeof(struct audio_cal_info_sp_ex_vi_ftm_cfg),
+			   sizeof(struct audio_cal_info_sp_ex_vi_param));
+		break;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case AFE_ANC_CAL_TYPE:
 		size = 0;
 		break;
@@ -137,9 +165,12 @@ size_t get_cal_info_size(int32_t cal_type)
 	case ULP_LSM_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_lsm);
 		break;
+<<<<<<< HEAD
 	case DTS_EAGLE_CAL_TYPE:
 		size = 0;
 		break;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case AUDIO_CORE_METAINFO_CAL_TYPE:
 		size = sizeof(struct audio_cal_info_metainfo);
 		break;
@@ -219,6 +250,25 @@ size_t get_user_cal_type_size(int32_t cal_type)
 	case AFE_FB_SPKR_PROT_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_fb_spk_prot_cfg);
 		break;
+<<<<<<< HEAD
+=======
+	case AFE_FB_SPKR_PROT_TH_VI_CAL_TYPE:
+		/*
+		 * Since get and set parameter structures are different in size
+		 * use the maximum size of get and set parameter structure
+		 */
+		size = max(sizeof(struct audio_cal_type_sp_th_vi_ftm_cfg),
+			   sizeof(struct audio_cal_type_sp_th_vi_param));
+		break;
+	case AFE_FB_SPKR_PROT_EX_VI_CAL_TYPE:
+		/*
+		 * Since get and set parameter structures are different in size
+		 * use the maximum size of get and set parameter structure
+		 */
+		size = max(sizeof(struct audio_cal_type_sp_ex_vi_ftm_cfg),
+			   sizeof(struct audio_cal_type_sp_ex_vi_param));
+		break;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case AFE_ANC_CAL_TYPE:
 		size = 0;
 		break;
@@ -267,9 +317,12 @@ size_t get_user_cal_type_size(int32_t cal_type)
 	case ULP_LSM_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_lsm);
 		break;
+<<<<<<< HEAD
 	case DTS_EAGLE_CAL_TYPE:
 		size = 0;
 		break;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case AUDIO_CORE_METAINFO_CAL_TYPE:
 		size = sizeof(struct audio_cal_type_metainfo);
 		break;
@@ -413,6 +466,7 @@ static void destroy_all_cal_blocks(struct cal_type_data *cal_type)
 		cal_block = list_entry(ptr,
 			struct cal_block_data, list);
 
+<<<<<<< HEAD
 		if (cal_type->info.cal_util_callbacks.unmap_cal != NULL) {
 			ret = cal_type->info.cal_util_callbacks.
 				unmap_cal(cal_type->info.reg.cal_type,
@@ -423,6 +477,14 @@ static void destroy_all_cal_blocks(struct cal_type_data *cal_type)
 				       cal_type->info.reg.cal_type,
 					ret);
 			}
+=======
+		ret = unmap_memory(cal_type, cal_block);
+		if (ret < 0) {
+			pr_err("%s: unmap_memory failed, cal type %d, ret = %d!\n",
+				__func__,
+			       cal_type->info.reg.cal_type,
+				ret);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		delete_cal_block(cal_block);
 		cal_block = NULL;
@@ -563,16 +625,24 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 		goto done;
 	}
 
+<<<<<<< HEAD
 	cal_block = kmalloc(sizeof(*cal_type),
+=======
+	cal_block = kzalloc(sizeof(*cal_block),
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		GFP_KERNEL);
 	if (cal_block == NULL) {
 		pr_err("%s: could not allocate cal_block!\n", __func__);
 		goto done;
 	}
 
+<<<<<<< HEAD
 	memset(cal_block, 0, sizeof(*cal_block));
 	INIT_LIST_HEAD(&cal_block->list);
 	list_add_tail(&cal_block->list, &cal_type->cal_blocks);
+=======
+	INIT_LIST_HEAD(&cal_block->list);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	cal_block->map_data.ion_map_handle = basic_cal->cal_data.mem_handle;
 	if (basic_cal->cal_data.mem_handle > 0) {
@@ -595,7 +665,11 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 				client_info_size);
 	}
 
+<<<<<<< HEAD
 	cal_block->cal_info = kmalloc(
+=======
+	cal_block->cal_info = kzalloc(
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		get_cal_info_size(cal_type->info.reg.cal_type),
 		GFP_KERNEL);
 	if (cal_block->cal_info == NULL) {
@@ -604,7 +678,12 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 		goto err;
 	}
 	cal_block->buffer_number = basic_cal->cal_hdr.buffer_number;
+<<<<<<< HEAD
 	pr_debug("%s: created block for cal type %d, buf num %d, map handle %d, map size %zd paddr 0x%pa!\n",
+=======
+	list_add_tail(&cal_block->list, &cal_type->cal_blocks);
+	pr_debug("%s: created block for cal type %d, buf num %d, map handle %d, map size %zd paddr 0x%pK!\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		__func__, cal_type->info.reg.cal_type,
 		cal_block->buffer_number,
 		cal_block->map_data.ion_map_handle,
@@ -613,6 +692,13 @@ static struct cal_block_data *create_cal_block(struct cal_type_data *cal_type,
 done:
 	return cal_block;
 err:
+<<<<<<< HEAD
+=======
+	kfree(cal_block->cal_info);
+	cal_block->cal_info = NULL;
+	kfree(cal_block->client_info);
+	cal_block->client_info = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(cal_block);
 	cal_block = NULL;
 	return cal_block;

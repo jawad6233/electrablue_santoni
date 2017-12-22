@@ -2,7 +2,10 @@
 #define _LINUX_CPUDL_H
 
 #include <linux/sched.h>
+<<<<<<< HEAD
 #include <linux/sched/deadline.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define IDX_INVALID     -1
 
@@ -23,11 +26,16 @@ struct cpudl {
 #ifdef CONFIG_SMP
 int cpudl_find(struct cpudl *cp, struct task_struct *p,
 	       struct cpumask *later_mask);
+<<<<<<< HEAD
 void cpudl_set(struct cpudl *cp, int cpu, u64 dl);
 void cpudl_clear(struct cpudl *cp, int cpu);
 int cpudl_init(struct cpudl *cp);
 void cpudl_set_freecpu(struct cpudl *cp, int cpu);
 void cpudl_clear_freecpu(struct cpudl *cp, int cpu);
+=======
+void cpudl_set(struct cpudl *cp, int cpu, u64 dl, int is_valid);
+int cpudl_init(struct cpudl *cp);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void cpudl_cleanup(struct cpudl *cp);
 #else
 #define cpudl_set(cp, cpu, dl) do { } while (0)

@@ -59,10 +59,13 @@ struct snd_usb_audio {
 	bool autoclock;			/* from the 'autoclock' module param */
 
 	struct usb_host_interface *ctrl_intf;	/* the audio control interface */
+<<<<<<< HEAD
 
 	struct mutex dev_lock;	/* to protect any race with disconnect */
 	int card_num;	/* cache pcm card number to use upon disconnect */
 	void (*disconnect_cb)(struct snd_usb_audio *chip);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define usb_audio_err(chip, fmt, args...) \

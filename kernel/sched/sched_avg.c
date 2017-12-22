@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012, 2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012, 2015-2016, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -60,6 +64,7 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg)
 
 		spin_lock_irqsave(&per_cpu(nr_lock, cpu), flags);
 		curr_time = sched_clock();
+<<<<<<< HEAD
 		tmp_avg += per_cpu(nr_prod_sum, cpu);
 		tmp_avg += per_cpu(nr, cpu) *
 			(curr_time - per_cpu(last_time, cpu));
@@ -71,6 +76,19 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg)
 		tmp_iowait += per_cpu(iowait_prod_sum, cpu);
 		tmp_iowait +=  nr_iowait_cpu(cpu) *
 			(curr_time - per_cpu(last_time, cpu));
+=======
+		diff = curr_time - per_cpu(last_time, cpu);
+		BUG_ON((s64)diff < 0);
+
+		tmp_avg += per_cpu(nr_prod_sum, cpu);
+		tmp_avg += per_cpu(nr, cpu) * diff;
+
+		tmp_big_avg += per_cpu(nr_big_prod_sum, cpu);
+		tmp_big_avg += nr_eligible_big_tasks(cpu) * diff;
+
+		tmp_iowait += per_cpu(iowait_prod_sum, cpu);
+		tmp_iowait +=  nr_iowait_cpu(cpu) * diff;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		per_cpu(last_time, cpu) = curr_time;
 
@@ -107,14 +125,23 @@ EXPORT_SYMBOL(sched_get_nr_running_avg);
  */
 void sched_update_nr_prod(int cpu, long delta, bool inc)
 {
+<<<<<<< HEAD
 	int diff;
 	s64 curr_time;
+=======
+	u64 diff;
+	u64 curr_time;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned long flags, nr_running;
 
 	spin_lock_irqsave(&per_cpu(nr_lock, cpu), flags);
 	nr_running = per_cpu(nr, cpu);
 	curr_time = sched_clock();
 	diff = curr_time - per_cpu(last_time, cpu);
+<<<<<<< HEAD
+=======
+	BUG_ON((s64)diff < 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	per_cpu(last_time, cpu) = curr_time;
 	per_cpu(nr, cpu) = nr_running + (inc ? delta : -delta);
 

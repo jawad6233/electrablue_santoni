@@ -358,6 +358,11 @@ static void process_incoming_feature_mask(uint8_t *buf, uint32_t len,
 		feature_mask_len = FEATURE_MASK_LEN;
 	}
 
+<<<<<<< HEAD
+=======
+	diag_cmd_remove_reg_by_proc(peripheral);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	driver->feature[peripheral].rcvd_feature_mask = 1;
 
 	for (i = 0; i < feature_mask_len && read_len < len; i++) {
@@ -655,8 +660,13 @@ static void process_build_mask_report(uint8_t *buf, uint32_t len,
 void diag_cntl_process_read_data(struct diagfwd_info *p_info, void *buf,
 				 int len)
 {
+<<<<<<< HEAD
 	int read_len = 0;
 	int header_len = sizeof(struct diag_ctrl_pkt_header_t);
+=======
+	uint32_t read_len = 0;
+	uint32_t header_len = sizeof(struct diag_ctrl_pkt_header_t);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint8_t *ptr = buf;
 	struct diag_ctrl_pkt_header_t *ctrl_pkt = NULL;
 

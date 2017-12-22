@@ -23,7 +23,10 @@
 
 #ifdef __KERNEL__
 
+<<<<<<< HEAD
 #include <linux/string.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/types.h>
 #include <linux/blk_types.h>
 #include <asm/byteorder.h>
@@ -407,6 +410,7 @@ extern void _memset_io(volatile void __iomem *, int, size_t);
 #define writesw(p,d,l)		__raw_writesw(p,d,l)
 #define writesl(p,d,l)		__raw_writesl(p,d,l)
 
+<<<<<<< HEAD
 #ifndef __ARMBE__
 static inline void memset_io(volatile void __iomem *dst, unsigned c,
 	size_t count)
@@ -434,6 +438,11 @@ static inline void memcpy_toio(volatile void __iomem *to, const void *from,
 #define memcpy_fromio(a,c,l)	_memcpy_fromio((a),c,(l))
 #define memcpy_toio(c,a,l)	_memcpy_toio(c,(a),(l))
 #endif
+=======
+#define memset_io(c,v,l)	_memset_io(c,(v),(l))
+#define memcpy_fromio(a,c,l)	_memcpy_fromio((a),c,(l))
+#define memcpy_toio(c,a,l)	_memcpy_toio(c,(a),(l))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif	/* readl */
 

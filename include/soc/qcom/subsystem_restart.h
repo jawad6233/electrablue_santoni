@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -50,6 +54,11 @@ struct module;
  * @sysmon_shutdown_ret: Return value for the call to sysmon_send_shutdown
  * @system_debug: If "set", triggers a device restart when the
  * subsystem's wdog bite handler is invoked.
+<<<<<<< HEAD
+=======
+ * @ignore_ssr_failure: SSR failures are usually fatal and results in panic. If
+ * set will ignore failure.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @edge: GLINK logical name of the subsystem
  */
 struct subsys_desc {
@@ -85,6 +94,10 @@ struct subsys_desc {
 	u32 sysmon_pid;
 	int sysmon_shutdown_ret;
 	bool system_debug;
+<<<<<<< HEAD
+=======
+	bool ignore_ssr_failure;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	const char *edge;
 };
 
@@ -122,6 +135,10 @@ extern void subsys_unregister(struct subsys_device *dev);
 extern void subsys_default_online(struct subsys_device *dev);
 extern void subsys_set_crash_status(struct subsys_device *dev, bool crashed);
 extern bool subsys_get_crash_status(struct subsys_device *dev);
+<<<<<<< HEAD
+=======
+extern void subsys_set_error(struct subsys_device *dev, const char *error_msg);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void notify_proxy_vote(struct device *device);
 void notify_proxy_unvote(struct device *device);
 void complete_err_ready(struct subsys_device *subsys);

@@ -154,7 +154,11 @@ nvc0_fbcon_accel_init(struct fb_info *info)
 	struct nouveau_channel *chan = drm->channel;
 	int ret, format;
 
+<<<<<<< HEAD
 	ret = nvif_object_init(chan->object, NULL, 0x902d, 0x902d, NULL, 0,
+=======
+	ret = nvif_object_init(&chan->user, 0x902d, 0x902d, NULL, 0,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       &nfbdev->twod);
 	if (ret)
 		return ret;
@@ -186,7 +190,11 @@ nvc0_fbcon_accel_init(struct fb_info *info)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	ret = RING_SPACE(chan, 60);
+=======
+	ret = RING_SPACE(chan, 58);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret) {
 		WARN_ON(1);
 		nouveau_fbcon_gpu_lockup(info);

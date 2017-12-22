@@ -29,8 +29,13 @@ void oz_usb_request_heartbeat(void *hpd);
 
 /* Confirmation functions.
  */
+<<<<<<< HEAD
 void oz_hcd_get_desc_cnf(void *hport, u8 req_id, int status,
 	const u8 *desc, int length, int offset, int total_size);
+=======
+void oz_hcd_get_desc_cnf(void *hport, u8 req_id, u8 status,
+	const u8 *desc, u8 length, u16 offset, u16 total_size);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void oz_hcd_control_cnf(void *hport, u8 req_id, u8 rcode,
 	const u8 *data, int data_len);
 

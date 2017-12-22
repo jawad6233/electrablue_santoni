@@ -12,7 +12,11 @@
 #include <linux/list.h>
 #include <linux/slab.h>
 #include <linux/rbtree.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+#include <linux/tracefs.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "trace_stat.h"
 #include "trace.h"
 
@@ -65,7 +69,11 @@ static void reset_stat_session(struct stat_session *session)
 
 static void destroy_session(struct stat_session *session)
 {
+<<<<<<< HEAD
 	debugfs_remove(session->file);
+=======
+	tracefs_remove(session->file);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__reset_stat_session(session);
 	mutex_destroy(&session->stat_mutex);
 	kfree(session);
@@ -276,12 +284,21 @@ static int tracing_stat_init(void)
 	struct dentry *d_tracing;
 
 	d_tracing = tracing_init_dentry();
+<<<<<<< HEAD
 	if (!d_tracing)
 		return 0;
 
 	stat_dir = debugfs_create_dir("trace_stat", d_tracing);
 	if (!stat_dir)
 		pr_warning("Could not create debugfs "
+=======
+	if (IS_ERR(d_tracing))
+		return 0;
+
+	stat_dir = tracefs_create_dir("trace_stat", d_tracing);
+	if (!stat_dir)
+		pr_warning("Could not create tracefs "
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			   "'trace_stat' entry\n");
 	return 0;
 }
@@ -291,7 +308,11 @@ static int init_stat_file(struct stat_session *session)
 	if (!stat_dir && tracing_stat_init())
 		return -ENODEV;
 
+<<<<<<< HEAD
 	session->file = debugfs_create_file(session->ts->name, 0644,
+=======
+	session->file = tracefs_create_file(session->ts->name, 0644,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					    stat_dir,
 					    session, &tracing_stat_fops);
 	if (!session->file)

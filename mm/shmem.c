@@ -1275,6 +1275,7 @@ unlock:
 	return error;
 }
 
+<<<<<<< HEAD
 /*
  * This is like autoremove_wake_function, but it removes the wait queue
  * entry unconditionally - even if something else had already woken the
@@ -1287,6 +1288,8 @@ static int synchronous_wake_function(wait_queue_t *wait, unsigned mode, int sync
 	return ret;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int shmem_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	struct inode *inode = file_inode(vma->vm_file);
@@ -1320,7 +1323,11 @@ static int shmem_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 		    vmf->pgoff >= shmem_falloc->start &&
 		    vmf->pgoff < shmem_falloc->next) {
 			wait_queue_head_t *shmem_falloc_waitq;
+<<<<<<< HEAD
 			DEFINE_WAIT_FUNC(shmem_fault_wait, synchronous_wake_function);
+=======
+			DEFINE_WAIT(shmem_fault_wait);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			ret = VM_FAULT_NOPAGE;
 			if ((vmf->flags & FAULT_FLAG_ALLOW_RETRY) &&
@@ -2104,7 +2111,10 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
 		spin_lock(&inode->i_lock);
 		inode->i_private = NULL;
 		wake_up_all(&shmem_falloc_waitq);
+<<<<<<< HEAD
 		WARN_ON_ONCE(!list_empty(&shmem_falloc_waitq.task_list));
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		spin_unlock(&inode->i_lock);
 		error = 0;
 		goto out;

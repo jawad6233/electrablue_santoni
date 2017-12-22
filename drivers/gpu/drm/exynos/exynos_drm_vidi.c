@@ -14,19 +14,32 @@
 
 #include <linux/kernel.h>
 #include <linux/platform_device.h>
+<<<<<<< HEAD
+=======
+#include <linux/component.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <drm/exynos_drm.h>
 
 #include <drm/drm_edid.h>
 #include <drm/drm_crtc_helper.h>
+<<<<<<< HEAD
 
 #include "exynos_drm_drv.h"
 #include "exynos_drm_crtc.h"
 #include "exynos_drm_encoder.h"
+=======
+#include <drm/drm_atomic_helper.h>
+
+#include "exynos_drm_drv.h"
+#include "exynos_drm_crtc.h"
+#include "exynos_drm_plane.h"
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "exynos_drm_vidi.h"
 
 /* vidi has totally three virtual windows. */
 #define WINDOWS_NR		3
+<<<<<<< HEAD
 
 #define get_vidi_mgr(dev)	platform_get_drvdata(to_platform_device(dev))
 #define ctx_from_connector(c)	container_of(c, struct vidi_context, \
@@ -56,6 +69,22 @@ struct vidi_context {
 	struct edid			*raw_edid;
 	unsigned int			clkdiv;
 	unsigned int			default_win;
+=======
+#define CURSOR_WIN		2
+
+#define ctx_from_connector(c)	container_of(c, struct vidi_context, \
+					connector)
+
+struct vidi_context {
+	struct drm_encoder		encoder;
+	struct platform_device		*pdev;
+	struct drm_device		*drm_dev;
+	struct exynos_drm_crtc		*crtc;
+	struct drm_connector		connector;
+	struct exynos_drm_plane		planes[WINDOWS_NR];
+	struct edid			*raw_edid;
+	unsigned int			clkdiv;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned long			irq_flags;
 	unsigned int			connected;
 	bool				vblank_on;
@@ -66,6 +95,14 @@ struct vidi_context {
 	int				pipe;
 };
 
+<<<<<<< HEAD
+=======
+static inline struct vidi_context *encoder_to_vidi(struct drm_encoder *e)
+{
+	return container_of(e, struct vidi_context, encoder);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static const char fake_edid_info[] = {
 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x4c, 0x2d, 0x05, 0x05,
 	0x00, 0x00, 0x00, 0x00, 0x30, 0x12, 0x01, 0x03, 0x80, 0x10, 0x09, 0x78,
@@ -91,6 +128,7 @@ static const char fake_edid_info[] = {
 	0x00, 0x00, 0x00, 0x06
 };
 
+<<<<<<< HEAD
 static void vidi_apply(struct exynos_drm_manager *mgr)
 {
 	struct vidi_context *ctx = mgr->ctx;
@@ -119,6 +157,17 @@ static void vidi_commit(struct exynos_drm_manager *mgr)
 static int vidi_enable_vblank(struct exynos_drm_manager *mgr)
 {
 	struct vidi_context *ctx = mgr->ctx;
+=======
+static const uint32_t formats[] = {
+	DRM_FORMAT_XRGB8888,
+	DRM_FORMAT_ARGB8888,
+	DRM_FORMAT_NV12,
+};
+
+static int vidi_enable_vblank(struct exynos_drm_crtc *crtc)
+{
+	struct vidi_context *ctx = crtc->ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->suspended)
 		return -EPERM;
@@ -131,16 +180,26 @@ static int vidi_enable_vblank(struct exynos_drm_manager *mgr)
 	/*
 	 * in case of page flip request, vidi_finish_pageflip function
 	 * will not be called because direct_vblank is true and then
+<<<<<<< HEAD
 	 * that function will be called by manager_ops->win_commit callback
+=======
+	 * that function will be called by crtc_ops->update_plane callback
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 */
 	schedule_work(&ctx->work);
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static void vidi_disable_vblank(struct exynos_drm_manager *mgr)
 {
 	struct vidi_context *ctx = mgr->ctx;
+=======
+static void vidi_disable_vblank(struct exynos_drm_crtc *crtc)
+{
+	struct vidi_context *ctx = crtc->ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->suspended)
 		return;
@@ -149,6 +208,7 @@ static void vidi_disable_vblank(struct exynos_drm_manager *mgr)
 		ctx->vblank_on = false;
 }
 
+<<<<<<< HEAD
 static void vidi_win_mode_set(struct exynos_drm_manager *mgr,
 			struct exynos_drm_overlay *overlay)
 {
@@ -207,10 +267,17 @@ static void vidi_win_commit(struct exynos_drm_manager *mgr, int zpos)
 	struct vidi_context *ctx = mgr->ctx;
 	struct vidi_win_data *win_data;
 	int win = zpos;
+=======
+static void vidi_update_plane(struct exynos_drm_crtc *crtc,
+			      struct exynos_drm_plane *plane)
+{
+	struct vidi_context *ctx = crtc->ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->suspended)
 		return;
 
+<<<<<<< HEAD
 	if (win == DEFAULT_ZPOS)
 		win = ctx->default_win;
 
@@ -222,11 +289,15 @@ static void vidi_win_commit(struct exynos_drm_manager *mgr, int zpos)
 	win_data->enabled = true;
 
 	DRM_DEBUG_KMS("dma_addr = %pad\n", &win_data->dma_addr);
+=======
+	DRM_DEBUG_KMS("dma_addr = %pad\n", plane->dma_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->vblank_on)
 		schedule_work(&ctx->work);
 }
 
+<<<<<<< HEAD
 static void vidi_win_disable(struct exynos_drm_manager *mgr, int zpos)
 {
 	struct vidi_context *ctx = mgr->ctx;
@@ -290,10 +361,35 @@ static void vidi_dpms(struct exynos_drm_manager *mgr, int mode)
 		DRM_DEBUG_KMS("unspecified mode %d\n", mode);
 		break;
 	}
+=======
+static void vidi_enable(struct exynos_drm_crtc *crtc)
+{
+	struct vidi_context *ctx = crtc->ctx;
+
+	mutex_lock(&ctx->lock);
+
+	ctx->suspended = false;
+
+	/* if vblank was enabled status, enable it again. */
+	if (test_and_clear_bit(0, &ctx->irq_flags))
+		vidi_enable_vblank(ctx->crtc);
 
 	mutex_unlock(&ctx->lock);
 }
 
+static void vidi_disable(struct exynos_drm_crtc *crtc)
+{
+	struct vidi_context *ctx = crtc->ctx;
+
+	mutex_lock(&ctx->lock);
+
+	ctx->suspended = true;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
+
+	mutex_unlock(&ctx->lock);
+}
+
+<<<<<<< HEAD
 static int vidi_mgr_initialize(struct exynos_drm_manager *mgr,
 			struct drm_device *drm_dev)
 {
@@ -302,10 +398,20 @@ static int vidi_mgr_initialize(struct exynos_drm_manager *mgr,
 
 	mgr->drm_dev = ctx->drm_dev = drm_dev;
 	mgr->pipe = ctx->pipe = priv->pipe++;
+=======
+static int vidi_ctx_initialize(struct vidi_context *ctx,
+			struct drm_device *drm_dev)
+{
+	struct exynos_drm_private *priv = drm_dev->dev_private;
+
+	ctx->drm_dev = drm_dev;
+	ctx->pipe = priv->pipe++;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static struct exynos_drm_manager_ops vidi_manager_ops = {
 	.dpms = vidi_dpms,
 	.commit = vidi_commit,
@@ -319,12 +425,24 @@ static struct exynos_drm_manager_ops vidi_manager_ops = {
 static struct exynos_drm_manager vidi_manager = {
 	.type = EXYNOS_DISPLAY_TYPE_VIDI,
 	.ops = &vidi_manager_ops,
+=======
+static const struct exynos_drm_crtc_ops vidi_crtc_ops = {
+	.enable = vidi_enable,
+	.disable = vidi_disable,
+	.enable_vblank = vidi_enable_vblank,
+	.disable_vblank = vidi_disable_vblank,
+	.update_plane = vidi_update_plane,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static void vidi_fake_vblank_handler(struct work_struct *work)
 {
 	struct vidi_context *ctx = container_of(work, struct vidi_context,
 					work);
+<<<<<<< HEAD
+=======
+	int win;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->pipe < 0)
 		return;
@@ -335,7 +453,11 @@ static void vidi_fake_vblank_handler(struct work_struct *work)
 	mutex_lock(&ctx->lock);
 
 	if (ctx->direct_vblank) {
+<<<<<<< HEAD
 		drm_handle_vblank(ctx->drm_dev, ctx->pipe);
+=======
+		drm_crtc_handle_vblank(&ctx->crtc->base);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ctx->direct_vblank = false;
 		mutex_unlock(&ctx->lock);
 		return;
@@ -343,15 +465,31 @@ static void vidi_fake_vblank_handler(struct work_struct *work)
 
 	mutex_unlock(&ctx->lock);
 
+<<<<<<< HEAD
 	exynos_drm_crtc_finish_pageflip(ctx->drm_dev, ctx->pipe);
+=======
+	for (win = 0 ; win < WINDOWS_NR ; win++) {
+		struct exynos_drm_plane *plane = &ctx->planes[win];
+
+		if (!plane->pending_fb)
+			continue;
+
+		exynos_drm_crtc_finish_update(ctx->crtc, plane);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int vidi_show_connection(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
+<<<<<<< HEAD
 	int rc;
 	struct exynos_drm_manager *mgr = get_vidi_mgr(dev);
 	struct vidi_context *ctx = mgr->ctx;
+=======
+	struct vidi_context *ctx = dev_get_drvdata(dev);
+	int rc;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_lock(&ctx->lock);
 
@@ -366,8 +504,12 @@ static int vidi_store_connection(struct device *dev,
 				struct device_attribute *attr,
 				const char *buf, size_t len)
 {
+<<<<<<< HEAD
 	struct exynos_drm_manager *mgr = get_vidi_mgr(dev);
 	struct vidi_context *ctx = mgr->ctx;
+=======
+	struct vidi_context *ctx = dev_get_drvdata(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	ret = kstrtoint(buf, 0, &ctx->connected);
@@ -400,9 +542,13 @@ static DEVICE_ATTR(connection, 0644, vidi_show_connection,
 int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
 				struct drm_file *file_priv)
 {
+<<<<<<< HEAD
 	struct vidi_context *ctx = NULL;
 	struct drm_encoder *encoder;
 	struct exynos_drm_display *display;
+=======
+	struct vidi_context *ctx = dev_get_drvdata(drm_dev->dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_exynos_vidi_connection *vidi = data;
 
 	if (!vidi) {
@@ -415,6 +561,7 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	list_for_each_entry(encoder, &drm_dev->mode_config.encoder_list,
 								head) {
 		display = exynos_drm_get_display(encoder);
@@ -430,6 +577,8 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ctx->connected == vidi->connection) {
 		DRM_DEBUG_KMS("same connection request.\n");
 		return -EINVAL;
@@ -482,10 +631,20 @@ static void vidi_connector_destroy(struct drm_connector *connector)
 }
 
 static struct drm_connector_funcs vidi_connector_funcs = {
+<<<<<<< HEAD
 	.dpms = drm_helper_connector_dpms,
 	.fill_modes = drm_helper_probe_single_connector_modes,
 	.detect = vidi_detect,
 	.destroy = vidi_connector_destroy,
+=======
+	.dpms = drm_atomic_helper_connector_dpms,
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.detect = vidi_detect,
+	.destroy = vidi_connector_destroy,
+	.reset = drm_atomic_helper_connector_reset,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int vidi_get_modes(struct drm_connector *connector)
@@ -519,7 +678,11 @@ static struct drm_encoder *vidi_best_encoder(struct drm_connector *connector)
 {
 	struct vidi_context *ctx = ctx_from_connector(connector);
 
+<<<<<<< HEAD
 	return ctx->encoder;
+=======
+	return &ctx->encoder;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static struct drm_connector_helper_funcs vidi_connector_helper_funcs = {
@@ -527,6 +690,7 @@ static struct drm_connector_helper_funcs vidi_connector_helper_funcs = {
 	.best_encoder = vidi_best_encoder,
 };
 
+<<<<<<< HEAD
 static int vidi_create_connector(struct exynos_drm_display *display,
 				struct drm_encoder *encoder)
 {
@@ -535,6 +699,14 @@ static int vidi_create_connector(struct exynos_drm_display *display,
 	int ret;
 
 	ctx->encoder = encoder;
+=======
+static int vidi_create_connector(struct drm_encoder *encoder)
+{
+	struct vidi_context *ctx = encoder_to_vidi(encoder);
+	struct drm_connector *connector = &ctx->connector;
+	int ret;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	connector->polled = DRM_CONNECTOR_POLL_HPD;
 
 	ret = drm_connector_init(ctx->drm_dev, connector,
@@ -551,6 +723,7 @@ static int vidi_create_connector(struct exynos_drm_display *display,
 	return 0;
 }
 
+<<<<<<< HEAD
 
 static struct exynos_drm_display_ops vidi_display_ops = {
 	.create_connector = vidi_create_connector,
@@ -580,15 +753,112 @@ static int vidi_subdrv_probe(struct drm_device *drm_dev, struct device *dev)
 	if (ret) {
 		crtc->funcs->destroy(crtc);
 		DRM_ERROR("failed to create encoder and connector.\n");
+=======
+static bool exynos_vidi_mode_fixup(struct drm_encoder *encoder,
+				 const struct drm_display_mode *mode,
+				 struct drm_display_mode *adjusted_mode)
+{
+	return true;
+}
+
+static void exynos_vidi_mode_set(struct drm_encoder *encoder,
+			       struct drm_display_mode *mode,
+			       struct drm_display_mode *adjusted_mode)
+{
+}
+
+static void exynos_vidi_enable(struct drm_encoder *encoder)
+{
+}
+
+static void exynos_vidi_disable(struct drm_encoder *encoder)
+{
+}
+
+static struct drm_encoder_helper_funcs exynos_vidi_encoder_helper_funcs = {
+	.mode_fixup = exynos_vidi_mode_fixup,
+	.mode_set = exynos_vidi_mode_set,
+	.enable = exynos_vidi_enable,
+	.disable = exynos_vidi_disable,
+};
+
+static struct drm_encoder_funcs exynos_vidi_encoder_funcs = {
+	.destroy = drm_encoder_cleanup,
+};
+
+static int vidi_bind(struct device *dev, struct device *master, void *data)
+{
+	struct vidi_context *ctx = dev_get_drvdata(dev);
+	struct drm_device *drm_dev = data;
+	struct drm_encoder *encoder = &ctx->encoder;
+	struct exynos_drm_plane *exynos_plane;
+	enum drm_plane_type type;
+	unsigned int zpos;
+	int pipe, ret;
+
+	vidi_ctx_initialize(ctx, drm_dev);
+
+	for (zpos = 0; zpos < WINDOWS_NR; zpos++) {
+		type = exynos_plane_get_type(zpos, CURSOR_WIN);
+		ret = exynos_plane_init(drm_dev, &ctx->planes[zpos],
+					1 << ctx->pipe, type, formats,
+					ARRAY_SIZE(formats), zpos);
+		if (ret)
+			return ret;
+	}
+
+	exynos_plane = &ctx->planes[DEFAULT_WIN];
+	ctx->crtc = exynos_drm_crtc_create(drm_dev, &exynos_plane->base,
+					   ctx->pipe, EXYNOS_DISPLAY_TYPE_VIDI,
+					   &vidi_crtc_ops, ctx);
+	if (IS_ERR(ctx->crtc)) {
+		DRM_ERROR("failed to create crtc.\n");
+		return PTR_ERR(ctx->crtc);
+	}
+
+	pipe = exynos_drm_crtc_get_pipe_from_type(drm_dev,
+						  EXYNOS_DISPLAY_TYPE_VIDI);
+	if (pipe < 0)
+		return pipe;
+
+	encoder->possible_crtcs = 1 << pipe;
+
+	DRM_DEBUG_KMS("possible_crtcs = 0x%x\n", encoder->possible_crtcs);
+
+	drm_encoder_init(drm_dev, encoder, &exynos_vidi_encoder_funcs,
+			 DRM_MODE_ENCODER_TMDS);
+
+	drm_encoder_helper_add(encoder, &exynos_vidi_encoder_helper_funcs);
+
+	ret = vidi_create_connector(encoder);
+	if (ret) {
+		DRM_ERROR("failed to create connector ret = %d\n", ret);
+		drm_encoder_cleanup(encoder);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return ret;
 	}
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static int vidi_probe(struct platform_device *pdev)
 {
 	struct exynos_drm_subdrv *subdrv;
+=======
+
+static void vidi_unbind(struct device *dev, struct device *master, void *data)
+{
+}
+
+static const struct component_ops vidi_component_ops = {
+	.bind	= vidi_bind,
+	.unbind = vidi_unbind,
+};
+
+static int vidi_probe(struct platform_device *pdev)
+{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct vidi_context *ctx;
 	int ret;
 
@@ -596,6 +866,7 @@ static int vidi_probe(struct platform_device *pdev)
 	if (!ctx)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ctx->default_win = 0;
 
 	INIT_WORK(&ctx->work, vidi_fake_vblank_handler);
@@ -624,12 +895,42 @@ static int vidi_probe(struct platform_device *pdev)
 	}
 
 	return 0;
+=======
+	ctx->pdev = pdev;
+
+	INIT_WORK(&ctx->work, vidi_fake_vblank_handler);
+
+	mutex_init(&ctx->lock);
+
+	platform_set_drvdata(pdev, ctx);
+
+	ret = device_create_file(&pdev->dev, &dev_attr_connection);
+	if (ret < 0) {
+		DRM_ERROR("failed to create connection sysfs.\n");
+		return ret;
+	}
+
+	ret = component_add(&pdev->dev, &vidi_component_ops);
+	if (ret)
+		goto err_remove_file;
+
+	return ret;
+
+err_remove_file:
+	device_remove_file(&pdev->dev, &dev_attr_connection);
+
+	return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int vidi_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct exynos_drm_manager *mgr = platform_get_drvdata(pdev);
 	struct vidi_context *ctx = mgr->ctx;
+=======
+	struct vidi_context *ctx = platform_get_drvdata(pdev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ctx->raw_edid != (struct edid *)fake_edid_info) {
 		kfree(ctx->raw_edid);
@@ -638,6 +939,11 @@ static int vidi_remove(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	component_del(&pdev->dev, &vidi_component_ops);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -649,6 +955,7 @@ struct platform_driver vidi_driver = {
 		.owner	= THIS_MODULE,
 	},
 };
+<<<<<<< HEAD
 
 int exynos_drm_probe_vidi(void)
 {
@@ -677,3 +984,5 @@ void exynos_drm_remove_vidi(void)
 	platform_driver_unregister(&vidi_driver);
 	platform_device_unregister(pdev);
 }
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

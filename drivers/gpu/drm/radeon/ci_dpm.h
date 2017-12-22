@@ -33,6 +33,11 @@
 
 #define CISLANDS_MAX_HARDWARE_POWERLEVELS 2
 
+<<<<<<< HEAD
+=======
+#define CISLANDS_UNUSED_GPIO_PIN 0x7F
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct ci_pl {
 	u32 mclk;
 	u32 sclk;
@@ -237,6 +242,10 @@ struct ci_power_info {
 	u32 sclk_dpm_key_disabled;
 	u32 mclk_dpm_key_disabled;
 	u32 pcie_dpm_key_disabled;
+<<<<<<< HEAD
+=======
+	u32 thermal_sclk_dpm_enabled;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct ci_pcie_perf_range pcie_gen_performance;
 	struct ci_pcie_perf_range pcie_lane_performance;
 	struct ci_pcie_perf_range pcie_gen_powersaving;
@@ -264,6 +273,10 @@ struct ci_power_info {
 	bool caps_automatic_dc_transition;
 	bool caps_sclk_throttle_low_notification;
 	bool caps_dynamic_ac_timing;
+<<<<<<< HEAD
+=======
+	bool caps_od_fuzzy_fan_control_support;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* flags */
 	bool thermal_protection;
 	bool pcie_performance_request;
@@ -285,6 +298,14 @@ struct ci_power_info {
 	struct ci_ps current_ps;
 	struct radeon_ps requested_rps;
 	struct ci_ps requested_ps;
+<<<<<<< HEAD
+=======
+	/* fan control */
+	bool fan_ctrl_is_in_default_mode;
+	bool fan_is_controlled_by_smc;
+	u32 t_min;
+	u32 fan_ctrl_default_mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define CISLANDS_VOLTAGE_CONTROL_NONE                   0x0

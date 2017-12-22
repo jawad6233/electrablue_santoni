@@ -9,8 +9,12 @@ struct nouveau_sgdma_be {
 	 * nouve_bo.c works properly, otherwise have to move them here
 	 */
 	struct ttm_dma_tt ttm;
+<<<<<<< HEAD
 	struct drm_device *dev;
 	struct nouveau_mem *node;
+=======
+	struct nvkm_mem *node;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static void
@@ -28,7 +32,11 @@ static int
 nv04_sgdma_bind(struct ttm_tt *ttm, struct ttm_mem_reg *mem)
 {
 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+<<<<<<< HEAD
 	struct nouveau_mem *node = mem->mm_node;
+=======
+	struct nvkm_mem *node = mem->mm_node;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ttm->sg) {
 		node->sg    = ttm->sg;
@@ -39,7 +47,11 @@ nv04_sgdma_bind(struct ttm_tt *ttm, struct ttm_mem_reg *mem)
 	}
 	node->size = (mem->num_pages << PAGE_SHIFT) >> 12;
 
+<<<<<<< HEAD
 	nouveau_vm_map(&node->vma[0], node);
+=======
+	nvkm_vm_map(&node->vma[0], node);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	nvbe->node = node;
 	return 0;
 }
@@ -48,7 +60,11 @@ static int
 nv04_sgdma_unbind(struct ttm_tt *ttm)
 {
 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+<<<<<<< HEAD
 	nouveau_vm_unmap(&nvbe->node->vma[0]);
+=======
+	nvkm_vm_unmap(&nvbe->node->vma[0]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -62,7 +78,11 @@ static int
 nv50_sgdma_bind(struct ttm_tt *ttm, struct ttm_mem_reg *mem)
 {
 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+<<<<<<< HEAD
 	struct nouveau_mem *node = mem->mm_node;
+=======
+	struct nvkm_mem *node = mem->mm_node;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* noop: bound in move_notify() */
 	if (ttm->sg) {
@@ -101,13 +121,24 @@ nouveau_sgdma_create_ttm(struct ttm_bo_device *bdev,
 	if (!nvbe)
 		return NULL;
 
+<<<<<<< HEAD
 	nvbe->dev = drm->dev;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (drm->device.info.family < NV_DEVICE_INFO_V0_TESLA)
 		nvbe->ttm.ttm.func = &nv04_sgdma_backend;
 	else
 		nvbe->ttm.ttm.func = &nv50_sgdma_backend;
 
 	if (ttm_dma_tt_init(&nvbe->ttm, bdev, size, page_flags, dummy_read_page))
+<<<<<<< HEAD
+=======
+		/*
+		 * A failing ttm_dma_tt_init() will call ttm_tt_destroy()
+		 * and thus our nouveau_sgdma_destroy() hook, so we don't need
+		 * to free nvbe here.
+		 */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return NULL;
 	return &nvbe->ttm.ttm;
 }

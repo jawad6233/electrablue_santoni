@@ -285,6 +285,10 @@ enum usb_id_state {
 		for improving data performance.
  * @bool enable_sdp_typec_current_limit: Indicates whether type-c current for
 		sdp charger to be limited.
+<<<<<<< HEAD
+=======
+ * @usbeth_reset_gpio: Gpio used for external usb-to-eth reset.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct msm_otg_platform_data {
 	int *phy_init_seq;
@@ -321,12 +325,20 @@ struct msm_otg_platform_data {
 	bool enable_phy_id_pullup;
 	int usb_id_gpio;
 	int hub_reset_gpio;
+<<<<<<< HEAD
+=======
+	int usbeth_reset_gpio;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int switch_sel_gpio;
 	bool phy_dvdd_always_on;
 	bool emulation;
 	bool enable_streaming;
 	bool enable_axi_prefetch;
 	bool enable_sdp_typec_current_limit;
+<<<<<<< HEAD
+=======
+	bool vbus_low_as_hostmode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* phy related flags */
@@ -336,6 +348,13 @@ struct msm_otg_platform_data {
 #define PHY_CHARGER_CONNECTED		BIT(3)
 #define PHY_VBUS_VALID_OVERRIDE		BIT(4)
 #define DEVICE_IN_SS_MODE		BIT(5)
+<<<<<<< HEAD
+=======
+#define PHY_LANE_A			BIT(6)
+#define PHY_LANE_B			BIT(7)
+#define PHY_HSFS_MODE			BIT(8)
+#define PHY_LS_MODE			BIT(9)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define USB_NUM_BUS_CLOCKS      3
 

@@ -63,6 +63,10 @@ int dm_linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 	kfree(lc);
 	return -EINVAL;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_ctr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void dm_linear_dtr(struct dm_target *ti)
 {
@@ -71,6 +75,10 @@ void dm_linear_dtr(struct dm_target *ti)
 	dm_put_device(ti, lc->dev);
 	kfree(lc);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_dtr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static sector_t linear_map_sector(struct dm_target *ti, sector_t bi_sector)
 {
@@ -95,6 +103,10 @@ int dm_linear_map(struct dm_target *ti, struct bio *bio)
 
 	return DM_MAPIO_REMAPPED;
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_map);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void dm_linear_status(struct dm_target *ti, status_type_t type,
 			  unsigned status_flags, char *result, unsigned maxlen)
@@ -112,6 +124,10 @@ void dm_linear_status(struct dm_target *ti, status_type_t type,
 		break;
 	}
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_status);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int dm_linear_ioctl(struct dm_target *ti, unsigned int cmd,
 			unsigned long arg)
@@ -129,6 +145,10 @@ int dm_linear_ioctl(struct dm_target *ti, unsigned int cmd,
 
 	return r ? : __blkdev_driver_ioctl(dev->bdev, dev->mode, cmd, arg);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_ioctl);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int dm_linear_merge(struct dm_target *ti, struct bvec_merge_data *bvm,
 			struct bio_vec *biovec, int max_size)
@@ -144,6 +164,10 @@ int dm_linear_merge(struct dm_target *ti, struct bvec_merge_data *bvm,
 
 	return min(max_size, q->merge_bvec_fn(q, bvm, biovec));
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_merge);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int dm_linear_iterate_devices(struct dm_target *ti,
 				  iterate_devices_callout_fn fn, void *data)
@@ -152,6 +176,10 @@ int dm_linear_iterate_devices(struct dm_target *ti,
 
 	return fn(ti, lc->dev, lc->start, ti->len, data);
 }
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL_GPL(dm_linear_iterate_devices);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static struct target_type linear_target = {
 	.name   = "linear",

@@ -181,12 +181,20 @@ nv50_fbcon_accel_init(struct fb_info *info)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	ret = nvif_object_init(chan->object, NULL, 0x502d, 0x502d, NULL, 0,
+=======
+	ret = nvif_object_init(&chan->user, 0x502d, 0x502d, NULL, 0,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       &nfbdev->twod);
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	ret = RING_SPACE(chan, 59);
+=======
+	ret = RING_SPACE(chan, 58);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret) {
 		nouveau_fbcon_gpu_lockup(info);
 		return ret;
@@ -250,6 +258,10 @@ nv50_fbcon_accel_init(struct fb_info *info)
 	OUT_RING(chan, info->var.yres_virtual);
 	OUT_RING(chan, upper_32_bits(fb->vma.offset));
 	OUT_RING(chan, lower_32_bits(fb->vma.offset));
+<<<<<<< HEAD
+=======
+	FIRE_RING(chan);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

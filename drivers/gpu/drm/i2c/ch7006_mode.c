@@ -26,7 +26,11 @@
 
 #include "ch7006_priv.h"
 
+<<<<<<< HEAD
 char *ch7006_tv_norm_names[] = {
+=======
+const char * const ch7006_tv_norm_names[] = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	[TV_NORM_PAL] = "PAL",
 	[TV_NORM_PAL_M] = "PAL-M",
 	[TV_NORM_PAL_N] = "PAL-N",
@@ -46,7 +50,11 @@ char *ch7006_tv_norm_names[] = {
 		.vtotal = 625,					\
 		.hvirtual = 810
 
+<<<<<<< HEAD
 struct ch7006_tv_norm_info ch7006_tv_norms[] = {
+=======
+const struct ch7006_tv_norm_info ch7006_tv_norms[] = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	[TV_NORM_NTSC_M] = {
 		NTSC_LIKE_TIMINGS,
 		.black_level = 0.339 * fixed1,
@@ -142,7 +150,11 @@ struct ch7006_tv_norm_info ch7006_tv_norms[] = {
 
 #define PAL_LIKE (1 << TV_NORM_PAL | 1 << TV_NORM_PAL_N | 1 << TV_NORM_PAL_NC)
 
+<<<<<<< HEAD
 struct ch7006_mode ch7006_modes[] = {
+=======
+const struct ch7006_mode ch7006_modes[] = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MODE(21000, 512, 384, 840, 500, N, N, 181.797557582, 5_4, 0x6, PAL_LIKE),
 	MODE(26250, 512, 384, 840, 625, N, N, 145.438046066, 1_1, 0x1, PAL_LIKE),
 	MODE(20140, 512, 384, 800, 420, N, N, 213.257083791, 5_4, 0x4, NTSC_LIKE),
@@ -171,11 +183,19 @@ struct ch7006_mode ch7006_modes[] = {
 	{}
 };
 
+<<<<<<< HEAD
 struct ch7006_mode *ch7006_lookup_mode(struct drm_encoder *encoder,
 				       const struct drm_display_mode *drm_mode)
 {
 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
 	struct ch7006_mode *mode;
+=======
+const struct ch7006_mode *ch7006_lookup_mode(struct drm_encoder *encoder,
+					     const struct drm_display_mode *drm_mode)
+{
+	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+	const struct ch7006_mode *mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (mode = ch7006_modes; mode->mode.clock; mode++) {
 
@@ -202,7 +222,11 @@ void ch7006_setup_levels(struct drm_encoder *encoder)
 	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
 	uint8_t *regs = priv->state.regs;
+<<<<<<< HEAD
 	struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+=======
+	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int gain;
 	int black_level;
 
@@ -233,8 +257,13 @@ void ch7006_setup_subcarrier(struct drm_encoder *encoder)
 	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
 	struct ch7006_state *state = &priv->state;
+<<<<<<< HEAD
 	struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
 	struct ch7006_mode *mode = priv->mode;
+=======
+	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+	const struct ch7006_mode *mode = priv->mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t subc_inc;
 
 	subc_inc = round_fixed((mode->subc_coeff >> 8)
@@ -257,7 +286,11 @@ void ch7006_setup_pll(struct drm_encoder *encoder)
 	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
 	uint8_t *regs = priv->state.regs;
+<<<<<<< HEAD
 	struct ch7006_mode *mode = priv->mode;
+=======
+	const struct ch7006_mode *mode = priv->mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int n, best_n = 0;
 	int m, best_m = 0;
 	int freq, best_freq = 0;
@@ -328,9 +361,15 @@ void ch7006_setup_properties(struct drm_encoder *encoder)
 	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
 	struct ch7006_priv *priv = to_ch7006_priv(encoder);
 	struct ch7006_state *state = &priv->state;
+<<<<<<< HEAD
 	struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
 	struct ch7006_mode *ch_mode = priv->mode;
 	struct drm_display_mode *mode = &ch_mode->mode;
+=======
+	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+	const struct ch7006_mode *ch_mode = priv->mode;
+	const struct drm_display_mode *mode = &ch_mode->mode;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint8_t *regs = state->regs;
 	int flicker, contrast, hpos, vpos;
 	uint64_t scale, aspect;

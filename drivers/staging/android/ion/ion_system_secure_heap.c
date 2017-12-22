@@ -1,6 +1,10 @@
 /*
  *
+<<<<<<< HEAD
  * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -68,7 +72,11 @@ int ion_system_secure_heap_unassign_sg(struct sg_table *sgt, int source_vmid)
 
 int ion_system_secure_heap_assign_sg(struct sg_table *sgt, int dest_vmid)
 {
+<<<<<<< HEAD
 	u32 source_vmid = VMID_HLOS;
+=======
+	int source_vmid = VMID_HLOS;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 dest_perms = PERM_READ | PERM_WRITE;
 	struct scatterlist *sg;
 	int ret, i;

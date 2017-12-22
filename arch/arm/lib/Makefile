@@ -15,6 +15,7 @@ lib-y		:= backtrace.o changebit.o csumipv6.o csumpartial.o   \
 		   io-readsb.o io-writesb.o io-readsl.o io-writesl.o  \
 		   call_with_stack.o bswapsdi2.o
 
+<<<<<<< HEAD
 mmu-y	:= clear_user.o copy_page.o getuser.o putuser.o
 
 # the code in uaccess.S is not preemption safe and
@@ -28,6 +29,10 @@ else
   mmu-y	+= uaccess.o
 endif
 endif
+=======
+mmu-y		:= clear_user.o copy_page.o getuser.o putuser.o       \
+		   copy_from_user.o copy_to_user.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 # using lib_ here won't override already available weak symbols
 obj-$(CONFIG_UACCESS_WITH_MEMCPY) += uaccess_with_memcpy.o

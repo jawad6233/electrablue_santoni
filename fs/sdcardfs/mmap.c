@@ -23,6 +23,7 @@
 static int sdcardfs_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	int err;
+<<<<<<< HEAD
 	struct file *file, *lower_file;
 	const struct vm_operations_struct *lower_vm_ops;
 	struct vm_area_struct lower_vma;
@@ -45,6 +46,48 @@ static int sdcardfs_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	 */
 	lower_vma.vm_file = lower_file;
 	err = lower_vm_ops->fault(&lower_vma, vmf);
+=======
+	struct file *file;
+	const struct vm_operations_struct *lower_vm_ops;
+
+	file = (struct file *)vma->vm_private_data;
+	lower_vm_ops = SDCARDFS_F(file)->lower_vm_ops;
+	BUG_ON(!lower_vm_ops);
+
+	err = lower_vm_ops->fault(vma, vmf);
+	return err;
+}
+
+static void sdcardfs_vm_open(struct vm_area_struct *vma)
+{
+	struct file *file = (struct file *)vma->vm_private_data;
+
+	get_file(file);
+}
+
+static void sdcardfs_vm_close(struct vm_area_struct *vma)
+{
+	struct file *file = (struct file *)vma->vm_private_data;
+
+	fput(file);
+}
+
+static int sdcardfs_page_mkwrite(struct vm_area_struct *vma,
+			       struct vm_fault *vmf)
+{
+	int err = 0;
+	struct file *file;
+	const struct vm_operations_struct *lower_vm_ops;
+
+	file = (struct file *)vma->vm_private_data;
+	lower_vm_ops = SDCARDFS_F(file)->lower_vm_ops;
+	BUG_ON(!lower_vm_ops);
+	if (!lower_vm_ops->page_mkwrite)
+		goto out;
+
+	err = lower_vm_ops->page_mkwrite(vma, vmf);
+out:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return err;
 }
 
@@ -52,6 +95,7 @@ static ssize_t sdcardfs_direct_IO(int rw, struct kiocb *iocb,
 		struct iov_iter *iter, loff_t pos)
 {
 	/*
+<<<<<<< HEAD
      * This function returns zero on purpose in order to support direct IO.
 	 * __dentry_open checks a_ops->direct_IO and returns EINVAL if it is null.
      *
@@ -73,9 +117,25 @@ static ssize_t sdcardfs_direct_IO(int rw, struct kiocb *iocb,
  */
 const struct address_space_operations sdcardfs_aops = {
 	/* empty on purpose */
+=======
+	 * This function should never be called directly.  We need it
+	 * to exist, to get past a check in open_check_o_direct(),
+	 * which is called from do_last().
+	 */
+	return -EINVAL;
+}
+
+const struct address_space_operations sdcardfs_aops = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.direct_IO	= sdcardfs_direct_IO,
 };
 
 const struct vm_operations_struct sdcardfs_vm_ops = {
 	.fault		= sdcardfs_fault,
+<<<<<<< HEAD
+=======
+	.page_mkwrite	= sdcardfs_page_mkwrite,
+	.open		= sdcardfs_vm_open,
+	.close		= sdcardfs_vm_close,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };

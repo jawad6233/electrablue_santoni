@@ -1598,7 +1598,11 @@ int should_remove_suid(struct dentry *dentry)
 }
 EXPORT_SYMBOL(should_remove_suid);
 
+<<<<<<< HEAD
 static int __remove_suid(struct dentry *dentry, int kill)
+=======
+static int __remove_suid(struct vfsmount *mnt, struct dentry *dentry, int kill)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct iattr newattrs;
 
@@ -1607,7 +1611,11 @@ static int __remove_suid(struct dentry *dentry, int kill)
 	 * Note we call this on write, so notify_change will not
 	 * encounter any conflicting delegations:
 	 */
+<<<<<<< HEAD
 	return notify_change(dentry, &newattrs, NULL);
+=======
+	return notify_change2(mnt, dentry, &newattrs, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int file_remove_suid(struct file *file)
@@ -1630,7 +1638,11 @@ int file_remove_suid(struct file *file)
 	if (killpriv)
 		error = security_inode_killpriv(dentry);
 	if (!error && killsuid)
+<<<<<<< HEAD
 		error = __remove_suid(dentry, killsuid);
+=======
+		error = __remove_suid(file->f_path.mnt, dentry, killsuid);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!error)
 		inode_has_no_xattr(inode);
 

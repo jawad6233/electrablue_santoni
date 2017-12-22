@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2014, 2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -97,7 +101,12 @@ typedef struct sSirProbeRespBeacon
     tDot11fIEPowerConstraints localPowerConstraint;
     tDot11fIETPCReport        tpcReport;
     tDot11fIEChanSwitchAnn    channelSwitchIE;
+<<<<<<< HEAD
     tDot11fIEExtChanSwitchAnn extChannelSwitchIE;
+=======
+    tDot11fIEsec_chan_offset sec_chan_offset;
+    tDot11fIEext_chan_switch_ann  ext_chan_switch_ann;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     tSirMacAddr               bssid;
     tDot11fIEQuiet            quietIE;
     tDot11fIEHTCaps           HTCaps;
@@ -130,7 +139,12 @@ typedef struct sSirProbeRespBeacon
     tANI_U8                   rsnPresent;
     tANI_U8                   erpPresent;
     tANI_U8                   channelSwitchPresent;
+<<<<<<< HEAD
     tANI_U8                   extChannelSwitchPresent;
+=======
+    tANI_U8                   sec_chan_offset_present;
+    tANI_U8                   ecsa_present;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     tANI_U8                   quietIEPresent;
     tANI_U8                   tpcReportPresent;
     tANI_U8                   powerConstraintPresent;
@@ -149,6 +163,11 @@ typedef struct sSirProbeRespBeacon
     tDot11fIEWiderBWChanSwitchAnn WiderBWChanSwitchAnn;
 #endif
     tDot11fIEOBSSScanParameters OBSSScanParameters;
+<<<<<<< HEAD
+=======
+    tDot11fIEhs20vendor_ie  hs20vendor_ie;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tSirProbeRespBeacon, *tpSirProbeRespBeacon;
 
 // probe Request structure
@@ -220,6 +239,10 @@ typedef struct sSirAssocReq
     tDot11fIEVHTCaps          VHTCaps;
     tDot11fIEOperatingMode    operMode;
 #endif
+<<<<<<< HEAD
+=======
+    tDot11fIEhs20vendor_ie hs20vendor_ie;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tSirAssocReq, *tpSirAssocReq;
 
 
@@ -571,6 +594,22 @@ PopulateDot11fCapabilities2(tpAniSirGlobal         pMac,
                             struct sDphHashNode   *pSta,
                             tpPESession            psessionEntry);
 
+<<<<<<< HEAD
+=======
+/**
+ * populate_dot11f_ext_chann_switch_ann() - Function to populate ECS
+ * @mac_ptr:            Pointer to PMAC structure
+ * @dot_11_ptr:         ECS element
+ * @session_entry:      PE session entry
+ *
+ * This function is used to populate the extended channel switch element
+ *
+ * Return: None
+ */
+void populate_dot11f_ext_chann_switch_ann(tpAniSirGlobal mac_ctx,
+        tDot11fIEext_chan_switch_ann *dot_11_ptr, tpPESession session_entry);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /// Populate a tDot11fIEChanSwitchAnn
 void
 PopulateDot11fChanSwitchAnn(tpAniSirGlobal          pMac,
@@ -579,8 +618,13 @@ PopulateDot11fChanSwitchAnn(tpAniSirGlobal          pMac,
 
 /// Populate a tDot11fIEChanSwitchAnn
 void
+<<<<<<< HEAD
 PopulateDot11fExtChanSwitchAnn(tpAniSirGlobal          pMac,
                              tDot11fIEExtChanSwitchAnn *pDot11f,
+=======
+PopulateDot11fsecChanOffset(tpAniSirGlobal          pMac,
+                             tDot11fIEsec_chan_offset *pDot11f,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                              tpPESession psessionEntry);
 
 /// Populate a tDot11fIECountry
@@ -960,7 +1004,10 @@ void PopulateDot11fAssocRspRates ( tpAniSirGlobal pMac, tDot11fIESuppRates *pSup
 int FindIELocation( tpAniSirGlobal pMac,
                            tpSirRSNie pRsnIe,
                            tANI_U8 EID);
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #ifdef WLAN_FEATURE_11AC
 tSirRetStatus
@@ -995,3 +1042,24 @@ tSirRetStatus ValidateAndRectifyIEs(tpAniSirGlobal pMac,
                                     tANI_U8 *pMgmtFrame,
                                     tANI_U32 nFrameBytes,
                                     tANI_U32 *nMissingRsnBytes);
+<<<<<<< HEAD
+=======
+#ifdef SAP_AUTH_OFFLOAD
+void
+sap_auth_offload_update_rsn_ie(tpAniSirGlobal pmac,
+        tDot11fIERSNOpaque *pdot11f);
+#endif /* SAP_AUTH_OFFLOAD */
+
+/**
+ * sir_copy_hs20_ie() - Update HS 2.0 Information Element.
+ * @dest: dest HS IE buffer to be updated
+ * @src: src HS IE buffer
+ *
+ * Update HS2.0 IE info from src to dest
+ *
+ * Return: void
+ */
+void sir_copy_hs20_ie(tDot11fIEhs20vendor_ie *dest,
+                      tDot11fIEhs20vendor_ie *src);
+#endif /* __PARSE_H__ */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

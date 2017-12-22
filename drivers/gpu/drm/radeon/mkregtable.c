@@ -347,7 +347,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_entry - get the struct for this entry
  * @ptr:	the &struct list_head pointer.
  * @type:	the type of the struct this is embedded in.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 #define list_entry(ptr, type, member) \
 	container_of(ptr, type, member)
@@ -356,7 +360,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_first_entry - get the first element from a list
  * @ptr:	the list head to take the element from.
  * @type:	the type of the struct this is embedded in.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Note, that list is expected to be not empty.
  */
@@ -406,7 +414,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_for_each_entry	-	iterate over list of given type
  * @pos:	the type * to use as a loop cursor.
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 #define list_for_each_entry(pos, head, member)				\
 	for (pos = list_entry((head)->next, typeof(*pos), member);	\
@@ -417,7 +429,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_for_each_entry_reverse - iterate backwards over list of given type.
  * @pos:	the type * to use as a loop cursor.
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 #define list_for_each_entry_reverse(pos, head, member)			\
 	for (pos = list_entry((head)->prev, typeof(*pos), member);	\
@@ -428,7 +444,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_prepare_entry - prepare a pos entry for use in list_for_each_entry_continue()
  * @pos:	the type * to use as a start point
  * @head:	the head of the list
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Prepares a pos entry for use as a start point in list_for_each_entry_continue().
  */
@@ -439,7 +459,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_for_each_entry_continue - continue iteration over list of given type
  * @pos:	the type * to use as a loop cursor.
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Continue to iterate over list of given type, continuing after
  * the current position.
@@ -453,7 +477,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_for_each_entry_continue_reverse - iterate backwards from the given point
  * @pos:	the type * to use as a loop cursor.
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Start to iterate over list of given type backwards, continuing after
  * the current position.
@@ -467,7 +495,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * list_for_each_entry_from - iterate over list of given type from the current point
  * @pos:	the type * to use as a loop cursor.
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Iterate over list of given type, continuing from current position.
  */
@@ -480,7 +512,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * @pos:	the type * to use as a loop cursor.
  * @n:		another type * to use as temporary storage
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 #define list_for_each_entry_safe(pos, n, head, member)			\
 	for (pos = list_entry((head)->next, typeof(*pos), member),	\
@@ -493,7 +529,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * @pos:	the type * to use as a loop cursor.
  * @n:		another type * to use as temporary storage
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Iterate over list of given type, continuing after current point,
  * safe against removal of list entry.
@@ -509,7 +549,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * @pos:	the type * to use as a loop cursor.
  * @n:		another type * to use as temporary storage
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Iterate over list of given type from current point, safe against
  * removal of list entry.
@@ -524,7 +568,11 @@ static inline void list_splice_tail_init(struct list_head *list,
  * @pos:	the type * to use as a loop cursor.
  * @n:		another type * to use as temporary storage
  * @head:	the head for your list.
+<<<<<<< HEAD
  * @member:	the name of the list_struct within the struct.
+=======
+ * @member:	the name of the list_head within the struct.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Iterate backwards over list of given type, safe against removal
  * of list entry.

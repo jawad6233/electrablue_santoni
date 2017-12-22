@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2015 Qualcomm Atheros, Inc.
+=======
+ * Copyright (c) 2014-2016 Qualcomm Atheros, Inc.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -118,6 +122,15 @@ static int wil_fw_verify(struct wil6210_priv *wil, const u8 *data, size_t size)
 	return (int)dlen;
 }
 
+<<<<<<< HEAD
+=======
+static int fw_ignore_section(struct wil6210_priv *wil, const void *data,
+			     size_t size)
+{
+	return 0;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int fw_handle_comment(struct wil6210_priv *wil, const void *data,
 			     size_t size)
 {
@@ -126,6 +139,30 @@ static int fw_handle_comment(struct wil6210_priv *wil, const void *data,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int
+fw_handle_capabilities(struct wil6210_priv *wil, const void *data,
+		       size_t size)
+{
+	const struct wil_fw_record_capabilities *rec = data;
+	size_t capa_size;
+
+	if (size < sizeof(*rec) ||
+	    le32_to_cpu(rec->magic) != WIL_FW_CAPABILITIES_MAGIC)
+		return 0;
+
+	capa_size = size - offsetof(struct wil_fw_record_capabilities,
+				    capabilities);
+	bitmap_zero(wil->fw_capabilities, WMI_FW_CAPABILITY_MAX);
+	memcpy(wil->fw_capabilities, rec->capabilities,
+	       min(sizeof(wil->fw_capabilities), capa_size));
+	wil_hex_dump_fw("CAPA", DUMP_PREFIX_OFFSET, 16, 1,
+			rec->capabilities, capa_size, false);
+	return 0;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int fw_handle_data(struct wil6210_priv *wil, const void *data,
 			  size_t size)
 {
@@ -196,6 +233,16 @@ static int fw_handle_file_header(struct wil6210_priv *wil, const void *data,
 	wil_hex_dump_fw("", DUMP_PREFIX_OFFSET, 16, 1, d->comment,
 			sizeof(d->comment), true);
 
+<<<<<<< HEAD
+=======
+	if (!memcmp(d->comment, WIL_FW_VERSION_PREFIX,
+		    WIL_FW_VERSION_PREFIX_LEN))
+		memcpy(wil->fw_version,
+		       d->comment + WIL_FW_VERSION_PREFIX_LEN,
+		       min(sizeof(d->comment) - WIL_FW_VERSION_PREFIX_LEN,
+			   sizeof(wil->fw_version) - 1));
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -383,6 +430,7 @@ static int fw_handle_gateway_data4(struct wil6210_priv *wil, const void *data,
 
 static const struct {
 	int type;
+<<<<<<< HEAD
 	int (*handler)(struct wil6210_priv *wil, const void *data, size_t size);
 } wil_fw_handlers[] = {
 	{wil_fw_type_comment, fw_handle_comment},
@@ -405,12 +453,45 @@ static int wil_fw_handle_record(struct wil6210_priv *wil, int type,
 		if (wil_fw_handlers[i].type == type)
 			return wil_fw_handlers[i].handler(wil, data, size);
 	}
+=======
+	int (*load_handler)(struct wil6210_priv *wil, const void *data,
+			    size_t size);
+	int (*parse_handler)(struct wil6210_priv *wil, const void *data,
+			     size_t size);
+} wil_fw_handlers[] = {
+	{wil_fw_type_comment, fw_handle_comment, fw_handle_capabilities},
+	{wil_fw_type_data, fw_handle_data, fw_ignore_section},
+	{wil_fw_type_fill, fw_handle_fill, fw_ignore_section},
+	/* wil_fw_type_action */
+	/* wil_fw_type_verify */
+	{wil_fw_type_file_header, fw_handle_file_header,
+		fw_handle_file_header},
+	{wil_fw_type_direct_write, fw_handle_direct_write, fw_ignore_section},
+	{wil_fw_type_gateway_data, fw_handle_gateway_data, fw_ignore_section},
+	{wil_fw_type_gateway_data4, fw_handle_gateway_data4,
+		fw_ignore_section},
+};
+
+static int wil_fw_handle_record(struct wil6210_priv *wil, int type,
+				const void *data, size_t size, bool load)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(wil_fw_handlers); i++)
+		if (wil_fw_handlers[i].type == type)
+			return load ?
+				wil_fw_handlers[i].load_handler(
+					wil, data, size) :
+				wil_fw_handlers[i].parse_handler(
+					wil, data, size);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wil_err_fw(wil, "unknown record type: %d\n", type);
 	return -EINVAL;
 }
 
 /**
+<<<<<<< HEAD
  * wil_fw_load - load FW into device
  *
  * Load the FW and uCode code and data to the corresponding device
@@ -419,6 +500,17 @@ static int wil_fw_handle_record(struct wil6210_priv *wil, int type,
  * Return error code
  */
 static int wil_fw_load(struct wil6210_priv *wil, const void *data, size_t size)
+=======
+ * wil_fw_process - process section from FW file
+ * if load is true: Load the FW and uCode code and data to the
+ * corresponding device memory regions,
+ * otherwise only parse and look for capabilities
+ *
+ * Return error code
+ */
+static int wil_fw_process(struct wil6210_priv *wil, const void *data,
+			  size_t size, bool load)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int rc = 0;
 	const struct wil_fw_record_head *hdr;
@@ -437,7 +529,11 @@ static int wil_fw_load(struct wil6210_priv *wil, const void *data, size_t size)
 			return -EINVAL;
 		}
 		rc = wil_fw_handle_record(wil, le16_to_cpu(hdr->type),
+<<<<<<< HEAD
 					  &hdr[1], hdr_sz);
+=======
+					  &hdr[1], hdr_sz, load);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (rc)
 			return rc;
 	}
@@ -456,6 +552,7 @@ static int wil_fw_load(struct wil6210_priv *wil, const void *data, size_t size)
 }
 
 /**
+<<<<<<< HEAD
  * wil_request_firmware - Request firmware and load to device
  *
  * Request firmware image from the file and load it to device
@@ -463,6 +560,18 @@ static int wil_fw_load(struct wil6210_priv *wil, const void *data, size_t size)
  * Return error code
  */
 int wil_request_firmware(struct wil6210_priv *wil, const char *name)
+=======
+ * wil_request_firmware - Request firmware
+ *
+ * Request firmware image from the file
+ * If load is true, load firmware to device, otherwise
+ * only parse and extract capabilities
+ *
+ * Return error code
+ */
+int wil_request_firmware(struct wil6210_priv *wil, const char *name,
+			 bool load)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int rc, rc1;
 	const struct firmware *fw;
@@ -482,7 +591,11 @@ int wil_request_firmware(struct wil6210_priv *wil, const char *name)
 			rc = rc1;
 			goto out;
 		}
+<<<<<<< HEAD
 		rc = wil_fw_load(wil, d, rc1);
+=======
+		rc = wil_fw_process(wil, d, rc1, load);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (rc < 0)
 			goto out;
 	}

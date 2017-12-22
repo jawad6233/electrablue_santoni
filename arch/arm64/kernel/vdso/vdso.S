@@ -21,9 +21,14 @@
 #include <linux/const.h>
 #include <asm/page.h>
 
+<<<<<<< HEAD
 	__PAGE_ALIGNED_DATA
 
 	.globl vdso_start, vdso_end
+=======
+	.globl vdso_start, vdso_end
+	.section .rodata
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.balign PAGE_SIZE
 vdso_start:
 	.incbin "arch/arm64/kernel/vdso/vdso.so"

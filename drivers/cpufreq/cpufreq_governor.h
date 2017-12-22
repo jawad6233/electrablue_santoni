@@ -126,9 +126,12 @@ static void *get_cpu_dbs_info_s(int cpu)				\
  * cdbs: common dbs
  * od_*: On-demand governor
  * cs_*: Conservative governor
+<<<<<<< HEAD
  * ac_*: Alucard governor
  * dk_*: Darkness governor
  * nm_*: Nightmare governor
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 
 /* Per cpu structures */
@@ -172,6 +175,7 @@ struct cs_cpu_dbs_info_s {
 	unsigned int enable:1;
 };
 
+<<<<<<< HEAD
 struct ac_cpu_dbs_info_s {
 	struct cpu_dbs_common_info cdbs;
 	struct cpufreq_frequency_table *freq_table;
@@ -191,6 +195,8 @@ struct nm_cpu_dbs_info_s {
 	struct cpufreq_frequency_table *freq_table;
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Per policy Governors sysfs tunables */
 struct od_dbs_tuners {
 	unsigned int ignore_nice_load;
@@ -208,6 +214,7 @@ struct cs_dbs_tuners {
 	unsigned int up_threshold;
 	unsigned int down_threshold;
 	unsigned int freq_step;
+<<<<<<< HEAD
     	unsigned int down_threshold_suspended;
 	unsigned int sleep_depth;
  	unsigned int boost_enabled;
@@ -252,6 +259,8 @@ struct nm_dbs_tuners {
 	int freq_step;
 	int freq_step_dec;
 	int freq_step_dec_at_max_freq;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* Common Governor data across policies */
@@ -260,9 +269,12 @@ struct common_dbs_data {
 	/* Common across governors */
 	#define GOV_ONDEMAND		0
 	#define GOV_CONSERVATIVE	1
+<<<<<<< HEAD
 	#define GOV_ALUCARD			2
 	#define GOV_DARKNESS		3
 	#define GOV_NIGHTMARE		4
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int governor;
 	struct attribute_group *attr_group_gov_sys; /* one governor - system */
 	struct attribute_group *attr_group_gov_pol; /* one governor - policy */
@@ -277,7 +289,11 @@ struct common_dbs_data {
 	void *(*get_cpu_dbs_info_s)(int cpu);
 	void (*gov_dbs_timer)(struct work_struct *work);
 	void (*gov_check_cpu)(int cpu, unsigned int load);
+<<<<<<< HEAD
 	int (*init)(struct dbs_data *dbs_data, struct cpufreq_policy *policy);
+=======
+	int (*init)(struct dbs_data *dbs_data);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void (*exit)(struct dbs_data *dbs_data);
 
 	/* Governor specific ops, see below */
@@ -307,6 +323,7 @@ struct cs_ops {
 	struct notifier_block *notifier_block;
 };
 
+<<<<<<< HEAD
 struct ac_ops {
 	void (*get_cpu_frequency_table)(int cpu);
 	void (*get_cpu_frequency_table_minmax)(struct cpufreq_policy *policy, 
@@ -321,6 +338,8 @@ struct nm_ops {
 	void (*get_cpu_frequency_table)(int cpu);
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline int delay_for_sampling_rate(unsigned int sampling_rate)
 {
 	int delay = usecs_to_jiffies(sampling_rate);

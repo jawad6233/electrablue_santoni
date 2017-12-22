@@ -905,7 +905,11 @@ static int r128_cce_dispatch_write_span(struct drm_device *dev,
 	if (IS_ERR(buffer))
 		return PTR_ERR(buffer);
 
+<<<<<<< HEAD
 	mask_size = depth->n * sizeof(u8);
+=======
+	mask_size = depth->n;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (depth->mask) {
 		mask = memdup_user(depth->mask, mask_size);
 		if (IS_ERR(mask)) {
@@ -1010,7 +1014,11 @@ static int r128_cce_dispatch_write_pixels(struct drm_device *dev,
 	}
 
 	if (depth->mask) {
+<<<<<<< HEAD
 		mask_size = depth->n * sizeof(u8);
+=======
+		mask_size = depth->n;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mask = memdup_user(depth->mask, mask_size);
 		if (IS_ERR(mask)) {
 			kfree(x);

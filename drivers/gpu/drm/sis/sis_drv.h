@@ -67,6 +67,13 @@ typedef struct drm_sis_private {
 	struct idr object_idr;
 } drm_sis_private_t;
 
+<<<<<<< HEAD
+=======
+struct sis_file_private {
+	struct list_head obj_list;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int sis_idle(struct drm_device *dev);
 extern void sis_reclaim_buffers_locked(struct drm_device *dev,
 				       struct drm_file *file_priv);

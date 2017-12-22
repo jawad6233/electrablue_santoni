@@ -182,6 +182,10 @@ struct si_power_info {
 	u32 dte_table_start;
 	u32 spll_table_start;
 	u32 papm_cfg_table_start;
+<<<<<<< HEAD
+=======
+	u32 fan_table_start;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* CAC stuff */
 	const struct si_cac_config_reg *cac_weights;
 	const struct si_cac_config_reg *lcac_config;
@@ -197,6 +201,14 @@ struct si_power_info {
 	/* SVI2 */
 	u8 svd_gpio_id;
 	u8 svc_gpio_id;
+<<<<<<< HEAD
+=======
+	/* fan control */
+	bool fan_ctrl_is_in_default_mode;
+	u32 t_min;
+	u32 fan_ctrl_default_mode;
+	bool fan_is_controlled_by_smc;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define SISLANDS_INITIAL_STATE_ARB_INDEX    0

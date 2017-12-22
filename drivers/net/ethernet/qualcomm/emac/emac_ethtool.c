@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -76,6 +80,7 @@ static const char *const emac_ethtool_stat_strings[] = {
 };
 
 static int emac_get_settings(struct net_device *netdev,
+<<<<<<< HEAD
 			     struct ethtool_cmd *ecmd)
 {
 	struct emac_adapter *adpt = netdev_priv(netdev);
@@ -214,11 +219,76 @@ static int emac_set_settings(struct net_device *netdev,
 done:
 	CLR_FLAG(adpt, ADPT_STATE_RESETTING);
 	return retval;
+=======
+			     struct ethtool_cmd *cmd)
+{
+	struct phy_device *phydev = netdev->phydev;
+
+	if (!netif_running(netdev))
+		return -EINVAL;
+
+	if (!phydev)
+		return -ENODEV;
+
+	return phy_ethtool_gset(phydev, cmd);
+}
+
+static int emac_set_settings(struct net_device *netdev,
+			     struct ethtool_cmd *cmd)
+{
+	struct emac_adapter *adpt = netdev_priv(netdev);
+	struct emac_phy *phy = &adpt->phy;
+	struct phy_device *phydev = netdev->phydev;
+	int ret = 0;
+
+	if (!netif_running(netdev))
+		return -EINVAL;
+
+	if (!phydev)
+		return -ENODEV;
+
+	emac_info(adpt, link, "ethtool cmd autoneg %d, speed %d, duplex %d\n",
+		  cmd->autoneg, cmd->speed, cmd->duplex);
+
+	pm_runtime_get_sync(netdev->dev.parent);
+
+	if (phy->external) {
+		ret = phy_ethtool_sset(phydev, cmd);
+		goto done;
+	} else {
+		u32 advertised = cmd->advertising & phydev->supported;
+		struct emac_phy *phy = &adpt->phy;
+
+		if ((phydev->autoneg == cmd->autoneg) &&
+		    (phydev->advertising == advertised))
+			goto done;
+
+		phydev->autoneg = cmd->autoneg;
+		phydev->speed = ethtool_cmd_speed(cmd);
+		phydev->advertising = advertised;
+		phydev->duplex = cmd->duplex;
+
+		if (AUTONEG_ENABLE == cmd->autoneg)
+			phydev->advertising |= ADVERTISED_Autoneg;
+		else
+			phydev->advertising &= ~ADVERTISED_Autoneg;
+
+		emac_mac_down(adpt, EMAC_HW_CTRL_RESET_MAC);
+		ret = phy->ops.link_setup_no_ephy(adpt);
+		emac_mac_up(adpt);
+	}
+
+done:
+	pm_runtime_mark_last_busy(netdev->dev.parent);
+	pm_runtime_put_autosuspend(netdev->dev.parent);
+	return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void emac_get_pauseparam(struct net_device *netdev,
 				struct ethtool_pauseparam *pause)
 {
+<<<<<<< HEAD
 	struct emac_adapter *adpt = netdev_priv(netdev);
 	struct emac_phy *phy = &adpt->phy;
 
@@ -235,6 +305,13 @@ static void emac_get_pauseparam(struct net_device *netdev,
 		pause->rx_pause = 1;
 		pause->tx_pause = 1;
 	}
+=======
+	struct phy_device *phydev = netdev->phydev;
+
+	pause->autoneg = (phydev->autoneg) ? AUTONEG_ENABLE : AUTONEG_DISABLE;
+	pause->rx_pause = (phydev->pause) ? 1 : 0;
+	pause->tx_pause = (phydev->pause != phydev->asym_pause) ? 1 : 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int emac_set_pauseparam(struct net_device *netdev,
@@ -242,6 +319,7 @@ static int emac_set_pauseparam(struct net_device *netdev,
 {
 	struct emac_adapter *adpt = netdev_priv(netdev);
 	struct emac_phy *phy = &adpt->phy;
+<<<<<<< HEAD
 	enum emac_flow_ctrl req_fc_mode;
 	bool disable_fc_autoneg;
 	int retval = 0;
@@ -251,6 +329,21 @@ static int emac_set_pauseparam(struct net_device *netdev,
 
 	req_fc_mode        = phy->req_fc_mode;
 	disable_fc_autoneg = phy->disable_fc_autoneg;
+=======
+	struct phy_device *phydev = netdev->phydev;
+	enum emac_flow_ctrl req_fc_mode;
+	bool disable_fc_autoneg;
+	int ret = 0;
+
+	if (!netif_running(netdev))
+		return -EINVAL;
+
+	if (!phydev)
+		return -ENODEV;
+
+	req_fc_mode        = phy->req_fc_mode;
+	disable_fc_autoneg = phydev->autoneg;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (pause->autoneg != AUTONEG_ENABLE)
 		disable_fc_autoneg = true;
@@ -269,25 +362,68 @@ static int emac_set_pauseparam(struct net_device *netdev,
 		CLR_FLAG(adpt, ADPT_STATE_RESETTING);
 		return -EINVAL;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pm_runtime_get_sync(netdev->dev.parent);
 
 	if ((phy->req_fc_mode != req_fc_mode) ||
 	    (phy->disable_fc_autoneg != disable_fc_autoneg)) {
 		phy->req_fc_mode	= req_fc_mode;
 		phy->disable_fc_autoneg	= disable_fc_autoneg;
+<<<<<<< HEAD
 		if (phy->external)
 			retval = emac_phy_setup_link(adpt,
 						     phy->autoneg_advertised,
 						     phy->autoneg,
 						     !disable_fc_autoneg);
 		if (!retval)
+=======
+
+		if (phydev->autoneg) {
+			switch (phy->req_fc_mode) {
+			case EMAC_FC_FULL:
+				phydev->supported |= ADVERTISED_Pause
+					| ADVERTISED_Asym_Pause;
+				phydev->advertising |= ADVERTISED_Pause
+					| ADVERTISED_Asym_Pause;
+				break;
+			case EMAC_FC_TX_PAUSE:
+				phydev->supported |= ADVERTISED_Asym_Pause;
+				phydev->advertising |= ADVERTISED_Asym_Pause;
+				break;
+			default:
+				phydev->supported &= ~(ADVERTISED_Pause
+						| ADVERTISED_Asym_Pause);
+				phydev->advertising &= ~(ADVERTISED_Pause
+						| ADVERTISED_Asym_Pause);
+				break;
+			}
+			if (phy->disable_fc_autoneg) {
+				phydev->supported &= ~(ADVERTISED_Pause
+						| ADVERTISED_Asym_Pause);
+				phydev->advertising &= ~(ADVERTISED_Pause
+						| ADVERTISED_Asym_Pause);
+			}
+		}
+
+		if (phy->external)
+			ret = phy_start_aneg(phydev);
+
+		if (ret > 0)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			emac_phy_config_fc(adpt);
 	}
 	pm_runtime_mark_last_busy(netdev->dev.parent);
 	pm_runtime_put_autosuspend(netdev->dev.parent);
 
+<<<<<<< HEAD
 	CLR_FLAG(adpt, ADPT_STATE_RESETTING);
 	return retval;
+=======
+	return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static u32 emac_get_msglevel(struct net_device *netdev)
@@ -336,10 +472,21 @@ static void emac_get_regs(struct net_device *netdev,
 static void emac_get_drvinfo(struct net_device *netdev,
 			     struct ethtool_drvinfo *drvinfo)
 {
+<<<<<<< HEAD
 	strlcpy(drvinfo->driver,  emac_drv_name, sizeof(drvinfo->driver));
 	strlcpy(drvinfo->version, emac_drv_version, sizeof(drvinfo->version));
 	strlcpy(drvinfo->bus_info, "axi", sizeof(drvinfo->bus_info));
 
+=======
+	struct emac_adapter *adpt = netdev_priv(netdev);
+
+	strlcpy(drvinfo->driver, adpt->netdev->name,
+		sizeof(drvinfo->driver));
+	strlcpy(drvinfo->version, "Revision: 1.1.0.0",
+		sizeof(drvinfo->version));
+	strlcpy(drvinfo->bus_info, dev_name(&netdev->dev),
+		sizeof(drvinfo->bus_info));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drvinfo->regdump_len = emac_get_regs_len(netdev);
 }
 
@@ -375,6 +522,11 @@ static void emac_get_wol(struct net_device *netdev,
 static int emac_set_wol(struct net_device *netdev, struct ethtool_wolinfo *wol)
 {
 	struct emac_adapter *adpt = netdev_priv(netdev);
+<<<<<<< HEAD
+=======
+	struct phy_device *phydev = netdev->phydev;
+	u32 ret = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (wol->wolopts & (WAKE_ARP | WAKE_MAGICSECURE |
 			    WAKE_UCAST | WAKE_BCAST | WAKE_MCAST))
@@ -383,6 +535,7 @@ static int emac_set_wol(struct net_device *netdev, struct ethtool_wolinfo *wol)
 	if (emac_wol_exclusion(adpt, wol))
 		return wol->wolopts ? -EOPNOTSUPP : 0;
 
+<<<<<<< HEAD
 	adpt->wol = 0;
 	if (wol->wolopts & WAKE_MAGIC)
 		adpt->wol |= EMAC_WOL_MAGIC;
@@ -390,6 +543,25 @@ static int emac_set_wol(struct net_device *netdev, struct ethtool_wolinfo *wol)
 		adpt->wol |= EMAC_WOL_PHY;
 
 	return 0;
+=======
+	/* Enable WOL interrupt */
+	ret = phy_ethtool_set_wol(phydev, wol);
+	if (ret)
+		return ret;
+
+	adpt->wol = 0;
+	if (wol->wolopts & WAKE_MAGIC) {
+		adpt->wol |= EMAC_WOL_MAGIC;
+		emac_wol_gpio_irq(adpt, true);
+		/* Release wakelock */
+		__pm_relax(&adpt->link_wlock);
+	}
+
+	if (wol->wolopts & WAKE_PHY)
+		adpt->wol |= EMAC_WOL_PHY;
+
+	return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int emac_get_intr_coalesce(struct net_device *netdev,
@@ -466,7 +638,12 @@ static int emac_nway_reset(struct net_device *netdev)
 	struct emac_adapter *adpt = netdev_priv(netdev);
 
 	if (netif_running(netdev))
+<<<<<<< HEAD
 		emac_reinit_locked(adpt);
+=======
+		return emac_reinit_locked(adpt);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 

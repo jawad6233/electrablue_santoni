@@ -30,7 +30,10 @@
 #include "radeon.h"
 #include "atom.h"
 
+<<<<<<< HEAD
 #include <linux/vga_switcheroo.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/slab.h>
 #include <linux/acpi.h>
 /*

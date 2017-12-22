@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -105,6 +109,7 @@
 		pinctrl-0 = <&cam_sensor_flash_default>;
 		pinctrl-1 = <&cam_sensor_flash_sleep>;
 		gpios = <&msm_gpio 31 0>,
+<<<<<<< HEAD
 			<&msm_gpio 32 0>;
 		qcom,gpio-flash-en = <0>;
 		qcom,gpio-flash-now = <1>;
@@ -112,6 +117,17 @@
 		qcom,gpio-req-tbl-flags = <0 0>;
 		qcom,gpio-req-tbl-label = "FLASH_EN",
 			"FLASH_NOW";
+=======
+			<&msm_gpio 32 0>,
+			<&msm_gpio 36 0>;
+		qcom,gpio-flash-en = <0>;
+		qcom,gpio-flash-now = <1>;
+		qcom,gpio-flash-rst = <2>;
+		qcom,gpio-req-tbl-num = <0 1 2>;
+		qcom,gpio-req-tbl-flags = <0 0 0>;
+		qcom,gpio-req-tbl-label = "FLASH_EN",
+			"FLASH_NOW", "FLASH_RST";
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,cci-master = <0>;
 	};
 
@@ -187,6 +203,11 @@
 			"CAM_RESET",
 			"CAM_STANDBY";
 		qcom,cci-master = <0>;
+<<<<<<< HEAD
+=======
+		qcom,sensor-position = <1>;
+		qcom,sensor-mode = <0>;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		status = "ok";
 		clocks = <&clock_gcc clk_mclk1_clk_src>,
 				<&clock_gcc clk_gcc_camss_mclk1_clk>;

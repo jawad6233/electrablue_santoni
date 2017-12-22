@@ -34,9 +34,15 @@
  * To allow proper structure padding for 64bit/32bit target
  */
 #ifdef __LP64
+<<<<<<< HEAD
 #define MDP_LAYER_COMMIT_V1_PAD 3
 #else
 #define MDP_LAYER_COMMIT_V1_PAD 4
+=======
+#define MDP_LAYER_COMMIT_V1_PAD 1
+#else
+#define MDP_LAYER_COMMIT_V1_PAD 3
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 /**********************************************************************
@@ -376,6 +382,21 @@ struct mdp_destination_scaler_data {
 	uint64_t	__user scale;
 };
 
+<<<<<<< HEAD
+=======
+/* Enable Deterministic Frame Rate Control (FRC) */
+#define MDP_VIDEO_FRC_ENABLE (1 << 0)
+
+struct mdp_frc_info {
+	/* flags to control FRC feature */
+	uint32_t flags;
+	/* video frame count per frame */
+	uint32_t frame_cnt;
+	/* video timestamp per frame in millisecond unit */
+	int64_t timestamp;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Commit structure holds layer stack send by client for validate and commit
  * call. If layers are different between validate and commit call then commit
@@ -454,6 +475,12 @@ struct mdp_layer_commit_v1 {
 	 */
 	uint32_t		dest_scaler_cnt;
 
+<<<<<<< HEAD
+=======
+	/* FRC info per device which contains frame count and timestamp */
+	struct mdp_frc_info __user *frc_info;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* 32-bits reserved value for future usage. */
 	uint32_t		reserved[MDP_LAYER_COMMIT_V1_PAD];
 };

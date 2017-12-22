@@ -55,6 +55,12 @@
 static int __read_mostly sysrq_enabled = CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE;
 static bool __read_mostly sysrq_always_enabled;
 
+<<<<<<< HEAD
+=======
+unsigned short platform_sysrq_reset_seq[] __weak = { KEY_RESERVED };
+int sysrq_reset_downtime_ms __weak;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 bool sysrq_on(void)
 {
 	return sysrq_enabled || sysrq_always_enabled;
@@ -576,7 +582,10 @@ void handle_sysrq(int key)
 EXPORT_SYMBOL(handle_sysrq);
 
 #ifdef CONFIG_INPUT
+<<<<<<< HEAD
 static int sysrq_reset_downtime_ms;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Simple translation table for the SysRq keys */
 static const unsigned char sysrq_xlate[KEY_CNT] =

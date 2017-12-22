@@ -18,6 +18,12 @@
 void mmc_attach_bus(struct mmc_host *host, const struct mmc_bus_ops *ops);
 void mmc_detach_bus(struct mmc_host *host);
 
+<<<<<<< HEAD
+=======
+struct device_node *mmc_of_find_child_device(struct mmc_host *host,
+		unsigned func_num);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void mmc_init_erase(struct mmc_card *card);
 
 void mmc_set_chip_select(struct mmc_host *host, int mode);
@@ -72,6 +78,11 @@ void mmc_remove_card_debugfs(struct mmc_card *card);
 
 void mmc_init_context_info(struct mmc_host *host);
 
+<<<<<<< HEAD
+=======
+int mmc_execute_tuning(struct mmc_card *card);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern bool mmc_can_scale_clk(struct mmc_host *host);
 extern int mmc_init_clk_scaling(struct mmc_host *host);
 extern int mmc_suspend_clk_scaling(struct mmc_host *host);

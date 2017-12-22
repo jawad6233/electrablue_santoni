@@ -336,7 +336,11 @@ static struct notifier_block fpsimd_cpu_pm_notifier_block = {
 	.notifier_call = fpsimd_cpu_pm_notifier,
 };
 
+<<<<<<< HEAD
 static void fpsimd_pm_init(void)
+=======
+static void __init fpsimd_pm_init(void)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	cpu_pm_register_notifier(&fpsimd_cpu_pm_notifier_block);
 }
@@ -379,6 +383,7 @@ static inline void fpsimd_hotplug_init(void) { }
  */
 static int __init fpsimd_init(void)
 {
+<<<<<<< HEAD
 	u64 pfr = read_cpuid(ID_AA64PFR0_EL1);
 
 	if (pfr & (0xf << 16)) {
@@ -394,6 +399,17 @@ static int __init fpsimd_init(void)
 
 	fpsimd_pm_init();
 	fpsimd_hotplug_init();
+=======
+	if (elf_hwcap & HWCAP_FP) {
+		fpsimd_pm_init();
+		fpsimd_hotplug_init();
+	} else {
+		pr_notice("Floating-point is not implemented\n");
+	}
+
+	if (!(elf_hwcap & HWCAP_ASIMD))
+		pr_notice("Advanced SIMD is not implemented\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

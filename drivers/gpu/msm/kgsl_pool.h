@@ -35,10 +35,17 @@ kgsl_gfp_mask(unsigned int page_order)
 
 void kgsl_pool_free_sgt(struct sg_table *sgt);
 void kgsl_pool_free_pages(struct page **pages, unsigned int page_count);
+<<<<<<< HEAD
 void kgsl_init_page_pools(void);
 void kgsl_exit_page_pools(void);
 int kgsl_pool_alloc_page(int page_size, struct page **pages,
 						unsigned int pages_len);
+=======
+void kgsl_init_page_pools(struct platform_device *pdev);
+void kgsl_exit_page_pools(void);
+int kgsl_pool_alloc_page(int *page_size, struct page **pages,
+			unsigned int pages_len, unsigned int *align);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void kgsl_pool_free_page(struct page *p);
 #endif /* __KGSL_POOL_H */
 

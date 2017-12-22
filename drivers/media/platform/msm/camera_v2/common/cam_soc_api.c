@@ -1006,8 +1006,16 @@ uint32_t msm_camera_unregister_bus_client(enum cam_bus_client id)
 
 	mutex_destroy(&g_cv[id].lock);
 	msm_bus_scale_unregister_client(g_cv[id].bus_client);
+<<<<<<< HEAD
 	msm_bus_cl_clear_pdata(g_cv[id].pdata);
 	memset(&g_cv[id], 0, sizeof(struct msm_cam_bus_pscale_data));
+=======
+	g_cv[id].bus_client = 0;
+	g_cv[id].num_usecases = 0;
+	g_cv[id].num_paths = 0;
+	g_cv[id].vector_index = 0;
+	g_cv[id].dyn_vote = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

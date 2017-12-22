@@ -67,9 +67,13 @@ static int calculate_write_pending(struct swap_info_struct *si,
 	si->write_pending = si->max_writes;
 	n->write_pending = n->max_writes;
 
+<<<<<<< HEAD
 #if defined(CONFIG_TRACING) && defined(DEBUG)
 	trace_printk("%u, %u\n", si->max_writes, n->max_writes);
 #endif
+=======
+	trace_printk("%u, %u\n", si->max_writes, n->max_writes);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

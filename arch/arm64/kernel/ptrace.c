@@ -220,13 +220,21 @@ static int ptrace_hbp_fill_attr_ctrl(unsigned int note_type,
 				     struct arch_hw_breakpoint_ctrl ctrl,
 				     struct perf_event_attr *attr)
 {
+<<<<<<< HEAD
 	int err, len, type, disabled = !ctrl.enabled;
+=======
+	int err, len, type, offset, disabled = !ctrl.enabled;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	attr->disabled = disabled;
 	if (disabled)
 		return 0;
 
+<<<<<<< HEAD
 	err = arch_bp_generic_fields(ctrl, &len, &type);
+=======
+	err = arch_bp_generic_fields(ctrl, &len, &type, &offset);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (err)
 		return err;
 
@@ -245,6 +253,10 @@ static int ptrace_hbp_fill_attr_ctrl(unsigned int note_type,
 
 	attr->bp_len	= len;
 	attr->bp_type	= type;
+<<<<<<< HEAD
+=======
+	attr->bp_addr	+= offset;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -297,7 +309,11 @@ static int ptrace_hbp_get_addr(unsigned int note_type,
 	if (IS_ERR(bp))
 		return PTR_ERR(bp);
 
+<<<<<<< HEAD
 	*addr = bp ? bp->attr.bp_addr : 0;
+=======
+	*addr = bp ? counter_arch_bp(bp)->address : 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 

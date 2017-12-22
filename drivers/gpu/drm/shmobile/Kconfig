@@ -1,8 +1,16 @@
 config DRM_SHMOBILE
 	tristate "DRM Support for SH Mobile"
+<<<<<<< HEAD
 	depends on DRM && ARM
 	depends on ARCH_SHMOBILE || COMPILE_TEST
 	select BACKLIGHT_CLASS_DEVICE
+=======
+	depends on DRM && ARM && HAVE_DMA_ATTRS
+	depends on ARCH_SHMOBILE || COMPILE_TEST
+	depends on FB_SH_MOBILE_MERAM || !FB_SH_MOBILE_MERAM
+	select BACKLIGHT_CLASS_DEVICE
+	select BACKLIGHT_LCD_SUPPORT
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select DRM_KMS_HELPER
 	select DRM_KMS_FB_HELPER
 	select DRM_KMS_CMA_HELPER

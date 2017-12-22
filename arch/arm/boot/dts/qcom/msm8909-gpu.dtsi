@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -95,6 +99,29 @@
 		qcom,pm-qos-active-latency = <701>;
 		qcom,pm-qos-wakeup-latency = <701>;
 
+<<<<<<< HEAD
+=======
+		/* GPU Mempools */
+		qcom,gpu-mempools {
+			#address-cells= <1>;
+			#size-cells = <0>;
+			compatible = "qcom,gpu-mempools";
+
+			qcom,mempool-max-pages = <32768>;
+
+			/* 4K Page Pool configuration */
+			qcom,gpu-mempool@0 {
+				reg = <0>;
+				qcom,mempool-page-size = <4096>;
+			};
+			/* 64K Page Pool configuration */
+			qcom,gpu-mempool@1 {
+				reg = <1>;
+				qcom,mempool-page-size  = <65536>;
+			};
+		};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* Power levels */
 		qcom,gpu-pwrlevels {
 			#address-cells = <1>;
@@ -176,6 +203,10 @@
 		<&clock_gcc clk_gcc_gfx_tbu_clk>;
 	clock-names = "scfg_clk", "gtcu_clk", "gtcu_iface_clk",
 			"gtbu_clk";
+<<<<<<< HEAD
+=======
+	qcom,retention;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	gfx3d_user: gfx3d_user {
 		compatible = "qcom,smmu-kgsl-cb";
 		qcom,gpu-offset = <0xa000>;

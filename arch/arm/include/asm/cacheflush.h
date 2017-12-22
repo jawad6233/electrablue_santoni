@@ -509,7 +509,10 @@ int set_memory_x(unsigned long addr, int numpages);
 int set_memory_nx(unsigned long addr, int numpages);
 
 #ifdef CONFIG_DEBUG_RODATA
+<<<<<<< HEAD
 void mark_rodata_ro(void);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void set_kernel_text_rw(void);
 void set_kernel_text_ro(void);
 #else

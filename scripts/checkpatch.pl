@@ -2306,6 +2306,10 @@ sub process {
 
 # Check for improperly formed commit descriptions
 		if ($in_commit_log &&
+<<<<<<< HEAD
+=======
+		    $line !~ /^This reverts commit [0-9a-f]{7,40}/ &&
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    $line =~ /\bcommit\s+[0-9a-f]{5,}/i &&
 		    !($line =~ /\b[Cc]ommit [0-9a-f]{12,40} \("/ ||
 		      ($line =~ /\b[Cc]ommit [0-9a-f]{12,40}\s*$/ &&

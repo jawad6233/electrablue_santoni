@@ -7265,11 +7265,25 @@ lpfc_cmpl_reg_new_vport(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
 			spin_lock_irq(shost->host_lock);
 			vport->fc_flag |= FC_VPORT_NEEDS_REG_VPI;
 			spin_unlock_irq(shost->host_lock);
+<<<<<<< HEAD
 			if (vport->port_type == LPFC_PHYSICAL_PORT
 				&& !(vport->fc_flag & FC_LOGO_RCVD_DID_CHNG))
 				lpfc_issue_init_vfi(vport);
 			else
 				lpfc_initial_fdisc(vport);
+=======
+			if (mb->mbxStatus == MBX_NOT_FINISHED)
+				break;
+			if ((vport->port_type == LPFC_PHYSICAL_PORT) &&
+			    !(vport->fc_flag & FC_LOGO_RCVD_DID_CHNG)) {
+				if (phba->sli_rev == LPFC_SLI_REV4)
+					lpfc_issue_init_vfi(vport);
+				else
+					lpfc_initial_flogi(vport);
+			} else {
+				lpfc_initial_fdisc(vport);
+			}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	} else {

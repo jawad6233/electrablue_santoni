@@ -89,7 +89,10 @@ enum amd_chipset_gen {
 	AMD_CHIPSET_HUDSON2,
 	AMD_CHIPSET_BOLTON,
 	AMD_CHIPSET_YANGTZE,
+<<<<<<< HEAD
 	AMD_CHIPSET_TAISHAN,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	AMD_CHIPSET_UNKNOWN,
 };
 
@@ -137,6 +140,7 @@ static int amd_chipset_sb_type_init(struct amd_chipset_info *pinfo)
 		pinfo->smbus_dev = pci_get_device(PCI_VENDOR_ID_AMD,
 				PCI_DEVICE_ID_AMD_HUDSON2_SMBUS, NULL);
 
+<<<<<<< HEAD
 		if (pinfo->smbus_dev) {
 			rev = pinfo->smbus_dev->revision;
 			if (rev >= 0x11 && rev <= 0x14)
@@ -157,6 +161,22 @@ static int amd_chipset_sb_type_init(struct amd_chipset_info *pinfo)
 			}
 		}
 	}
+=======
+		if (!pinfo->smbus_dev) {
+			pinfo->sb_type.gen = NOT_AMD_CHIPSET;
+			return 0;
+		}
+
+		rev = pinfo->smbus_dev->revision;
+		if (rev >= 0x11 && rev <= 0x14)
+			pinfo->sb_type.gen = AMD_CHIPSET_HUDSON2;
+		else if (rev >= 0x15 && rev <= 0x18)
+			pinfo->sb_type.gen = AMD_CHIPSET_BOLTON;
+		else if (rev >= 0x39 && rev <= 0x3a)
+			pinfo->sb_type.gen = AMD_CHIPSET_YANGTZE;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pinfo->sb_type.rev = rev;
 	return 1;
 }
@@ -260,12 +280,20 @@ int usb_hcd_amd_remote_wakeup_quirk(struct pci_dev *pdev)
 {
 	/* Make sure amd chipset type has already been initialized */
 	usb_amd_find_chipset_info();
+<<<<<<< HEAD
 	if (amd_chipset.sb_type.gen == AMD_CHIPSET_YANGTZE ||
 	    amd_chipset.sb_type.gen == AMD_CHIPSET_TAISHAN) {
 		dev_dbg(&pdev->dev, "QUIRK: Enable AMD remote wakeup fix\n");
 		return 1;
 	}
 	return 0;
+=======
+	if (amd_chipset.sb_type.gen != AMD_CHIPSET_YANGTZE)
+		return 0;
+
+	dev_dbg(&pdev->dev, "QUIRK: Enable AMD remote wakeup fix\n");
+	return 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL_GPL(usb_hcd_amd_remote_wakeup_quirk);
 

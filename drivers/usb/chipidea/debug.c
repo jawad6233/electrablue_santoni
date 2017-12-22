@@ -286,8 +286,12 @@ static int ci_role_show(struct seq_file *s, void *data)
 {
 	struct ci_hdrc *ci = s->private;
 
+<<<<<<< HEAD
 	if (ci->role != CI_ROLE_END)
 		seq_printf(s, "%s\n", ci_role(ci)->name);
+=======
+	seq_printf(s, "%s\n", ci_role(ci)->name);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

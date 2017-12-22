@@ -815,11 +815,15 @@ advance:
 
 	iface_no = ctx->data->cur_altsetting->desc.bInterfaceNumber;
 
+<<<<<<< HEAD
 	/* Reset data interface. Some devices will not reset properly
 	 * unless they are configured first.  Toggle the altsetting to
 	 * force a reset
 	 */
 	usb_set_interface(dev->udev, iface_no, data_altsetting);
+=======
+	/* reset data interface */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	temp = usb_set_interface(dev->udev, iface_no, 0);
 	if (temp) {
 		dev_dbg(&intf->dev, "set interface failed\n");

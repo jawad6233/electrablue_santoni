@@ -609,6 +609,12 @@ struct hci_fm_spur_data {
 #define AF_SIZE_OFFSET 6
 #define AF_LIST_OFFSET 7
 #define RT_A_B_FLAG_OFFSET 4
+<<<<<<< HEAD
+=======
+#define RDS_PS_OFFSET  1
+#define RDS_PS_SIMPLE_OFFSET 2
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*FM states*/
 
 enum radio_state_t {

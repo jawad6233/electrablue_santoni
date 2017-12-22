@@ -51,11 +51,18 @@ int bochs_hw_init(struct drm_device *dev, uint32_t flags)
 {
 	struct bochs_device *bochs = dev->dev_private;
 	struct pci_dev *pdev = dev->pdev;
+<<<<<<< HEAD
 	unsigned long addr, size, mem, ioaddr, iosize;
 	u16 id;
 
 	if (/* (ent->driver_data == BOCHS_QEMU_STDVGA) && */
 	    (pdev->resource[2].flags & IORESOURCE_MEM)) {
+=======
+	unsigned long addr, size, mem, ioaddr, iosize, qext_size;
+	u16 id;
+
+	if (pdev->resource[2].flags & IORESOURCE_MEM) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* mmio bar with vga and bochs registers present */
 		if (pci_request_region(pdev, 2, "bochs-drm") != 0) {
 			DRM_ERROR("Cannot request mmio region\n");
@@ -116,6 +123,27 @@ int bochs_hw_init(struct drm_device *dev, uint32_t flags)
 		 size / 1024, addr,
 		 bochs->ioports ? "ioports" : "mmio",
 		 ioaddr);
+<<<<<<< HEAD
+=======
+
+	if (bochs->mmio && pdev->revision >= 2) {
+		qext_size = readl(bochs->mmio + 0x600);
+		if (qext_size < 4 || qext_size > iosize)
+			goto noext;
+		DRM_DEBUG("Found qemu ext regs, size %ld\n", qext_size);
+		if (qext_size >= 8) {
+#ifdef __BIG_ENDIAN
+			writel(0xbebebebe, bochs->mmio + 0x604);
+#else
+			writel(0x1e1e1e1e, bochs->mmio + 0x604);
+#endif
+			DRM_DEBUG("  qext endian: 0x%x\n",
+				  readl(bochs->mmio + 0x604));
+		}
+	}
+
+noext:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -147,6 +175,10 @@ void bochs_hw_setmode(struct bochs_device *bochs,
 
 	bochs_vga_writeb(bochs, 0x3c0, 0x20); /* unblank */
 
+<<<<<<< HEAD
+=======
+	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_XRES,        bochs->xres);
 	bochs_dispi_write(bochs, VBE_DISPI_INDEX_YRES,        bochs->yres);

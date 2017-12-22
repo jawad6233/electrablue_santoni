@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -58,10 +62,13 @@ static DEFINE_SPINLOCK(suspend_lock);
 
 #define TAG "msm_adreno_tz: "
 
+<<<<<<< HEAD
 #if 1
 static unsigned int adrenoboost = 0;
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static u64 suspend_time;
 static u64 suspend_start;
 static unsigned long acc_total, acc_relative_busy;
@@ -92,6 +99,7 @@ u64 suspend_time_ms(void)
 	return time_diff;
 }
 
+<<<<<<< HEAD
 #if 1
 static ssize_t adrenoboost_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
@@ -117,6 +125,8 @@ static ssize_t adrenoboost_save(struct device *dev,
 }
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static ssize_t gpu_load_show(struct device *dev,
 		struct device_attribute *attr,
 		char *buf)
@@ -163,11 +173,14 @@ static ssize_t suspend_time_show(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%llu\n", time_diff);
 }
 
+<<<<<<< HEAD
 #if 1
 static DEVICE_ATTR(adrenoboost, 0644,
 		adrenoboost_show, adrenoboost_save);
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static DEVICE_ATTR(gpu_load, 0444, gpu_load_show, NULL);
 
 static DEVICE_ATTR(suspend_time, 0444,
@@ -177,9 +190,12 @@ static DEVICE_ATTR(suspend_time, 0444,
 static const struct device_attribute *adreno_tz_attr_list[] = {
 		&dev_attr_gpu_load,
 		&dev_attr_suspend_time,
+<<<<<<< HEAD
 #if 1
 		&dev_attr_adrenoboost,
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		NULL
 };
 
@@ -271,7 +287,11 @@ static int tz_init_ca(struct devfreq_msm_adreno_tz_data *priv)
 {
 	unsigned int tz_ca_data[2];
 	struct scm_desc desc = {0};
+<<<<<<< HEAD
 	unsigned int *tz_buf;
+=======
+	u8 *tz_buf;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	/* Set data for TZ */
@@ -316,7 +336,11 @@ static int tz_init(struct devfreq_msm_adreno_tz_data *priv,
 			scm_is_call_available(SCM_SVC_DCVS, TZ_UPDATE_ID_64) &&
 			scm_is_call_available(SCM_SVC_DCVS, TZ_RESET_ID_64)) {
 		struct scm_desc desc = {0};
+<<<<<<< HEAD
 		unsigned int *tz_buf;
+=======
+		u8 *tz_buf;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		if (!is_scm_armv8()) {
 			ret = scm_call(SCM_SVC_DCVS, TZ_INIT_ID_64,
@@ -375,6 +399,7 @@ static int tz_init(struct devfreq_msm_adreno_tz_data *priv,
 	return ret;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_ADRENO_IDLER
 extern int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		 unsigned long *freq);
@@ -401,6 +426,8 @@ static int lvl_divider_map_3[] = {10,1,1,1,1,14,12    ,1,1};
 
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 				u32 *flag)
 {
@@ -410,10 +437,13 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	int val, level = 0;
 	unsigned int scm_data[4];
 	int context_count = 0;
+<<<<<<< HEAD
 #if 1
 	int last_level = priv->bin.last_level;
 //	int max_state_val = devfreq->profile->max_state - 1;
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* keeps stats.private_data == NULL   */
 	result = devfreq->profile->get_dev_status(devfreq->dev.parent, &stats);
@@ -422,6 +452,7 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		return result;
 	}
 
+<<<<<<< HEAD
 	/* Prevent overflow */
 	if (stats.busy_time >= (1 << 24) || stats.total_time >= (1 << 24)) {
 		stats.busy_time >>= 7;
@@ -457,6 +488,11 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 #else
 	priv->bin.busy_time += stats.busy_time;
 #endif
+=======
+	*freq = stats.current_frequency;
+	priv->bin.total_time += stats.total_time;
+	priv->bin.busy_time += stats.busy_time;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (stats.private_data)
 		context_count =  *((int *)stats.private_data);
@@ -497,15 +533,21 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		__secure_tz_update_entry3(scm_data, sizeof(scm_data),
 					&val, sizeof(val), priv);
 	}
+<<<<<<< HEAD
 #if 0
 	priv->bin.total_time = 0;
 	priv->bin.busy_time = 0;
 #endif
+=======
+	priv->bin.total_time = 0;
+	priv->bin.busy_time = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * If the decision is to move to a different level, make sure the GPU
 	 * frequency changes.
 	 */
+<<<<<<< HEAD
 #if 1
 	if (!adrenoboost && val) {
 		level += val;
@@ -539,12 +581,17 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	priv->bin.total_time = 0;
 	priv->bin.busy_time = 0;
 #else
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (val) {
 		level += val;
 		level = max(level, 0);
 		level = min_t(int, level, devfreq->profile->max_state - 1);
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	*freq = devfreq->profile->freq_table[level];
 	return 0;
@@ -629,10 +676,13 @@ static int tz_start(struct devfreq *devfreq)
 	for (i = 0; adreno_tz_attr_list[i] != NULL; i++)
 		device_create_file(&devfreq->dev, adreno_tz_attr_list[i]);
 
+<<<<<<< HEAD
 #if 1
 	priv->bin.last_level = devfreq->profile->max_state - 1;
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return kgsl_devfreq_add_notifier(devfreq->dev.parent, &priv->nb);
 }
 

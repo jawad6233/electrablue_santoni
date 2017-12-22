@@ -833,7 +833,12 @@ static int mdss_mdp_video_ctx_stop(struct mdss_mdp_ctl *ctl,
 		}
 		WARN(rc, "intf %d blank error (%d)\n", ctl->intf_num, rc);
 
+<<<<<<< HEAD
 		frame_rate = mdss_panel_get_framerate(pinfo);
+=======
+		frame_rate = mdss_panel_get_framerate(pinfo,
+				FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!(frame_rate >= 24 && frame_rate <= 240))
 			frame_rate = 24;
 
@@ -957,6 +962,11 @@ static void mdss_mdp_video_vsync_intr_done(void *arg)
 	vsync_time = ktime_get();
 	ctl->vsync_cnt++;
 
+<<<<<<< HEAD
+=======
+	mdss_debug_frc_add_vsync_sample(ctl, vsync_time);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MDSS_XLOG(ctl->num, ctl->vsync_cnt, ctl->vsync_cnt);
 
 	pr_debug("intr ctl=%d vsync cnt=%u vsync_time=%d\n",
@@ -1221,7 +1231,11 @@ static int mdss_mdp_video_fps_update(struct mdss_mdp_video_ctx *ctx,
 	return rc;
 }
 
+<<<<<<< HEAD
 static int mdss_mdp_video_dfps_wait4vsync(struct mdss_mdp_ctl *ctl)
+=======
+static int mdss_mdp_video_wait4vsync(struct mdss_mdp_ctl *ctl)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int rc = 0;
 	struct mdss_mdp_video_ctx *ctx;
@@ -1232,6 +1246,11 @@ static int mdss_mdp_video_dfps_wait4vsync(struct mdss_mdp_ctl *ctl)
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
+=======
+	MDSS_XLOG(ctl->num, ctl->vsync_cnt, XLOG_FUNC_ENTRY);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	video_vsync_irq_enable(ctl, true);
 	reinit_completion(&ctx->vsync_comp);
 	rc = wait_for_completion_timeout(&ctx->vsync_comp,
@@ -1241,6 +1260,10 @@ static int mdss_mdp_video_dfps_wait4vsync(struct mdss_mdp_ctl *ctl)
 		pr_warn("vsync timeout %d fallback to poll mode\n",
 			ctl->num);
 		rc = mdss_mdp_video_pollwait(ctl);
+<<<<<<< HEAD
+=======
+		MDSS_XLOG(ctl->num, ctl->vsync_cnt);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (rc) {
 			pr_err("error polling for vsync\n");
 			MDSS_XLOG_TOUT_HANDLER("mdp", "dsi0_ctrl", "dsi0_phy",
@@ -1252,6 +1275,11 @@ static int mdss_mdp_video_dfps_wait4vsync(struct mdss_mdp_ctl *ctl)
 	}
 	video_vsync_irq_disable(ctl);
 
+<<<<<<< HEAD
+=======
+	MDSS_XLOG(ctl->num, ctl->vsync_cnt, XLOG_FUNC_EXIT);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return rc;
 }
 
@@ -1426,7 +1454,11 @@ exit_dfps:
 			 * to wait before programming the flush bits.
 			 */
 			if (!rc) {
+<<<<<<< HEAD
 				rc = mdss_mdp_video_dfps_wait4vsync(ctl);
+=======
+				rc = mdss_mdp_video_wait4vsync(ctl);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				if (rc < 0)
 					pr_err("Error in dfps_wait: %d\n", rc);
 			}
@@ -1750,8 +1782,14 @@ static void mdss_mdp_handoff_programmable_fetch(struct mdss_mdp_ctl *ctl,
 			MDSS_MDP_REG_INTF_HSYNC_CTL) >> 16;
 		v_total_handoff = mdp_video_read(ctx,
 			MDSS_MDP_REG_INTF_VSYNC_PERIOD_F0)/h_total_handoff;
+<<<<<<< HEAD
 		pinfo->prg_fet = v_total_handoff -
 			((fetch_start_handoff - 1)/h_total_handoff);
+=======
+		if (h_total_handoff)
+			pinfo->prg_fet = v_total_handoff -
+				((fetch_start_handoff - 1)/h_total_handoff);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pr_debug("programmable fetch lines %d start:%d\n",
 			pinfo->prg_fet, fetch_start_handoff);
 		MDSS_XLOG(pinfo->prg_fet, fetch_start_handoff,
@@ -2010,8 +2048,13 @@ void mdss_mdp_switch_to_cmd_mode(struct mdss_mdp_ctl *ctl, int prep)
 		wait_for_completion_interruptible_timeout(&ctx->vsync_comp,
 			  usecs_to_jiffies(VSYNC_TIMEOUT_US));
 	}
+<<<<<<< HEAD
 	frame_rate = mdss_panel_get_framerate
 			(&(ctl->panel_data->panel_info));
+=======
+	frame_rate = mdss_panel_get_framerate(&(ctl->panel_data->panel_info),
+			FPS_RESOLUTION_HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!(frame_rate >= 24 && frame_rate <= 240))
 		frame_rate = 24;
 	frame_rate = ((1000/frame_rate) + 1);
@@ -2160,6 +2203,10 @@ int mdss_mdp_video_start(struct mdss_mdp_ctl *ctl)
 	ctl->ops.stop_fnc = mdss_mdp_video_stop;
 	ctl->ops.display_fnc = mdss_mdp_video_display;
 	ctl->ops.wait_fnc = mdss_mdp_video_wait4comp;
+<<<<<<< HEAD
+=======
+	ctl->ops.wait_vsync_fnc = mdss_mdp_video_wait4vsync;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ctl->ops.read_line_cnt_fnc = mdss_mdp_video_line_count;
 	ctl->ops.add_vsync_handler = mdss_mdp_video_add_vsync_handler;
 	ctl->ops.remove_vsync_handler = mdss_mdp_video_remove_vsync_handler;

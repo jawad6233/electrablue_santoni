@@ -846,8 +846,13 @@ static int evdev_disable_suspend_block(struct evdev *evdev,
 
 	spin_lock_irq(&client->buffer_lock);
 	client->use_wake_lock = false;
+<<<<<<< HEAD
 	wake_lock_destroy(&client->wake_lock);
 	spin_unlock_irq(&client->buffer_lock);
+=======
+	spin_unlock_irq(&client->buffer_lock);
+	wake_lock_destroy(&client->wake_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }

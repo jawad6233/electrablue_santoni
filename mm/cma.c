@@ -333,9 +333,12 @@ int __init cma_declare_contiguous(phys_addr_t base,
 			}
 		}
 
+<<<<<<< HEAD
 		if (addr < highmem_start)
 			kmemleak_no_scan(__va(addr));
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*
 		 * kmemleak scans/reads tracked objects for pointers to other
 		 * objects but this address isn't mapped and accessible

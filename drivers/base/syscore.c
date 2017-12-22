@@ -12,6 +12,10 @@
 #include <linux/suspend.h>
 #include <trace/events/power.h>
 #include <linux/wakeup_reason.h>
+<<<<<<< HEAD
+=======
+#include <linux/irq.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static LIST_HEAD(syscore_ops_list);
 static DEFINE_MUTEX(syscore_ops_lock);

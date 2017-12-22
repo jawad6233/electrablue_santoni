@@ -40,6 +40,10 @@ do {								\
 		"2:\t.asciz " #__file "\n" 			\
 		".popsection\n" 				\
 		".pushsection __bug_table,\"a\"\n"		\
+<<<<<<< HEAD
+=======
+		".align 2\n"					\
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		"3:\t.word 1b, 2b\n"				\
 		"\t.hword " #__line ", 0\n"			\
 		".popsection");					\

@@ -1,8 +1,14 @@
 VERSION = 3
 PATCHLEVEL = 18
+<<<<<<< HEAD
 SUBLEVEL = 87
 EXTRAVERSION =
 NAME = Shuffling Zombie Juror
+=======
+SUBLEVEL = 88
+EXTRAVERSION =
+NAME = Diseased Newt
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -141,7 +147,11 @@ PHONY += $(MAKECMDGOALS) sub-make
 $(filter-out _all sub-make $(CURDIR)/Makefile, $(MAKECMDGOALS)) _all: sub-make
 	@:
 
+<<<<<<< HEAD
 sub-make: FORCE
+=======
+sub-make:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)$(MAKE) -C $(KBUILD_OUTPUT) KBUILD_SRC=$(CURDIR) \
 	-f $(CURDIR)/Makefile $(filter-out _all sub-make,$(MAKECMDGOALS))
 
@@ -354,7 +364,11 @@ include $(srctree)/scripts/Kbuild.include
 # Make variables (CC, etc...)
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
+<<<<<<< HEAD
 CC		= $(CROSS_COMPILE)gcc
+=======
+REAL_CC		= $(CROSS_COMPILE)gcc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -371,7 +385,11 @@ CHECK		= sparse
 
 # Use the wrapper for the compiler.  This wrapper scans for new
 # warnings and causes the build to stop upon encountering them.
+<<<<<<< HEAD
 #CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
+=======
+CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
@@ -381,6 +399,10 @@ LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
+<<<<<<< HEAD
+=======
+CFLAGS_KCOV	= -fsanitize-coverage=trace-pc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 
 # Use USERINCLUDE when you must reference the UAPI directories only.
@@ -426,7 +448,11 @@ export MAKE AWK GENKSYMS INSTALLKERNEL PERL PYTHON UTS_MACHINE
 export HOSTCXX HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
 
 export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS LDFLAGS
+<<<<<<< HEAD
 export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE CFLAGS_GCOV CFLAGS_KASAN
+=======
+export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE CFLAGS_GCOV CFLAGS_KCOV CFLAGS_KASAN CFLAGS_UBSAN
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
 export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
 export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
@@ -627,6 +653,7 @@ else
 KBUILD_CFLAGS	+= -O2
 endif
 
+<<<<<<< HEAD
 
 # Kill array bound warnings
 KBUILD_CFLAGS	+= $(call cc-disable-warning,array-bounds,)
@@ -640,6 +667,11 @@ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 # Needed to unbreak GCC 7.x and above
 KBUILD_CFLAGS   += $(call cc-option,-fno-store-merging,)
 
+=======
+# Tell gcc to never replace conditional load with a non-conditional one
+KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 ifdef CONFIG_READABLE_ASM
 # Disable optimizations that make assembler listings hard to read.
 # reorder blocks reorders the control in the function
@@ -691,6 +723,17 @@ endif
 endif
 KBUILD_CFLAGS += $(stackp-flag)
 
+<<<<<<< HEAD
+=======
+ifdef CONFIG_KCOV
+  ifeq ($(call cc-option, $(CFLAGS_KCOV)),)
+    $(warning Cannot use CONFIG_KCOV: \
+             -fsanitize-coverage=trace-pc is not supported by compiler)
+    CFLAGS_KCOV =
+  endif
+endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 ifeq ($(COMPILER),clang)
 KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 KBUILD_CPPFLAGS += $(call cc-option,-Wno-unknown-warning-option,)
@@ -1002,7 +1045,11 @@ prepare1: prepare2 $(version_h) include/generated/utsrelease.h \
 
 archprepare: archheaders archscripts prepare1 scripts_basic
 
+<<<<<<< HEAD
 prepare0: archprepare FORCE
+=======
+prepare0: archprepare
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)$(MAKE) $(build)=.
 
 # All the preparing..
@@ -1052,7 +1099,11 @@ INSTALL_FW_PATH=$(INSTALL_MOD_PATH)/lib/firmware
 export INSTALL_FW_PATH
 
 PHONY += firmware_install
+<<<<<<< HEAD
 firmware_install: FORCE
+=======
+firmware_install:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	@mkdir -p $(objtree)/firmware
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_install
 
@@ -1074,7 +1125,11 @@ PHONY += archscripts
 archscripts:
 
 PHONY += __headers
+<<<<<<< HEAD
 __headers: $(version_h) scripts_basic asm-generic archheaders archscripts FORCE
+=======
+__headers: $(version_h) scripts_basic asm-generic archheaders archscripts
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)$(MAKE) $(build)=scripts build_unifdef
 
 PHONY += headers_install_all

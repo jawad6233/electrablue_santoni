@@ -318,7 +318,11 @@ void vos_event_report_payload(v_U16_t event_Id, v_U16_t length, v_VOID_t *pPaylo
       
         if( ptt_sock_send_msg_to_app(wmsg, 0,
                      ANI_NL_MSG_PUMAC, INVALID_PID, MSG_DONTWAIT) < 0) {
+<<<<<<< HEAD
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+=======
+            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                        ("Ptt Socket error sending message to the app!!"));
             vos_mem_free((v_VOID_t*)wmsg);
             return;

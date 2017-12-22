@@ -333,7 +333,11 @@ int alloc_bootmem_huge_page(struct hstate *hstate)
 unsigned long gpage_npages[MMU_PAGE_COUNT];
 
 static int __init do_gpage_early_setup(char *param, char *val,
+<<<<<<< HEAD
 				       const char *unused)
+=======
+				       const char *unused, void *arg)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	static phys_addr_t size;
 	unsigned long npages;
@@ -375,7 +379,11 @@ void __init reserve_hugetlb_gpages(void)
 
 	strlcpy(cmdline, boot_command_line, COMMAND_LINE_SIZE);
 	parse_args("hugetlb gpages", cmdline, NULL, 0, 0, 0,
+<<<<<<< HEAD
 			&do_gpage_early_setup);
+=======
+			NULL, &do_gpage_early_setup);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * Walk gpage list in reverse, allocating larger page sizes first.

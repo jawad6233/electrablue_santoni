@@ -50,8 +50,12 @@
  *
  * You must not use multiple offset managers on a single address_space.
  * Otherwise, mm-core will be unable to tear down memory mappings as the VM will
+<<<<<<< HEAD
  * no longer be linear. Please use VM_NONLINEAR in that case and implement your
  * own offset managers.
+=======
+ * no longer be linear.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This offset manager works on page-based addresses. That is, every argument
  * and return code (with the exception of drm_vma_node_offset_addr()) is given
@@ -113,7 +117,11 @@ void drm_vma_offset_manager_destroy(struct drm_vma_offset_manager *mgr)
 EXPORT_SYMBOL(drm_vma_offset_manager_destroy);
 
 /**
+<<<<<<< HEAD
  * drm_vma_offset_lookup() - Find node in offset space
+=======
+ * drm_vma_offset_lookup_locked() - Find node in offset space
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @mgr: Manager object
  * @start: Start address for object (page-based)
  * @pages: Size of object (page-based)
@@ -123,6 +131,7 @@ EXPORT_SYMBOL(drm_vma_offset_manager_destroy);
  * region and the given node will be returned, as long as the node spans the
  * whole requested area (given the size in number of pages as @pages).
  *
+<<<<<<< HEAD
  * RETURNS:
  * Returns NULL if no suitable node can be found. Otherwise, the best match
  * is returned. It's the caller's responsibility to make sure the node doesn't
@@ -154,6 +163,23 @@ EXPORT_SYMBOL(drm_vma_offset_lookup);
  * RETURNS:
  * Returns NULL if no suitable node can be found. Otherwise, the best match
  * is returned.
+=======
+ * Note that before lookup the vma offset manager lookup lock must be acquired
+ * with drm_vma_offset_lock_lookup(). See there for an example. This can then be
+ * used to implement weakly referenced lookups using kref_get_unless_zero().
+ *
+ * Example:
+ *     drm_vma_offset_lock_lookup(mgr);
+ *     node = drm_vma_offset_lookup_locked(mgr);
+ *     if (node)
+ *         kref_get_unless_zero(container_of(node, sth, entr));
+ *     drm_vma_offset_unlock_lookup(mgr);
+ *
+ * RETURNS:
+ * Returns NULL if no suitable node can be found. Otherwise, the best match
+ * is returned. It's the caller's responsibility to make sure the node doesn't
+ * get destroyed before the caller can access it.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct drm_vma_offset_node *drm_vma_offset_lookup_locked(struct drm_vma_offset_manager *mgr,
 							 unsigned long start,

@@ -422,6 +422,11 @@ next_op:
 			else
 				act = machine[pc + 1];
 			ret = actions[act](context, hdr, 0, data + tdp, len);
+<<<<<<< HEAD
+=======
+			if (ret < 0)
+				return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		pc += asn1_op_lengths[op];
 		goto next_op;

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -50,13 +54,23 @@ tSirRetStatus   limStartBssReqSerDes(tpAniSirGlobal, tpSirSmeStartBssReq, tANI_U
 tSirRetStatus   limStopBssReqSerDes(tpAniSirGlobal, tpSirSmeStopBssReq, tANI_U8 *);
 tSirRetStatus   limJoinReqSerDes(tpAniSirGlobal, tpSirSmeJoinReq, tANI_U8 *);
 void            limAssocIndSerDes(tpAniSirGlobal, tpLimMlmAssocInd, tANI_U8 *, tpPESession);
+<<<<<<< HEAD
 void            limReassocIndSerDes(tpAniSirGlobal, tpLimMlmReassocInd, tANI_U8 *, tpPESession psessionEntry);
+=======
+tSirRetStatus   limReassocIndSerDes(tpAniSirGlobal, tpLimMlmReassocInd, tANI_U8 *,
+                                   tpPESession psessionEntry, tANI_U16 len);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 tSirRetStatus   limAssocCnfSerDes(tpAniSirGlobal, tpSirSmeAssocCnf, tANI_U8 *);
 tSirRetStatus   limDisassocCnfSerDes(tpAniSirGlobal, tpSirSmeDisassocCnf, tANI_U8 *);
 tSirRetStatus   limSetContextReqSerDes(tpAniSirGlobal, tpSirSmeSetContextReq, tANI_U8 *);
 tSirRetStatus   limDisassocReqSerDes(tpAniSirGlobal, tSirSmeDisassocReq *, tANI_U8 *);
 tSirRetStatus   limDeauthReqSerDes(tpAniSirGlobal, tSirSmeDeauthReq *, tANI_U8 *);
+<<<<<<< HEAD
 void            limAuthIndSerDes(tpAniSirGlobal, tpLimMlmAuthInd, tANI_U8 *);
+=======
+tSirRetStatus   limAuthIndSerDes(tpAniSirGlobal, tpLimMlmAuthInd, tANI_U8 *,
+                                 tANI_U16 len);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void            limStatSerDes(tpAniSirGlobal, tpAniStaStatStruct, tANI_U8 *);
 void            limGetSessionInfo(tpAniSirGlobal pMac, tANI_U8 *, tANI_U8 *, tANI_U16 *);
 

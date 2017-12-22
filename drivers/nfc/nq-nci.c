@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -47,6 +51,10 @@ MODULE_DEVICE_TABLE(of, msm_match_table);
 
 #define MAX_BUFFER_SIZE			(320)
 #define WAKEUP_SRC_TIMEOUT		(2000)
+<<<<<<< HEAD
+=======
+#define MAX_RETRY_COUNT			3
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct nqx_dev {
 	wait_queue_head_t	read_wq;
@@ -110,6 +118,29 @@ static void nqx_disable_irq(struct nqx_dev *nqx_dev)
 	spin_unlock_irqrestore(&nqx_dev->irq_enabled_lock, flags);
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * nqx_enable_irq()
+ *
+ * Check if interrupt is enabled or not
+ * and enable interrupt
+ *
+ * Return: void
+ */
+static void nqx_enable_irq(struct nqx_dev *nqx_dev)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&nqx_dev->irq_enabled_lock, flags);
+	if (!nqx_dev->irq_enabled) {
+		nqx_dev->irq_enabled = true;
+		enable_irq(nqx_dev->client->irq);
+	}
+	spin_unlock_irqrestore(&nqx_dev->irq_enabled_lock, flags);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static irqreturn_t nqx_dev_irq_handler(int irq, void *dev_id)
 {
 	struct nqx_dev *nqx_dev = dev_id;
@@ -264,6 +295,38 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * nqx_standby_write()
+ * @buf:       pointer to data buffer
+ * @len:       # of bytes need to transfer
+ *
+ * write data buffer over I2C and retry
+ * if NFCC is in stand by mode
+ *
+ * Return: # of bytes written or -ve value in case of error
+ */
+static int nqx_standby_write(struct nqx_dev *nqx_dev,
+				const unsigned char *buf, size_t len)
+{
+	int ret = -EINVAL;
+	int retry_cnt;
+
+	for (retry_cnt = 1; retry_cnt <= MAX_RETRY_COUNT; retry_cnt++) {
+		ret = i2c_master_send(nqx_dev->client, buf, len);
+		if (ret < 0) {
+			dev_err(&nqx_dev->client->dev,
+				"%s: write failed, Maybe in Standby Mode - Retry(%d)\n",
+				 __func__, retry_cnt);
+			usleep_range(1000, 1100);
+		} else if (ret == len)
+			break;
+	}
+	return ret;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
 	Power management of the eSE
 	NFC & eSE ON : NFC_EN high and eSE_pwr_req high.
@@ -273,12 +336,25 @@ out:
 static int nqx_ese_pwr(struct nqx_dev *nqx_dev, unsigned long int arg)
 {
 	int r = -1;
+<<<<<<< HEAD
 
 	/* Let's store the NFC_EN pin state*/
+=======
+	const unsigned char svdd_off_cmd_warn[] =  {0x2F, 0x31, 0x01, 0x01};
+	const unsigned char svdd_off_cmd_done[] =  {0x2F, 0x31, 0x01, 0x00};
+
+	if (!gpio_is_valid(nqx_dev->ese_gpio)) {
+		dev_err(&nqx_dev->client->dev,
+			"%s: ese_gpio is not valid\n", __func__);
+		return -EINVAL;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (arg == 0) {
 		/* We want to power on the eSE and to do so we need the
 		 * eSE_pwr_req pin and the NFC_EN pin to be high
 		 */
+<<<<<<< HEAD
 		nqx_dev->nfc_ven_enabled = gpio_get_value(nqx_dev->en_gpio);
 		if (!nqx_dev->nfc_ven_enabled) {
 			gpio_set_value(nqx_dev->en_gpio, 1);
@@ -305,6 +381,83 @@ static int nqx_ese_pwr(struct nqx_dev *nqx_dev, unsigned long int arg)
 				r = 0;
 			}
 		}
+=======
+		if (gpio_get_value(nqx_dev->ese_gpio)) {
+			dev_dbg(&nqx_dev->client->dev, "ese_gpio is already high\n");
+			r = 0;
+		} else {
+			/**
+			 * Let's store the NFC_EN pin state
+			 * only if the eSE is not yet on
+			 */
+			nqx_dev->nfc_ven_enabled =
+					gpio_get_value(nqx_dev->en_gpio);
+			if (!nqx_dev->nfc_ven_enabled) {
+				gpio_set_value(nqx_dev->en_gpio, 1);
+				/* hardware dependent delay */
+				usleep_range(1000, 1100);
+			}
+			gpio_set_value(nqx_dev->ese_gpio, 1);
+			if (gpio_get_value(nqx_dev->ese_gpio)) {
+				dev_dbg(&nqx_dev->client->dev, "ese_gpio is enabled\n");
+				r = 0;
+			}
+		}
+	} else if (arg == 1) {
+		if (nqx_dev->nfc_ven_enabled &&
+			((nqx_dev->nqx_info.info.chip_type == NFCC_NQ_220) ||
+			(nqx_dev->nqx_info.info.chip_type == NFCC_PN66T))) {
+			/**
+			 * Let's inform the CLF we're
+			 * powering off the eSE
+			 */
+			r = nqx_standby_write(nqx_dev, svdd_off_cmd_warn,
+						sizeof(svdd_off_cmd_warn));
+			if (r < 0) {
+				dev_err(&nqx_dev->client->dev,
+					"%s: write failed after max retry\n",
+					 __func__);
+				return -ENXIO;
+			}
+			dev_dbg(&nqx_dev->client->dev,
+				"%s: svdd_off_cmd_warn sent\n", __func__);
+
+			/* let's power down the eSE */
+			gpio_set_value(nqx_dev->ese_gpio, 0);
+			dev_dbg(&nqx_dev->client->dev,
+				"%s: nqx_dev->ese_gpio set to 0\n", __func__);
+
+			/**
+			 * Time needed for the SVDD capacitor
+			 * to get discharged
+			 */
+			usleep_range(8000, 8100);
+
+			/* Let's inform the CLF the eSE is now off */
+			r = nqx_standby_write(nqx_dev, svdd_off_cmd_done,
+						sizeof(svdd_off_cmd_done));
+			if (r < 0) {
+				dev_err(&nqx_dev->client->dev,
+					"%s: write failed after max retry\n",
+					 __func__);
+				return -ENXIO;
+			}
+			dev_dbg(&nqx_dev->client->dev,
+				"%s: svdd_off_cmd_done sent\n", __func__);
+		} else {
+			/**
+			 * In case the NFC is off,
+			 * there's no need to send the i2c commands
+			 */
+			gpio_set_value(nqx_dev->ese_gpio, 0);
+		}
+
+		if (!gpio_get_value(nqx_dev->ese_gpio)) {
+			dev_dbg(&nqx_dev->client->dev, "ese_gpio is disabled\n");
+			r = 0;
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!nqx_dev->nfc_ven_enabled) {
 			/* hardware dependent delay */
 			usleep_range(1000, 1100);
@@ -312,12 +465,16 @@ static int nqx_ese_pwr(struct nqx_dev *nqx_dev, unsigned long int arg)
 			gpio_set_value(nqx_dev->en_gpio, 0);
 		}
 	} else if (arg == 3) {
+<<<<<<< HEAD
 		if (!nqx_dev->nfc_ven_enabled)
 			r = 0;
 		else {
 			if (gpio_is_valid(nqx_dev->ese_gpio))
 				r = gpio_get_value(nqx_dev->ese_gpio);
 		}
+=======
+		r = gpio_get_value(nqx_dev->ese_gpio);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return r;
 }
@@ -384,6 +541,10 @@ int nfc_ioctl_power_states(struct file *filp, unsigned long arg)
 		/* hardware dependent delay */
 		msleep(100);
 	} else if (arg == 1) {
+<<<<<<< HEAD
+=======
+		nqx_enable_irq(nqx_dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		dev_dbg(&nqx_dev->client->dev,
 			"gpio_set_value enable: %s: info: %p\n",
 			__func__, nqx_dev);
@@ -621,6 +782,13 @@ static int nfcc_hw_check(struct i2c_client *client, struct nqx_dev *nqx_dev)
 		dev_dbg(&client->dev,
 		"%s: ## NFCC == NQ330 ##\n", __func__);
 		break;
+<<<<<<< HEAD
+=======
+	case NFCC_PN66T:
+		dev_dbg(&client->dev,
+		"%s: ## NFCC == PN66T ##\n", __func__);
+		break;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		dev_err(&client->dev,
 		"%s: - NFCC HW not Supported\n", __func__);
@@ -1095,6 +1263,10 @@ static struct i2c_driver nqx = {
 		.owner = THIS_MODULE,
 		.name = "nq-nci",
 		.of_match_table = msm_match_table,
+<<<<<<< HEAD
+=======
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.pm = &nfc_pm_ops,
 	},
 };

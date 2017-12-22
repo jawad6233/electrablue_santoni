@@ -411,6 +411,18 @@ config CC_STACKPROTECTOR_STRONG
 
 endchoice
 
+<<<<<<< HEAD
+=======
+config HAVE_ARCH_WITHIN_STACK_FRAMES
+	bool
+	help
+	  An architecture should select this if it can walk the kernel stack
+	  frames to determine if an object is part of either the arguments
+	  or local variables (i.e. that it excludes saved return addresses,
+	  and similar) by implementing an inline arch_within_stack_frames(),
+	  which is used by CONFIG_HARDENED_USERCOPY.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config HAVE_CONTEXT_TRACKING
 	bool
 	help

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -156,8 +160,15 @@ static size_t snapshot_os(struct kgsl_device *device,
 	header->osid = KGSL_SNAPSHOT_OS_LINUX_V3;
 
 	/* Get the kernel build information */
+<<<<<<< HEAD
 	strlcpy(header->release, utsname()->release, sizeof(header->release));
 	strlcpy(header->version, utsname()->version, sizeof(header->version));
+=======
+	strlcpy(header->release, init_utsname()->release,
+			sizeof(header->release));
+	strlcpy(header->version, init_utsname()->version,
+			sizeof(header->version));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Get the Unix time for the timestamp */
 	header->seconds = get_seconds();
@@ -826,6 +837,35 @@ static ssize_t force_panic_store(struct kgsl_device *device, const char *buf,
 
 	return (ssize_t) ret < 0 ? ret : count;
 }
+<<<<<<< HEAD
+=======
+
+/* Show the snapshot_crashdumper request status */
+static ssize_t snapshot_crashdumper_show(struct kgsl_device *device, char *buf)
+{
+	return snprintf(buf, PAGE_SIZE, "%d\n", device->snapshot_crashdumper);
+}
+
+
+/* Store the value to snapshot_crashdumper*/
+static ssize_t snapshot_crashdumper_store(struct kgsl_device *device,
+	const char *buf, size_t count)
+{
+	unsigned int val = 0;
+	int ret;
+
+	if (device && count > 0)
+		device->snapshot_crashdumper = 1;
+
+	ret = kgsl_sysfs_store(buf, &val);
+
+	if (!ret && device)
+		device->snapshot_crashdumper = (bool)val;
+
+	return (ssize_t) ret < 0 ? ret : count;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Show the timestamp of the last collected snapshot */
 static ssize_t timestamp_show(struct kgsl_device *device, char *buf)
 {
@@ -852,6 +892,11 @@ struct kgsl_snapshot_attribute attr_##_name = { \
 static SNAPSHOT_ATTR(timestamp, 0444, timestamp_show, NULL);
 static SNAPSHOT_ATTR(faultcount, 0644, faultcount_show, faultcount_store);
 static SNAPSHOT_ATTR(force_panic, 0644, force_panic_show, force_panic_store);
+<<<<<<< HEAD
+=======
+static SNAPSHOT_ATTR(snapshot_crashdumper, 0644, snapshot_crashdumper_show,
+	snapshot_crashdumper_store);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static ssize_t snapshot_sysfs_show(struct kobject *kobj,
 	struct attribute *attr, char *buf)
@@ -932,6 +977,10 @@ int kgsl_device_snapshot_init(struct kgsl_device *device)
 	device->snapshot = NULL;
 	device->snapshot_faultcount = 0;
 	device->force_panic = 0;
+<<<<<<< HEAD
+=======
+	device->snapshot_crashdumper = 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = kobject_init_and_add(&device->snapshot_kobj, &ktype_snapshot,
 		&device->dev->kobj, "snapshot");
@@ -952,6 +1001,14 @@ int kgsl_device_snapshot_init(struct kgsl_device *device)
 
 	ret  = sysfs_create_file(&device->snapshot_kobj,
 			&attr_force_panic.attr);
+<<<<<<< HEAD
+=======
+	if (ret)
+		goto done;
+
+	ret  = sysfs_create_file(&device->snapshot_kobj,
+			&attr_snapshot_crashdumper.attr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 done:
 	return ret;
 }
@@ -977,6 +1034,10 @@ void kgsl_device_snapshot_close(struct kgsl_device *device)
 	device->snapshot_memory.size = 0;
 	device->snapshot_faultcount = 0;
 	device->force_panic = 0;
+<<<<<<< HEAD
+=======
+	device->snapshot_crashdumper = 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(kgsl_device_snapshot_close);
 

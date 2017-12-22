@@ -11,6 +11,11 @@ config DRM_I915
 	select SHMEM
 	select TMPFS
 	select DRM_KMS_HELPER
+<<<<<<< HEAD
+=======
+	select DRM_PANEL
+	select DRM_MIPI_DSI
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	# i915 depends on ACPI_VIDEO when ACPI is enabled
 	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
 	select BACKLIGHT_LCD_SUPPORT if ACPI
@@ -34,6 +39,7 @@ config DRM_I915
 	  i810 driver instead, and the Atom z5xx series has an entirely
 	  different implementation.
 
+<<<<<<< HEAD
 config DRM_I915_KMS
 	bool "Enable modesetting on intel by default"
 	depends on DRM_I915
@@ -58,6 +64,8 @@ config DRM_I915_FBDEV
 
 	  If in doubt, say "Y".
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config DRM_I915_PRELIMINARY_HW_SUPPORT
 	bool "Enable preliminary support for prerelease Intel hardware by default"
 	depends on DRM_I915

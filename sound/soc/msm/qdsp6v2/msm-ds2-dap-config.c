@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2 and
 * only version 2 as published by the Free Software Foundation.
@@ -198,7 +202,12 @@ static void msm_ds2_dap_check_and_update_ramp_wait(int port_id, int copp_idx,
 	uint32_t param_payload_len = PARAM_PAYLOAD_SIZE * sizeof(uint32_t);
 	int rc = 0;
 
+<<<<<<< HEAD
 	update_params_value = kzalloc(params_length, GFP_KERNEL);
+=======
+	update_params_value = kzalloc(params_length + param_payload_len,
+				      GFP_KERNEL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!update_params_value) {
 		pr_err("%s: params memory alloc failed\n", __func__);
 		goto end;
@@ -998,6 +1007,23 @@ static int msm_ds2_dap_handle_bypass(struct dolby_param_data *dolby_data)
 							copp_idx, rc);
 					}
 				}
+<<<<<<< HEAD
+=======
+				/* Turn on qti modules */
+				for (j = 1; j < mod_list[0]; j++) {
+					if (!msm_ds2_dap_can_enable_module(
+						mod_list[j]) ||
+						mod_list[j] ==
+						DS2_MODULE_ID)
+						continue;
+					pr_debug("%s: param enable %d\n",
+						__func__, mod_list[j]);
+					adm_param_enable(port_id, copp_idx,
+							 mod_list[j],
+							 MODULE_ENABLE);
+				}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				/* Add adm api to resend calibration on port */
 				rc = msm_ds2_dap_send_cal_data(i);
 				if (rc < 0) {
@@ -1103,7 +1129,11 @@ static int msm_ds2_dap_send_end_point(int dev_map_idx, int endp_idx)
 	ds2_ap_params_obj = &ds2_dap_params[cache_device];
 	pr_debug("%s: cache dev %d, dev_map_idx %d\n", __func__,
 		 cache_device, dev_map_idx);
+<<<<<<< HEAD
 	pr_debug("%s: endp - %p %p\n",  __func__,
+=======
+	pr_debug("%s: endp - %pK %pK\n",  __func__,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		 &ds2_dap_params[cache_device], ds2_ap_params_obj);
 
 	params_value = kzalloc(params_length, GFP_KERNEL);
@@ -1189,7 +1219,11 @@ static int msm_ds2_dap_send_cached_params(int dev_map_idx,
 	}
 
 	ds2_ap_params_obj = &ds2_dap_params[cache_device];
+<<<<<<< HEAD
 	pr_debug("%s: cached param - %p %p, cache_device %d\n", __func__,
+=======
+	pr_debug("%s: cached param - %pK %pK, cache_device %d\n", __func__,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		 &ds2_dap_params[cache_device], ds2_ap_params_obj,
 		 cache_device);
 	params_value = kzalloc(params_length, GFP_KERNEL);
@@ -1356,7 +1390,15 @@ static int msm_ds2_dap_handle_commands(u32 cmd, void *arg)
 	int ret  = 0, port_id = 0;
 	int32_t data;
 	struct dolby_param_data *dolby_data = (struct dolby_param_data *)arg;
+<<<<<<< HEAD
 	get_user(data, &dolby_data->data[0]);
+=======
+	if (get_user(data, &dolby_data->data[0])) {
+		pr_debug("%s error getting data\n", __func__);
+		ret = -EFAULT;
+		goto end;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	pr_debug("%s: param_id %d,be_id %d,device_id 0x%x,length %d,data %d\n",
 		 __func__, dolby_data->param_id, dolby_data->be_id,
@@ -1471,11 +1513,31 @@ static int msm_ds2_dap_set_param(u32 cmd, void *arg)
 			goto end;
 		}
 
+<<<<<<< HEAD
 		/* cache the parameters */
 		ds2_dap_params[cdev].dap_params_modified[idx] += 1;
 		for (j = 0; j <  dolby_data->length; j++) {
 			off = ds2_dap_params_offset[idx];
 			get_user(data, &dolby_data->data[j]);
+=======
+		off = ds2_dap_params_offset[idx];
+		if ((dolby_data->length <= 0) ||
+			(dolby_data->length > TOTAL_LENGTH_DS2_PARAM - off)) {
+			pr_err("%s: invalid length %d at idx %d\n",
+				__func__, dolby_data->length, idx);
+			rc = -EINVAL;
+			goto end;
+		}
+
+		/* cache the parameters */
+		ds2_dap_params[cdev].dap_params_modified[idx] += 1;
+		for (j = 0; j <  dolby_data->length; j++) {
+			if (get_user(data, &dolby_data->data[j])) {
+				pr_debug("%s:error getting data\n", __func__);
+				rc = -EFAULT;
+				goto end;
+			}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ds2_dap_params[cdev].params_val[off + j] = data;
 				pr_debug("%s:off %d,val[i/p:o/p]-[%d / %d]\n",
 					 __func__, off, data,
@@ -1506,6 +1568,18 @@ static int msm_ds2_dap_get_param(u32 cmd, void *arg)
 		goto end;
 	}
 
+<<<<<<< HEAD
+=======
+	/* Return if invalid length */
+	if ((dolby_data->length >
+	      (DOLBY_MAX_LENGTH_INDIVIDUAL_PARAM - DOLBY_PARAM_PAYLOAD_SIZE)) ||
+	      (dolby_data->length <= 0)) {
+		pr_err("Invalid length %d", dolby_data->length);
+		rc = -EINVAL;
+		goto end;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < DS2_DEVICES_ALL; i++) {
 		if ((dev_map[i].active) &&
 			(dev_map[i].device_id & dolby_data->device_id)) {
@@ -1530,7 +1604,12 @@ static int msm_ds2_dap_get_param(u32 cmd, void *arg)
 	pr_debug("%s: port_id 0x%x, copp_idx %d, dev_map[i].device_id %x\n",
 		 __func__, port_id, copp_idx, dev_map[i].device_id);
 
+<<<<<<< HEAD
 	params_value = kzalloc(params_length, GFP_KERNEL);
+=======
+	params_value = kzalloc(params_length + param_payload_len,
+				GFP_KERNEL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!params_value) {
 		pr_err("%s: params memory alloc failed\n", __func__);
 		rc = -ENOMEM;
@@ -1554,9 +1633,15 @@ static int msm_ds2_dap_get_param(u32 cmd, void *arg)
 			rc = -EINVAL;
 			goto end;
 		} else {
+<<<<<<< HEAD
 			params_length = (ds2_dap_params_length[i] +
 						DOLBY_PARAM_PAYLOAD_SIZE) *
 						sizeof(uint32_t);
+=======
+			params_length =
+			ds2_dap_params_length[i] * sizeof(uint32_t);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			rc = adm_get_params(port_id, copp_idx,
 					    DOLBY_BUNDLE_MODULE_ID,
 					    ds2_dap_params_id[i],
@@ -1611,6 +1696,17 @@ static int msm_ds2_dap_param_visualizer_control_get(u32 cmd, void *arg)
 	}
 
 	length = ds2_dap_params[cache_dev].params_val[DOLBY_PARAM_VCNB_OFFSET];
+<<<<<<< HEAD
+=======
+
+	if (length > DOLBY_PARAM_VCNB_MAX_LENGTH || length <= 0) {
+		ret = 0;
+		dolby_data->length = 0;
+		pr_err("%s Incorrect VCNB length", __func__);
+		return -EINVAL;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	params_length = (2*length + DOLBY_VIS_PARAM_HEADER_SIZE) *
 							 sizeof(uint32_t);
 

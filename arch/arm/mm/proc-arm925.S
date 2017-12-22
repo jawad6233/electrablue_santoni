@@ -494,7 +494,11 @@ arm925_crval:
 
 	.align
 
+<<<<<<< HEAD
 	.section ".proc.info.init", #alloc, #execinstr
+=======
+	.section ".proc.info.init", #alloc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 .macro arm925_proc_info name:req, cpu_val:req, cpu_mask:req, cpu_name:req, cache
 	.type	__\name\()_proc_info,#object
@@ -510,7 +514,11 @@ __\name\()_proc_info:
 		PMD_BIT4 | \
 		PMD_SECT_AP_WRITE | \
 		PMD_SECT_AP_READ
+<<<<<<< HEAD
 	b	__arm925_setup
+=======
+	initfn	__arm925_setup, __\name\()_proc_info
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.long	cpu_arch_name
 	.long	cpu_elf_name
 	.long	HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB

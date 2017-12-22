@@ -2,8 +2,11 @@
 # IIO imu drivers configuration
 #
 menu "Inertial measurement units"
+<<<<<<< HEAD
 source "drivers/staging/iio/imu/bmi160/Kconfig"
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #
 # Bosch BMI160 IMU drivers configuration
@@ -23,4 +26,14 @@ config SENSORS_BMI160_IIO_RING
         help
          BMI160 IMU Driver support ring buffer operations.
 
+<<<<<<< HEAD
+=======
+config ENABLE_ACC_GYRO_BUFFERING
+	bool "Enable accel & gyro  boot time sensor sample buffering"
+	depends on SENSORS_BMI160_IIO
+	help
+	 Say Y here if you want to buffer boot time sensor
+         samples for BMI160 accelerometer and gyroscoper
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endmenu

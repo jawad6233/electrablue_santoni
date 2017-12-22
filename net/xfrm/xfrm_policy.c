@@ -1345,6 +1345,10 @@ static struct xfrm_policy *clone_policy(const struct xfrm_policy *old, int dir)
 		newp->xfrm_nr = old->xfrm_nr;
 		newp->index = old->index;
 		newp->type = old->type;
+<<<<<<< HEAD
+=======
+		newp->family = old->family;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		memcpy(newp->xfrm_vec, old->xfrm_vec,
 		       newp->xfrm_nr*sizeof(struct xfrm_tmpl));
 		write_lock_bh(&net->xfrm.xfrm_policy_lock);

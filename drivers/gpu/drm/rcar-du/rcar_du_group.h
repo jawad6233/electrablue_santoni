@@ -14,6 +14,11 @@
 #ifndef __RCAR_DU_GROUP_H__
 #define __RCAR_DU_GROUP_H__
 
+<<<<<<< HEAD
+=======
+#include <linux/mutex.h>
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "rcar_du_plane.h"
 
 struct rcar_du_device;
@@ -23,8 +28,17 @@ struct rcar_du_device;
  * @dev: the DU device
  * @mmio_offset: registers offset in the device memory map
  * @index: group index
+<<<<<<< HEAD
  * @use_count: number of users of the group (rcar_du_group_(get|put))
  * @used_crtcs: number of CRTCs currently in use
+=======
+ * @num_crtcs: number of CRTCs in this group (1 or 2)
+ * @use_count: number of users of the group (rcar_du_group_(get|put))
+ * @used_crtcs: number of CRTCs currently in use
+ * @lock: protects the dptsr_planes field and the DPTSR register
+ * @dptsr_planes: bitmask of planes driven by dot-clock and timing generator 1
+ * @num_planes: number of planes in the group
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @planes: planes handled by the group
  */
 struct rcar_du_group {
@@ -32,10 +46,22 @@ struct rcar_du_group {
 	unsigned int mmio_offset;
 	unsigned int index;
 
+<<<<<<< HEAD
 	unsigned int use_count;
 	unsigned int used_crtcs;
 
 	struct rcar_du_planes planes;
+=======
+	unsigned int num_crtcs;
+	unsigned int use_count;
+	unsigned int used_crtcs;
+
+	struct mutex lock;
+	unsigned int dptsr_planes;
+
+	unsigned int num_planes;
+	struct rcar_du_plane planes[RCAR_DU_NUM_KMS_PLANES];
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg);

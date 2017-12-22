@@ -625,9 +625,18 @@ static void update_or_create_fnhe(struct fib_nh *nh, __be32 daddr, __be32 gw,
 	struct fnhe_hash_bucket *hash;
 	struct fib_nh_exception *fnhe;
 	struct rtable *rt;
+<<<<<<< HEAD
 	unsigned int i;
 	int depth;
 	u32 hval = fnhe_hashfun(daddr);
+=======
+	u32 genid, hval;
+	unsigned int i;
+	int depth;
+
+	genid = fnhe_genid(dev_net(nh->nh_dev));
+	hval = fnhe_hashfun(daddr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock_bh(&fnhe_lock);
 
@@ -650,12 +659,22 @@ static void update_or_create_fnhe(struct fib_nh *nh, __be32 daddr, __be32 gw,
 	}
 
 	if (fnhe) {
+<<<<<<< HEAD
 		if (gw)
 			fnhe->fnhe_gw = gw;
 		if (pmtu) {
 			fnhe->fnhe_pmtu = pmtu;
 			fnhe->fnhe_expires = max(1UL, expires);
 		}
+=======
+		if (fnhe->fnhe_genid != genid)
+			fnhe->fnhe_genid = genid;
+		if (gw)
+			fnhe->fnhe_gw = gw;
+		if (pmtu)
+			fnhe->fnhe_pmtu = pmtu;
+		fnhe->fnhe_expires = max(1UL, expires);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* Update all cached dsts too */
 		rt = rcu_dereference(fnhe->fnhe_rth_input);
 		if (rt)
@@ -674,7 +693,11 @@ static void update_or_create_fnhe(struct fib_nh *nh, __be32 daddr, __be32 gw,
 			fnhe->fnhe_next = hash->chain;
 			rcu_assign_pointer(hash->chain, fnhe);
 		}
+<<<<<<< HEAD
 		fnhe->fnhe_genid = fnhe_genid(dev_net(nh->nh_dev));
+=======
+		fnhe->fnhe_genid = genid;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		fnhe->fnhe_daddr = daddr;
 		fnhe->fnhe_gw = gw;
 		fnhe->fnhe_pmtu = pmtu;
@@ -788,6 +811,10 @@ static void ip_do_redirect(struct dst_entry *dst, struct sock *sk, struct sk_buf
 	struct rtable *rt;
 	struct flowi4 fl4;
 	const struct iphdr *iph = (const struct iphdr *) skb->data;
+<<<<<<< HEAD
+=======
+	struct net *net = dev_net(skb->dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int oif = skb->dev->ifindex;
 	u8 tos = RT_TOS(iph->tos);
 	u8 prot = iph->protocol;
@@ -795,7 +822,11 @@ static void ip_do_redirect(struct dst_entry *dst, struct sock *sk, struct sk_buf
 
 	rt = (struct rtable *) dst;
 
+<<<<<<< HEAD
 	__build_flow_key(sock_net(sk), &fl4, sk, iph, oif, tos, prot, mark, 0);
+=======
+	__build_flow_key(net, &fl4, sk, iph, oif, tos, prot, mark, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__ip_do_redirect(rt, skb, &fl4, true);
 }
 

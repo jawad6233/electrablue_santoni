@@ -655,6 +655,7 @@ int usb_get_current_frame_number(struct usb_device *dev)
 }
 EXPORT_SYMBOL_GPL(usb_get_current_frame_number);
 
+<<<<<<< HEAD
 int usb_sec_event_ring_setup(struct usb_device *dev,
 	unsigned intr_num)
 {
@@ -703,6 +704,8 @@ dma_addr_t usb_get_xfer_ring_dma_addr(struct usb_device *dev,
 }
 EXPORT_SYMBOL(usb_get_xfer_ring_dma_addr);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*-------------------------------------------------------------------*/
 /*
  * __usb_get_extra_descriptor() finds a descriptor of specific type in the

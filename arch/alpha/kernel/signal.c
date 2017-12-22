@@ -150,7 +150,11 @@ restore_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 	struct switch_stack *sw = (struct switch_stack *)regs - 1;
 	long i, err = __get_user(regs->pc, &sc->sc_pc);
 
+<<<<<<< HEAD
 	current_thread_info()->restart_block.fn = do_no_restart_syscall;
+=======
+	current->restart_block.fn = do_no_restart_syscall;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	sw->r26 = (unsigned long) ret_from_sys_call;
 

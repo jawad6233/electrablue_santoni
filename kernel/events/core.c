@@ -173,9 +173,13 @@ static struct srcu_struct pmus_srcu;
  *   2 - disallow kernel profiling for unpriv
  *   3 - disallow all unpriv perf event use
  */
+<<<<<<< HEAD
 #ifdef CONFIG_PERF_EVENTS_USERMODE
 int sysctl_perf_event_paranoid __read_mostly = -1;
 #elif defined CONFIG_SECURITY_PERF_EVENTS_RESTRICT
+=======
+#ifdef CONFIG_SECURITY_PERF_EVENTS_RESTRICT
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int sysctl_perf_event_paranoid __read_mostly = 3;
 #else
 int sysctl_perf_event_paranoid __read_mostly = 1;
@@ -8484,6 +8488,10 @@ static void perf_event_exit_cpu(int cpu)
 {
 	perf_event_exit_cpu_context(cpu);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else
 static inline void perf_event_exit_cpu(int cpu) { }
 static inline void perf_event_start_swclock(int cpu) { }

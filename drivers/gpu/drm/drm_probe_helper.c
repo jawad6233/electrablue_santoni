@@ -58,6 +58,7 @@
 static bool drm_kms_helper_poll = true;
 module_param_named(poll, drm_kms_helper_poll, bool, 0600);
 
+<<<<<<< HEAD
 static void drm_mode_validate_flag(struct drm_connector *connector,
 				   int flags)
 {
@@ -80,6 +81,25 @@ static void drm_mode_validate_flag(struct drm_connector *connector,
 	}
 
 	return;
+=======
+static enum drm_mode_status
+drm_mode_validate_flag(const struct drm_display_mode *mode,
+		       int flags)
+{
+	if ((mode->flags & DRM_MODE_FLAG_INTERLACE) &&
+	    !(flags & DRM_MODE_FLAG_INTERLACE))
+		return MODE_NO_INTERLACE;
+
+	if ((mode->flags & DRM_MODE_FLAG_DBLSCAN) &&
+	    !(flags & DRM_MODE_FLAG_DBLSCAN))
+		return MODE_NO_DBLESCAN;
+
+	if ((mode->flags & DRM_MODE_FLAG_3D_MASK) &&
+	    !(flags & DRM_MODE_FLAG_3D_MASK))
+		return MODE_NO_STEREO;
+
+	return MODE_OK;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int drm_helper_probe_add_cmdline_mode(struct drm_connector *connector)
@@ -98,16 +118,61 @@ static int drm_helper_probe_add_cmdline_mode(struct drm_connector *connector)
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+#define DRM_OUTPUT_POLL_PERIOD (10*HZ)
+/**
+ * drm_kms_helper_poll_enable_locked - re-enable output polling.
+ * @dev: drm_device
+ *
+ * This function re-enables the output polling work without
+ * locking the mode_config mutex.
+ *
+ * This is like drm_kms_helper_poll_enable() however it is to be
+ * called from a context where the mode_config mutex is locked
+ * already.
+ */
+void drm_kms_helper_poll_enable_locked(struct drm_device *dev)
+{
+	bool poll = false;
+	struct drm_connector *connector;
+
+	WARN_ON(!mutex_is_locked(&dev->mode_config.mutex));
+
+	if (!dev->mode_config.poll_enabled || !drm_kms_helper_poll)
+		return;
+
+	drm_for_each_connector(connector, dev) {
+		if (connector->polled & (DRM_CONNECTOR_POLL_CONNECT |
+					 DRM_CONNECTOR_POLL_DISCONNECT))
+			poll = true;
+	}
+
+	if (poll)
+		schedule_delayed_work(&dev->mode_config.output_poll_work, DRM_OUTPUT_POLL_PERIOD);
+}
+EXPORT_SYMBOL(drm_kms_helper_poll_enable_locked);
+
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int drm_helper_probe_single_connector_modes_merge_bits(struct drm_connector *connector,
 							      uint32_t maxX, uint32_t maxY, bool merge_type_bits)
 {
 	struct drm_device *dev = connector->dev;
 	struct drm_display_mode *mode;
+<<<<<<< HEAD
 	struct drm_connector_helper_funcs *connector_funcs =
+=======
+	const struct drm_connector_helper_funcs *connector_funcs =
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		connector->helper_private;
 	int count = 0;
 	int mode_flags = 0;
 	bool verbose_prune = true;
+<<<<<<< HEAD
+=======
+	enum drm_connector_status old_status;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	WARN_ON(!mutex_is_locked(&dev->mode_config.mutex));
 
@@ -118,19 +183,58 @@ static int drm_helper_probe_single_connector_modes_merge_bits(struct drm_connect
 		mode->status = MODE_UNVERIFIED;
 
 	if (connector->force) {
+<<<<<<< HEAD
 		if (connector->force == DRM_FORCE_ON)
+=======
+		if (connector->force == DRM_FORCE_ON ||
+		    connector->force == DRM_FORCE_ON_DIGITAL)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			connector->status = connector_status_connected;
 		else
 			connector->status = connector_status_disconnected;
 		if (connector->funcs->force)
 			connector->funcs->force(connector);
 	} else {
+<<<<<<< HEAD
 		connector->status = connector->funcs->detect(connector, true);
+=======
+		old_status = connector->status;
+
+		connector->status = connector->funcs->detect(connector, true);
+
+		/*
+		 * Normally either the driver's hpd code or the poll loop should
+		 * pick up any changes and fire the hotplug event. But if
+		 * userspace sneaks in a probe, we might miss a change. Hence
+		 * check here, and if anything changed start the hotplug code.
+		 */
+		if (old_status != connector->status) {
+			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %d to %d\n",
+				      connector->base.id,
+				      connector->name,
+				      old_status, connector->status);
+
+			/*
+			 * The hotplug event code might call into the fb
+			 * helpers, and so expects that we do not hold any
+			 * locks. Fire up the poll struct instead, it will
+			 * disable itself again.
+			 */
+			dev->mode_config.delayed_event = true;
+			if (dev->mode_config.poll_enabled)
+				schedule_delayed_work(&dev->mode_config.output_poll_work,
+						      0);
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Re-enable polling in case the global poll config changed. */
 	if (drm_kms_helper_poll != dev->mode_config.poll_running)
+<<<<<<< HEAD
 		drm_kms_helper_poll_enable(dev);
+=======
+		drm_kms_helper_poll_enable_locked(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dev->mode_config.poll_running = drm_kms_helper_poll;
 
@@ -164,18 +268,35 @@ static int drm_helper_probe_single_connector_modes_merge_bits(struct drm_connect
 
 	drm_mode_connector_list_update(connector, merge_type_bits);
 
+<<<<<<< HEAD
 	if (maxX && maxY)
 		drm_mode_validate_size(dev, &connector->modes, maxX, maxY);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (connector->interlace_allowed)
 		mode_flags |= DRM_MODE_FLAG_INTERLACE;
 	if (connector->doublescan_allowed)
 		mode_flags |= DRM_MODE_FLAG_DBLSCAN;
 	if (connector->stereo_allowed)
 		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+<<<<<<< HEAD
 	drm_mode_validate_flag(connector, mode_flags);
 
 	list_for_each_entry(mode, &connector->modes, head) {
+=======
+
+	list_for_each_entry(mode, &connector->modes, head) {
+		if (mode->status == MODE_OK)
+			mode->status = drm_mode_validate_basic(mode);
+
+		if (mode->status == MODE_OK)
+			mode->status = drm_mode_validate_size(mode, maxX, maxY);
+
+		if (mode->status == MODE_OK)
+			mode->status = drm_mode_validate_flag(mode, mode_flags);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (mode->status == MODE_OK && connector_funcs->mode_valid)
 			mode->status = connector_funcs->mode_valid(connector,
 								   mode);
@@ -268,13 +389,17 @@ void drm_kms_helper_hotplug_event(struct drm_device *dev)
 }
 EXPORT_SYMBOL(drm_kms_helper_hotplug_event);
 
+<<<<<<< HEAD
 #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void output_poll_execute(struct work_struct *work)
 {
 	struct delayed_work *delayed_work = to_delayed_work(work);
 	struct drm_device *dev = container_of(delayed_work, struct drm_device, mode_config.output_poll_work);
 	struct drm_connector *connector;
 	enum drm_connector_status old_status;
+<<<<<<< HEAD
 	bool repoll = false, changed = false;
 
 	if (!drm_kms_helper_poll)
@@ -282,6 +407,19 @@ static void output_poll_execute(struct work_struct *work)
 
 	mutex_lock(&dev->mode_config.mutex);
 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
+=======
+	bool repoll = false, changed;
+
+	/* Pick up any changes detected by the probe functions. */
+	changed = dev->mode_config.delayed_event;
+	dev->mode_config.delayed_event = false;
+
+	if (!drm_kms_helper_poll)
+		goto out;
+
+	mutex_lock(&dev->mode_config.mutex);
+	drm_for_each_connector(connector, dev) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* Ignore forced connectors. */
 		if (connector->force)
@@ -292,8 +430,11 @@ static void output_poll_execute(struct work_struct *work)
 		if (!connector->polled || connector->polled == DRM_CONNECTOR_POLL_HPD)
 			continue;
 
+<<<<<<< HEAD
 		repoll = true;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		old_status = connector->status;
 		/* if we are connected and don't want to poll for disconnect
 		   skip it */
@@ -301,10 +442,36 @@ static void output_poll_execute(struct work_struct *work)
 		    !(connector->polled & DRM_CONNECTOR_POLL_DISCONNECT))
 			continue;
 
+<<<<<<< HEAD
+=======
+		repoll = true;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		connector->status = connector->funcs->detect(connector, false);
 		if (old_status != connector->status) {
 			const char *old, *new;
 
+<<<<<<< HEAD
+=======
+			/*
+			 * The poll work sets force=false when calling detect so
+			 * that drivers can avoid to do disruptive tests (e.g.
+			 * when load detect cycles could cause flickering on
+			 * other, running displays). This bears the risk that we
+			 * flip-flop between unknown here in the poll work and
+			 * the real state when userspace forces a full detect
+			 * call after receiving a hotplug event due to this
+			 * change.
+			 *
+			 * Hence clamp an unknown detect status to the old
+			 * value.
+			 */
+			if (connector->status == connector_status_unknown) {
+				connector->status = old_status;
+				continue;
+			}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			old = drm_get_connector_status_name(old_status);
 			new = drm_get_connector_status_name(connector->status);
 
@@ -320,6 +487,10 @@ static void output_poll_execute(struct work_struct *work)
 
 	mutex_unlock(&dev->mode_config.mutex);
 
+<<<<<<< HEAD
+=======
+out:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (changed)
 		drm_kms_helper_hotplug_event(dev);
 
@@ -357,6 +528,7 @@ EXPORT_SYMBOL(drm_kms_helper_poll_disable);
  */
 void drm_kms_helper_poll_enable(struct drm_device *dev)
 {
+<<<<<<< HEAD
 	bool poll = false;
 	struct drm_connector *connector;
 
@@ -371,6 +543,11 @@ void drm_kms_helper_poll_enable(struct drm_device *dev)
 
 	if (poll)
 		schedule_delayed_work(&dev->mode_config.output_poll_work, DRM_OUTPUT_POLL_PERIOD);
+=======
+	mutex_lock(&dev->mode_config.mutex);
+	drm_kms_helper_poll_enable_locked(dev);
+	mutex_unlock(&dev->mode_config.mutex);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(drm_kms_helper_poll_enable);
 
@@ -445,7 +622,11 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
 		return false;
 
 	mutex_lock(&dev->mode_config.mutex);
+<<<<<<< HEAD
 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
+=======
+	drm_for_each_connector(connector, dev) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/* Only handle HPD capable connectors. */
 		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))

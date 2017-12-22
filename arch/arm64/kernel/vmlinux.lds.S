@@ -5,6 +5,10 @@
  */
 
 #include <asm-generic/vmlinux.lds.h>
+<<<<<<< HEAD
+=======
+#include <asm/kernel-pgtable.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/thread_info.h>
 #include <asm/memory.h>
 #include <asm/page.h>
@@ -103,11 +107,19 @@ SECTIONS
 	}
 
 	ALIGN_DEBUG_RO
+<<<<<<< HEAD
+=======
+	_etext = .;			/* End of text section */
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	RO_DATA(PAGE_SIZE)
 	EXCEPTION_TABLE(8)
 	NOTES
 	ALIGN_DEBUG_RO
+<<<<<<< HEAD
 	_etext = .;			/* End of text and rodata section */
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ALIGN_DEBUG_RO_MIN(PAGE_SIZE)
 	__init_begin = .;
@@ -160,6 +172,14 @@ SECTIONS
 	swapper_pg_dir = .;
 	. += SWAPPER_DIR_SIZE;
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_ARM64_SW_TTBR0_PAN
+	reserved_ttbr0 = .;
+	. += RESERVED_TTBR0_SIZE;
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	_end = .;
 
 	STABS_DEBUG

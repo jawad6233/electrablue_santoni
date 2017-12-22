@@ -25,6 +25,10 @@
  */
 
 #include <linux/freezer.h>
+<<<<<<< HEAD
+=======
+#include <video/mipi_display.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "mdfld_dsi_output.h"
 #include "mdfld_dsi_pkg_sender.h"
@@ -32,6 +36,7 @@
 
 #define MDFLD_DSI_READ_MAX_COUNT		5000
 
+<<<<<<< HEAD
 enum data_type {
 	DSI_DT_GENERIC_SHORT_WRITE_0	= 0x03,
 	DSI_DT_GENERIC_SHORT_WRITE_1	= 0x13,
@@ -46,6 +51,8 @@ enum data_type {
 	DSI_DT_DCS_LONG_WRITE		= 0x39,
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum {
 	MDFLD_DSI_PANEL_MODE_SLEEP = 0x1,
 };
@@ -321,9 +328,15 @@ static int send_pkg_prepare(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 	u8 cmd;
 
 	switch (data_type) {
+<<<<<<< HEAD
 	case DSI_DT_DCS_SHORT_WRITE_0:
 	case DSI_DT_DCS_SHORT_WRITE_1:
 	case DSI_DT_DCS_LONG_WRITE:
+=======
+	case MIPI_DSI_DCS_SHORT_WRITE:
+	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+	case MIPI_DSI_DCS_LONG_WRITE:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cmd = *data;
 		break;
 	default:
@@ -334,12 +347,20 @@ static int send_pkg_prepare(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 	sender->status = MDFLD_DSI_PKG_SENDER_BUSY;
 
 	/*wait for 120 milliseconds in case exit_sleep_mode just be sent*/
+<<<<<<< HEAD
 	if (unlikely(cmd == DCS_ENTER_SLEEP_MODE)) {
+=======
+	if (unlikely(cmd == MIPI_DCS_ENTER_SLEEP_MODE)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*TODO: replace it with msleep later*/
 		mdelay(120);
 	}
 
+<<<<<<< HEAD
 	if (unlikely(cmd == DCS_EXIT_SLEEP_MODE)) {
+=======
+	if (unlikely(cmd == MIPI_DCS_EXIT_SLEEP_MODE)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*TODO: replace it with msleep later*/
 		mdelay(120);
 	}
@@ -352,9 +373,15 @@ static int send_pkg_done(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 	u8 cmd;
 
 	switch (data_type) {
+<<<<<<< HEAD
 	case DSI_DT_DCS_SHORT_WRITE_0:
 	case DSI_DT_DCS_SHORT_WRITE_1:
 	case DSI_DT_DCS_LONG_WRITE:
+=======
+	case MIPI_DSI_DCS_SHORT_WRITE:
+	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+	case MIPI_DSI_DCS_LONG_WRITE:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cmd = *data;
 		break;
 	default:
@@ -362,6 +389,7 @@ static int send_pkg_done(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 	}
 
 	/*update panel status*/
+<<<<<<< HEAD
 	if (unlikely(cmd == DCS_ENTER_SLEEP_MODE)) {
 		sender->panel_mode |= MDFLD_DSI_PANEL_MODE_SLEEP;
 		/*TODO: replace it with msleep later*/
@@ -371,6 +399,17 @@ static int send_pkg_done(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 		/*TODO: replace it with msleep later*/
 		mdelay(120);
 	} else if (unlikely(cmd == DCS_SOFT_RESET)) {
+=======
+	if (unlikely(cmd == MIPI_DCS_ENTER_SLEEP_MODE)) {
+		sender->panel_mode |= MDFLD_DSI_PANEL_MODE_SLEEP;
+		/*TODO: replace it with msleep later*/
+		mdelay(120);
+	} else if (unlikely(cmd == MIPI_DCS_EXIT_SLEEP_MODE)) {
+		sender->panel_mode &= ~MDFLD_DSI_PANEL_MODE_SLEEP;
+		/*TODO: replace it with msleep later*/
+		mdelay(120);
+	} else if (unlikely(cmd == MIPI_DCS_SOFT_RESET)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*TODO: replace it with msleep later*/
 		mdelay(5);
 	}
@@ -405,6 +444,7 @@ static int send_pkg(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 	}
 
 	switch (data_type) {
+<<<<<<< HEAD
 	case DSI_DT_GENERIC_SHORT_WRITE_0:
 	case DSI_DT_GENERIC_SHORT_WRITE_1:
 	case DSI_DT_GENERIC_SHORT_WRITE_2:
@@ -418,6 +458,21 @@ static int send_pkg(struct mdfld_dsi_pkg_sender *sender, u8 data_type,
 		break;
 	case DSI_DT_GENERIC_LONG_WRITE:
 	case DSI_DT_DCS_LONG_WRITE:
+=======
+	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
+	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
+	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
+	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
+	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
+	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
+	case MIPI_DSI_DCS_SHORT_WRITE:
+	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+	case MIPI_DSI_DCS_READ:
+		ret = send_short_pkg(sender, data_type, data[0], data[1], hs);
+		break;
+	case MIPI_DSI_GENERIC_LONG_WRITE:
+	case MIPI_DSI_DCS_LONG_WRITE:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = send_long_pkg(sender, data_type, data, len, hs);
 		break;
 	}
@@ -440,7 +495,11 @@ int mdfld_dsi_send_mcs_long(struct mdfld_dsi_pkg_sender *sender, u8 *data,
 	}
 
 	spin_lock_irqsave(&sender->lock, flags);
+<<<<<<< HEAD
 	send_pkg(sender, DSI_DT_DCS_LONG_WRITE, data, len, hs);
+=======
+	send_pkg(sender, MIPI_DSI_DCS_LONG_WRITE, data, len, hs);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock_irqrestore(&sender->lock, flags);
 
 	return 0;
@@ -461,10 +520,17 @@ int mdfld_dsi_send_mcs_short(struct mdfld_dsi_pkg_sender *sender, u8 cmd,
 	data[0] = cmd;
 
 	if (param_num) {
+<<<<<<< HEAD
 		data_type = DSI_DT_DCS_SHORT_WRITE_1;
 		data[1] = param;
 	} else {
 		data_type = DSI_DT_DCS_SHORT_WRITE_0;
+=======
+		data_type = MIPI_DSI_DCS_SHORT_WRITE_PARAM;
+		data[1] = param;
+	} else {
+		data_type = MIPI_DSI_DCS_SHORT_WRITE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		data[1] = 0;
 	}
 
@@ -489,17 +555,29 @@ int mdfld_dsi_send_gen_short(struct mdfld_dsi_pkg_sender *sender, u8 param0,
 
 	switch (param_num) {
 	case 0:
+<<<<<<< HEAD
 		data_type = DSI_DT_GENERIC_SHORT_WRITE_0;
+=======
+		data_type = MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		data[0] = 0;
 		data[1] = 0;
 		break;
 	case 1:
+<<<<<<< HEAD
 		data_type = DSI_DT_GENERIC_SHORT_WRITE_1;
+=======
+		data_type = MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		data[0] = param0;
 		data[1] = 0;
 		break;
 	case 2:
+<<<<<<< HEAD
 		data_type = DSI_DT_GENERIC_SHORT_WRITE_2;
+=======
+		data_type = MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		data[0] = param0;
 		data[1] = param1;
 		break;
@@ -523,7 +601,11 @@ int mdfld_dsi_send_gen_long(struct mdfld_dsi_pkg_sender *sender, u8 *data,
 	}
 
 	spin_lock_irqsave(&sender->lock, flags);
+<<<<<<< HEAD
 	send_pkg(sender, DSI_DT_GENERIC_LONG_WRITE, data, len, hs);
+=======
+	send_pkg(sender, MIPI_DSI_GENERIC_LONG_WRITE, data, len, hs);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock_irqrestore(&sender->lock, flags);
 
 	return 0;
@@ -594,7 +676,11 @@ int mdfld_dsi_read_mcs(struct mdfld_dsi_pkg_sender *sender, u8 cmd,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	return __read_panel_data(sender, DSI_DT_DCS_READ, &cmd, 1,
+=======
+	return __read_panel_data(sender, MIPI_DSI_DCS_READ, &cmd, 1,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				data, len, hs);
 }
 

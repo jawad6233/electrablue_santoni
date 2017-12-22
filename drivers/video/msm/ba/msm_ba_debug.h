@@ -65,6 +65,14 @@ extern int msm_ba_debug_out;
 						__LINE__, \
 						BA_MSG_PRIO2STRING(__level), \
 						## arg); \
+<<<<<<< HEAD
+=======
+			} else if (msm_ba_debug_out == BA_OUT_FTRACE) { \
+				trace_printk(KERN_DEBUG BA_DBG_TAG __fmt "\n", \
+						__LINE__, \
+						BA_MSG_PRIO2STRING(__level), \
+						## arg); \
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			} \
 		} \
 	} while (0)

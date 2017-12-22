@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -189,6 +193,10 @@ struct wcd9xxx_pdata {
 	u32 mad_dmic_sample_rate;
 	u32 ecpp_dmic_sample_rate;
 	u32 dmic_clk_drv;
+<<<<<<< HEAD
+=======
+	u32 mic_unmute_delay;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	enum codec_variant cdc_variant;
 	u16 use_pinctrl;
 };

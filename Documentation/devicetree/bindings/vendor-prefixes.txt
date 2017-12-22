@@ -10,6 +10,10 @@ adapteva	Adapteva, Inc.
 adi	Analog Devices, Inc.
 aeroflexgaisler	Aeroflex Gaisler AB
 ak	Asahi Kasei Corp.
+<<<<<<< HEAD
+=======
+akm	Asahi Kasei Microdevices.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 allwinner	Allwinner Technology Co., Ltd.
 altr	Altera Corp.
 amcc	Applied Micro Circuits Corporation (APM, formally AMCC)
@@ -17,6 +21,10 @@ amd	Advanced Micro Devices (AMD), Inc.
 amlogic	Amlogic, Inc.
 ams	AMS AG
 amstaos	AMS-Taos Inc.
+<<<<<<< HEAD
+=======
+android	Google Inc.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 apm	Applied Micro Circuits Corporation (APM)
 arm	ARM Ltd.
 armadeus	ARMadeus Systems SARL
@@ -134,6 +142,10 @@ panasonic	Panasonic Corporation
 pericom	Pericom Semiconductor Corp.
 phytec	PHYTEC Messtechnik GmbH
 picochip	Picochip Ltd
+<<<<<<< HEAD
+=======
+pixart	PixArt Imaging Inc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 plathome	Plat'Home Co., Ltd.
 plda	PLDA
 pixcir  PIXCIR MICROELECTRONICS Co., Ltd
@@ -141,6 +153,10 @@ powervr	PowerVR (deprecated, use img)
 qca	Qualcomm Atheros, Inc.
 qcom	Qualcomm Technologies, Inc
 qnap	QNAP Systems, Inc.
+<<<<<<< HEAD
+=======
+qvm	BlackBerry Ltd
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 radxa	Radxa
 raidsonic	RaidSonic Technology GmbH
 ralink	Mediatek/Ralink Technology Corp.
@@ -195,3 +211,8 @@ xillybus	Xillybus Ltd.
 xlnx	Xilinx
 zyxel	ZyXEL Communications Corp.
 zarlink	Zarlink Semiconductor
+<<<<<<< HEAD
+=======
+bosch-sensortec»    Bosch Sensortec GmbH
+lontium Lontium Semiconductor
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

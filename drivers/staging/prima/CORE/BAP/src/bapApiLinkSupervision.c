@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -520,7 +524,11 @@ static VOS_STATUS WLANBAP_TxLinkSupervisionCB
         }
     }
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                "%s:Returned Vos Packet:%p\n", __func__, pPacket );
+=======
+               "%s:Returned Vos Packet:%pK\n", __func__, pPacket );
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     vos_pkt_return_packet( pPacket );
 

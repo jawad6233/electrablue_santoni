@@ -22,6 +22,10 @@ obj-$(CONFIG_INPUT_MOUSE)	+= mouse/
 obj-$(CONFIG_INPUT_JOYSTICK)	+= joystick/
 obj-$(CONFIG_INPUT_TABLET)	+= tablet/
 obj-$(CONFIG_INPUT_TOUCHSCREEN)	+= touchscreen/
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_FINGERPRINT)       += fingerprint/
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_INPUT_MISC)	+= misc/
 
 obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o

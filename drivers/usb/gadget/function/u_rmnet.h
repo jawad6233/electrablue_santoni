@@ -25,7 +25,12 @@ struct rmnet_ctrl_pkt {
 };
 
 struct grmnet {
+<<<<<<< HEAD
 	struct usb_function		func;
+=======
+	struct usb_function		func; /* Used only by f_gps */
+	struct usb_function		*f;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	struct usb_gadget		*gadget;
 	struct usb_ep			*in;

@@ -235,8 +235,13 @@ void msm_dcvs_init_load(struct msm_vidc_inst *inst)
 	}
 
 	fourcc = inst->session_type == MSM_VIDC_DECODER ?
+<<<<<<< HEAD
 				inst->fmts[OUTPUT_PORT]->fourcc :
 				inst->fmts[CAPTURE_PORT]->fourcc;
+=======
+				inst->fmts[OUTPUT_PORT].fourcc :
+				inst->fmts[CAPTURE_PORT].fourcc;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (i = 0; i < num_rows; i++) {
 		bool matches = msm_dcvs_check_codec_supported(
@@ -553,7 +558,11 @@ static bool msm_dcvs_enc_check(struct msm_vidc_inst *inst)
 
 	is_codec_supported =
 		msm_dcvs_check_codec_supported(
+<<<<<<< HEAD
 				inst->fmts[CAPTURE_PORT]->fourcc,
+=======
+				inst->fmts[CAPTURE_PORT].fourcc,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				inst->dcvs.supported_codecs,
 				inst->session_type);
 
@@ -613,7 +622,11 @@ static bool msm_dcvs_check_supported(struct msm_vidc_inst *inst)
 			res->dcvs_limit[inst->session_type].fps;
 		is_codec_supported =
 			msm_dcvs_check_codec_supported(
+<<<<<<< HEAD
 					inst->fmts[OUTPUT_PORT]->fourcc,
+=======
+					inst->fmts[OUTPUT_PORT].fourcc,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					inst->dcvs.supported_codecs,
 					inst->session_type);
 		if (!is_codec_supported ||

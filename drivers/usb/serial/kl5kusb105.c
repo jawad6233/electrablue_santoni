@@ -296,7 +296,11 @@ static int  klsi_105_open(struct tty_struct *tty, struct usb_serial_port *port)
 	rc = usb_serial_generic_open(tty, port);
 	if (rc) {
 		retval = rc;
+<<<<<<< HEAD
 		goto err_free_cfg;
+=======
+		goto exit;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	rc = usb_control_msg(port->serial->dev,
@@ -315,6 +319,7 @@ static int  klsi_105_open(struct tty_struct *tty, struct usb_serial_port *port)
 		dev_dbg(&port->dev, "%s - enabled reading\n", __func__);
 
 	rc = klsi_105_get_line_state(port, &line_state);
+<<<<<<< HEAD
 	if (rc < 0) {
 		retval = rc;
 		goto err_disable_read;
@@ -341,6 +346,19 @@ err_disable_read:
 err_free_cfg:
 	kfree(cfg);
 
+=======
+	if (rc >= 0) {
+		spin_lock_irqsave(&priv->lock, flags);
+		priv->line_state = line_state;
+		spin_unlock_irqrestore(&priv->lock, flags);
+		dev_dbg(&port->dev, "%s - read line state 0x%lx\n", __func__, line_state);
+		retval = 0;
+	} else
+		retval = rc;
+
+exit:
+	kfree(cfg);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return retval;
 }
 

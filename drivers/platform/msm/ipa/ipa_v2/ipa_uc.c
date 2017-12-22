@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -590,6 +594,10 @@ int ipa_uc_send_cmd(u32 cmd, u32 opcode, u32 expected_status,
 {
 	int index;
 	union IpaHwCpuCmdCompletedResponseData_t uc_rsp;
+<<<<<<< HEAD
+=======
+	int retries = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_lock(&ipa_ctx->uc_ctx.uc_lock);
 
@@ -599,6 +607,10 @@ int ipa_uc_send_cmd(u32 cmd, u32 opcode, u32 expected_status,
 		return -EBADF;
 	}
 
+<<<<<<< HEAD
+=======
+send_cmd:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	init_completion(&ipa_ctx->uc_ctx.uc_completion);
 
 	ipa_ctx->uc_ctx.uc_sram_mmio->cmdParams = cmd;
@@ -658,6 +670,29 @@ int ipa_uc_send_cmd(u32 cmd, u32 opcode, u32 expected_status,
 	}
 
 	if (ipa_ctx->uc_ctx.uc_status != expected_status) {
+<<<<<<< HEAD
+=======
+		if (IPA_HW_2_CPU_WDI_RX_FSM_TRANSITION_ERROR ==
+			ipa_ctx->uc_ctx.uc_status) {
+			retries++;
+			if (retries == IPA_BAM_STOP_MAX_RETRY) {
+				IPAERR("Failed after %d tries\n", retries);
+				mutex_unlock(&ipa_ctx->uc_ctx.uc_lock);
+				/*
+				 * Max retry reached,
+				 * assert to check why cmd send failed.
+				 */
+				ipa_assert();
+				return -EFAULT;
+			} else {
+				/* sleep for short period to flush IPA */
+				usleep_range(IPA_UC_WAIT_MIN_SLEEP,
+					IPA_UC_WAII_MAX_SLEEP);
+				goto send_cmd;
+			}
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPAERR("Recevied status %u, Expected status %u\n",
 			ipa_ctx->uc_ctx.uc_status, expected_status);
 		ipa_ctx->uc_ctx.pending_cmd = -1;
@@ -747,7 +782,11 @@ int ipa_uc_reset_pipe(enum ipa_client_type ipa_client)
 	       IPA_CLIENT_IS_PROD(ipa_client) ? "CONS" : "PROD", ep_idx);
 
 	ret = ipa_uc_send_cmd(cmd.raw32b, IPA_CPU_2_HW_CMD_RESET_PIPE, 0,
+<<<<<<< HEAD
 			      false, IPA_TIMEOUT(10));
+=======
+			      false, 10*HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -806,7 +845,11 @@ int ipa_uc_monitor_holb(enum ipa_client_type ipa_client, bool enable)
 
 	ret = ipa_uc_send_cmd(cmd.raw32b,
 				IPA_CPU_2_HW_CMD_UPDATE_HOLB_MONITORING, 0,
+<<<<<<< HEAD
 				false, IPA_TIMEOUT(10));
+=======
+				false, 10*HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -876,7 +919,11 @@ int ipa_uc_update_hw_flags(u32 flags)
 	memset(&cmd, 0, sizeof(cmd));
 	cmd.params.newFlags = flags;
 	return ipa_uc_send_cmd(cmd.raw32b, IPA_CPU_2_HW_CMD_UPDATE_FLAGS, 0,
+<<<<<<< HEAD
 		false, IPA_TIMEOUT(1));
+=======
+		false, HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(ipa_uc_update_hw_flags);
 
@@ -909,7 +956,11 @@ int ipa_uc_memcpy(phys_addr_t dest, phys_addr_t src, int len)
 	cmd->source_addr = src;
 	cmd->source_buffer_size = len;
 	res = ipa_uc_send_cmd((u32)mem.phys_base, IPA_CPU_2_HW_CMD_MEMCPY, 0,
+<<<<<<< HEAD
 		true, IPA_TIMEOUT(10));
+=======
+		true, 10 * HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (res) {
 		IPAERR("ipa_uc_send_cmd failed %d\n", res);
 		goto free_coherent;

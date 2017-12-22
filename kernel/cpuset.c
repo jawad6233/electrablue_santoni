@@ -2011,6 +2011,10 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
 	cpumask_copy(cs->cpus_allowed, parent->cpus_allowed);
 	cpumask_copy(cs->cpus_requested, parent->cpus_requested);
 	cpumask_copy(cs->effective_cpus, parent->cpus_allowed);
+<<<<<<< HEAD
+=======
+	cpumask_copy(cs->cpus_requested, parent->cpus_requested);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_unlock(&callback_mutex);
 out_unlock:
 	mutex_unlock(&cpuset_mutex);
@@ -2080,6 +2084,7 @@ void cpuset_fork(struct task_struct *task)
 	task->mems_allowed = current->mems_allowed;
 }
 
+<<<<<<< HEAD
 static int cpuset_allow_attach(struct cgroup_subsys_state *css,
 			       struct cgroup_taskset *tset)
 {
@@ -2097,13 +2102,18 @@ static int cpuset_allow_attach(struct cgroup_subsys_state *css,
 	return 0;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct cgroup_subsys cpuset_cgrp_subsys = {
 	.css_alloc	= cpuset_css_alloc,
 	.css_online	= cpuset_css_online,
 	.css_offline	= cpuset_css_offline,
 	.css_free	= cpuset_css_free,
 	.can_attach	= cpuset_can_attach,
+<<<<<<< HEAD
 	.allow_attach   = cpuset_allow_attach,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.cancel_attach	= cpuset_cancel_attach,
 	.attach		= cpuset_attach,
 	.bind		= cpuset_bind,

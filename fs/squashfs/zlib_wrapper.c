@@ -66,10 +66,18 @@ static int zlib_uncompress(struct squashfs_sb_info *msblk, void *strm,
 	struct buffer_head **bh, int b, int offset, int length,
 	struct squashfs_page_actor *output)
 {
+<<<<<<< HEAD
 	int zlib_err, zlib_init = 0, k = 0;
 	z_stream *stream = strm;
 
 	stream->avail_out = PAGE_CACHE_SIZE;
+=======
+	void *buf = NULL;
+	int zlib_err, zlib_init = 0, k = 0;
+	z_stream *stream = strm;
+
+	stream->avail_out = PAGE_SIZE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	stream->next_out = squashfs_first_page(output);
 	stream->avail_in = 0;
 
@@ -84,8 +92,22 @@ static int zlib_uncompress(struct squashfs_sb_info *msblk, void *strm,
 
 		if (stream->avail_out == 0) {
 			stream->next_out = squashfs_next_page(output);
+<<<<<<< HEAD
 			if (stream->next_out != NULL)
 				stream->avail_out = PAGE_CACHE_SIZE;
+=======
+			if (!IS_ERR(stream->next_out))
+				stream->avail_out = PAGE_SIZE;
+		}
+
+		if (!stream->next_out) {
+			if (!buf) {
+				buf = kmalloc(PAGE_SIZE, GFP_ATOMIC);
+				if (!buf)
+					goto out;
+			}
+			stream->next_out = buf;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		if (!zlib_init) {
@@ -115,11 +137,19 @@ static int zlib_uncompress(struct squashfs_sb_info *msblk, void *strm,
 	if (k < b)
 		goto out;
 
+<<<<<<< HEAD
+=======
+	kfree(buf);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return stream->total_out;
 
 out:
 	for (; k < b; k++)
 		put_bh(bh[k]);
+<<<<<<< HEAD
+=======
+	kfree(buf);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return -EIO;
 }

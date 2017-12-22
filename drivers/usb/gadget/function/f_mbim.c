@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2016,2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -768,7 +772,10 @@ static void mbim_notify_complete(struct usb_ep *ep, struct usb_request *req)
 		break;
 	}
 
+<<<<<<< HEAD
 	mbim_do_notify(mbim);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock(&mbim->lock);
 
 	pr_debug("dev:%pK Exit\n", mbim);
@@ -878,6 +885,20 @@ fmbim_cmd_complete(struct usb_ep *ep, struct usb_request *req)
 	return;
 }
 
+<<<<<<< HEAD
+=======
+static void mbim_response_complete(struct usb_ep *ep, struct usb_request *req)
+{
+	struct f_mbim *mbim = req->context;
+
+	pr_debug("%s: queue notify request if any new response available\n"
+			, __func__);
+	spin_lock(&mbim->lock);
+	mbim_do_notify(mbim);
+	spin_unlock(&mbim->lock);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int
 mbim_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
 {
@@ -957,6 +978,11 @@ mbim_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
 		pr_debug("copied encapsulated_response %d bytes\n",
 			value);
 
+<<<<<<< HEAD
+=======
+		req->complete = mbim_response_complete;
+		req->context = mbim;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 
 	case ((USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE) << 8)

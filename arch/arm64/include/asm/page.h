@@ -20,6 +20,7 @@
 #define __ASM_PAGE_H
 
 /* PAGE_SHIFT determines the page size */
+<<<<<<< HEAD
 #ifdef CONFIG_ARM64_64K_PAGES
 #define PAGE_SHIFT		16
 #else
@@ -43,6 +44,21 @@
 
 #define SWAPPER_DIR_SIZE	(SWAPPER_PGTABLE_LEVELS * PAGE_SIZE)
 #define IDMAP_DIR_SIZE		(SWAPPER_DIR_SIZE)
+=======
+/* CONT_SHIFT determines the number of pages which can be tracked together  */
+#ifdef CONFIG_ARM64_64K_PAGES
+#define PAGE_SHIFT		16
+#define CONT_SHIFT		5
+#else
+#define PAGE_SHIFT		12
+#define CONT_SHIFT		4
+#endif
+#define PAGE_SIZE		(_AC(1, UL) << PAGE_SHIFT)
+#define PAGE_MASK		(~(PAGE_SIZE-1))
+
+#define CONT_SIZE		(_AC(1, UL) << (CONT_SHIFT + PAGE_SHIFT))
+#define CONT_MASK		(~(CONT_SIZE-1))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #ifndef __ASSEMBLY__
 

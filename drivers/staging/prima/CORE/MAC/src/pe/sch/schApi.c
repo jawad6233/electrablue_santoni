@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -380,7 +384,14 @@ tANI_U32 limSendProbeRspTemplateToHal(tpAniSirGlobal pMac,tpPESession psessionEn
     tANI_U32             nPayload,nBytes,nStatus;
     tpSirMacMgmtHdr      pMacHdr;
     tANI_U32             addnIEPresent;
+<<<<<<< HEAD
     tANI_U32             addnIELen=0;
+=======
+    tANI_U32             addnIE1Len=0;
+    tANI_U32             addnIE2Len = 0;
+    tANI_U32             addnIE3Len = 0;
+    tANI_U32             totalAddnIeLen = 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     tSirRetStatus        nSirStatus;
     tANI_U8              *addIE = NULL;
 
@@ -411,6 +422,7 @@ tANI_U32 limSendProbeRspTemplateToHal(tpAniSirGlobal pMac,tpPESession psessionEn
 
     if (addnIEPresent)
     {
+<<<<<<< HEAD
         //Probe rsp IE available
         addIE = vos_mem_malloc(WNI_CFG_PROBE_RSP_ADDNIE_DATA1_LEN);
         if ( NULL == addIE )
@@ -440,16 +452,107 @@ tANI_U32 limSendProbeRspTemplateToHal(tpAniSirGlobal pMac,tpPESession psessionEn
                schLog(pMac, LOGE,
                    FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA1 String"));
 
+=======
+        if (wlan_cfgGetStrLen(pMac, WNI_CFG_PROBE_RSP_ADDNIE_DATA1,
+                                               &addnIE1Len) != eSIR_SUCCESS)
+        {
+            schLog(pMac, LOGE,
+                FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA1 length"));
+            return retCode;
+        }
+
+        if (addnIE1Len == WNI_CFG_PROBE_RSP_ADDNIE_DATA1_LEN)
+        {
+            if (wlan_cfgGetStrLen(pMac, WNI_CFG_PROBE_RSP_ADDNIE_DATA2,
+                                               &addnIE2Len) != eSIR_SUCCESS)
+            {
+                schLog(pMac, LOGE,
+                    FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA2 length"));
+                return retCode;
+            }
+        }
+
+        if (addnIE2Len == WNI_CFG_PROBE_RSP_ADDNIE_DATA2_LEN)
+        {
+            if (wlan_cfgGetStrLen(pMac, WNI_CFG_PROBE_RSP_ADDNIE_DATA3,
+                                               &addnIE3Len) != eSIR_SUCCESS)
+            {
+                schLog(pMac, LOGE,
+                    FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA3 length"));
+                return retCode;
+            }
+        }
+        schLog(pMac,LOG1, FL("addnIE1Len %d, addnIE2Len %d, addnIE3Len %d"),
+               addnIE1Len, addnIE2Len, addnIE3Len);
+        totalAddnIeLen = addnIE1Len + addnIE2Len + addnIE3Len;
+
+        addIE = vos_mem_malloc(totalAddnIeLen);
+        if (NULL == addIE)
+        {
+             schLog(pMac, LOGE,
+                 FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA1 length"));
+             return retCode;
+        }
+
+        if (addnIE1Len && addnIE1Len <= WNI_CFG_PROBE_RSP_ADDNIE_DATA1_LEN &&
+                                 (nBytes + addnIE1Len) <= SIR_MAX_PACKET_SIZE)
+        {
+            if ( eSIR_SUCCESS != wlan_cfgGetStr(pMac,
+                                    WNI_CFG_PROBE_RSP_ADDNIE_DATA1, &addIE[0],
+                                    &addnIE1Len))
+            {
+               schLog(pMac, LOGE,
+                   FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA1 String"));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                vos_mem_free(addIE);
                return retCode;
             }
         }
+<<<<<<< HEAD
+=======
+
+        if (addnIE2Len && addnIE2Len <= WNI_CFG_PROBE_RSP_ADDNIE_DATA2_LEN &&
+                     (nBytes + addnIE1Len + addnIE2Len) <= SIR_MAX_PACKET_SIZE)
+        {
+            if ( eSIR_SUCCESS != wlan_cfgGetStr(pMac,
+                                     WNI_CFG_PROBE_RSP_ADDNIE_DATA2,
+                                     &addIE[addnIE1Len],
+                                     &addnIE2Len) )
+            {
+                schLog(pMac, LOGE,
+                    FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA2 String"));
+                vos_mem_free(addIE);
+                return retCode;
+            }
+        }
+
+        if (addnIE3Len && addnIE3Len <= WNI_CFG_PROBE_RSP_ADDNIE_DATA3_LEN &&
+                     (nBytes + totalAddnIeLen) <= SIR_MAX_PACKET_SIZE)
+        {
+            if ( eSIR_SUCCESS != wlan_cfgGetStr(pMac,
+                                     WNI_CFG_PROBE_RSP_ADDNIE_DATA3,
+                                     &addIE[addnIE1Len + addnIE2Len],
+                                     &addnIE3Len) )
+            {
+                schLog(pMac, LOGE,
+                    FL("Unable to get WNI_CFG_PROBE_RSP_ADDNIE_DATA3 String"));
+                vos_mem_free(addIE);
+                return retCode;
+            }
+        }
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     if (addnIEPresent)
     {
+<<<<<<< HEAD
         if ((nBytes + addnIELen) <= SIR_MAX_PACKET_SIZE )
             nBytes += addnIELen;
+=======
+        if ((nBytes + totalAddnIeLen) <= SIR_MAX_PACKET_SIZE )
+            nBytes += totalAddnIeLen;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         else
             addnIEPresent = false; //Dont include the IE.
     }
@@ -495,8 +598,13 @@ tANI_U32 limSendProbeRspTemplateToHal(tpAniSirGlobal pMac,tpPESession psessionEn
 
     if (addnIEPresent)
     {
+<<<<<<< HEAD
         vos_mem_copy ( &pFrame2Hal[nBytes - addnIELen],
                              &addIE[0], addnIELen);
+=======
+        vos_mem_copy ( &pFrame2Hal[nBytes - totalAddnIeLen],
+                             &addIE[0], totalAddnIeLen);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     /* free the allocated Memory */

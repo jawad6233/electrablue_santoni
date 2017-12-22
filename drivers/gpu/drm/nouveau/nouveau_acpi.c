@@ -206,7 +206,11 @@ static int nouveau_dsm_get_client_id(struct pci_dev *pdev)
 	return VGA_SWITCHEROO_DIS;
 }
 
+<<<<<<< HEAD
 static struct vga_switcheroo_handler nouveau_dsm_handler = {
+=======
+static const struct vga_switcheroo_handler nouveau_dsm_handler = {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.switchto = nouveau_dsm_switchto,
 	.power_state = nouveau_dsm_power_state,
 	.get_client_id = nouveau_dsm_get_client_id,
@@ -367,17 +371,29 @@ static int nouveau_rom_call(acpi_handle rom_handle, uint8_t *bios,
 		return -ENODEV;
 	}
 	obj = (union acpi_object *)buffer.pointer;
+<<<<<<< HEAD
+=======
+	len = min(len, (int)obj->buffer.length);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	memcpy(bios+offset, obj->buffer.pointer, len);
 	kfree(buffer.pointer);
 	return len;
 }
 
+<<<<<<< HEAD
 bool nouveau_acpi_rom_supported(struct pci_dev *pdev)
+=======
+bool nouveau_acpi_rom_supported(struct device *dev)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	acpi_status status;
 	acpi_handle dhandle, rom_handle;
 
+<<<<<<< HEAD
 	dhandle = ACPI_HANDLE(&pdev->dev);
+=======
+	dhandle = ACPI_HANDLE(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!dhandle)
 		return false;
 

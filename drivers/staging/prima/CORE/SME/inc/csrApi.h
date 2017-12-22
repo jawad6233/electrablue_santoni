@@ -520,6 +520,11 @@ typedef enum
     eCSR_ROAM_UPDATE_MAX_RATE_IND,
     eCSR_ROAM_LOST_LINK_PARAMS_IND,
     eCSR_ROAM_UPDATE_SCAN_RESULT,
+<<<<<<< HEAD
+=======
+    eCSR_ROAM_ECSA_BCN_TX_IND,
+    eCSR_ROAM_ECSA_CHAN_CHANGE_RSP,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }eRoamCmdStatus;
 
 
@@ -666,8 +671,11 @@ typedef enum
     eCSR_ASSOC_STATE_TYPE_INFRA_DISCONNECTED,
     // Participating in a Infra network and connected to a peer
     eCSR_ASSOC_STATE_TYPE_INFRA_CONNECTED,
+<<<<<<< HEAD
     /* Disconnecting with AP or stop connecting process */
     eCSR_ASSOC_STATE_TYPE_INFRA_DISCONNECTING,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 }eCsrConnectState;
 
@@ -959,6 +967,10 @@ typedef struct tagCsrRoamProfile
     tCsrMobilityDomainInfo MDID;
 #endif
     tVOS_CON_MODE csrPersona;
+<<<<<<< HEAD
+=======
+    bool force_24ghz_in_ht20;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     tCsrBssid bssid_hint;
 }tCsrRoamProfile;
 
@@ -1033,6 +1045,10 @@ typedef struct tagCsrNeighborRoamConfigParams
     tANI_U16       nNeighborResultsRefreshPeriod;
     tANI_U16       nEmptyScanRefreshPeriod;
     tANI_U8        nNeighborInitialForcedRoamTo5GhEnable;
+<<<<<<< HEAD
+=======
+    tANI_U8        nWeakZoneRssiThresholdForRoam;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }tCsrNeighborRoamConfigParams;
 #endif
 
@@ -1199,6 +1215,14 @@ typedef struct tagCsrConfigParam
     v_U32_t PERtimerThreshold;
     v_U32_t PERroamTriggerPercent;
 #endif
+<<<<<<< HEAD
+=======
+
+#ifdef WLAN_FEATURE_LFR_MBB
+    tANI_BOOLEAN enable_lfr_mbb;
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
     tANI_BOOLEAN ignorePeerErpInfo;
@@ -1238,6 +1262,11 @@ typedef struct tagCsrConfigParam
     uint32_t edca_vi_aifs;
     uint32_t edca_bk_aifs;
     uint32_t edca_be_aifs;
+<<<<<<< HEAD
+=======
+    tANI_BOOLEAN disable_scan_during_sco;
+    uint32_t sta_auth_retries_for_code17;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }tCsrConfigParam;
 
 //Tush
@@ -1329,6 +1358,16 @@ typedef struct tagCsrRoamInfo
 #ifdef WLAN_FEATURE_AP_HT40_24G
     tpSirHT2040CoexInfoInd pSmeHT2040CoexInfoInd;
 #endif
+<<<<<<< HEAD
+=======
+    tDot11fIEHTCaps ht_caps;
+    tDot11fIEVHTCaps vht_caps;
+    tDot11fIEhs20vendor_ie hs20vendor_ie;
+    tDot11fIEVHTOperation vht_operation;
+    tDot11fIEHTInfo ht_operation;
+    bool reassoc;
+    struct sir_channel_chanege_rsp *ap_chan_change_rsp;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }tCsrRoamInfo;
 
 typedef struct tagCsrFreqScanInfo
@@ -1553,6 +1592,21 @@ struct tagCsrDelStaParams
     u8 subtype;
 };
 
+<<<<<<< HEAD
+=======
+
+/**
+ * struct csr_set_tx_max_pwr_per_band - Req params to
+ * set max tx power per band
+ * @band: band for which power to be set
+ * @power: power to set in dB
+ */
+struct csr_set_tx_max_pwr_per_band {
+    eCsrBand band;
+    tPowerdBm power;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 ////////////////////////////////////////////Common SCAN starts
 
 //void *p2 -- the second context pass in for the caller
@@ -1753,6 +1807,16 @@ eHalStatus csrSetBand(tHalHandle hHal, eCsrBand eBand);
 ---------------------------------------------------------------------------*/
 eCsrBand csrGetCurrentBand (tHalHandle hHal);
 
+<<<<<<< HEAD
 
+=======
+/**
+ * csrConvertCBIniValueToPhyCBState() - convert ini CB value to Phy CB val
+ * @cb_ini_value: ini value of cb mode
+ *
+ * Return: phy CB val
+ */
+ePhyChanBondState csrConvertCBIniValueToPhyCBState(v_U32_t cb_ini_val);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 

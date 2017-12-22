@@ -1511,6 +1511,10 @@ struct proto udpv6_prot = {
 	.compat_getsockopt = compat_udpv6_getsockopt,
 #endif
 	.clear_sk	   = udp_v6_clear_sk,
+<<<<<<< HEAD
+=======
+	.diag_destroy      = udp_abort,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct inet_protosw udpv6_protosw = {

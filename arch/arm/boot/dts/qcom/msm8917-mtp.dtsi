@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -145,6 +149,15 @@
 	qcom,panel-roi-alignment = <2 2 2 2 2 2>;
 };
 
+<<<<<<< HEAD
+=======
+&dsi_icn9706_720_1440_vid {
+	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+	qcom,mdss-dsi-pan-enable-dynamic-fps;
+	qcom,mdss-dsi-pan-fps-update = "dfps_immediate_porch_mode_vfp";
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &sdhc_1 {
 	/* device core power supply */
 	vdd-supply = <&pm8917_l8>;

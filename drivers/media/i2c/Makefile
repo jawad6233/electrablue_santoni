@@ -28,10 +28,23 @@ obj-$(CONFIG_VIDEO_ADV7343) += adv7343.o
 obj-$(CONFIG_VIDEO_ADV7393) += adv7393.o
 obj-$(CONFIG_VIDEO_ADV7604) += adv7604.o
 obj-$(CONFIG_VIDEO_ADV7842) += adv7842.o
+<<<<<<< HEAD
+=======
+ifeq ($(CONFIG_MSM_AIS),y)
+ccflags-y += -Idrivers/media/platform/msm/ais
+ccflags-y += -Idrivers/media/platform/msm/ais/common
+ccflags-y += -Idrivers/media/platform/msm/ais/sensor/io
+ccflags-y += -Idrivers/media/platform/msm/ais/sensor/cci
+else
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 ccflags-y += -Idrivers/media/platform/msm/camera_v2
 ccflags-y += -Idrivers/media/platform/msm/camera_v2/common
 ccflags-y += -Idrivers/media/platform/msm/camera_v2/sensor/io
 ccflags-y += -Idrivers/media/platform/msm/camera_v2/sensor/cci
+<<<<<<< HEAD
+=======
+endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_VIDEO_ADV7481) += adv7481.o
 obj-$(CONFIG_VIDEO_AD9389B) += ad9389b.o
 obj-$(CONFIG_VIDEO_ADV7511) += adv7511.o

@@ -183,6 +183,11 @@ static inline void timekeeping_clocktai(struct timespec *ts)
  * RTC specific
  */
 extern void timekeeping_inject_sleeptime(struct timespec *delta);
+<<<<<<< HEAD
+=======
+extern bool timekeeping_rtc_skipsuspend(void);
+extern bool timekeeping_rtc_skipresume(void);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * PPS accessor
@@ -193,6 +198,7 @@ extern void getnstime_raw_and_real(struct timespec *ts_raw,
 /*
  * Persistent clock related interfaces
  */
+<<<<<<< HEAD
 extern bool persistent_clock_exist;
 extern int persistent_clock_is_local;
 
@@ -201,6 +207,10 @@ static inline bool has_persistent_clock(void)
 	return persistent_clock_exist;
 }
 
+=======
+extern int persistent_clock_is_local;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern void read_persistent_clock(struct timespec *ts);
 extern void read_boot_clock(struct timespec *ts);
 extern int update_persistent_clock(struct timespec now);

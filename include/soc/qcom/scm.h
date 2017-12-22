@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -30,6 +34,10 @@
 #define SCM_SVC_SMMU_PROGRAM		0x15
 #define SCM_SVC_QDSS			0x16
 #define SCM_SVC_TZSCHEDULER		0xFC
+<<<<<<< HEAD
+=======
+#define SCM_SVC_BW			0xFD
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define SCM_FUSE_READ			0x7
 #define SCM_CMD_HDCP			0x01

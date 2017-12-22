@@ -38,8 +38,11 @@
 #include "drm_legacy.h"
 #include "drm_internal.h"
 
+<<<<<<< HEAD
 static int drm_notifier(void *priv);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int drm_lock_take(struct drm_lock_data *lock_data, unsigned int context);
 
 /**
@@ -118,6 +121,7 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
 	 * really probably not the correct answer but lets us debug xkb
  	 * xserver for now */
 	if (!file_priv->is_master) {
+<<<<<<< HEAD
 		sigemptyset(&dev->sigmask);
 		sigaddset(&dev->sigmask, SIGSTOP);
 		sigaddset(&dev->sigmask, SIGTSTP);
@@ -126,6 +130,10 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
 		dev->sigdata.context = lock->context;
 		dev->sigdata.lock = master->lock.hw_lock;
 		block_all_signals(drm_notifier, dev, &dev->sigmask);
+=======
+		dev->sigdata.context = lock->context;
+		dev->sigdata.lock = master->lock.hw_lock;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (dev->driver->dma_quiescent && (lock->flags & _DRM_LOCK_QUIESCENT))
@@ -169,7 +177,10 @@ int drm_legacy_unlock(struct drm_device *dev, void *data, struct drm_file *file_
 		/* FIXME: Should really bail out here. */
 	}
 
+<<<<<<< HEAD
 	unblock_all_signals();
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -288,6 +299,7 @@ int drm_legacy_lock_free(struct drm_lock_data *lock_data, unsigned int context)
 }
 
 /**
+<<<<<<< HEAD
  * If we get here, it means that the process has called DRM_IOCTL_LOCK
  * without calling DRM_IOCTL_UNLOCK.
  *
@@ -320,6 +332,8 @@ static int drm_notifier(void *priv)
 }
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * This function returns immediately and takes the hw lock
  * with the kernel context if it is free, otherwise it gets the highest priority when and if
  * it is eventually released.

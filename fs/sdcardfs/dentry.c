@@ -34,6 +34,11 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 	struct dentry *parent_lower_dentry = NULL;
 	struct dentry *lower_cur_parent_dentry = NULL;
 	struct dentry *lower_dentry = NULL;
+<<<<<<< HEAD
+=======
+	struct inode *inode;
+	struct sdcardfs_inode_data *data;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (flags & LOOKUP_RCU)
 		return -ECHILD;
@@ -46,7 +51,12 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 	spin_unlock(&dentry->d_lock);
 
 	/* check uninitialized obb_dentry and
+<<<<<<< HEAD
 	 * whether the base obbpath has been changed or not */
+=======
+	 * whether the base obbpath has been changed or not
+	 */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (is_obbpath_invalid(dentry)) {
 		d_drop(dentry);
 		return 0;
@@ -59,6 +69,17 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 	lower_dentry = lower_path.dentry;
 	lower_cur_parent_dentry = dget_parent(lower_dentry);
 
+<<<<<<< HEAD
+=======
+	if ((lower_dentry->d_flags & DCACHE_OP_REVALIDATE)) {
+		err = lower_dentry->d_op->d_revalidate(lower_dentry, flags);
+		if (err == 0) {
+			d_drop(dentry);
+			goto out;
+		}
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_lock(&lower_dentry->d_lock);
 	if (d_unhashed(lower_dentry)) {
 		spin_unlock(&lower_dentry->d_lock);
@@ -76,6 +97,7 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 
 	if (dentry < lower_dentry) {
 		spin_lock(&dentry->d_lock);
+<<<<<<< HEAD
 		spin_lock(&lower_dentry->d_lock);
 	} else {
 		spin_lock(&lower_dentry->d_lock);
@@ -87,6 +109,15 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 		err = 0;
 	} else if (strncasecmp(dentry->d_name.name, lower_dentry->d_name.name,
 				dentry->d_name.len) != 0) {
+=======
+		spin_lock_nested(&lower_dentry->d_lock, DENTRY_D_LOCK_NESTED);
+	} else {
+		spin_lock(&lower_dentry->d_lock);
+		spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
+	}
+
+	if (!qstr_case_eq(&dentry->d_name, &lower_dentry->d_name)) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		__d_drop(dentry);
 		err = 0;
 	}
@@ -98,6 +129,24 @@ static int sdcardfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 		spin_unlock(&dentry->d_lock);
 		spin_unlock(&lower_dentry->d_lock);
 	}
+<<<<<<< HEAD
+=======
+	if (!err)
+		goto out;
+
+	/* If our top's inode is gone, we may be out of date */
+	inode = igrab(dentry->d_inode);
+	if (inode) {
+		data = top_data_get(SDCARDFS_I(inode));
+		if (!data || data->abandoned) {
+			d_drop(dentry);
+			err = 0;
+		}
+		if (data)
+			data_put(data);
+		iput(inode);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 out:
 	dput(parent_dentry);
@@ -110,12 +159,19 @@ out:
 static void sdcardfs_d_release(struct dentry *dentry)
 {
 	/* release and reset the lower paths */
+<<<<<<< HEAD
 	if(has_graft_path(dentry)) {
 		sdcardfs_put_reset_orig_path(dentry);
 	}
 	sdcardfs_put_reset_lower_path(dentry);
 	free_dentry_private_data(dentry);
 	return;
+=======
+	if (has_graft_path(dentry))
+		sdcardfs_put_reset_orig_path(dentry);
+	sdcardfs_put_reset_lower_path(dentry);
+	free_dentry_private_data(dentry);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int sdcardfs_hash_ci(const struct dentry *dentry,
@@ -132,12 +188,18 @@ static int sdcardfs_hash_ci(const struct dentry *dentry,
 	unsigned long hash;
 
 	name = qstr->name;
+<<<<<<< HEAD
 	//len = vfat_striptail_len(qstr);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	len = qstr->len;
 
 	hash = init_name_hash();
 	while (len--)
+<<<<<<< HEAD
 		//hash = partial_name_hash(nls_tolower(t, *name++), hash);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		hash = partial_name_hash(tolower(*name++), hash);
 	qstr->hash = end_name_hash(hash);
 
@@ -151,6 +213,7 @@ static int sdcardfs_cmp_ci(const struct dentry *parent,
 		const struct dentry *dentry,
 		unsigned int len, const char *str, const struct qstr *name)
 {
+<<<<<<< HEAD
 	/* This function is copy of vfat_cmpi */
 	// FIXME Should we support national language?
 	//struct nls_table *t = MSDOS_SB(parent->d_sb)->nls_io;
@@ -167,16 +230,37 @@ static int sdcardfs_cmp_ci(const struct dentry *parent,
 	*/
 	if (name->len == len) {
 		if (strncasecmp(name->name, str, len) == 0)
+=======
+	/* FIXME Should we support national language? */
+
+	if (name->len == len) {
+		if (str_n_case_eq(name->name, str, len))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return 0;
 	}
 	return 1;
 }
 
+<<<<<<< HEAD
 const struct dentry_operations sdcardfs_ci_dops = {
 	.d_revalidate	= sdcardfs_d_revalidate,
 	.d_release	= sdcardfs_d_release,
 	.d_hash 	= sdcardfs_hash_ci,
 	.d_compare	= sdcardfs_cmp_ci,
 	.d_canonical_path = sdcardfs_get_real_lower,
+=======
+static void sdcardfs_canonical_path(const struct path *path,
+				struct path *actual_path)
+{
+	sdcardfs_get_real_lower(path->dentry, actual_path);
+}
+
+const struct dentry_operations sdcardfs_ci_dops = {
+	.d_revalidate	= sdcardfs_d_revalidate,
+	.d_release	= sdcardfs_d_release,
+	.d_hash	= sdcardfs_hash_ci,
+	.d_compare	= sdcardfs_cmp_ci,
+	.d_canonical_path = sdcardfs_canonical_path,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 

@@ -45,6 +45,19 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
 		vcpu->arch.hcr_el2 &= ~HCR_RW;
 }
 
+<<<<<<< HEAD
+=======
+static inline unsigned long vcpu_get_hcr(struct kvm_vcpu *vcpu)
+{
+	return vcpu->arch.hcr_el2;
+}
+
+static inline void vcpu_set_hcr(struct kvm_vcpu *vcpu, unsigned long hcr)
+{
+	vcpu->arch.hcr_el2 = hcr;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline unsigned long *vcpu_pc(const struct kvm_vcpu *vcpu)
 {
 	return (unsigned long *)&vcpu_gp_regs(vcpu)->regs.pc;

@@ -28,7 +28,10 @@
 #define MAX_FREQUENCY_UP_THRESHOLD		(100)
 
 static DEFINE_PER_CPU(struct od_cpu_dbs_info_s, od_cpu_dbs_info);
+<<<<<<< HEAD
 static DEFINE_PER_CPU(struct od_dbs_tuners *, cached_tuners);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static struct od_ops od_ops;
 
@@ -476,6 +479,7 @@ static struct attribute_group od_attr_group_gov_pol = {
 
 /************************** sysfs end ************************/
 
+<<<<<<< HEAD
 static void save_tuners(struct cpufreq_policy *policy,
 			  struct od_dbs_tuners *tuners)
 {
@@ -492,6 +496,9 @@ static void save_tuners(struct cpufreq_policy *policy,
 }
 
 static struct od_dbs_tuners *alloc_tuners(struct cpufreq_policy *policy)
+=======
+static int od_init(struct dbs_data *dbs_data)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct od_dbs_tuners *tuners;
 	u64 idle_time;
@@ -500,7 +507,11 @@ static struct od_dbs_tuners *alloc_tuners(struct cpufreq_policy *policy)
 	tuners = kzalloc(sizeof(*tuners), GFP_KERNEL);
 	if (!tuners) {
 		pr_err("%s: kzalloc failed\n", __func__);
+<<<<<<< HEAD
 		return ERR_PTR(-ENOMEM);
+=======
+		return -ENOMEM;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	cpu = get_cpu();
@@ -509,6 +520,7 @@ static struct od_dbs_tuners *alloc_tuners(struct cpufreq_policy *policy)
 	if (idle_time != -1ULL) {
 		/* Idle micro accounting is supported. Use finer thresholds */
 		tuners->up_threshold = MICRO_FREQUENCY_UP_THRESHOLD;
+<<<<<<< HEAD
 	} else {
 		tuners->up_threshold = DEF_FREQUENCY_UP_THRESHOLD;
 	}
@@ -552,6 +564,8 @@ static int od_init(struct dbs_data *dbs_data, struct cpufreq_policy *policy)
 	idle_time = get_cpu_idle_time_us(cpu, NULL);
 	put_cpu();
 	if (idle_time != -1ULL) {
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*
 		 * In nohz/micro accounting case we set the minimum frequency
 		 * not depending on HZ, but fixed (very low). The deferred
@@ -559,11 +573,24 @@ static int od_init(struct dbs_data *dbs_data, struct cpufreq_policy *policy)
 		*/
 		dbs_data->min_sampling_rate = MICRO_FREQUENCY_MIN_SAMPLE_RATE;
 	} else {
+<<<<<<< HEAD
+=======
+		tuners->up_threshold = DEF_FREQUENCY_UP_THRESHOLD;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* For correct statistics, we need 10 ticks for each measure */
 		dbs_data->min_sampling_rate = MIN_SAMPLING_RATE_RATIO *
 			jiffies_to_usecs(10);
 	}
 
+<<<<<<< HEAD
+=======
+	tuners->sampling_down_factor = DEF_SAMPLING_DOWN_FACTOR;
+	tuners->ignore_nice_load = 0;
+	tuners->powersave_bias = default_powersave_bias;
+	tuners->io_is_busy = should_io_be_busy();
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dbs_data->tuners = tuners;
 	mutex_init(&dbs_data->mutex);
 	return 0;
@@ -571,7 +598,11 @@ static int od_init(struct dbs_data *dbs_data, struct cpufreq_policy *policy)
 
 static void od_exit(struct dbs_data *dbs_data)
 {
+<<<<<<< HEAD
 	//nothing to do
+=======
+	kfree(dbs_data->tuners);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 define_get_cpu_dbs_routines(od_cpu_dbs_info);
@@ -666,6 +697,7 @@ static int __init cpufreq_gov_dbs_init(void)
 
 static void __exit cpufreq_gov_dbs_exit(void)
 {
+<<<<<<< HEAD
 	int cpu;
 
 	cpufreq_unregister_governor(&cpufreq_gov_ondemand);
@@ -673,6 +705,9 @@ static void __exit cpufreq_gov_dbs_exit(void)
 		kfree(per_cpu(cached_tuners, cpu));
 		per_cpu(cached_tuners, cpu) = NULL;
 	}
+=======
+	cpufreq_unregister_governor(&cpufreq_gov_ondemand);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 MODULE_AUTHOR("Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>");

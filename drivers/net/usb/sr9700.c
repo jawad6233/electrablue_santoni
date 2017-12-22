@@ -291,7 +291,11 @@ static int sr9700_set_mac_address(struct net_device *netdev, void *p)
 	struct sockaddr *addr = p;
 
 	if (!is_valid_ether_addr(addr->sa_data)) {
+<<<<<<< HEAD
 		netdev_err(netdev, "not setting invalid mac address %pM\n",
+=======
+		netdev_err(netdev, "not setting invalid mac address %pKM\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			   addr->sa_data);
 		return -EINVAL;
 	}

@@ -1321,9 +1321,13 @@ static int vmstat_show(struct seq_file *m, void *arg)
 	unsigned long *l = arg;
 	unsigned long off = l - (unsigned long *)m->private;
 
+<<<<<<< HEAD
 	seq_puts(m, vmstat_text[off]);
 	seq_put_decimal_ull(m, ' ', *l);
 	seq_putc(m, '\n');
+=======
+	seq_printf(m, "%s %lu\n", vmstat_text[off], *l);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 

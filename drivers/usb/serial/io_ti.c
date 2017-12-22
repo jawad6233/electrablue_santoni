@@ -1546,12 +1546,15 @@ static void edge_interrupt_callback(struct urb *urb)
 	function    = TIUMP_GET_FUNC_FROM_CODE(data[0]);
 	dev_dbg(dev, "%s - port_number %d, function %d, info 0x%x\n", __func__,
 		port_number, function, data[1]);
+<<<<<<< HEAD
 
 	if (port_number >= edge_serial->serial->num_ports) {
 		dev_err(dev, "bad port number %d\n", port_number);
 		goto exit;
 	}
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	port = edge_serial->serial->port[port_number];
 	edge_port = usb_get_serial_port_data(port);
 	if (!edge_port) {
@@ -1632,7 +1635,11 @@ static void edge_bulk_in_callback(struct urb *urb)
 
 	port_number = edge_port->port->port_number;
 
+<<<<<<< HEAD
 	if (urb->actual_length > 0 && edge_port->lsr_event) {
+=======
+	if (edge_port->lsr_event) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		edge_port->lsr_event = 0;
 		dev_dbg(dev, "%s ===== Port %u LSR Status = %02x, Data = %02x ======\n",
 			__func__, port_number, edge_port->lsr_mask, *data);
@@ -2210,11 +2217,16 @@ static void change_port_settings(struct tty_struct *tty,
 	if (!baud) {
 		/* pick a default, any default... */
 		baud = 9600;
+<<<<<<< HEAD
 	} else {
 		/* Avoid a zero divisor. */
 		baud = min(baud, 461550);
 		tty_encode_baud_rate(tty, baud, baud);
 	}
+=======
+	} else
+		tty_encode_baud_rate(tty, baud, baud);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	edge_port->baud_rate = baud;
 	config->wBaudRate = (__u16)((461550L + baud/2) / baud);

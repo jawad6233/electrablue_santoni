@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014, 2016 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -206,7 +210,11 @@ WDI_STATableClose
  @brief WDI_STATableAddSta - Function to Add Station
 
  
+<<<<<<< HEAD
  @param  pWDICtx:     pointer to the WLAN DAL context 
+=======
+ @param  pWDICtx:     pointer to the WLAN DAL context
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
          pwdiParam:   station parameters  
   
  @see
@@ -215,11 +223,19 @@ WDI_STATableClose
 WDI_Status
 WDI_STATableAddSta
 (
+<<<<<<< HEAD
     WDI_ControlBlockType*  pWDICtx,
+=======
+    void*  ctx,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     WDI_AddStaParams*      pwdiParam
 )
 {
     wpt_uint8        ucSTAIdx  = 0;
+<<<<<<< HEAD
+=======
+    WDI_ControlBlockType*  pWDICtx = ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     WDI_StaStruct*   pSTATable = (WDI_StaStruct*) pWDICtx->staTable;
     /*- - - -  - - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - */
 
@@ -302,7 +318,11 @@ WDI_STATableAddSta
  @brief WDI_STATableDelSta - Function to Delete a Station
 
  
+<<<<<<< HEAD
  @param  pWDICtx:         pointer to the WLAN DAL context 
+=======
+ @param  void:            pointer to the WLAN DAL context
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
          ucSTAIdx:        station to be deleted
   
  @see
@@ -311,10 +331,18 @@ WDI_STATableAddSta
 WDI_Status
 WDI_STATableDelSta
 (
+<<<<<<< HEAD
     WDI_ControlBlockType*  pWDICtx,
     wpt_uint8              ucSTAIdx
 )
 {
+=======
+    void*  ctx,
+    wpt_uint8              ucSTAIdx
+)
+{
+    WDI_ControlBlockType*  pWDICtx = ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     WDI_StaStruct*   pSTATable = (WDI_StaStruct*) pWDICtx->staTable;
     /*- - - -  - - - - - - - - - - - -  - - - - - - - - - - - -  - - - - - */
 
@@ -341,7 +369,11 @@ WDI_STATableDelSta
  @brief WDI_STATableBSSDelSta - Function to Delete Stations in this BSS
 
  
+<<<<<<< HEAD
  @param  pWDICtx:         pointer to the WLAN DAL context 
+=======
+ @param  pWDICtx:         pointer to the WLAN DAL context
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
          ucBSSIdx:        BSS index 
   
  @see
@@ -584,12 +616,20 @@ WDI_CompareMacAddr
 WDI_Status
 WDI_STATableFindStaidByAddr
 (
+<<<<<<< HEAD
     WDI_ControlBlockType*  pWDICtx, 
+=======
+    void * context,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     wpt_macAddr            staAddr, 
     wpt_uint8*             pucStaId
 )
 {
     WDI_Status wdiStatus = WDI_STATUS_E_FAILURE;
+<<<<<<< HEAD
+=======
+    WDI_ControlBlockType*  pWDICtx = context;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     wpt_uint8 i;
     WDI_StaStruct* pSTATable = (WDI_StaStruct*) pWDICtx->staTable;
 

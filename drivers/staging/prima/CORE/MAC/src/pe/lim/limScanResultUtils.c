@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2014, 2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2014, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -460,7 +464,11 @@ limCheckAndAddBssDescription(tpAniSirGlobal pMac,
      * caching the scan results for APs which are adverzing the channel-switch
      * element in their beacons and probe responses.
      */
+<<<<<<< HEAD
     if(pBPR->channelSwitchPresent)
+=======
+    if(pBPR->channelSwitchPresent || pBPR->ecsa_present)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     {
         return;
     }

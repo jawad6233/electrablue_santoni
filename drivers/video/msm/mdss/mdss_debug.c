@@ -1237,6 +1237,12 @@ int mdss_debugfs_init(struct mdss_data_type *mdata)
 	if (mdss_create_xlog_debug(mdd))
 		goto err;
 
+<<<<<<< HEAD
+=======
+	if (mdss_create_frc_debug(mdd))
+		goto err;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mdata->debug_inf.debug_data = mdd;
 
 	return 0;

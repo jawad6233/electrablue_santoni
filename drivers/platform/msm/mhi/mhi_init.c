@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -27,6 +31,7 @@ static int mhi_init_sync(struct mhi_device_ctxt *mhi_dev_ctxt)
 {
 	int i;
 
+<<<<<<< HEAD
 	mhi_dev_ctxt->mhi_ev_spinlock_list = kmalloc(sizeof(spinlock_t) *
 					mhi_dev_ctxt->mmio_info.nr_event_rings,
 					GFP_KERNEL);
@@ -67,6 +72,23 @@ chan_mutex_free:
 	kfree(mhi_dev_ctxt->mhi_ev_spinlock_list);
 ev_mutex_free:
 	return -ENOMEM;
+=======
+	for (i = 0; i < MHI_MAX_CHANNELS; ++i) {
+		struct mhi_ring *ring = &mhi_dev_ctxt->mhi_local_chan_ctxt[i];
+
+		mutex_init(&mhi_dev_ctxt->mhi_chan_cfg[i].chan_lock);
+		spin_lock_init(&mhi_dev_ctxt->mhi_chan_cfg[i].event_lock);
+		spin_lock_init(&ring->ring_lock);
+	}
+
+	for (i = 0; i < NR_OF_CMD_RINGS; i++) {
+		struct mhi_ring *ring = &mhi_dev_ctxt->mhi_local_cmd_ctxt[i];
+
+		spin_lock_init(&ring->ring_lock);
+	}
+
+	return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 size_t calculate_mhi_space(struct mhi_device_ctxt *mhi_dev_ctxt)
@@ -78,12 +100,21 @@ size_t calculate_mhi_space(struct mhi_device_ctxt *mhi_dev_ctxt)
 			(NR_OF_CMD_RINGS * sizeof(struct mhi_chan_ctxt)) +
 			(mhi_dev_ctxt->mmio_info.nr_event_rings *
 					  sizeof(struct mhi_event_ctxt));
+<<<<<<< HEAD
 	mhi_log(MHI_MSG_INFO, "Reserved %zd bytes for context info\n",
 				mhi_dev_mem);
 	/*Calculate size needed for cmd TREs */
 	mhi_dev_mem += (CMD_EL_PER_RING * sizeof(union mhi_cmd_pkt));
 	mhi_log(MHI_MSG_INFO, "Final bytes for MHI device space %zd\n",
 				mhi_dev_mem);
+=======
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Reserved %zd bytes for context info\n", mhi_dev_mem);
+	/*Calculate size needed for cmd TREs */
+	mhi_dev_mem += (CMD_EL_PER_RING * sizeof(union mhi_cmd_pkt));
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Final bytes for MHI device space %zd\n", mhi_dev_mem);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return mhi_dev_mem;
 }
 
@@ -115,7 +146,11 @@ void init_dev_chan_ctxt(struct mhi_chan_ctxt *chan_ctxt,
 	chan_ctxt->mhi_trb_write_ptr = p_base_addr;
 	chan_ctxt->mhi_trb_ring_len = len;
 	/* Prepulate the channel ctxt */
+<<<<<<< HEAD
 	chan_ctxt->mhi_chan_state = MHI_CHAN_STATE_ENABLED;
+=======
+	chan_ctxt->chstate = MHI_CHAN_STATE_ENABLED;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	chan_ctxt->mhi_event_ring_index = ev_index;
 }
 
@@ -130,6 +165,7 @@ void init_local_chan_ctxt(struct mhi_ring *chan_ctxt,
 	chan_ctxt->overwrite_en = 0;
 }
 
+<<<<<<< HEAD
 int populate_bb_list(struct list_head *bb_list, int num_bb)
 {
 	struct mhi_buf_info *mhi_buf = NULL;
@@ -147,6 +183,8 @@ int populate_bb_list(struct list_head *bb_list, int num_bb)
 	}
 	return 0;
 }
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * mhi_cmd_ring_init-  Initialization of the command ring
  *
@@ -173,6 +211,7 @@ static int mhi_cmd_ring_init(struct mhi_cmd_ctxt *cmd_ctxt,
 	ring[PRIMARY_CMD_RING].len = ring_size;
 	ring[PRIMARY_CMD_RING].el_size = sizeof(union mhi_cmd_pkt);
 	ring[PRIMARY_CMD_RING].overwrite_en = 0;
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -258,6 +297,10 @@ static int calculate_mhi_addressing_window(struct mhi_device_ctxt *mhi_dev_ctxt)
 		(u64)dma_dev_mem_start,
 		(u64)mhi_dev_ctxt->dev_space.start_win_addr,
 		(u64)mhi_dev_ctxt->dev_space.end_win_addr);
+=======
+	ring[PRIMARY_CMD_RING].db_mode.process_db =
+		mhi_process_db_brstmode_disable;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -272,12 +315,20 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 					calculate_mhi_space(mhi_dev_ctxt);
 
 	mhi_dev_ctxt->dev_space.dev_mem_start =
+<<<<<<< HEAD
 		dma_alloc_coherent(&mhi_dev_ctxt->dev_info->pcie_device->dev,
+=======
+		dma_alloc_coherent(&mhi_dev_ctxt->plat_dev->dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				    mhi_dev_ctxt->dev_space.dev_mem_len,
 				   &mhi_dev_ctxt->dev_space.dma_dev_mem_start,
 				    GFP_KERNEL);
 	if (!mhi_dev_ctxt->dev_space.dev_mem_start) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR,
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to allocate memory of size %zd bytes\n",
 			mhi_dev_ctxt->dev_space.dev_mem_len);
 		return -ENOMEM;
@@ -286,6 +337,7 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 	dma_dev_mem_start = mhi_dev_ctxt->dev_space.dma_dev_mem_start;
 	memset(dev_mem_start, 0, mhi_dev_ctxt->dev_space.dev_mem_len);
 
+<<<<<<< HEAD
 	r = calculate_mhi_addressing_window(mhi_dev_ctxt);
 	if (r) {
 		mhi_log(MHI_MSG_ERROR,
@@ -299,13 +351,28 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 	mhi_log(MHI_MSG_INFO, "Initializing CCABAP at virt 0x%p, dma 0x%llx\n",
 					dev_mem_start + mhi_mem_index,
 					(u64)dma_dev_mem_start + mhi_mem_index);
+=======
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Starting Seg address: virt 0x%p, dma 0x%llx\n",
+		dev_mem_start, (u64)dma_dev_mem_start);
+
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Initializing CCABAP at dma 0x%llx\n",
+		(u64)dma_dev_mem_start + mhi_mem_index);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mhi_dev_ctxt->dev_space.ring_ctxt.cc_list = dev_mem_start;
 	mhi_dev_ctxt->dev_space.ring_ctxt.dma_cc_list = dma_dev_mem_start;
 	mhi_mem_index += MHI_MAX_CHANNELS * sizeof(struct mhi_chan_ctxt);
 
+<<<<<<< HEAD
 	mhi_log(MHI_MSG_INFO, "Initializing CRCBAP at virt 0x%p, dma 0x%llx\n",
 					dev_mem_start + mhi_mem_index,
 					(u64)dma_dev_mem_start + mhi_mem_index);
+=======
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Initializing CRCBAP at dma 0x%llx\n",
+		(u64)dma_dev_mem_start + mhi_mem_index);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mhi_dev_ctxt->dev_space.ring_ctxt.cmd_ctxt =
 						dev_mem_start + mhi_mem_index;
@@ -313,9 +380,15 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 					dma_dev_mem_start + mhi_mem_index;
 	mhi_mem_index += NR_OF_CMD_RINGS * sizeof(struct mhi_chan_ctxt);
 
+<<<<<<< HEAD
 	mhi_log(MHI_MSG_INFO, "Initializing ECABAP at virt 0x%p, dma 0x%llx\n",
 					dev_mem_start + mhi_mem_index,
 					(u64)dma_dev_mem_start + mhi_mem_index);
+=======
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Initializing ECABAP at dma 0x%llx\n",
+		(u64)dma_dev_mem_start + mhi_mem_index);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mhi_dev_ctxt->dev_space.ring_ctxt.ec_list =
 						dev_mem_start + mhi_mem_index;
 	mhi_dev_ctxt->dev_space.ring_ctxt.dma_ec_list =
@@ -323,10 +396,16 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 	mhi_mem_index += mhi_dev_ctxt->mmio_info.nr_event_rings *
 					  sizeof(struct mhi_event_ctxt);
 
+<<<<<<< HEAD
 	mhi_log(MHI_MSG_INFO,
 			"Initializing CMD context at virt 0x%p, dma 0x%llx\n",
 					dev_mem_start + mhi_mem_index,
 					(u64)dma_dev_mem_start + mhi_mem_index);
+=======
+	mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+		"Initializing CMD context at dma 0x%llx\n",
+		(u64)dma_dev_mem_start + mhi_mem_index);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* TODO: Initialize both the local and device cmd context */
 	ring_len = (CMD_EL_PER_RING * sizeof(union mhi_cmd_pkt));
@@ -345,7 +424,11 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 		ring_len = sizeof(union mhi_event_pkt) *
 					mhi_dev_ctxt->ev_ring_props[i].nr_desc;
 		ring_addr = dma_alloc_coherent(
+<<<<<<< HEAD
 				&mhi_dev_ctxt->dev_info->pcie_device->dev,
+=======
+				&mhi_dev_ctxt->plat_dev->dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				ring_len, &ring_dma_addr, GFP_KERNEL);
 		if (!ring_addr)
 			goto err_ev_alloc;
@@ -353,9 +436,15 @@ int init_mhi_dev_mem(struct mhi_device_ctxt *mhi_dev_ctxt)
 				ring_dma_addr, ring_len);
 		init_local_ev_ctxt(&mhi_dev_ctxt->mhi_local_event_ctxt[i],
 				ring_addr, ring_len);
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_INFO,
 			"Initializing EV_%d TRE list at virt 0x%p dma 0x%llx\n",
 				i, ring_addr, (u64)ring_dma_addr);
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
+			"Initializing EV_%d TRE list at virt 0x%p dma 0x%llx\n",
+			i, ring_addr, (u64)ring_dma_addr);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return 0;
 
@@ -367,12 +456,20 @@ err_ev_alloc:
 		dev_ev_ctxt = &mhi_dev_ctxt->dev_space.ring_ctxt.ec_list[i];
 		ev_ctxt = &mhi_dev_ctxt->mhi_local_event_ctxt[i];
 
+<<<<<<< HEAD
 		dma_free_coherent(&mhi_dev_ctxt->dev_info->pcie_device->dev,
+=======
+		dma_free_coherent(&mhi_dev_ctxt->plat_dev->dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				  ev_ctxt->len,
 				  ev_ctxt->base,
 				  dev_ev_ctxt->mhi_event_ring_base_addr);
 	}
+<<<<<<< HEAD
 	dma_free_coherent(&mhi_dev_ctxt->dev_info->pcie_device->dev,
+=======
+	dma_free_coherent(&mhi_dev_ctxt->plat_dev->dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			   mhi_dev_ctxt->dev_space.dev_mem_len,
 			   mhi_dev_ctxt->dev_space.dev_mem_start,
 			   mhi_dev_ctxt->dev_space.dma_dev_mem_start);
@@ -382,6 +479,7 @@ err_ev_alloc:
 static int mhi_init_events(struct mhi_device_ctxt *mhi_dev_ctxt)
 {
 
+<<<<<<< HEAD
 	mhi_dev_ctxt->mhi_ev_wq.mhi_event_wq = kmalloc(
 						sizeof(wait_queue_head_t),
 						GFP_KERNEL);
@@ -395,24 +493,35 @@ static int mhi_init_events(struct mhi_device_ctxt *mhi_dev_ctxt)
 		mhi_log(MHI_MSG_ERROR, "Failed to init event");
 		goto error_event_handle_alloc;
 	}
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Initialize the event which signals M0 */
 	mhi_dev_ctxt->mhi_ev_wq.m0_event = kmalloc(sizeof(wait_queue_head_t),
 								GFP_KERNEL);
 	if (NULL == mhi_dev_ctxt->mhi_ev_wq.m0_event) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR, "Failed to init event");
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR, "Failed to init event");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto error_state_change_event_handle;
 	}
 	/* Initialize the event which signals M0 */
 	mhi_dev_ctxt->mhi_ev_wq.m3_event = kmalloc(sizeof(wait_queue_head_t),
 								GFP_KERNEL);
 	if (NULL == mhi_dev_ctxt->mhi_ev_wq.m3_event) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR, "Failed to init event");
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR, "Failed to init event");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto error_m0_event;
 	}
 	/* Initialize the event which signals M0 */
 	mhi_dev_ctxt->mhi_ev_wq.bhi_event = kmalloc(sizeof(wait_queue_head_t),
 								GFP_KERNEL);
 	if (NULL == mhi_dev_ctxt->mhi_ev_wq.bhi_event) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR, "Failed to init event");
 		goto error_bhi_event;
 	}
@@ -420,6 +529,12 @@ static int mhi_init_events(struct mhi_device_ctxt *mhi_dev_ctxt)
 	init_waitqueue_head(mhi_dev_ctxt->mhi_ev_wq.mhi_event_wq);
 	/* Initialize the event which starts the state change thread */
 	init_waitqueue_head(mhi_dev_ctxt->mhi_ev_wq.state_change_event);
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR, "Failed to init event");
+		goto error_bhi_event;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Initialize the event which triggers clients waiting to send */
 	init_waitqueue_head(mhi_dev_ctxt->mhi_ev_wq.m0_event);
 	/* Initialize the event which triggers D3hot */
@@ -432,9 +547,12 @@ error_bhi_event:
 error_m0_event:
 	kfree(mhi_dev_ctxt->mhi_ev_wq.m0_event);
 error_state_change_event_handle:
+<<<<<<< HEAD
 	kfree(mhi_dev_ctxt->mhi_ev_wq.state_change_event);
 error_event_handle_alloc:
 	kfree(mhi_dev_ctxt->mhi_ev_wq.mhi_event_wq);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return -ENOMEM;
 }
 
@@ -471,6 +589,7 @@ static void mhi_init_wakelock(struct mhi_device_ctxt *mhi_dev_ctxt)
 	wakeup_source_init(&mhi_dev_ctxt->w_lock, "mhi_wakeup_source");
 }
 
+<<<<<<< HEAD
 static int mhi_spawn_threads(struct mhi_device_ctxt *mhi_dev_ctxt)
 {
 	mhi_dev_ctxt->event_thread_handle = kthread_run(parse_event_thread,
@@ -486,17 +605,23 @@ static int mhi_spawn_threads(struct mhi_device_ctxt *mhi_dev_ctxt)
 	return 0;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * @brief Main initialization function for a mhi struct device context
  *	 All threads, events mutexes, mhi specific data structures
  *	 are initialized here
  *
+<<<<<<< HEAD
  * @param dev_info [IN ] pcie struct device information structure to
  which this mhi context belongs
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @param mhi_struct device [IN/OUT] reference to a mhi context to be populated
  *
  * @return errno
  */
+<<<<<<< HEAD
 int mhi_init_device_ctxt(struct mhi_pcie_dev_info *dev_info,
 		struct mhi_device_ctxt *mhi_dev_ctxt)
 {
@@ -513,40 +638,73 @@ int mhi_init_device_ctxt(struct mhi_pcie_dev_info *dev_info,
 	r = mhi_populate_event_cfg(mhi_dev_ctxt);
 	if (r) {
 		mhi_log(MHI_MSG_ERROR,
+=======
+int mhi_init_device_ctxt(struct mhi_device_ctxt *mhi_dev_ctxt)
+{
+	int r = 0;
+
+	mhi_log(mhi_dev_ctxt, MHI_MSG_VERBOSE, "Entered\n");
+
+	r = mhi_populate_event_cfg(mhi_dev_ctxt);
+	if (r) {
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to get event ring properties ret %d\n", r);
 		goto error_during_props;
 	}
 	r = mhi_init_sync(mhi_dev_ctxt);
 	if (r) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR, "Failed to initialize mhi sync\n");
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+			"Failed to initialize mhi sync\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto error_during_sync;
 	}
 	r = create_local_ev_ctxt(mhi_dev_ctxt);
 	if (r) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR,
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to initialize local event ctxt ret %d\n", r);
 		goto error_during_local_ev_ctxt;
 	}
 	r = init_mhi_dev_mem(mhi_dev_ctxt);
 	if (r) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR,
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to initialize device memory ret %d\n", r);
 		goto error_during_dev_mem_init;
 	}
 	r = mhi_init_events(mhi_dev_ctxt);
 	if (r) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR,
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to initialize mhi events ret %d\n", r);
 		goto error_wq_init;
 	}
 	r = mhi_reset_all_thread_queues(mhi_dev_ctxt);
 	if (r) {
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR,
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"Failed to initialize work queues ret %d\n", r);
 		goto error_during_thread_init;
 	}
 	init_event_ctxt_array(mhi_dev_ctxt);
 	mhi_dev_ctxt->mhi_state = MHI_STATE_RESET;
+<<<<<<< HEAD
 	mhi_dev_ctxt->enable_lpm = 1;
 
 	r = mhi_spawn_threads(mhi_dev_ctxt);
@@ -554,28 +712,42 @@ int mhi_init_device_ctxt(struct mhi_pcie_dev_info *dev_info,
 		mhi_log(MHI_MSG_ERROR, "Failed to spawn threads ret %d\n", r);
 		goto error_during_thread_spawn;
 	}
+=======
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mhi_init_wakelock(mhi_dev_ctxt);
 
 	return r;
 
+<<<<<<< HEAD
 error_during_thread_spawn:
 	kfree(mhi_dev_ctxt->state_change_work_item_list.q_lock);
 error_during_thread_init:
 	kfree(mhi_dev_ctxt->mhi_ev_wq.mhi_event_wq);
 	kfree(mhi_dev_ctxt->mhi_ev_wq.state_change_event);
+=======
+error_during_thread_init:
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(mhi_dev_ctxt->mhi_ev_wq.m0_event);
 	kfree(mhi_dev_ctxt->mhi_ev_wq.m3_event);
 	kfree(mhi_dev_ctxt->mhi_ev_wq.bhi_event);
 error_wq_init:
+<<<<<<< HEAD
 	dma_free_coherent(&mhi_dev_ctxt->dev_info->pcie_device->dev,
+=======
+	dma_free_coherent(&mhi_dev_ctxt->plat_dev->dev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		   mhi_dev_ctxt->dev_space.dev_mem_len,
 		   mhi_dev_ctxt->dev_space.dev_mem_start,
 		   mhi_dev_ctxt->dev_space.dma_dev_mem_start);
 error_during_dev_mem_init:
 error_during_local_ev_ctxt:
+<<<<<<< HEAD
 	kfree(mhi_dev_ctxt->mhi_cmd_mutex_list);
 	kfree(mhi_dev_ctxt->mhi_chan_mutex);
 	kfree(mhi_dev_ctxt->mhi_ev_spinlock_list);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 error_during_sync:
 	kfree(mhi_dev_ctxt->ev_ring_props);
 error_during_props:
@@ -585,6 +757,7 @@ error_during_props:
 /**
  * @brief Initialize the channel context and shadow context
  *
+<<<<<<< HEAD
  * @cc_list:		Context to initialize
  * @trb_list_phy:	Physical base address for the TRE ring
  * @trb_list_virt:	Virtual base address for the TRE ring
@@ -603,6 +776,30 @@ int mhi_init_chan_ctxt(struct mhi_chan_ctxt *cc_list,
 {
 	cc_list->mhi_chan_state = chan_state;
 	cc_list->mhi_chan_type = chan_type;
+=======
+ * @cc_list: Context to initialize
+ * @trb_list_phy: Physical base address for the TRE ring
+ * @trb_list_virt: Virtual base address for the TRE ring
+ * @el_per_ring: Number of TREs this ring will contain
+ * @chan_type: Type of channel IN/OUT
+ * @event_ring: Event ring to be mapped to this channel context
+ * @ring: Shadow context to be initialized alongside
+ * @chan_state: Channel state
+ * @preserve_db_state: Do not reset DB state during resume
+ * @Return errno
+ */
+int mhi_init_chan_ctxt(struct mhi_chan_ctxt *cc_list,
+		       uintptr_t trb_list_phy, uintptr_t trb_list_virt,
+		       u64 el_per_ring, enum MHI_CHAN_DIR chan_type,
+		       u32 event_ring, struct mhi_ring *ring,
+		       enum MHI_CHAN_STATE chan_state,
+		       bool preserve_db_state,
+		       enum MHI_BRSTMODE brstmode)
+{
+	cc_list->brstmode = brstmode;
+	cc_list->chstate = chan_state;
+	cc_list->chtype = chan_type;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cc_list->mhi_event_ring_index = event_ring;
 	cc_list->mhi_trb_ring_base_addr = trb_list_phy;
 	cc_list->mhi_trb_ring_len =
@@ -617,6 +814,25 @@ int mhi_init_chan_ctxt(struct mhi_chan_ctxt *cc_list,
 	ring->el_size = sizeof(struct mhi_tx_pkt);
 	ring->overwrite_en = 0;
 	ring->dir = chan_type;
+<<<<<<< HEAD
+=======
+	ring->ch_state = MHI_CHAN_STATE_DISABLED;
+	ring->db_mode.db_mode = 1;
+	ring->db_mode.preserve_db_state = (preserve_db_state) ? 1 : 0;
+	ring->db_mode.brstmode = brstmode;
+
+	switch (ring->db_mode.brstmode) {
+	case MHI_BRSTMODE_ENABLE:
+		ring->db_mode.process_db = mhi_process_db_brstmode;
+		break;
+	case MHI_BRSTMODE_DISABLE:
+		ring->db_mode.process_db = mhi_process_db_brstmode_disable;
+		break;
+	default:
+		ring->db_mode.process_db = mhi_process_db;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Flush writes to MMIO */
 	wmb();
 	return 0;
@@ -630,7 +846,12 @@ int mhi_reset_all_thread_queues(
 	ret_val = mhi_init_state_change_thread_work_queue(
 				&mhi_dev_ctxt->state_change_work_item_list);
 	if (ret_val)
+<<<<<<< HEAD
 		mhi_log(MHI_MSG_ERROR, "Failed to reset STT work queue\n");
+=======
+		mhi_log(mhi_dev_ctxt, MHI_MSG_ERROR,
+			"Failed to reset STT work queue\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret_val;
 }
 

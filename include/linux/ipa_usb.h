@@ -253,6 +253,10 @@ int ipa_usb_deinit_teth_prot(enum ipa_usb_teth_prot teth_prot);
  * @dl_clnt_hdl: client handle previously obtained from
  *               ipa_usb_xdci_connect() for IN channel
  * @teth_prot:   tethering protocol
+<<<<<<< HEAD
+=======
+ * @with_remote_wakeup: Does host support remote wakeup?
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Note: Should not be called from atomic context
  * Note: for DPL, the ul will be ignored as irrelevant
@@ -260,7 +264,12 @@ int ipa_usb_deinit_teth_prot(enum ipa_usb_teth_prot teth_prot);
  * @Return 0 on success, negative on failure
  */
 int ipa_usb_xdci_suspend(u32 ul_clnt_hdl, u32 dl_clnt_hdl,
+<<<<<<< HEAD
 			 enum ipa_usb_teth_prot teth_prot);
+=======
+			 enum ipa_usb_teth_prot teth_prot,
+			 bool with_remote_wakeup);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * ipa_usb_xdci_resume - Peripheral should call this function to resume
@@ -313,7 +322,12 @@ static inline int ipa_usb_deinit_teth_prot(enum ipa_usb_teth_prot teth_prot)
 }
 
 static inline int ipa_usb_xdci_suspend(u32 ul_clnt_hdl, u32 dl_clnt_hdl,
+<<<<<<< HEAD
 			 enum ipa_usb_teth_prot teth_prot)
+=======
+			 enum ipa_usb_teth_prot teth_prot,
+			 bool with_remote_wakeup)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	return -EPERM;
 }

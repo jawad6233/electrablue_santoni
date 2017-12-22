@@ -227,7 +227,11 @@ static int qup_i2c_wait_writeready(struct qup_i2c_dev *qup)
 	u32 opflags;
 	u32 status;
 
+<<<<<<< HEAD
 	timeout = jiffies + 1000;
+=======
+	timeout = jiffies + HZ;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (;;) {
 		opflags = readl(qup->base + QUP_OPERATIONAL);
@@ -237,7 +241,11 @@ static int qup_i2c_wait_writeready(struct qup_i2c_dev *qup)
 		    !(status & I2C_STATUS_BUS_ACTIVE))
 			return 0;
 
+<<<<<<< HEAD
 		if (time_after(jiffies, msecs_to_jiffies(timeout)))
+=======
+		if (time_after(jiffies, timeout))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return -ETIMEDOUT;
 
 		usleep_range(qup->one_byte_t, qup->one_byte_t * 2);
@@ -331,7 +339,11 @@ static int qup_i2c_write_one(struct qup_i2c_dev *qup, struct i2c_msg *msg)
 		if (ret)
 			goto err;
 
+<<<<<<< HEAD
 		left = wait_for_completion_timeout(&qup->xfer, msecs_to_jiffies(1000));
+=======
+		left = wait_for_completion_timeout(&qup->xfer, HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!left) {
 			writel(1, qup->base + QUP_SW_RESET);
 			ret = -ETIMEDOUT;
@@ -447,7 +459,11 @@ static int qup_i2c_read_one(struct qup_i2c_dev *qup, struct i2c_msg *msg)
 		goto err;
 
 	do {
+<<<<<<< HEAD
 		left = wait_for_completion_timeout(&qup->xfer, msecs_to_jiffies(1000));
+=======
+		left = wait_for_completion_timeout(&qup->xfer, HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!left) {
 			writel(1, qup->base + QUP_SW_RESET);
 			ret = -ETIMEDOUT;

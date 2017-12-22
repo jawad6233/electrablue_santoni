@@ -454,6 +454,7 @@ int bochs_dumb_mmap_offset(struct drm_file *file, struct drm_device *dev,
 			   uint32_t handle, uint64_t *offset)
 {
 	struct drm_gem_object *obj;
+<<<<<<< HEAD
 	int ret;
 	struct bochs_bo *bo;
 
@@ -463,16 +464,28 @@ int bochs_dumb_mmap_offset(struct drm_file *file, struct drm_device *dev,
 		ret = -ENOENT;
 		goto out_unlock;
 	}
+=======
+	struct bochs_bo *bo;
+
+	obj = drm_gem_object_lookup(dev, file, handle);
+	if (obj == NULL)
+		return -ENOENT;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	bo = gem_to_bochs_bo(obj);
 	*offset = bochs_bo_mmap_offset(bo);
 
+<<<<<<< HEAD
 	drm_gem_object_unreference(obj);
 	ret = 0;
 out_unlock:
 	mutex_unlock(&dev->struct_mutex);
 	return ret;
 
+=======
+	drm_gem_object_unreference_unlocked(obj);
+	return 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /* ---------------------------------------------------------------------- */

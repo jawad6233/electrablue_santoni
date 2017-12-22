@@ -227,7 +227,11 @@ int ipa_rm_dep_graph_delete_dependency(struct ipa_rm_dep_graph *graph,
 	if (ipa_rm_dep_graph_get_resource(graph,
 					  resource_name,
 					  &dependent)) {
+<<<<<<< HEAD
 		IPA_RM_ERR("%s does not exist\n",
+=======
+		IPA_RM_DBG("%s does not exist\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					ipa_rm_resource_str(resource_name));
 		result = -EINVAL;
 		goto bail;
@@ -236,7 +240,11 @@ int ipa_rm_dep_graph_delete_dependency(struct ipa_rm_dep_graph *graph,
 	if (ipa_rm_dep_graph_get_resource(graph,
 					  depends_on_name,
 					  &dependency)) {
+<<<<<<< HEAD
 		IPA_RM_ERR("%s does not exist\n",
+=======
+		IPA_RM_DBG("%s does not exist\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					ipa_rm_resource_str(depends_on_name));
 		result = -EINVAL;
 		goto bail;

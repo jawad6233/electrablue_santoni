@@ -218,8 +218,17 @@ static irqreturn_t riic_tend_isr(int irq, void *data)
 	}
 
 	if (riic->is_last || riic->err) {
+<<<<<<< HEAD
 		riic_clear_set_bit(riic, 0, ICIER_SPIE, RIIC_ICIER);
 		writeb(ICCR2_SP, riic->base + RIIC_ICCR2);
+=======
+		riic_clear_set_bit(riic, ICIER_TEIE, ICIER_SPIE, RIIC_ICIER);
+		writeb(ICCR2_SP, riic->base + RIIC_ICCR2);
+	} else {
+		/* Transfer is complete, but do not send STOP */
+		riic_clear_set_bit(riic, ICIER_TEIE, 0, RIIC_ICIER);
+		complete(&riic->msg_done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return IRQ_HANDLED;

@@ -34,6 +34,10 @@
 #define DSYSR_SCM_INT_NONE	(0 << 4)
 #define DSYSR_SCM_INT_SYNC	(2 << 4)
 #define DSYSR_SCM_INT_VIDEO	(3 << 4)
+<<<<<<< HEAD
+=======
+#define DSYSR_SCM_MASK		(3 << 4)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define DSMR			0x00004
 #define DSMR_VSPM		(1 << 28)
@@ -256,8 +260,13 @@
 #define DIDSR_LCDS_LVDS0(n)	(2 << (8 + (n) * 2))
 #define DIDSR_LCDS_LVDS1(n)	(3 << (8 + (n) * 2))
 #define DIDSR_LCDS_MASK(n)	(3 << (8 + (n) * 2))
+<<<<<<< HEAD
 #define DIDSR_PCDS_CLK(n, clk)	(clk << ((n) * 2))
 #define DIDSR_PCDS_MASK(n)	(3 << ((n) * 2))
+=======
+#define DIDSR_PDCS_CLK(n, clk)	(clk << ((n) * 2))
+#define DIDSR_PDCS_MASK(n)	(3 << ((n) * 2))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* -----------------------------------------------------------------------------
  * Display Timing Generation Registers

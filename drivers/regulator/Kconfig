@@ -473,6 +473,18 @@ config REGULATOR_MC13892
 	  Say y here to support the regulators found on the Freescale MC13892
 	  PMIC.
 
+<<<<<<< HEAD
+=======
+config REGULATOR_ONSEMI_NCP6335D
+	tristate "OnSemi NCP6335D regulator support"
+	depends on I2C
+	help
+	 This driver supports the OnSemi NCP6335D switching voltage regulator
+	 (buck converter). The regulator is controlled using an I2C interface
+	 and supports a programmable voltage range from 0.6V to 1.4V in steps
+	 of 6.25mV.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config REGULATOR_PALMAS
 	tristate "TI Palmas PMIC Regulators"
 	depends on MFD_PALMAS

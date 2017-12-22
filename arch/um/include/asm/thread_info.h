@@ -22,7 +22,10 @@ struct thread_info {
 	mm_segment_t		addr_limit;	/* thread address space:
 					 	   0-0xBFFFFFFF for user
 						   0-0xFFFFFFFF for kernel */
+<<<<<<< HEAD
 	struct restart_block    restart_block;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct thread_info	*real_thread;    /* Points to non-IRQ stack */
 };
 
@@ -34,9 +37,12 @@ struct thread_info {
 	.cpu =		0,			\
 	.preempt_count = INIT_PREEMPT_COUNT,	\
 	.addr_limit =	KERNEL_DS,		\
+<<<<<<< HEAD
 	.restart_block =  {			\
 		.fn =  do_no_restart_syscall,	\
 	},					\
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.real_thread = NULL,			\
 }
 

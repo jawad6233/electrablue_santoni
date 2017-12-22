@@ -248,7 +248,11 @@ int qxl_garbage_collect(struct qxl_device *qdev)
 		}
 	}
 
+<<<<<<< HEAD
 	QXL_INFO(qdev, "%s: %lld\n", __func__, i);
+=======
+	QXL_INFO(qdev, "%s: %d\n", __func__, i);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return i;
 }
@@ -618,8 +622,13 @@ static int qxl_reap_surf(struct qxl_device *qdev, struct qxl_bo *surf, bool stal
 	int ret;
 
 	ret = qxl_bo_reserve(surf, false);
+<<<<<<< HEAD
 	if (ret == -EBUSY)
 		return -EBUSY;
+=======
+	if (ret)
+		return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (stall)
 		mutex_unlock(&qdev->surf_evict_mutex);
@@ -628,9 +637,15 @@ static int qxl_reap_surf(struct qxl_device *qdev, struct qxl_bo *surf, bool stal
 
 	if (stall)
 		mutex_lock(&qdev->surf_evict_mutex);
+<<<<<<< HEAD
 	if (ret == -EBUSY) {
 		qxl_bo_unreserve(surf);
 		return -EBUSY;
+=======
+	if (ret) {
+		qxl_bo_unreserve(surf);
+		return ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	qxl_surface_evict_locked(qdev, surf, true);

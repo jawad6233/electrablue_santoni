@@ -29,6 +29,10 @@ obj-$(CONFIG_LEDS_LP5562)		+= leds-lp5562.o
 obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
 obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
 obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
 obj-$(CONFIG_LEDS_IPAQ_MICRO)		+= leds-ipaq-micro.o
 obj-$(CONFIG_LEDS_HP6XX)		+= leds-hp6xx.o

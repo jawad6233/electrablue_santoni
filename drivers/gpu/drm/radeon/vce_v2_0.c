@@ -31,6 +31,13 @@
 #include "radeon_asic.h"
 #include "cikd.h"
 
+<<<<<<< HEAD
+=======
+#define VCE_V2_0_FW_SIZE	(256 * 1024)
+#define VCE_V2_0_STACK_SIZE	(64 * 1024)
+#define VCE_V2_0_DATA_SIZE	(23552 * RADEON_MAX_VCE_HANDLES)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void vce_v2_0_set_sw_cg(struct radeon_device *rdev, bool gated)
 {
 	u32 tmp;
@@ -140,6 +147,15 @@ static void vce_v2_0_init_cg(struct radeon_device *rdev)
 	WREG32(VCE_CLOCK_GATING_B, tmp);
 }
 
+<<<<<<< HEAD
+=======
+unsigned vce_v2_0_bo_size(struct radeon_device *rdev)
+{
+	WARN_ON(rdev->vce_fw->size > VCE_V2_0_FW_SIZE);
+	return VCE_V2_0_FW_SIZE + VCE_V2_0_STACK_SIZE + VCE_V2_0_DATA_SIZE;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int vce_v2_0_resume(struct radeon_device *rdev)
 {
 	uint64_t addr = rdev->vce.gpu_addr;
@@ -156,17 +172,32 @@ int vce_v2_0_resume(struct radeon_device *rdev)
 	WREG32(VCE_LMI_SWAP_CNTL1, 0);
 	WREG32(VCE_LMI_VM_CTRL, 0);
 
+<<<<<<< HEAD
 	size = RADEON_GPU_PAGE_ALIGN(rdev->vce_fw->size);
+=======
+	WREG32(VCE_LMI_VCPU_CACHE_40BIT_BAR, addr >> 8);
+
+	addr &= 0xff;
+	size = VCE_V2_0_FW_SIZE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	WREG32(VCE_VCPU_CACHE_OFFSET0, addr & 0x7fffffff);
 	WREG32(VCE_VCPU_CACHE_SIZE0, size);
 
 	addr += size;
+<<<<<<< HEAD
 	size = RADEON_VCE_STACK_SIZE;
+=======
+	size = VCE_V2_0_STACK_SIZE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	WREG32(VCE_VCPU_CACHE_OFFSET1, addr & 0x7fffffff);
 	WREG32(VCE_VCPU_CACHE_SIZE1, size);
 
 	addr += size;
+<<<<<<< HEAD
 	size = RADEON_VCE_HEAP_SIZE;
+=======
+	size = VCE_V2_0_DATA_SIZE;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	WREG32(VCE_VCPU_CACHE_OFFSET2, addr & 0x7fffffff);
 	WREG32(VCE_VCPU_CACHE_SIZE2, size);
 

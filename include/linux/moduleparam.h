@@ -357,8 +357,14 @@ extern char *parse_args(const char *name,
 		      unsigned num,
 		      s16 level_min,
 		      s16 level_max,
+<<<<<<< HEAD
 		      int (*unknown)(char *param, char *val,
 			      const char *doing));
+=======
+		      void *arg,
+		      int (*unknown)(char *param, char *val,
+				     const char *doing, void *arg));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Called by module remove. */
 #ifdef CONFIG_SYSFS
@@ -419,7 +425,10 @@ extern int param_get_ullong(char *buffer, const struct kernel_param *kp);
 extern struct kernel_param_ops param_ops_charp;
 extern int param_set_charp(const char *val, const struct kernel_param *kp);
 extern int param_get_charp(char *buffer, const struct kernel_param *kp);
+<<<<<<< HEAD
 extern void param_free_charp(void *arg);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define param_check_charp(name, p) __param_check(name, p, char *)
 
 /* We used to allow int as well as bool.  We're taking that away! */

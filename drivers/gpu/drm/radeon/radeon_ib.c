@@ -64,10 +64,14 @@ int radeon_ib_get(struct radeon_device *rdev, int ring,
 		return r;
 	}
 
+<<<<<<< HEAD
 	r = radeon_semaphore_create(rdev, &ib->semaphore);
 	if (r) {
 		return r;
 	}
+=======
+	radeon_sync_create(&ib->sync);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ib->ring = ring;
 	ib->fence = NULL;
@@ -96,7 +100,11 @@ int radeon_ib_get(struct radeon_device *rdev, int ring,
  */
 void radeon_ib_free(struct radeon_device *rdev, struct radeon_ib *ib)
 {
+<<<<<<< HEAD
 	radeon_semaphore_free(rdev, &ib->semaphore, ib->fence);
+=======
+	radeon_sync_free(rdev, &ib->sync, ib->fence);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	radeon_sa_bo_free(rdev, &ib->sa_bo, ib->fence);
 	radeon_fence_unref(&ib->fence);
 }
@@ -145,11 +153,19 @@ int radeon_ib_schedule(struct radeon_device *rdev, struct radeon_ib *ib,
 	if (ib->vm) {
 		struct radeon_fence *vm_id_fence;
 		vm_id_fence = radeon_vm_grab_id(rdev, ib->vm, ib->ring);
+<<<<<<< HEAD
 		radeon_semaphore_sync_fence(ib->semaphore, vm_id_fence);
 	}
 
 	/* sync with other rings */
 	r = radeon_semaphore_sync_rings(rdev, ib->semaphore, ib->ring);
+=======
+		radeon_sync_fence(&ib->sync, vm_id_fence);
+	}
+
+	/* sync with other rings */
+	r = radeon_sync_rings(rdev, &ib->sync, ib->ring);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (r) {
 		dev_err(rdev->dev, "failed to sync rings (%d)\n", r);
 		radeon_ring_unlock_undo(rdev, ring);
@@ -157,11 +173,20 @@ int radeon_ib_schedule(struct radeon_device *rdev, struct radeon_ib *ib,
 	}
 
 	if (ib->vm)
+<<<<<<< HEAD
 		radeon_vm_flush(rdev, ib->vm, ib->ring);
 
 	if (const_ib) {
 		radeon_ring_ib_execute(rdev, const_ib->ring, const_ib);
 		radeon_semaphore_free(rdev, &const_ib->semaphore, NULL);
+=======
+		radeon_vm_flush(rdev, ib->vm, ib->ring,
+				ib->sync.last_vm_update);
+
+	if (const_ib) {
+		radeon_ring_ib_execute(rdev, const_ib->ring, const_ib);
+		radeon_sync_free(rdev, &const_ib->sync, NULL);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	radeon_ring_ib_execute(rdev, ib->ring, ib);
 	r = radeon_fence_emit(rdev, &ib->fence, ib->ring);

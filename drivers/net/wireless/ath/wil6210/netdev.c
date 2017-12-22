@@ -184,6 +184,7 @@ void *wil_if_alloc(struct device *dev)
 	SET_NETDEV_DEV(ndev, wiphy_dev(wdev->wiphy));
 	wdev->netdev = ndev;
 
+<<<<<<< HEAD
 	netif_napi_add(ndev, &wil->napi_rx, wil6210_netdev_poll_rx,
 		       WIL6210_NAPI_BUDGET);
 	netif_napi_add(ndev, &wil->napi_tx, wil6210_netdev_poll_tx,
@@ -191,6 +192,8 @@ void *wil_if_alloc(struct device *dev)
 
 	netif_tx_stop_all_queues(ndev);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return wil;
 
  out_priv:
@@ -221,25 +224,68 @@ void wil_if_free(struct wil6210_priv *wil)
 
 int wil_if_add(struct wil6210_priv *wil)
 {
+<<<<<<< HEAD
 	struct net_device *ndev = wil_to_ndev(wil);
 	int rc;
 
 	wil_dbg_misc(wil, "%s()\n", __func__);
+=======
+	struct wireless_dev *wdev = wil_to_wdev(wil);
+	struct wiphy *wiphy = wdev->wiphy;
+	struct net_device *ndev = wil_to_ndev(wil);
+	int rc;
+
+	wil_dbg_misc(wil, "entered");
+
+	strlcpy(wiphy->fw_version, wil->fw_version, sizeof(wiphy->fw_version));
+
+	rc = wiphy_register(wiphy);
+	if (rc < 0) {
+		wil_err(wil, "failed to register wiphy, err %d\n", rc);
+		return rc;
+	}
+
+	netif_napi_add(ndev, &wil->napi_rx, wil6210_netdev_poll_rx,
+		       WIL6210_NAPI_BUDGET);
+	netif_napi_add(ndev, &wil->napi_tx, wil6210_netdev_poll_tx,
+		       WIL6210_NAPI_BUDGET);
+
+	netif_tx_stop_all_queues(ndev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	rc = register_netdev(ndev);
 	if (rc < 0) {
 		dev_err(&ndev->dev, "Failed to register netdev: %d\n", rc);
+<<<<<<< HEAD
 		return rc;
 	}
 
 	return 0;
+=======
+		goto out_wiphy;
+	}
+
+	return 0;
+
+out_wiphy:
+	wiphy_unregister(wdev->wiphy);
+	return rc;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void wil_if_remove(struct wil6210_priv *wil)
 {
 	struct net_device *ndev = wil_to_ndev(wil);
+<<<<<<< HEAD
+=======
+	struct wireless_dev *wdev = wil_to_wdev(wil);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wil_dbg_misc(wil, "%s()\n", __func__);
 
 	unregister_netdev(ndev);
+<<<<<<< HEAD
+=======
+	wiphy_unregister(wdev->wiphy);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

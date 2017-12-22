@@ -127,6 +127,7 @@ static struct pm_qos_object memory_bandwidth_pm_qos = {
 };
 
 
+<<<<<<< HEAD
 static BLOCKING_NOTIFIER_HEAD(min_online_cpus_notifier);
 static struct pm_qos_constraints min_online_cpus_constraints = {
 	.list = PLIST_HEAD_INIT(min_online_cpus_constraints.list),
@@ -155,14 +156,19 @@ static struct pm_qos_object max_online_cpus_pm_qos = {
 
 };
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct pm_qos_object *pm_qos_array[] = {
 	&null_pm_qos,
 	&cpu_dma_pm_qos,
 	&network_lat_pm_qos,
 	&network_throughput_pm_qos,
 	&memory_bandwidth_pm_qos,
+<<<<<<< HEAD
 	&min_online_cpus_pm_qos,
 	&max_online_cpus_pm_qos
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static ssize_t pm_qos_power_write(struct file *filp, const char __user *buf,

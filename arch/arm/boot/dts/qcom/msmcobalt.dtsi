@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1328,10 +1332,18 @@
 
 		USB3_GDSC-supply = <&gdsc_usb30>;
 		qcom,msm-bus,name = "usb3";
+<<<<<<< HEAD
 		qcom,msm-bus,num-cases = <2>;
 		qcom,msm-bus,num-paths = <1>;
 		qcom,msm-bus,vectors-KBps =
 					<61 512 0 0>,
+=======
+		qcom,msm-bus,num-cases = <3>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
+					<61 512 0 0>,
+					<61 512 240000 960000>,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					<61 512 240000 960000>;
 
 		qcom,dwc-usb3-msm-tx-fifo-size = <21288>;
@@ -1366,11 +1378,17 @@
 
 	qusb_phy0: qusb@c012200 {
 		compatible = "qcom,qusb2phy";
+<<<<<<< HEAD
 		reg = <0x0c012200 0xb0>,
 		      <0x0a8f8800 0x400>,
 			<0x0078024c 0x4>;
 		reg-names = "qusb_phy_base",
 			"qscratch_base",
+=======
+		reg = <0x0c012200 0x2a8>,
+			<0x0078024c 0x4>;
+		reg-names = "qusb_phy_base",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"tune2_efuse_addr";
 		vdd-supply = <&pmcobalt_l1>;
 		vdda18-supply = <&pmcobalt_l12>;
@@ -1394,7 +1412,11 @@
 		reg-names = "qmp_phy_base",
 			    "vls_clamp_reg";
 		vdd-supply = <&pmcobalt_l1>;
+<<<<<<< HEAD
 		vdda18-supply = <&pmcobalt_l12>;
+=======
+		core-supply = <&pmcobalt_l12>;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,vdd-voltage-level = <0 880000 880000>;
 		qcom,vbus-valid-override;
 

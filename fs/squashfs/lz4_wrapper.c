@@ -94,6 +94,7 @@ static int lz4_uncompress(struct squashfs_sb_info *msblk, void *strm,
 	struct buffer_head **bh, int b, int offset, int length,
 	struct squashfs_page_actor *output)
 {
+<<<<<<< HEAD
 	struct squashfs_lz4 *stream = strm;
 	void *buff = stream->input, *data;
 	int avail, i, bytes = length, res;
@@ -108,10 +109,19 @@ static int lz4_uncompress(struct squashfs_sb_info *msblk, void *strm,
 		put_bh(bh[i]);
 	}
 
+=======
+	int res;
+	size_t dest_len = output->length;
+	struct squashfs_lz4 *stream = strm;
+
+	squashfs_bh_to_buf(bh, b, stream->input, offset, length,
+		msblk->devblksize);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	res = lz4_decompress_unknownoutputsize(stream->input, length,
 					stream->output, &dest_len);
 	if (res)
 		return -EIO;
+<<<<<<< HEAD
 
 	bytes = dest_len;
 	data = squashfs_first_page(output);
@@ -127,6 +137,9 @@ static int lz4_uncompress(struct squashfs_sb_info *msblk, void *strm,
 		data = squashfs_next_page(output);
 	}
 	squashfs_finish_page(output);
+=======
+	squashfs_buf_to_actor(stream->output, output, dest_len);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return dest_len;
 }

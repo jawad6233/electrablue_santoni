@@ -560,8 +560,13 @@
 				<5 1497600000>;
 		qcom,speed-bin-fuse-sel = <37 34 3 0>;
 		qcom,cpr-speed-bin-max-corners =
+<<<<<<< HEAD
 					<0 0 1 2 4>,
 					<1 0 1 2 5>;
+=======
+					<0 (-1) 1 2 4>,
+					<1 (-1) 1 2 5>;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,cpr-quot-adjust-scaling-factor-max = <0 1400 1400>;
 		qcom,cpr-voltage-scaling-factor-max = <0 2000 2000>;
 		qcom,cpr-scaled-init-voltage-as-ceiling;

@@ -346,8 +346,17 @@ static int hwrng_fillfn(void *unused)
 	long rc;
 
 	while (!kthread_should_stop()) {
+<<<<<<< HEAD
 		if (!current_rng)
 			break;
+=======
+		mutex_lock(&rng_mutex);
+		if (!current_rng) {
+			mutex_unlock(&rng_mutex);
+			break;
+		}
+		mutex_unlock(&rng_mutex);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		rc = rng_get_data(current_rng, rng_fillbuf,
 				  rng_buffer_size(), 1);
 		if (rc <= 0) {

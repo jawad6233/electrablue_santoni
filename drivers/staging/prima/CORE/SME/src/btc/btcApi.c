@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -2065,6 +2069,23 @@ eHalStatus btcHandleCoexInd(tHalHandle hHal, void* pMsg)
          vos_timer_start(&pMac->btc.enableUapsdTimer,
                          (pMac->fBtcEnableIndTimerVal * 1000));
      }
+<<<<<<< HEAD
+=======
+     else if (pSmeCoexInd->coexIndType ==
+             SIR_COEX_IND_TYPE_HID_CONNECTED_WLAN_CONNECTED_IN_2p4)
+     {
+         smsLog(pMac, LOG1,
+                FL("SIR_COEX_IND_TYPE_HID_CONNECTED_WLAN_CONNECTED_IN_2p4"));
+         vos_set_snoc_high_freq_voting(true);
+     }
+     else if (pSmeCoexInd->coexIndType ==
+             SIR_COEX_IND_TYPE_HID_DISCONNECTED_WLAN_CONNECTED_IN_2p4)
+     {
+         smsLog(pMac, LOG1,
+                FL("SIR_COEX_IND_TYPE_HID_DISCONNECTED_WLAN_CONNECTED_IN_2p4"));
+         vos_set_snoc_high_freq_voting(false);
+     }
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
      else // unknown indication type
      {
         smsLog(pMac, LOGE, "unknown Coex indication type in %s()", __func__);

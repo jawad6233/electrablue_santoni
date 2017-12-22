@@ -172,7 +172,11 @@ static int qcota_release(struct inode *inode, struct file *file)
 	podev =  file->private_data;
 
 	if (podev != NULL && podev->magic != OTA_MAGIC) {
+<<<<<<< HEAD
 		pr_err("%s: invalid handle %p\n",
+=======
+		pr_err("%s: invalid handle %pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			__func__, podev);
 	}
 
@@ -445,7 +449,11 @@ static long qcota_ioctl(struct file *file,
 
 	podev =  file->private_data;
 	if (podev == NULL || podev->magic != OTA_MAGIC) {
+<<<<<<< HEAD
 		pr_err("%s: invalid handle %p\n",
+=======
+		pr_err("%s: invalid handle %pK\n",
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			__func__, podev);
 		return -ENOENT;
 	}

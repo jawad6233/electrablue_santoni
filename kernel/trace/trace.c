@@ -20,6 +20,10 @@
 #include <linux/notifier.h>
 #include <linux/irqflags.h>
 #include <linux/debugfs.h>
+<<<<<<< HEAD
+=======
+#include <linux/tracefs.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/pagemap.h>
 #include <linux/hardirq.h>
 #include <linux/linkage.h>
@@ -31,6 +35,10 @@
 #include <linux/splice.h>
 #include <linux/kdebug.h>
 #include <linux/string.h>
+<<<<<<< HEAD
+=======
+#include <linux/mount.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/rwsem.h>
 #include <linux/slab.h>
 #include <linux/ctype.h>
@@ -817,7 +825,10 @@ static const char *trace_options[] = {
 	"irq-info",
 	"markers",
 	"function-trace",
+<<<<<<< HEAD
 	"print-tgid",
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	NULL
 };
 
@@ -1285,11 +1296,18 @@ void tracing_reset_all_online_cpus(void)
 
 #define SAVED_CMDLINES_DEFAULT 128
 #define NO_CMDLINE_MAP UINT_MAX
+<<<<<<< HEAD
 static unsigned saved_tgids[SAVED_CMDLINES_DEFAULT];
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static arch_spinlock_t trace_cmdline_lock = __ARCH_SPIN_LOCK_UNLOCKED;
 struct saved_cmdlines_buffer {
 	unsigned map_pid_to_cmdline[PID_MAX_DEFAULT+1];
 	unsigned *map_cmdline_to_pid;
+<<<<<<< HEAD
+=======
+	unsigned *map_cmdline_to_tgid;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned cmdline_num;
 	int cmdline_idx;
 	char *saved_cmdlines;
@@ -1323,12 +1341,29 @@ static int allocate_cmdlines_buffer(unsigned int val,
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
+=======
+	s->map_cmdline_to_tgid = kmalloc_array(val,
+					       sizeof(*s->map_cmdline_to_tgid),
+					       GFP_KERNEL);
+	if (!s->map_cmdline_to_tgid) {
+		kfree(s->map_cmdline_to_pid);
+		kfree(s->saved_cmdlines);
+		return -ENOMEM;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	s->cmdline_idx = 0;
 	s->cmdline_num = val;
 	memset(&s->map_pid_to_cmdline, NO_CMDLINE_MAP,
 	       sizeof(s->map_pid_to_cmdline));
 	memset(s->map_cmdline_to_pid, NO_CMDLINE_MAP,
 	       val * sizeof(*s->map_cmdline_to_pid));
+<<<<<<< HEAD
+=======
+	memset(s->map_cmdline_to_tgid, NO_CMDLINE_MAP,
+	       val * sizeof(*s->map_cmdline_to_tgid));
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -1494,14 +1529,25 @@ static int trace_save_cmdline(struct task_struct *tsk)
 	if (!tsk->pid || unlikely(tsk->pid > PID_MAX_DEFAULT))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	preempt_disable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * It's not the end of the world if we don't get
 	 * the lock, but we also don't want to spin
 	 * nor do we want to disable interrupts,
 	 * so if we miss here, then better luck next time.
 	 */
+<<<<<<< HEAD
 	if (!arch_spin_trylock(&trace_cmdline_lock))
 		return 0;
+=======
+	if (!arch_spin_trylock(&trace_cmdline_lock)) {
+		preempt_enable();
+		return 0;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	idx = savedcmd->map_pid_to_cmdline[tsk->pid];
 	if (idx == NO_CMDLINE_MAP) {
@@ -1524,8 +1570,14 @@ static int trace_save_cmdline(struct task_struct *tsk)
 	}
 
 	set_cmdline(idx, tsk->comm);
+<<<<<<< HEAD
 	saved_tgids[idx] = tsk->tgid;
 	arch_spin_unlock(&trace_cmdline_lock);
+=======
+	savedcmd->map_cmdline_to_tgid[idx] = tsk->tgid;
+	arch_spin_unlock(&trace_cmdline_lock);
+	preempt_enable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 1;
 }
@@ -1567,11 +1619,16 @@ void trace_find_cmdline(int pid, char comm[])
 	preempt_enable();
 }
 
+<<<<<<< HEAD
 int trace_find_tgid(int pid)
+=======
+static int __find_tgid_locked(int pid)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	unsigned map;
 	int tgid;
 
+<<<<<<< HEAD
 	preempt_disable();
 	arch_spin_lock(&trace_cmdline_lock);
 	map = savedcmd->map_pid_to_cmdline[pid];
@@ -1580,6 +1637,26 @@ int trace_find_tgid(int pid)
 	else
 		tgid = -1;
 
+=======
+	map = savedcmd->map_pid_to_cmdline[pid];
+	if (map != NO_CMDLINE_MAP)
+		tgid = savedcmd->map_cmdline_to_tgid[map];
+	else
+		tgid = -1;
+
+	return tgid;
+}
+
+int trace_find_tgid(int pid)
+{
+	int tgid;
+
+	preempt_disable();
+	arch_spin_lock(&trace_cmdline_lock);
+
+	tgid = __find_tgid_locked(pid);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	arch_spin_unlock(&trace_cmdline_lock);
 	preempt_enable();
 
@@ -2564,6 +2641,7 @@ static void print_func_help_header(struct trace_buffer *buf, struct seq_file *m)
 	seq_puts(m, "#              | |       |          |         |\n");
 }
 
+<<<<<<< HEAD
 static void print_func_help_header_tgid(struct trace_buffer *buf, struct seq_file *m)
 {
 	print_event_info(buf, m);
@@ -2571,6 +2649,8 @@ static void print_func_help_header_tgid(struct trace_buffer *buf, struct seq_fil
 	seq_puts(m, "#              | |        |      |          |         |\n");
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void print_func_help_header_irq(struct trace_buffer *buf, struct seq_file *m)
 {
 	print_event_info(buf, m);
@@ -2583,6 +2663,7 @@ static void print_func_help_header_irq(struct trace_buffer *buf, struct seq_file
 	seq_puts(m, "#              | |       |   ||||       |         |\n");
 }
 
+<<<<<<< HEAD
 static void print_func_help_header_irq_tgid(struct trace_buffer *buf, struct seq_file *m)
 {
 	print_event_info(buf, m);
@@ -2595,6 +2676,8 @@ static void print_func_help_header_irq_tgid(struct trace_buffer *buf, struct seq
 	seq_puts(m, "#              | |        |      |   ||||       |         |\n");
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void
 print_trace_header(struct seq_file *m, struct trace_iterator *iter)
 {
@@ -2895,6 +2978,7 @@ void trace_default_header(struct seq_file *m)
 	} else {
 		if (!(trace_flags & TRACE_ITER_VERBOSE)) {
 			if (trace_flags & TRACE_ITER_IRQ_INFO)
+<<<<<<< HEAD
 				if (trace_flags & TRACE_ITER_TGID)
 					print_func_help_header_irq_tgid(iter->trace_buffer, m);
 				else
@@ -2904,6 +2988,12 @@ void trace_default_header(struct seq_file *m)
 					print_func_help_header_tgid(iter->trace_buffer, m);
 				else
 					print_func_help_header(iter->trace_buffer, m);
+=======
+				print_func_help_header_irq(iter->trace_buffer,
+								 m);
+			else
+				print_func_help_header(iter->trace_buffer, m);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 }
@@ -3887,10 +3977,22 @@ tracing_saved_cmdlines_size_read(struct file *filp, char __user *ubuf,
 {
 	char buf[64];
 	int r;
+<<<<<<< HEAD
 
 	arch_spin_lock(&trace_cmdline_lock);
 	r = scnprintf(buf, sizeof(buf), "%u\n", savedcmd->cmdline_num);
 	arch_spin_unlock(&trace_cmdline_lock);
+=======
+	unsigned int n;
+
+	preempt_disable();
+	arch_spin_lock(&trace_cmdline_lock);
+	n = savedcmd->cmdline_num;
+	arch_spin_unlock(&trace_cmdline_lock);
+	preempt_enable();
+
+	r = scnprintf(buf, sizeof(buf), "%u\n", n);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return simple_read_from_buffer(ubuf, cnt, ppos, buf, r);
 }
@@ -3899,6 +4001,10 @@ static void free_saved_cmdlines_buffer(struct saved_cmdlines_buffer *s)
 {
 	kfree(s->saved_cmdlines);
 	kfree(s->map_cmdline_to_pid);
+<<<<<<< HEAD
+=======
+	kfree(s->map_cmdline_to_tgid);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(s);
 }
 
@@ -3915,10 +4021,18 @@ static int tracing_resize_saved_cmdlines(unsigned int val)
 		return -ENOMEM;
 	}
 
+<<<<<<< HEAD
+=======
+	preempt_disable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	arch_spin_lock(&trace_cmdline_lock);
 	savedcmd_temp = savedcmd;
 	savedcmd = s;
 	arch_spin_unlock(&trace_cmdline_lock);
+<<<<<<< HEAD
+=======
+	preempt_enable();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	free_saved_cmdlines_buffer(savedcmd_temp);
 
 	return 0;
@@ -3961,6 +4075,7 @@ tracing_saved_tgids_read(struct file *file, char __user *ubuf,
 	char *file_buf;
 	char *buf;
 	int len = 0;
+<<<<<<< HEAD
 	int pid;
 	int i;
 
@@ -3973,11 +4088,30 @@ tracing_saved_tgids_read(struct file *file, char __user *ubuf,
 	for (i = 0; i < SAVED_CMDLINES_DEFAULT; i++) {
 		int tgid;
 		int r;
+=======
+	int i;
+	int *pids;
+	int n = 0;
+
+	preempt_disable();
+	arch_spin_lock(&trace_cmdline_lock);
+
+	pids = kmalloc_array(savedcmd->cmdline_num, 2*sizeof(int), GFP_KERNEL);
+	if (!pids) {
+		arch_spin_unlock(&trace_cmdline_lock);
+		preempt_enable();
+		return -ENOMEM;
+	}
+
+	for (i = 0; i < savedcmd->cmdline_num; i++) {
+		int pid;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		pid = savedcmd->map_cmdline_to_pid[i];
 		if (pid == -1 || pid == NO_CMDLINE_MAP)
 			continue;
 
+<<<<<<< HEAD
 		tgid = trace_find_tgid(pid);
 		r = sprintf(buf, "%d %d\n", pid, tgid);
 		buf += r;
@@ -3988,6 +4122,42 @@ tracing_saved_tgids_read(struct file *file, char __user *ubuf,
 				      file_buf, len);
 
 	kfree(file_buf);
+=======
+		pids[n] = pid;
+		pids[n+1] = __find_tgid_locked(pid);
+		n += 2;
+	}
+	arch_spin_unlock(&trace_cmdline_lock);
+	preempt_enable();
+
+	if (n == 0) {
+		kfree(pids);
+		return 0;
+	}
+
+	/* enough to hold max pair of pids + space, lr and nul */
+	len = n * 12;
+	file_buf = kmalloc(len, GFP_KERNEL);
+	if (!file_buf) {
+		kfree(pids);
+		return -ENOMEM;
+	}
+
+	buf = file_buf;
+	for (i = 0; i < n && len > 0; i += 2) {
+		int r;
+
+		r = snprintf(buf, len, "%d %d\n", pids[i], pids[i+1]);
+		buf += r;
+		len -= r;
+	}
+
+	len = simple_read_from_buffer(ubuf, cnt, ppos,
+				      file_buf, buf - file_buf);
+
+	kfree(file_buf);
+	kfree(pids);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return len;
 }
@@ -5937,6 +6107,7 @@ static __init int register_snapshot_cmd(void)
 static inline __init int register_snapshot_cmd(void) { return 0; }
 #endif /* defined(CONFIG_TRACER_SNAPSHOT) && defined(CONFIG_DYNAMIC_FTRACE) */
 
+<<<<<<< HEAD
 struct dentry *tracing_init_dentry_tr(struct trace_array *tr)
 {
 	if (tr->dir)
@@ -5959,6 +6130,21 @@ struct dentry *tracing_init_dentry(void)
 	return tracing_init_dentry_tr(&global_trace);
 }
 
+=======
+static struct dentry *tracing_get_dentry(struct trace_array *tr)
+{
+	if (WARN_ON(!tr->dir))
+		return ERR_PTR(-ENODEV);
+
+	/* Top directory uses NULL as the parent */
+	if (tr->flags & TRACE_ARRAY_FL_GLOBAL)
+		return NULL;
+
+	/* All sub buffers have a descriptor */
+	return tr->dir;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct dentry *tracing_dentry_percpu(struct trace_array *tr, int cpu)
 {
 	struct dentry *d_tracer;
@@ -5966,6 +6152,7 @@ static struct dentry *tracing_dentry_percpu(struct trace_array *tr, int cpu)
 	if (tr->percpu_dir)
 		return tr->percpu_dir;
 
+<<<<<<< HEAD
 	d_tracer = tracing_init_dentry_tr(tr);
 	if (!d_tracer)
 		return NULL;
@@ -5974,6 +6161,16 @@ static struct dentry *tracing_dentry_percpu(struct trace_array *tr, int cpu)
 
 	WARN_ONCE(!tr->percpu_dir,
 		  "Could not create debugfs directory 'per_cpu/%d'\n", cpu);
+=======
+	d_tracer = tracing_get_dentry(tr);
+	if (IS_ERR(d_tracer))
+		return NULL;
+
+	tr->percpu_dir = tracefs_create_dir("per_cpu", d_tracer);
+
+	WARN_ONCE(!tr->percpu_dir,
+		  "Could not create tracefs directory 'per_cpu/%d'\n", cpu);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return tr->percpu_dir;
 }
@@ -5990,7 +6187,11 @@ trace_create_cpu_file(const char *name, umode_t mode, struct dentry *parent,
 }
 
 static void
+<<<<<<< HEAD
 tracing_init_debugfs_percpu(struct trace_array *tr, long cpu)
+=======
+tracing_init_tracefs_percpu(struct trace_array *tr, long cpu)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct dentry *d_percpu = tracing_dentry_percpu(tr, cpu);
 	struct dentry *d_cpu;
@@ -6000,9 +6201,15 @@ tracing_init_debugfs_percpu(struct trace_array *tr, long cpu)
 		return;
 
 	snprintf(cpu_dir, 30, "cpu%ld", cpu);
+<<<<<<< HEAD
 	d_cpu = debugfs_create_dir(cpu_dir, d_percpu);
 	if (!d_cpu) {
 		pr_warning("Could not create debugfs '%s' entry\n", cpu_dir);
+=======
+	d_cpu = tracefs_create_dir(cpu_dir, d_percpu);
+	if (!d_cpu) {
+		pr_warning("Could not create tracefs '%s' entry\n", cpu_dir);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 	}
 
@@ -6154,9 +6361,15 @@ struct dentry *trace_create_file(const char *name,
 {
 	struct dentry *ret;
 
+<<<<<<< HEAD
 	ret = debugfs_create_file(name, mode, parent, data, fops);
 	if (!ret)
 		pr_warning("Could not create debugfs '%s' entry\n", name);
+=======
+	ret = tracefs_create_file(name, mode, parent, data, fops);
+	if (!ret)
+		pr_warning("Could not create tracefs '%s' entry\n", name);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -6169,6 +6382,7 @@ static struct dentry *trace_options_init_dentry(struct trace_array *tr)
 	if (tr->options)
 		return tr->options;
 
+<<<<<<< HEAD
 	d_tracer = tracing_init_dentry_tr(tr);
 	if (!d_tracer)
 		return NULL;
@@ -6176,6 +6390,15 @@ static struct dentry *trace_options_init_dentry(struct trace_array *tr)
 	tr->options = debugfs_create_dir("options", d_tracer);
 	if (!tr->options) {
 		pr_warning("Could not create debugfs directory 'options'\n");
+=======
+	d_tracer = tracing_get_dentry(tr);
+	if (IS_ERR(d_tracer))
+		return NULL;
+
+	tr->options = tracefs_create_dir("options", d_tracer);
+	if (!tr->options) {
+		pr_warning("Could not create tracefs directory 'options'\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return NULL;
 	}
 
@@ -6244,7 +6467,11 @@ destroy_trace_option_files(struct trace_option_dentry *topts)
 		return;
 
 	for (cnt = 0; topts[cnt].opt; cnt++)
+<<<<<<< HEAD
 		debugfs_remove(topts[cnt].entry);
+=======
+		tracefs_remove(topts[cnt].entry);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	kfree(topts);
 }
@@ -6333,7 +6560,11 @@ static const struct file_operations rb_simple_fops = {
 struct dentry *trace_instance_dir;
 
 static void
+<<<<<<< HEAD
 init_tracer_debugfs(struct trace_array *tr, struct dentry *d_tracer);
+=======
+init_tracer_tracefs(struct trace_array *tr, struct dentry *d_tracer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int
 allocate_trace_buffer(struct trace_array *tr, struct trace_buffer *buf, int size)
@@ -6410,7 +6641,11 @@ static void free_trace_buffers(struct trace_array *tr)
 #endif
 }
 
+<<<<<<< HEAD
 static int new_instance_create(const char *name)
+=======
+static int instance_mkdir(const char *name)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct trace_array *tr;
 	int ret;
@@ -6449,17 +6684,29 @@ static int new_instance_create(const char *name)
 	if (allocate_trace_buffers(tr, trace_buf_size) < 0)
 		goto out_free_tr;
 
+<<<<<<< HEAD
 	tr->dir = debugfs_create_dir(name, trace_instance_dir);
+=======
+	tr->dir = tracefs_create_dir(name, trace_instance_dir);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!tr->dir)
 		goto out_free_tr;
 
 	ret = event_trace_add_tracer(tr->dir, tr);
 	if (ret) {
+<<<<<<< HEAD
 		debugfs_remove_recursive(tr->dir);
 		goto out_free_tr;
 	}
 
 	init_tracer_debugfs(tr, tr->dir);
+=======
+		tracefs_remove_recursive(tr->dir);
+		goto out_free_tr;
+	}
+
+	init_tracer_tracefs(tr, tr->dir);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_add(&tr->list, &ftrace_trace_arrays);
 
@@ -6480,7 +6727,11 @@ static int new_instance_create(const char *name)
 
 }
 
+<<<<<<< HEAD
 static int instance_delete(const char *name)
+=======
+static int instance_rmdir(const char *name)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct trace_array *tr;
 	int found = 0;
@@ -6522,6 +6773,7 @@ static int instance_delete(const char *name)
 	return ret;
 }
 
+<<<<<<< HEAD
 static int instance_mkdir (struct inode *inode, struct dentry *dentry, umode_t mode)
 {
 	struct dentry *parent;
@@ -6598,6 +6850,19 @@ static __init void create_trace_instances(struct dentry *d_tracer)
 
 static void
 init_tracer_debugfs(struct trace_array *tr, struct dentry *d_tracer)
+=======
+static __init void create_trace_instances(struct dentry *d_tracer)
+{
+	trace_instance_dir = tracefs_create_instance_dir("instances", d_tracer,
+							 instance_mkdir,
+							 instance_rmdir);
+	if (WARN_ON(!trace_instance_dir))
+		return;
+}
+
+static void
+init_tracer_tracefs(struct trace_array *tr, struct dentry *d_tracer)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int cpu;
 
@@ -6631,9 +6896,12 @@ init_tracer_debugfs(struct trace_array *tr, struct dentry *d_tracer)
 	trace_create_file("trace_marker", 0220, d_tracer,
 			  tr, &tracing_mark_fops);
 
+<<<<<<< HEAD
 	trace_create_file("saved_tgids", 0444, d_tracer,
 			  tr, &tracing_saved_tgids_fops);
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	trace_create_file("trace_clock", 0644, d_tracer, tr,
 			  &trace_clock_fops);
 
@@ -6654,21 +6922,92 @@ init_tracer_debugfs(struct trace_array *tr, struct dentry *d_tracer)
 #endif
 
 	for_each_tracing_cpu(cpu)
+<<<<<<< HEAD
 		tracing_init_debugfs_percpu(tr, cpu);
 
 }
 
 static __init int tracer_init_debugfs(void)
+=======
+		tracing_init_tracefs_percpu(tr, cpu);
+
+}
+
+static struct vfsmount *trace_automount(void *ingore)
+{
+	struct vfsmount *mnt;
+	struct file_system_type *type;
+
+	/*
+	 * To maintain backward compatibility for tools that mount
+	 * debugfs to get to the tracing facility, tracefs is automatically
+	 * mounted to the debugfs/tracing directory.
+	 */
+	type = get_fs_type("tracefs");
+	if (!type)
+		return NULL;
+	mnt = vfs_kern_mount(type, 0, "tracefs", NULL);
+	put_filesystem(type);
+	if (IS_ERR(mnt))
+		return NULL;
+	mntget(mnt);
+
+	return mnt;
+}
+
+/**
+ * tracing_init_dentry - initialize top level trace array
+ *
+ * This is called when creating files or directories in the tracing
+ * directory. It is called via fs_initcall() by any of the boot up code
+ * and expects to return the dentry of the top level tracing directory.
+ */
+struct dentry *tracing_init_dentry(void)
+{
+	struct trace_array *tr = &global_trace;
+
+	/* The top level trace array uses  NULL as parent */
+	if (tr->dir)
+		return NULL;
+
+	if (WARN_ON(!debugfs_initialized()))
+		return ERR_PTR(-ENODEV);
+
+	/*
+	 * As there may still be users that expect the tracing
+	 * files to exist in debugfs/tracing, we must automount
+	 * the tracefs file system there, so older tools still
+	 * work with the newer kerenl.
+	 */
+	tr->dir = debugfs_create_automount("tracing", NULL,
+					   trace_automount, NULL);
+	if (!tr->dir) {
+		pr_warn_once("Could not create debugfs directory 'tracing'\n");
+		return ERR_PTR(-ENOMEM);
+	}
+
+	return NULL;
+}
+
+static __init int tracer_init_tracefs(void)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct dentry *d_tracer;
 
 	trace_access_lock_init();
 
 	d_tracer = tracing_init_dentry();
+<<<<<<< HEAD
 	if (!d_tracer)
 		return 0;
 
 	init_tracer_debugfs(&global_trace, d_tracer);
+=======
+	if (IS_ERR(d_tracer))
+		return 0;
+
+	init_tracer_tracefs(&global_trace, d_tracer);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	trace_create_file("tracing_thresh", 0644, d_tracer,
 			&global_trace, &tracing_thresh_fops);
@@ -6890,7 +7229,10 @@ __init static int tracer_alloc_buffers(void)
 	int ring_buf_size;
 	int ret = -ENOMEM;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!alloc_cpumask_var(&tracing_buffer_mask, GFP_KERNEL))
 		goto out;
 
@@ -6988,6 +7330,16 @@ out:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+void __init trace_init(void)
+{
+	tracer_alloc_buffers();
+	init_ftrace_syscalls();
+	trace_event_init();	
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 __init static int clear_boot_tracer(void)
 {
 	/*
@@ -7007,6 +7359,10 @@ __init static int clear_boot_tracer(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 early_initcall(tracer_alloc_buffers);
 fs_initcall(tracer_init_debugfs);
+=======
+fs_initcall(tracer_init_tracefs);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 late_initcall(clear_boot_tracer);

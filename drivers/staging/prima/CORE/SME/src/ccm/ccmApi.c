@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -239,7 +243,11 @@ static void sendQueuedReqToMacSw(tpAniSirGlobal pMac, tHddHandle hHdd)
                 }
 
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
                 smsLog(pMac, LOGW, FL("ccmComplete(%p)"), req->done);
+=======
+                smsLog(pMac, LOGW, FL("ccmComplete(%pK)"), req->done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
                 ccmComplete(hHdd, req->done);
 
@@ -382,12 +390,20 @@ static eHalStatus cfgSet(tHalHandle hHal, tANI_U32 cfgId, tANI_U32 type, tANI_S3
         if ((status == eHAL_STATUS_SUCCESS) && (sem != NULL))
         {
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
             smsLog(pMac, LOG1, FL("ccmWaitForCompletion(%p)"), req->done);
+=======
+            smsLog(pMac, LOG1, FL("ccmWaitForCompletion(%pK)"), req->done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
             ccmWaitForCompletion(hHdd, sem);
 
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
             smsLog(pMac, LOG1, FL("free(%p)"), req->done);
+=======
+            smsLog(pMac, LOG1, FL("free(%pK)"), req->done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
             palSemaphoreFree( hHdd, sem ) ;
         }
@@ -472,7 +488,11 @@ void ccmCfgCnfMsgHandler(tHalHandle hHal, void *m)
 
             /* Wake up the sleeping process */
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
             smsLog(pMac, LOGW, FL("ccmComplete(%p)"), pMac->ccm.replay.done);
+=======
+            smsLog(pMac, LOGW, FL("ccmComplete(%pK)"), pMac->ccm.replay.done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
             ccmComplete(hHdd, pMac->ccm.replay.done);
             //Let go with the rest of the set CFGs waiting.
@@ -517,7 +537,11 @@ void ccmCfgCnfMsgHandler(tHalHandle hHal, void *m)
 
                 /* Wake up the sleeping process */
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
                 smsLog(pMac, LOGW, FL("cfgId=%ld, calling ccmComplete(%p)"), cfgId, req->done);
+=======
+                smsLog(pMac, LOGW, FL("cfgId=%ld, calling ccmComplete(%pK)"), cfgId, req->done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
                 ccmComplete(hHdd, req->done);
 
@@ -545,7 +569,11 @@ void ccmCfgCnfMsgHandler(tHalHandle hHal, void *m)
                         (int)cfgId, (int)result, req->cfgId, req->state);
 
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
                 smsLog(pMac, LOGW, FL("ccmComplete(%p)"), req->done);
+=======
+                smsLog(pMac, LOGW, FL("ccmComplete(%pK)"), req->done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
             }
 
@@ -815,12 +843,20 @@ eHalStatus ccmCfgUpdate(tHalHandle hHal, tCcmCfgSetCallback callback)
     if (status == eHAL_STATUS_SUCCESS && pMac->ccm.replay.done)
     {
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
         smsLog(pMac, LOGW, FL("ccmWaitForCompletion(%p)"), pMac->ccm.replay.done);
+=======
+        smsLog(pMac, LOGW, FL("ccmWaitForCompletion(%pK)"), pMac->ccm.replay.done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
         ccmWaitForCompletion(hHdd, pMac->ccm.replay.done);
 
 #ifdef CCM_DEBUG
+<<<<<<< HEAD
         smsLog(pMac, LOGW, FL("free(%p)"), pMac->ccm.replay.done);
+=======
+        smsLog(pMac, LOGW, FL("free(%pK)"), pMac->ccm.replay.done);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
         palSemaphoreFree( hHdd, pMac->ccm.replay.done) ;
     }

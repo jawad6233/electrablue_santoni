@@ -10,6 +10,10 @@
  *
  */
 
+<<<<<<< HEAD
+=======
+#include <linux/async.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/device.h>
 #include <linux/module.h>
 #include <linux/errno.h>
@@ -549,15 +553,23 @@ void bus_probe_device(struct device *dev)
 {
 	struct bus_type *bus = dev->bus;
 	struct subsys_interface *sif;
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!bus)
 		return;
 
+<<<<<<< HEAD
 	if (bus->p->drivers_autoprobe) {
 		ret = device_attach(dev);
 		WARN_ON(ret < 0);
 	}
+=======
+	if (bus->p->drivers_autoprobe)
+		device_initial_probe(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_lock(&bus->p->mutex);
 	list_for_each_entry(sif, &bus->p->interfaces, node)
@@ -659,6 +671,20 @@ static ssize_t uevent_store(struct device_driver *drv, const char *buf,
 }
 static DRIVER_ATTR_WO(uevent);
 
+<<<<<<< HEAD
+=======
+static void driver_attach_async(void *_drv, async_cookie_t cookie)
+{
+	struct device_driver *drv = _drv;
+	int ret;
+
+	ret = driver_attach(drv);
+
+	pr_debug("bus: '%s': driver %s async attach completed: %d\n",
+		 drv->bus->name, drv->name, ret);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * bus_add_driver - Add a driver to the bus.
  * @drv: driver.
@@ -691,9 +717,21 @@ int bus_add_driver(struct device_driver *drv)
 
 	klist_add_tail(&priv->knode_bus, &bus->p->klist_drivers);
 	if (drv->bus->p->drivers_autoprobe) {
+<<<<<<< HEAD
 		error = driver_attach(drv);
 		if (error)
 			goto out_unregister;
+=======
+		if (driver_allows_async_probing(drv)) {
+			pr_debug("bus: '%s': probing driver %s asynchronously\n",
+				drv->bus->name, drv->name);
+			async_schedule(driver_attach_async, drv);
+		} else {
+			error = driver_attach(drv);
+			if (error)
+				goto out_unregister;
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	module_add_driver(drv->owner, drv);
 

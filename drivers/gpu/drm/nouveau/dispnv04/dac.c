@@ -65,8 +65,13 @@ int nv04_dac_output_offset(struct drm_encoder *encoder)
 
 static int sample_load_twice(struct drm_device *dev, bool sense[2])
 {
+<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(dev)->device;
 	struct nouveau_timer *ptimer = nvkm_timer(device);
+=======
+	struct nouveau_drm *drm = nouveau_drm(dev);
+	struct nvif_object *device = &drm->device.object;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int i;
 
 	for (i = 0; i < 2; i++) {
@@ -80,6 +85,7 @@ static int sample_load_twice(struct drm_device *dev, bool sense[2])
 		 * use a 10ms timeout (guards against crtc being inactive, in
 		 * which case blank state would never change)
 		 */
+<<<<<<< HEAD
 		if (!nouveau_timer_wait_eq(ptimer, 10000000,
 					   NV_PRMCIO_INP0__COLOR,
 					   0x00000001, 0x00000000))
@@ -91,6 +97,24 @@ static int sample_load_twice(struct drm_device *dev, bool sense[2])
 		if (!nouveau_timer_wait_eq(ptimer, 10000000,
 					   NV_PRMCIO_INP0__COLOR,
 					   0x00000001, 0x00000000))
+=======
+		if (nvif_msec(&drm->device, 10,
+			if (!(nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 1))
+				break;
+		) < 0)
+			return -EBUSY;
+
+		if (nvif_msec(&drm->device, 10,
+			if ( (nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 1))
+				break;
+		) < 0)
+			return -EBUSY;
+
+		if (nvif_msec(&drm->device, 10,
+			if (!(nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 1))
+				break;
+		) < 0)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return -EBUSY;
 
 		udelay(100);
@@ -128,7 +152,11 @@ static enum drm_connector_status nv04_dac_detect(struct drm_encoder *encoder,
 						 struct drm_connector *connector)
 {
 	struct drm_device *dev = encoder->dev;
+<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(dev)->device;
+=======
+	struct nvif_object *device = &nouveau_drm(dev)->device.object;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_drm *drm = nouveau_drm(dev);
 	uint8_t saved_seq1, saved_pi, saved_rpc1, saved_cr_mode;
 	uint8_t saved_palette0[3], saved_palette_mask;
@@ -231,8 +259,13 @@ uint32_t nv17_dac_sample_load(struct drm_encoder *encoder)
 {
 	struct drm_device *dev = encoder->dev;
 	struct nouveau_drm *drm = nouveau_drm(dev);
+<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(dev)->device;
 	struct nouveau_gpio *gpio = nvkm_gpio(device);
+=======
+	struct nvif_object *device = &nouveau_drm(dev)->device.object;
+	struct nvkm_gpio *gpio = nvxx_gpio(&drm->device);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
 	uint32_t sample, testval, regoffset = nv04_dac_output_offset(encoder);
 	uint32_t saved_powerctrl_2 = 0, saved_powerctrl_4 = 0, saved_routput,
@@ -265,10 +298,17 @@ uint32_t nv17_dac_sample_load(struct drm_encoder *encoder)
 	}
 
 	if (gpio) {
+<<<<<<< HEAD
 		saved_gpio1 = gpio->get(gpio, 0, DCB_GPIO_TVDAC1, 0xff);
 		saved_gpio0 = gpio->get(gpio, 0, DCB_GPIO_TVDAC0, 0xff);
 		gpio->set(gpio, 0, DCB_GPIO_TVDAC1, 0xff, dcb->type == DCB_OUTPUT_TV);
 		gpio->set(gpio, 0, DCB_GPIO_TVDAC0, 0xff, dcb->type == DCB_OUTPUT_TV);
+=======
+		saved_gpio1 = nvkm_gpio_get(gpio, 0, DCB_GPIO_TVDAC1, 0xff);
+		saved_gpio0 = nvkm_gpio_get(gpio, 0, DCB_GPIO_TVDAC0, 0xff);
+		nvkm_gpio_set(gpio, 0, DCB_GPIO_TVDAC1, 0xff, dcb->type == DCB_OUTPUT_TV);
+		nvkm_gpio_set(gpio, 0, DCB_GPIO_TVDAC0, 0xff, dcb->type == DCB_OUTPUT_TV);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	msleep(4);
@@ -320,8 +360,13 @@ uint32_t nv17_dac_sample_load(struct drm_encoder *encoder)
 	nvif_wr32(device, NV_PBUS_POWERCTRL_2, saved_powerctrl_2);
 
 	if (gpio) {
+<<<<<<< HEAD
 		gpio->set(gpio, 0, DCB_GPIO_TVDAC1, 0xff, saved_gpio1);
 		gpio->set(gpio, 0, DCB_GPIO_TVDAC0, 0xff, saved_gpio0);
+=======
+		nvkm_gpio_set(gpio, 0, DCB_GPIO_TVDAC1, 0xff, saved_gpio1);
+		nvkm_gpio_set(gpio, 0, DCB_GPIO_TVDAC0, 0xff, saved_gpio0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return sample;
@@ -358,7 +403,11 @@ static bool nv04_dac_mode_fixup(struct drm_encoder *encoder,
 
 static void nv04_dac_prepare(struct drm_encoder *encoder)
 {
+<<<<<<< HEAD
 	struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+=======
+	const struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_device *dev = encoder->dev;
 	int head = nouveau_crtc(encoder->crtc)->index;
 
@@ -409,7 +458,11 @@ static void nv04_dac_commit(struct drm_encoder *encoder)
 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
 	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
 	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
+<<<<<<< HEAD
 	struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+=======
+	const struct drm_encoder_helper_funcs *helper = encoder->helper_private;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
 

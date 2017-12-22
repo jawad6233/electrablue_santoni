@@ -212,7 +212,19 @@ TRACE_EVENT(cpu_frequency_limits,
 		  (unsigned long)__entry->cpu_id)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT(device_pm_callback_start,
+=======
+DEFINE_EVENT(cpu, cpu_capacity,
+
+	TP_PROTO(unsigned int capacity, unsigned int cpu_id),
+
+	TP_ARGS(capacity, cpu_id)
+);
+
+TRACE_EVENT(device_pm_callback_start,
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	TP_PROTO(struct device *dev, const char *pm_ops, int event),
 
 	TP_ARGS(dev, pm_ops, event),

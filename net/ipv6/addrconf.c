@@ -107,6 +107,30 @@ static inline u32 cstamp_delta(unsigned long cstamp)
 	return (cstamp - INITIAL_JIFFIES) * 100UL / HZ;
 }
 
+<<<<<<< HEAD
+=======
+static inline s32 rfc3315_s14_backoff_init(s32 irt)
+{
+	/* multiply 'initial retransmission time' by 0.9 .. 1.1 */
+	u64 tmp = (900000 + prandom_u32() % 200001) * (u64)irt;
+	do_div(tmp, 1000000);
+	return (s32)tmp;
+}
+
+static inline s32 rfc3315_s14_backoff_update(s32 rt, s32 mrt)
+{
+	/* multiply 'retransmission timeout' by 1.9 .. 2.1 */
+	u64 tmp = (1900000 + prandom_u32() % 200001) * (u64)rt;
+	do_div(tmp, 1000000);
+	if ((s32)tmp > mrt) {
+		/* multiply 'maximum retransmission time' by 0.9 .. 1.1 */
+		tmp = (900000 + prandom_u32() % 200001) * (u64)mrt;
+		do_div(tmp, 1000000);
+	}
+	return (s32)tmp;
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_SYSCTL
 static int addrconf_sysctl_register(struct inet6_dev *idev);
 static void addrconf_sysctl_unregister(struct inet6_dev *idev);
@@ -179,6 +203,10 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.dad_transmits		= 1,
 	.rtr_solicits		= MAX_RTR_SOLICITATIONS,
 	.rtr_solicit_interval	= RTR_SOLICITATION_INTERVAL,
+<<<<<<< HEAD
+=======
+	.rtr_solicit_max_interval = RTR_SOLICITATION_MAX_INTERVAL,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.rtr_solicit_delay	= MAX_RTR_SOLICITATION_DELAY,
 	.use_tempaddr		= 0,
 	.temp_valid_lft		= TEMP_VALID_LIFETIME,
@@ -193,6 +221,10 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.accept_ra_rtr_pref	= 1,
 	.rtr_probe_interval	= 60 * HZ,
 #ifdef CONFIG_IPV6_ROUTE_INFO
+<<<<<<< HEAD
+=======
+	.accept_ra_rt_info_min_plen = 0,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.accept_ra_rt_info_max_plen = 0,
 #endif
 #endif
@@ -204,6 +236,10 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.suppress_frag_ndisc	= 1,
 	.accept_ra_prefix_route = 1,
 	.use_oif_addrs_only	= 0,
+<<<<<<< HEAD
+=======
+	.accept_ra_mtu		= 1,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
@@ -219,6 +255,10 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.dad_transmits		= 1,
 	.rtr_solicits		= MAX_RTR_SOLICITATIONS,
 	.rtr_solicit_interval	= RTR_SOLICITATION_INTERVAL,
+<<<<<<< HEAD
+=======
+	.rtr_solicit_max_interval = RTR_SOLICITATION_MAX_INTERVAL,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.rtr_solicit_delay	= MAX_RTR_SOLICITATION_DELAY,
 	.use_tempaddr		= 0,
 	.temp_valid_lft		= TEMP_VALID_LIFETIME,
@@ -233,6 +273,10 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.accept_ra_rtr_pref	= 1,
 	.rtr_probe_interval	= 60 * HZ,
 #ifdef CONFIG_IPV6_ROUTE_INFO
+<<<<<<< HEAD
+=======
+	.accept_ra_rt_info_min_plen = 0,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.accept_ra_rt_info_max_plen = 0,
 #endif
 #endif
@@ -244,6 +288,10 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.suppress_frag_ndisc	= 1,
 	.accept_ra_prefix_route = 1,
 	.use_oif_addrs_only	= 0,
+<<<<<<< HEAD
+=======
+	.accept_ra_mtu		= 1,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* Check if a valid qdisc is available */
@@ -3250,7 +3298,11 @@ static void addrconf_rs_timer(unsigned long data)
 	if (idev->if_flags & IF_RA_RCVD)
 		goto out;
 
+<<<<<<< HEAD
 	if (idev->rs_probes++ < idev->cnf.rtr_solicits) {
+=======
+	if (idev->rs_probes++ < idev->cnf.rtr_solicits || idev->cnf.rtr_solicits < 0) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		write_unlock(&idev->lock);
 		if (!ipv6_get_lladdr(dev, &lladdr, IFA_F_TENTATIVE))
 			ndisc_send_rs(dev, &lladdr,
@@ -3259,11 +3311,20 @@ static void addrconf_rs_timer(unsigned long data)
 			goto put;
 
 		write_lock(&idev->lock);
+<<<<<<< HEAD
+=======
+		idev->rs_interval = rfc3315_s14_backoff_update(
+			idev->rs_interval, idev->cnf.rtr_solicit_max_interval);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* The wait after the last probe can be shorter */
 		addrconf_mod_rs_timer(idev, (idev->rs_probes ==
 					     idev->cnf.rtr_solicits) ?
 				      idev->cnf.rtr_solicit_delay :
+<<<<<<< HEAD
 				      idev->cnf.rtr_solicit_interval);
+=======
+				      idev->rs_interval);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		/*
 		 * Note: we do not support deprecated "all on-link"
@@ -3491,7 +3552,11 @@ static void addrconf_dad_completed(struct inet6_ifaddr *ifp)
 	send_mld = ifp->scope == IFA_LINK && ipv6_lonely_lladdr(ifp);
 	send_rs = send_mld &&
 		  ipv6_accept_ra(ifp->idev) &&
+<<<<<<< HEAD
 		  ifp->idev->cnf.rtr_solicits > 0 &&
+=======
+		  ifp->idev->cnf.rtr_solicits != 0 &&
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		  (dev->flags&IFF_LOOPBACK) == 0;
 	read_unlock_bh(&ifp->idev->lock);
 
@@ -3513,10 +3578,18 @@ static void addrconf_dad_completed(struct inet6_ifaddr *ifp)
 
 		write_lock_bh(&ifp->idev->lock);
 		spin_lock(&ifp->lock);
+<<<<<<< HEAD
 		ifp->idev->rs_probes = 1;
 		ifp->idev->if_flags |= IF_RS_SENT;
 		addrconf_mod_rs_timer(ifp->idev,
 				      ifp->idev->cnf.rtr_solicit_interval);
+=======
+		ifp->idev->rs_interval = rfc3315_s14_backoff_init(
+			ifp->idev->cnf.rtr_solicit_interval);
+		ifp->idev->rs_probes = 1;
+		ifp->idev->if_flags |= IF_RS_SENT;
+		addrconf_mod_rs_timer(ifp->idev, ifp->idev->rs_interval);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		spin_unlock(&ifp->lock);
 		write_unlock_bh(&ifp->idev->lock);
 	}
@@ -4430,6 +4503,11 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_RTR_SOLICITS] = cnf->rtr_solicits;
 	array[DEVCONF_RTR_SOLICIT_INTERVAL] =
 		jiffies_to_msecs(cnf->rtr_solicit_interval);
+<<<<<<< HEAD
+=======
+	array[DEVCONF_RTR_SOLICIT_MAX_INTERVAL] =
+		jiffies_to_msecs(cnf->rtr_solicit_max_interval);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	array[DEVCONF_RTR_SOLICIT_DELAY] =
 		jiffies_to_msecs(cnf->rtr_solicit_delay);
 	array[DEVCONF_FORCE_MLD_VERSION] = cnf->force_mld_version;
@@ -4450,6 +4528,10 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_RTR_PROBE_INTERVAL] =
 		jiffies_to_msecs(cnf->rtr_probe_interval);
 #ifdef CONFIG_IPV6_ROUTE_INFO
+<<<<<<< HEAD
+=======
+	array[DEVCONF_ACCEPT_RA_RT_INFO_MIN_PLEN] = cnf->accept_ra_rt_info_min_plen;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	array[DEVCONF_ACCEPT_RA_RT_INFO_MAX_PLEN] = cnf->accept_ra_rt_info_max_plen;
 #endif
 #endif
@@ -4470,6 +4552,10 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_SUPPRESS_FRAG_NDISC] = cnf->suppress_frag_ndisc;
 	array[DEVCONF_ACCEPT_RA_FROM_LOCAL] = cnf->accept_ra_from_local;
 	array[DEVCONF_USE_OIF_ADDRS_ONLY] = cnf->use_oif_addrs_only;
+<<<<<<< HEAD
+=======
+	array[DEVCONF_ACCEPT_RA_MTU] = cnf->accept_ra_mtu;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline size_t inet6_ifla6_size(void)
@@ -4621,7 +4707,11 @@ static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token)
 		return -EINVAL;
 	if (!ipv6_accept_ra(idev))
 		return -EINVAL;
+<<<<<<< HEAD
 	if (idev->cnf.rtr_solicits <= 0)
+=======
+	if (idev->cnf.rtr_solicits == 0)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 
 	write_lock_bh(&idev->lock);
@@ -4646,8 +4736,15 @@ static int inet6_set_iftoken(struct inet6_dev *idev, struct in6_addr *token)
 
 	if (update_rs) {
 		idev->if_flags |= IF_RS_SENT;
+<<<<<<< HEAD
 		idev->rs_probes = 1;
 		addrconf_mod_rs_timer(idev, idev->cnf.rtr_solicit_interval);
+=======
+		idev->rs_interval = rfc3315_s14_backoff_init(
+			idev->cnf.rtr_solicit_interval);
+		idev->rs_probes = 1;
+		addrconf_mod_rs_timer(idev, idev->rs_interval);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Well, that's kinda nasty ... */
@@ -5184,6 +5281,16 @@ static struct addrconf_sysctl_table
 			.proc_handler	= proc_dointvec_jiffies,
 		},
 		{
+<<<<<<< HEAD
+=======
+			.procname	= "router_solicitation_max_interval",
+			.data		= &ipv6_devconf.rtr_solicit_max_interval,
+			.maxlen		= sizeof(int),
+			.mode		= 0644,
+			.proc_handler	= proc_dointvec_jiffies,
+		},
+		{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.procname	= "router_solicitation_delay",
 			.data		= &ipv6_devconf.rtr_solicit_delay,
 			.maxlen		= sizeof(int),
@@ -5286,6 +5393,16 @@ static struct addrconf_sysctl_table
 		},
 #ifdef CONFIG_IPV6_ROUTE_INFO
 		{
+<<<<<<< HEAD
+=======
+			.procname	= "accept_ra_rt_info_min_plen",
+			.data		= &ipv6_devconf.accept_ra_rt_info_min_plen,
+			.maxlen		= sizeof(int),
+			.mode		= 0644,
+			.proc_handler	= proc_dointvec,
+		},
+		{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.procname	= "accept_ra_rt_info_max_plen",
 			.data		= &ipv6_devconf.accept_ra_rt_info_max_plen,
 			.maxlen		= sizeof(int),
@@ -5399,6 +5516,16 @@ static struct addrconf_sysctl_table
 			.proc_handler   = proc_dointvec,
 		},
 		{
+<<<<<<< HEAD
+=======
+			.procname	= "accept_ra_mtu",
+			.data		= &ipv6_devconf.accept_ra_mtu,
+			.maxlen		= sizeof(int),
+			.mode		= 0644,
+			.proc_handler	= proc_dointvec,
+		},
+		{
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			/* sentinel */
 		}
 	},

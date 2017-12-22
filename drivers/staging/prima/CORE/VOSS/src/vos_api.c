@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -103,6 +107,12 @@
 /* Trace index for WDI Read/Write */
 #define VOS_TRACE_INDEX_MAX 256
 
+<<<<<<< HEAD
+=======
+/* ARP Target IP offset */
+#define VOS_ARP_TARGET_IP_OFFSET 58
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*---------------------------------------------------------------------------
  * Data definitions
  * ------------------------------------------------------------------------*/
@@ -454,6 +464,11 @@ VOS_STATUS vos_open( v_CONTEXT_t *pVosContext, void *devHandle )
    VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO_HIGH,
                "%s: VOSS successfully Opened", __func__);
 
+<<<<<<< HEAD
+=======
+   gpVosContext->snoc_high_freq_voting = false;
+   spin_lock_init(&gpVosContext->freq_voting_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    *pVosContext = gpVosContext;
 
    return VOS_STATUS_SUCCESS;
@@ -1846,7 +1861,11 @@ VOS_STATUS __vos_fatal_event_logs_req( uint32_t is_fatal,
         return VOS_STATUS_E_FAILURE;
     }
 
+<<<<<<< HEAD
     if(!pHddCtx->cfg_ini->enableFatalEvent)
+=======
+    if (!pHddCtx->cfg_ini->enableFatalEvent || !pHddCtx->is_fatal_event_log_sup)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     {
        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
             "%s: Fatal event not enabled", __func__);
@@ -3285,6 +3304,62 @@ void vos_set_rx_wow_dump(bool value)
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * vos_set_hdd_bad_sta() - Set bad link peer sta id
+ * @sta_id: sta id of the bad peer
+ *
+ * Return none.
+ */
+void vos_set_hdd_bad_sta(uint8_t sta_id)
+{
+    hdd_context_t *pHddCtx = NULL;
+    v_CONTEXT_t pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+    if(!pVosContext)
+    {
+       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: Global VOS context is Null", __func__);
+       return;
+    }
+
+    pHddCtx = (hdd_context_t *)vos_get_context(VOS_MODULE_ID_HDD, pVosContext );
+    if(!pHddCtx) {
+       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
+                "%s: HDD context is Null", __func__);
+       return;
+    }
+
+    pHddCtx->bad_sta[sta_id] = 1;
+}
+
+/**
+ * vos_reset_hdd_bad_sta() - Reset the bad peer sta_id
+ * @sta_id: sta id of the peer
+ *
+ * Return none.
+ */
+void vos_reset_hdd_bad_sta(uint8_t sta_id)
+{
+    hdd_context_t *pHddCtx = NULL;
+    v_CONTEXT_t pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+    if(!pVosContext) {
+       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: Global VOS context is Null", __func__);
+       return;
+    }
+
+    pHddCtx = (hdd_context_t *)vos_get_context(VOS_MODULE_ID_HDD, pVosContext );
+    if(!pHddCtx) {
+       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
+                "%s: HDD context is Null", __func__);
+       return;
+    }
+
+    pHddCtx->bad_sta[sta_id] = 0;
+}
+
+/**
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * vos_probe_threads() - VOS API to post messages
  * to all the threads to detect if they are active or not
  *
@@ -3630,6 +3705,49 @@ v_BOOL_t vos_is_probe_rsp_offload_enabled(void)
 	return pHddCtx->cfg_ini->sap_probe_resp_offload;
 }
 
+<<<<<<< HEAD
+=======
+
+/**
+ * vos_set_snoc_high_freq_voting() - enable/disable high freq voting
+ * @enable: true if need to be enabled
+ *
+ * enable/disable high freq voting
+ *
+ * Return: Void
+ */
+#ifdef HAVE_WCNSS_SNOC_HIGH_FREQ_VOTING
+void vos_set_snoc_high_freq_voting(bool enable)
+{
+   VosContextType *vos_ctx = NULL;
+
+   /* Get the Global VOSS Context */
+   vos_ctx = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+   if (!vos_ctx) {
+      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+            "%s: vos context is NULL", __func__);
+      return;
+   }
+
+   spin_lock(&vos_ctx->freq_voting_lock);
+   if (vos_ctx->snoc_high_freq_voting != enable)
+   {
+      vos_ctx->snoc_high_freq_voting = enable;
+      spin_unlock(&vos_ctx->freq_voting_lock);
+      wcnss_snoc_vote(enable);
+      return;
+   }
+   spin_unlock(&vos_ctx->freq_voting_lock);
+}
+#else
+void vos_set_snoc_high_freq_voting(bool enable)
+{
+   return;
+}
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void vos_smd_dump_stats(void)
 {
   WCTS_Dump_Smd_status();
@@ -3664,6 +3782,7 @@ void vos_dump_wdi_events(void)
             gvos_wdi_msg_trace[i].message);
   }
 }
+<<<<<<< HEAD
 /**
  * vos_check_arp_target_ip() - check if the Target IP is gateway IP
  * @pPacket: pointer to vos packet
@@ -3672,11 +3791,24 @@ void vos_dump_wdi_events(void)
  * Return: true if the IP is of gateway or false otherwise
  */
 bool vos_check_arp_target_ip(void *pSkb, bool conversion)
+=======
+
+/**
+ * vos_check_arp_target_ip() - check if the Target IP is gateway IP
+ * @pPacket: pointer to vos packet
+ *
+ * Return: true if the IP is of gateway or false otherwise
+ */
+bool vos_check_arp_target_ip(vos_pkt_t *pPacket)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
    v_CONTEXT_t pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
    hdd_context_t *pHddCtx = NULL;
    struct sk_buff *skb;
+<<<<<<< HEAD
    uint8_t offset;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
    if(!pVosContext)
    {
@@ -3691,6 +3823,7 @@ bool vos_check_arp_target_ip(void *pSkb, bool conversion)
       return false;
    }
 
+<<<<<<< HEAD
    if (unlikely(NULL == pSkb))
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
@@ -3733,12 +3866,16 @@ bool vos_check_arp_req_target_ip(void *pSkb, bool conversion)
    }
 
    if (unlikely(NULL == pSkb))
+=======
+   if (unlikely(NULL == pPacket))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                 "%s: NULL pointer", __func__);
       return false;
    }
 
+<<<<<<< HEAD
    skb = (struct sk_buff *)pSkb;
 
    if (conversion)
@@ -3799,12 +3936,25 @@ bool vos_check_arp_src_ip(void *pSkb, bool conversion)
 
    if (pHddCtx->track_arp_ip ==
                       (v_U32_t)(*(v_U32_t *)(skb->data + offset)))
+=======
+   if ( VOS_STATUS_SUCCESS !=
+        vos_pkt_get_os_packet(pPacket, (void**)&skb, VOS_FALSE ))
+   {
+      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
+                "%s: OS PKT pointer is NULL", __func__);
+      return false;
+   }
+
+   if (pHddCtx->track_arp_ip ==
+       (v_U32_t)(*(v_U32_t *)(skb->data + VOS_ARP_TARGET_IP_OFFSET)))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       return true;
 
    return false;
 }
 
 /**
+<<<<<<< HEAD
  * vos_check_arp_rsp_src_ip() - check if the ARP is request and
                                    target IP is gateway
  * @pPacket: pointer to vos packet
@@ -3849,6 +3999,8 @@ bool vos_check_arp_rsp_src_ip(void *pSkb, bool conversion)
 }
 
 /**
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * vos_update_arp_fw_tx_delivered() - update the ARP stats host to FW deliver
  *                                    count
  *

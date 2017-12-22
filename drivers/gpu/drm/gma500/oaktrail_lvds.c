@@ -359,14 +359,30 @@ void oaktrail_lvds_init(struct drm_device *dev,
 	 *    if closed, act like it's not there for now
 	 */
 
+<<<<<<< HEAD
 	mutex_lock(&dev->mode_config.mutex);
 	i2c_adap = i2c_get_adapter(dev_priv->ops->i2c_bus);
 	if (i2c_adap == NULL)
 		dev_err(dev->dev, "No ddc adapter available!\n");
+=======
+	edid = NULL;
+	mutex_lock(&dev->mode_config.mutex);
+	i2c_adap = i2c_get_adapter(dev_priv->ops->i2c_bus);
+	if (i2c_adap)
+		edid = drm_get_edid(connector, i2c_adap);
+	if (edid == NULL && dev_priv->lpc_gpio_base) {
+		oaktrail_lvds_i2c_init(encoder);
+		if (gma_encoder->ddc_bus != NULL) {
+			i2c_adap = &gma_encoder->ddc_bus->adapter;
+			edid = drm_get_edid(connector, i2c_adap);
+		}
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * Attempt to get the fixed panel mode from DDC.  Assume that the
 	 * preferred mode is the right one.
 	 */
+<<<<<<< HEAD
 	if (i2c_adap) {
 		edid = drm_get_edid(connector, i2c_adap);
 		if (edid) {
@@ -375,6 +391,12 @@ void oaktrail_lvds_init(struct drm_device *dev,
 			drm_add_edid_modes(connector, edid);
 			kfree(edid);
 		}
+=======
+	if (edid) {
+		drm_mode_connector_update_edid_property(connector, edid);
+		drm_add_edid_modes(connector, edid);
+		kfree(edid);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		list_for_each_entry(scan, &connector->probed_modes, head) {
 			if (scan->type & DRM_MODE_TYPE_PREFERRED) {
@@ -383,7 +405,12 @@ void oaktrail_lvds_init(struct drm_device *dev,
 				goto out;	/* FIXME: check for quirks */
 			}
 		}
+<<<<<<< HEAD
 	}
+=======
+	} else
+		dev_err(dev->dev, "No ddc adapter available!\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * If we didn't get EDID, try geting panel timing
 	 * from configuration data
@@ -411,8 +438,15 @@ failed_find:
 	mutex_unlock(&dev->mode_config.mutex);
 
 	dev_dbg(dev->dev, "No LVDS modes found, disabling.\n");
+<<<<<<< HEAD
 	if (gma_encoder->ddc_bus)
 		psb_intel_i2c_destroy(gma_encoder->ddc_bus);
+=======
+	if (gma_encoder->ddc_bus) {
+		psb_intel_i2c_destroy(gma_encoder->ddc_bus);
+		gma_encoder->ddc_bus = NULL;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* failed_ddc: */
 

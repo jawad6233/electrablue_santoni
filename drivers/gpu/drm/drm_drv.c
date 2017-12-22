@@ -37,7 +37,11 @@
 #include "drm_legacy.h"
 #include "drm_internal.h"
 
+<<<<<<< HEAD
 unsigned int drm_debug = 0;	/* 1 to enable debug output */
+=======
+unsigned int drm_debug = 0;	/* bitmask of DRM_UT_x */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 EXPORT_SYMBOL(drm_debug);
 
 MODULE_AUTHOR(CORE_AUTHOR);
@@ -53,10 +57,16 @@ module_param_named(debug, drm_debug, int, 0600);
 static DEFINE_SPINLOCK(drm_minor_lock);
 static struct idr drm_minors_idr;
 
+<<<<<<< HEAD
 struct class *drm_class;
 static struct dentry *drm_debugfs_root;
 
 void drm_err(const char *func, const char *format, ...)
+=======
+static struct dentry *drm_debugfs_root;
+
+void drm_err(const char *format, ...)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct va_format vaf;
 	va_list args;
@@ -66,7 +76,12 @@ void drm_err(const char *func, const char *format, ...)
 	vaf.fmt = format;
 	vaf.va = &args;
 
+<<<<<<< HEAD
 	printk(KERN_ERR "[" DRM_NAME ":%s] *ERROR* %pV", func, &vaf);
+=======
+	printk(KERN_ERR "[" DRM_NAME ":%ps] *ERROR* %pV",
+	       __builtin_return_address(0), &vaf);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	va_end(args);
 }
@@ -87,8 +102,11 @@ void drm_ut_debug_printk(const char *function_name, const char *format, ...)
 }
 EXPORT_SYMBOL(drm_ut_debug_printk);
 
+<<<<<<< HEAD
 #define DRM_MAGIC_HASH_ORDER  4  /**< Size of key hash table. Must be power of 2. */
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct drm_master *drm_master_create(struct drm_minor *minor)
 {
 	struct drm_master *master;
@@ -100,11 +118,15 @@ struct drm_master *drm_master_create(struct drm_minor *minor)
 	kref_init(&master->refcount);
 	spin_lock_init(&master->lock.spinlock);
 	init_waitqueue_head(&master->lock.lock_queue);
+<<<<<<< HEAD
 	if (drm_ht_create(&master->magiclist, DRM_MAGIC_HASH_ORDER)) {
 		kfree(master);
 		return NULL;
 	}
 	INIT_LIST_HEAD(&master->magicfree);
+=======
+	idr_init(&master->magic_map);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	master->minor = minor;
 
 	return master;
@@ -133,6 +155,7 @@ static void drm_master_destroy(struct kref *kref)
 			r_list = NULL;
 		}
 	}
+<<<<<<< HEAD
 
 	if (master->unique) {
 		kfree(master->unique);
@@ -143,6 +166,12 @@ static void drm_master_destroy(struct kref *kref)
 	drm_ht_remove(&master->magiclist);
 
 	mutex_unlock(&dev->struct_mutex);
+=======
+	mutex_unlock(&dev->struct_mutex);
+
+	idr_destroy(&master->magic_map);
+	kfree(master->unique);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(master);
 }
 
@@ -172,6 +201,14 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
 		goto out_unlock;
 	}
 
+<<<<<<< HEAD
+=======
+	if (!file_priv->allowed_master) {
+		ret = drm_new_set_master(dev, file_priv);
+		goto out_unlock;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	file_priv->minor->master = drm_master_get(file_priv->master);
 	file_priv->is_master = 1;
 	if (dev->driver->master_set) {
@@ -294,7 +331,10 @@ static void drm_minor_free(struct drm_device *dev, unsigned int type)
 	if (!minor)
 		return;
 
+<<<<<<< HEAD
 	drm_mode_group_destroy(&minor->mode_group);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	put_device(minor->kdev);
 
 	spin_lock_irqsave(&drm_minor_lock, flags);
@@ -408,15 +448,61 @@ void drm_minor_release(struct drm_minor *minor)
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * DOC: driver instance overview
+ *
+ * A device instance for a drm driver is represented by struct &drm_device. This
+ * is allocated with drm_dev_alloc(), usually from bus-specific ->probe()
+ * callbacks implemented by the driver. The driver then needs to initialize all
+ * the various subsystems for the drm device like memory management, vblank
+ * handling, modesetting support and intial output configuration plus obviously
+ * initialize all the corresponding hardware bits. An important part of this is
+ * also calling drm_dev_set_unique() to set the userspace-visible unique name of
+ * this device instance. Finally when everything is up and running and ready for
+ * userspace the device instance can be published using drm_dev_register().
+ *
+ * There is also deprecated support for initalizing device instances using
+ * bus-specific helpers and the ->load() callback. But due to
+ * backwards-compatibility needs the device instance have to be published too
+ * early, which requires unpretty global locking to make safe and is therefore
+ * only support for existing drivers not yet converted to the new scheme.
+ *
+ * When cleaning up a device instance everything needs to be done in reverse:
+ * First unpublish the device instance with drm_dev_unregister(). Then clean up
+ * any other resources allocated at device initialization and drop the driver's
+ * reference to &drm_device using drm_dev_unref().
+ *
+ * Note that the lifetime rules for &drm_device instance has still a lot of
+ * historical baggage. Hence use the reference counting provided by
+ * drm_dev_ref() and drm_dev_unref() only carefully.
+ *
+ * Also note that embedding of &drm_device is currently not (yet) supported (but
+ * it would be easy to add). Drivers can store driver-private data in the
+ * dev_priv field of &drm_device.
+ */
+
+/**
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * drm_put_dev - Unregister and release a DRM device
  * @dev: DRM device
  *
  * Called at module unload time or when a PCI device is unplugged.
  *
+<<<<<<< HEAD
  * Use of this function is discouraged. It will eventually go away completely.
  * Please use drm_dev_unregister() and drm_dev_unref() explicitly instead.
  *
  * Cleans up all DRM device, calling drm_lastclose().
+=======
+ * Cleans up all DRM device, calling drm_lastclose().
+ *
+ * Note: Use of this function is deprecated. It will eventually go away
+ * completely.  Please use drm_dev_unregister() and drm_dev_unref() explicitly
+ * instead to make sure that the device isn't userspace accessible any more
+ * while teardown is in progress, ensuring that userspace can't access an
+ * inconsistent state.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 void drm_put_dev(struct drm_device *dev)
 {
@@ -529,11 +615,22 @@ static void drm_fs_inode_free(struct inode *inode)
  *
  * Allocate and initialize a new DRM device. No device registration is done.
  * Call drm_dev_register() to advertice the device to user space and register it
+<<<<<<< HEAD
  * with other core subsystems.
+=======
+ * with other core subsystems. This should be done last in the device
+ * initialization sequence to make sure userspace can't access an inconsistent
+ * state.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * The initial ref-count of the object is 1. Use drm_dev_ref() and
  * drm_dev_unref() to take and drop further ref-counts.
  *
+<<<<<<< HEAD
+=======
+ * Note that for purely virtual devices @parent can be NULL.
+ *
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * RETURNS:
  * Pointer to new DRM device, or NULL if out of memory.
  */
@@ -574,6 +671,11 @@ struct drm_device *drm_dev_alloc(struct drm_driver *driver,
 		ret = drm_minor_alloc(dev, DRM_MINOR_CONTROL);
 		if (ret)
 			goto err_minors;
+<<<<<<< HEAD
+=======
+
+		WARN_ON(driver->suspend || driver->resume);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
@@ -589,11 +691,15 @@ struct drm_device *drm_dev_alloc(struct drm_driver *driver,
 	if (drm_ht_create(&dev->map_hash, 12))
 		goto err_minors;
 
+<<<<<<< HEAD
 	ret = drm_legacy_ctxbitmap_init(dev);
 	if (ret) {
 		DRM_ERROR("Cannot allocate memory for context bitmap.\n");
 		goto err_ht;
 	}
+=======
+	drm_legacy_ctxbitmap_init(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (drm_core_check_feature(dev, DRIVER_GEM)) {
 		ret = drm_gem_init(dev);
@@ -607,7 +713,10 @@ struct drm_device *drm_dev_alloc(struct drm_driver *driver,
 
 err_ctxbitmap:
 	drm_legacy_ctxbitmap_cleanup(dev);
+<<<<<<< HEAD
 err_ht:
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_ht_remove(&dev->map_hash);
 err_minors:
 	drm_minor_free(dev, DRM_MINOR_LEGACY);
@@ -685,6 +794,15 @@ EXPORT_SYMBOL(drm_dev_unref);
  *
  * Never call this twice on any device!
  *
+<<<<<<< HEAD
+=======
+ * NOTE: To ensure backward compatibility with existing drivers method this
+ * function calls the ->load() method after registering the device nodes,
+ * creating race conditions. Usage of the ->load() methods is therefore
+ * deprecated, drivers must perform all initialization before calling
+ * drm_dev_register().
+ *
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * RETURNS:
  * 0 on success, negative error code on failure.
  */
@@ -712,6 +830,7 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
 			goto err_minors;
 	}
 
+<<<<<<< HEAD
 	/* setup grouping for legacy outputs */
 	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
 		ret = drm_mode_group_init_legacy_group(dev,
@@ -726,6 +845,11 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
 err_unload:
 	if (dev->driver->unload)
 		dev->driver->unload(dev);
+=======
+	ret = 0;
+	goto out_unlock;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 err_minors:
 	drm_minor_unregister(dev, DRM_MINOR_LEGACY);
 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
@@ -743,6 +867,12 @@ EXPORT_SYMBOL(drm_dev_register);
  * Unregister the DRM device from the system. This does the reverse of
  * drm_dev_register() but does not deallocate the device. The caller must call
  * drm_dev_unref() to drop their final reference.
+<<<<<<< HEAD
+=======
+ *
+ * This should be called first in the device teardown code to make sure
+ * userspace can't access the device instance any more.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 void drm_dev_unregister(struct drm_device *dev)
 {
@@ -863,10 +993,16 @@ static int __init drm_core_init(void)
 	if (register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops))
 		goto err_p1;
 
+<<<<<<< HEAD
 	drm_class = drm_sysfs_create(THIS_MODULE, "drm");
 	if (IS_ERR(drm_class)) {
 		printk(KERN_ERR "DRM: Error creating drm class.\n");
 		ret = PTR_ERR(drm_class);
+=======
+	ret = drm_sysfs_init();
+	if (ret < 0) {
+		printk(KERN_ERR "DRM: Error creating drm class.\n");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto err_p2;
 	}
 

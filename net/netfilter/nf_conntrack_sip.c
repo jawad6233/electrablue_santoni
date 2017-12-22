@@ -1,6 +1,10 @@
 /* SIP extension for IP connection tracking.
  *
+<<<<<<< HEAD
  * Copyright (c) 2016, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * (C) 2005 by Christian Hentschel <chentschel@arnet.com.ar>
  * based on RR's ip_conntrack_ftp.c and other modules.
  * (C) 2007 United Security Providers
@@ -452,6 +456,12 @@ int proc_sip_segment(struct ctl_table *ctl, int write,
 	if (sip_segmentation_status == nf_ct_enable_sip_segmentation)
 		return ret;
 	if (nf_ct_enable_sip_segmentation) {
+<<<<<<< HEAD
+=======
+		pr_debug("de-registering queue handler before register for sip\n");
+		nf_unregister_queue_handler();
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pr_debug("registering queue handler\n");
 		nf_register_queue_handler(&nf_sip_qh);
 	} else {

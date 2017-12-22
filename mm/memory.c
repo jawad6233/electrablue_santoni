@@ -3169,11 +3169,18 @@ static int handle_pte_fault(struct mm_struct *mm,
 	if (!pte_present(entry)) {
 		if (pte_none(entry)) {
 			if (vma->vm_ops)
+<<<<<<< HEAD
 				return do_linear_fault(mm, vma, address, pte,
 					pmd, flags, entry);
 
 			return do_anonymous_page(mm, vma, address, pte, pmd,
 					flags);
+=======
+				return do_linear_fault(mm, vma, address,
+						pte, pmd, flags, entry);
+			return do_anonymous_page(mm, vma, address,
+						 pte, pmd, flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		if (pte_file(entry))
 			return do_nonlinear_fault(mm, vma, address,

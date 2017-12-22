@@ -23,9 +23,19 @@
 #include <linux/hdmi.h>
 #include <drm/drmP.h>
 #include "radeon.h"
+<<<<<<< HEAD
 #include "sid.h"
 
 static u32 dce6_endpoint_rreg(struct radeon_device *rdev,
+=======
+#include "radeon_audio.h"
+#include "sid.h"
+
+#define DCE8_DCCG_AUDIO_DTO1_PHASE	0x05b8
+#define DCE8_DCCG_AUDIO_DTO1_MODULE	0x05bc
+
+u32 dce6_endpoint_rreg(struct radeon_device *rdev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			      u32 block_offset, u32 reg)
 {
 	unsigned long flags;
@@ -39,7 +49,11 @@ static u32 dce6_endpoint_rreg(struct radeon_device *rdev,
 	return r;
 }
 
+<<<<<<< HEAD
 static void dce6_endpoint_wreg(struct radeon_device *rdev,
+=======
+void dce6_endpoint_wreg(struct radeon_device *rdev,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       u32 block_offset, u32 reg, u32 v)
 {
 	unsigned long flags;
@@ -54,10 +68,13 @@ static void dce6_endpoint_wreg(struct radeon_device *rdev,
 	spin_unlock_irqrestore(&rdev->end_idx_lock, flags);
 }
 
+<<<<<<< HEAD
 #define RREG32_ENDPOINT(block, reg) dce6_endpoint_rreg(rdev, (block), (reg))
 #define WREG32_ENDPOINT(block, reg, v) dce6_endpoint_wreg(rdev, (block), (reg), (v))
 
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void dce6_afmt_get_connected_pins(struct radeon_device *rdev)
 {
 	int i;
@@ -76,16 +93,47 @@ static void dce6_afmt_get_connected_pins(struct radeon_device *rdev)
 
 struct r600_audio_pin *dce6_audio_get_pin(struct radeon_device *rdev)
 {
+<<<<<<< HEAD
 	int i;
+=======
+	struct drm_encoder *encoder;
+	struct radeon_encoder *radeon_encoder;
+	struct radeon_encoder_atom_dig *dig;
+	struct r600_audio_pin *pin = NULL;
+	int i, pin_count;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dce6_afmt_get_connected_pins(rdev);
 
 	for (i = 0; i < rdev->audio.num_pins; i++) {
+<<<<<<< HEAD
 		if (rdev->audio.pin[i].connected)
 			return &rdev->audio.pin[i];
 	}
 	DRM_ERROR("No connected audio pins found!\n");
 	return NULL;
+=======
+		if (rdev->audio.pin[i].connected) {
+			pin = &rdev->audio.pin[i];
+			pin_count = 0;
+
+			list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_list, head) {
+				if (radeon_encoder_is_digital(encoder)) {
+					radeon_encoder = to_radeon_encoder(encoder);
+					dig = radeon_encoder->enc_priv;
+					if (dig->pin == pin)
+						pin_count++;
+				}
+			}
+
+			if (pin_count == 0)
+				return pin;
+		}
+	}
+	if (!pin)
+		DRM_ERROR("No connected audio pins found!\n");
+	return pin;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void dce6_afmt_select_pin(struct drm_encoder *encoder)
@@ -93,6 +141,7 @@ void dce6_afmt_select_pin(struct drm_encoder *encoder)
 	struct radeon_device *rdev = encoder->dev->dev_private;
 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
 	struct radeon_encoder_atom_dig *dig = radeon_encoder->enc_priv;
+<<<<<<< HEAD
 	u32 offset;
 
 	if (!dig || !dig->afmt || !dig->afmt->pin)
@@ -105,11 +154,24 @@ void dce6_afmt_select_pin(struct drm_encoder *encoder)
 }
 
 void dce6_afmt_write_latency_fields(struct drm_encoder *encoder,
+=======
+
+	if (!dig || !dig->afmt || !dig->pin)
+		return;
+
+	WREG32(AFMT_AUDIO_SRC_CONTROL +  dig->afmt->offset,
+	       AFMT_AUDIO_SRC_SELECT(dig->pin->id));
+}
+
+void dce6_afmt_write_latency_fields(struct drm_encoder *encoder,
+				    struct drm_connector *connector,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				    struct drm_display_mode *mode)
 {
 	struct radeon_device *rdev = encoder->dev->dev_private;
 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
 	struct radeon_encoder_atom_dig *dig = radeon_encoder->enc_priv;
+<<<<<<< HEAD
 	struct drm_connector *connector;
 	struct radeon_connector *radeon_connector = NULL;
 	u32 tmp = 0, offset;
@@ -131,6 +193,13 @@ void dce6_afmt_write_latency_fields(struct drm_encoder *encoder,
 		return;
 	}
 
+=======
+	u32 tmp = 0;
+
+	if (!dig || !dig->afmt || !dig->pin)
+		return;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
 		if (connector->latency_present[1])
 			tmp = VIDEO_LIPSYNC(connector->video_latency[1]) |
@@ -144,14 +213,24 @@ void dce6_afmt_write_latency_fields(struct drm_encoder *encoder,
 		else
 			tmp = VIDEO_LIPSYNC(0) | AUDIO_LIPSYNC(0);
 	}
+<<<<<<< HEAD
 	WREG32_ENDPOINT(offset, AZ_F0_CODEC_PIN_CONTROL_RESPONSE_LIPSYNC, tmp);
 }
 
 void dce6_afmt_write_speaker_allocation(struct drm_encoder *encoder)
+=======
+	WREG32_ENDPOINT(dig->pin->offset,
+			AZ_F0_CODEC_PIN_CONTROL_RESPONSE_LIPSYNC, tmp);
+}
+
+void dce6_afmt_hdmi_write_speaker_allocation(struct drm_encoder *encoder,
+					     u8 *sadb, int sad_count)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct radeon_device *rdev = encoder->dev->dev_private;
 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
 	struct radeon_encoder_atom_dig *dig = radeon_encoder->enc_priv;
+<<<<<<< HEAD
 	struct drm_connector *connector;
 	struct radeon_connector *radeon_connector = NULL;
 	u32 offset, tmp;
@@ -183,6 +262,16 @@ void dce6_afmt_write_speaker_allocation(struct drm_encoder *encoder)
 
 	/* program the speaker allocation */
 	tmp = RREG32_ENDPOINT(offset, AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER);
+=======
+	u32 tmp;
+
+	if (!dig || !dig->afmt || !dig->pin)
+		return;
+
+	/* program the speaker allocation */
+	tmp = RREG32_ENDPOINT(dig->pin->offset,
+			      AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tmp &= ~(DP_CONNECTION | SPEAKER_ALLOCATION_MASK);
 	/* set HDMI mode */
 	tmp |= HDMI_CONNECTION;
@@ -190,22 +279,60 @@ void dce6_afmt_write_speaker_allocation(struct drm_encoder *encoder)
 		tmp |= SPEAKER_ALLOCATION(sadb[0]);
 	else
 		tmp |= SPEAKER_ALLOCATION(5); /* stereo */
+<<<<<<< HEAD
 	WREG32_ENDPOINT(offset, AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER, tmp);
 
 	kfree(sadb);
 }
 
 void dce6_afmt_write_sad_regs(struct drm_encoder *encoder)
+=======
+	WREG32_ENDPOINT(dig->pin->offset,
+			AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER, tmp);
+}
+
+void dce6_afmt_dp_write_speaker_allocation(struct drm_encoder *encoder,
+					   u8 *sadb, int sad_count)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct radeon_device *rdev = encoder->dev->dev_private;
 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
 	struct radeon_encoder_atom_dig *dig = radeon_encoder->enc_priv;
+<<<<<<< HEAD
 	u32 offset;
 	struct drm_connector *connector;
 	struct radeon_connector *radeon_connector = NULL;
 	struct cea_sad *sads;
 	int i, sad_count;
 
+=======
+	u32 tmp;
+
+	if (!dig || !dig->afmt || !dig->pin)
+		return;
+
+	/* program the speaker allocation */
+	tmp = RREG32_ENDPOINT(dig->pin->offset,
+			      AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER);
+	tmp &= ~(HDMI_CONNECTION | SPEAKER_ALLOCATION_MASK);
+	/* set DP mode */
+	tmp |= DP_CONNECTION;
+	if (sad_count)
+		tmp |= SPEAKER_ALLOCATION(sadb[0]);
+	else
+		tmp |= SPEAKER_ALLOCATION(5); /* stereo */
+	WREG32_ENDPOINT(dig->pin->offset,
+			AZ_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER, tmp);
+}
+
+void dce6_afmt_write_sad_regs(struct drm_encoder *encoder,
+			      struct cea_sad *sads, int sad_count)
+{
+	int i;
+	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
+	struct radeon_encoder_atom_dig *dig = radeon_encoder->enc_priv;
+	struct radeon_device *rdev = encoder->dev->dev_private;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	static const u16 eld_reg_to_type[][2] = {
 		{ AZ_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR0, HDMI_AUDIO_CODING_TYPE_PCM },
 		{ AZ_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR1, HDMI_AUDIO_CODING_TYPE_AC3 },
@@ -221,6 +348,7 @@ void dce6_afmt_write_sad_regs(struct drm_encoder *encoder)
 		{ AZ_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR13, HDMI_AUDIO_CODING_TYPE_WMA_PRO },
 	};
 
+<<<<<<< HEAD
 	if (!dig || !dig->afmt || !dig->afmt->pin)
 		return;
 
@@ -245,6 +373,11 @@ void dce6_afmt_write_sad_regs(struct drm_encoder *encoder)
 	}
 	BUG_ON(!sads);
 
+=======
+	if (!dig || !dig->afmt || !dig->pin)
+		return;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < ARRAY_SIZE(eld_reg_to_type); i++) {
 		u32 value = 0;
 		u8 stereo_freqs = 0;
@@ -271,6 +404,7 @@ void dce6_afmt_write_sad_regs(struct drm_encoder *encoder)
 
 		value |= SUPPORTED_FREQUENCIES_STEREO(stereo_freqs);
 
+<<<<<<< HEAD
 		WREG32_ENDPOINT(offset, eld_reg_to_type[i][0], value);
 	}
 
@@ -280,6 +414,10 @@ void dce6_afmt_write_sad_regs(struct drm_encoder *encoder)
 static int dce6_audio_chipset_supported(struct radeon_device *rdev)
 {
 	return !ASIC_IS_NODCE(rdev);
+=======
+		WREG32_ENDPOINT(dig->pin->offset, eld_reg_to_type[i][0], value);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void dce6_audio_enable(struct radeon_device *rdev,
@@ -293,6 +431,7 @@ void dce6_audio_enable(struct radeon_device *rdev,
 			enable_mask ? AUDIO_ENABLED : 0);
 }
 
+<<<<<<< HEAD
 static const u32 pin_offsets[7] =
 {
 	(0x5e00 - 0x5e00),
@@ -353,4 +492,56 @@ void dce6_audio_fini(struct radeon_device *rdev)
 		dce6_audio_enable(rdev, &rdev->audio.pin[i], false);
 
 	rdev->audio.enabled = false;
+=======
+void dce6_hdmi_audio_set_dto(struct radeon_device *rdev,
+			     struct radeon_crtc *crtc, unsigned int clock)
+{
+	/* Two dtos; generally use dto0 for HDMI */
+	u32 value = 0;
+
+	if (crtc)
+		value |= DCCG_AUDIO_DTO0_SOURCE_SEL(crtc->crtc_id);
+
+	WREG32(DCCG_AUDIO_DTO_SOURCE, value);
+
+	/* Express [24MHz / target pixel clock] as an exact rational
+	 * number (coefficient of two integer numbers.  DCCG_AUDIO_DTOx_PHASE
+	 * is the numerator, DCCG_AUDIO_DTOx_MODULE is the denominator
+	 */
+	WREG32(DCCG_AUDIO_DTO0_PHASE, 24000);
+	WREG32(DCCG_AUDIO_DTO0_MODULE, clock);
+}
+
+void dce6_dp_audio_set_dto(struct radeon_device *rdev,
+			   struct radeon_crtc *crtc, unsigned int clock)
+{
+	/* Two dtos; generally use dto1 for DP */
+	u32 value = 0;
+	value |= DCCG_AUDIO_DTO_SEL;
+
+	if (crtc)
+		value |= DCCG_AUDIO_DTO0_SOURCE_SEL(crtc->crtc_id);
+
+	WREG32(DCCG_AUDIO_DTO_SOURCE, value);
+
+	/* Express [24MHz / target pixel clock] as an exact rational
+	 * number (coefficient of two integer numbers.  DCCG_AUDIO_DTOx_PHASE
+	 * is the numerator, DCCG_AUDIO_DTOx_MODULE is the denominator
+	 */
+	if (ASIC_IS_DCE8(rdev)) {
+		unsigned int div = (RREG32(DENTIST_DISPCLK_CNTL) &
+			DENTIST_DPREFCLK_WDIVIDER_MASK) >>
+			DENTIST_DPREFCLK_WDIVIDER_SHIFT;
+		div = radeon_audio_decode_dfs_div(div);
+
+		if (div)
+			clock = clock * 100 / div;
+
+		WREG32(DCE8_DCCG_AUDIO_DTO1_PHASE, 24000);
+		WREG32(DCE8_DCCG_AUDIO_DTO1_MODULE, clock);
+	} else {
+		WREG32(DCCG_AUDIO_DTO1_PHASE, 24000);
+		WREG32(DCCG_AUDIO_DTO1_MODULE, clock);
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

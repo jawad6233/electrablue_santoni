@@ -7,12 +7,20 @@
  * published by the Free Software Foundation.
  */
 
+<<<<<<< HEAD
 #include <linux/of_gpio.h>
 
 #include <drm/drm_panel.h>
 #include "drm.h"
 
 static int tegra_connector_get_modes(struct drm_connector *connector)
+=======
+#include <drm/drm_atomic_helper.h>
+#include <drm/drm_panel.h>
+#include "drm.h"
+
+int tegra_output_connector_get_modes(struct drm_connector *connector)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct tegra_output *output = connector_to_output(connector);
 	struct edid *edid = NULL;
@@ -43,6 +51,7 @@ static int tegra_connector_get_modes(struct drm_connector *connector)
 	return err;
 }
 
+<<<<<<< HEAD
 static int tegra_connector_mode_valid(struct drm_connector *connector,
 				      struct drm_display_mode *mode)
 {
@@ -59,12 +68,17 @@ static int tegra_connector_mode_valid(struct drm_connector *connector,
 
 static struct drm_encoder *
 tegra_connector_best_encoder(struct drm_connector *connector)
+=======
+struct drm_encoder *
+tegra_output_connector_best_encoder(struct drm_connector *connector)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct tegra_output *output = connector_to_output(connector);
 
 	return &output->encoder;
 }
 
+<<<<<<< HEAD
 static const struct drm_connector_helper_funcs connector_helper_funcs = {
 	.get_modes = tegra_connector_get_modes,
 	.mode_valid = tegra_connector_mode_valid,
@@ -73,10 +87,15 @@ static const struct drm_connector_helper_funcs connector_helper_funcs = {
 
 static enum drm_connector_status
 tegra_connector_detect(struct drm_connector *connector, bool force)
+=======
+enum drm_connector_status
+tegra_output_connector_detect(struct drm_connector *connector, bool force)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct tegra_output *output = connector_to_output(connector);
 	enum drm_connector_status status = connector_status_unknown;
 
+<<<<<<< HEAD
 	if (output->ops->detect)
 		return output->ops->detect(output);
 
@@ -85,19 +104,37 @@ tegra_connector_detect(struct drm_connector *connector, bool force)
 			status = connector_status_disconnected;
 		else
 			status = connector_status_connected;
+=======
+	if (gpio_is_valid(output->hpd_gpio)) {
+		if (output->hpd_gpio_flags & OF_GPIO_ACTIVE_LOW) {
+			if (gpio_get_value(output->hpd_gpio) != 0)
+				status = connector_status_disconnected;
+			else
+				status = connector_status_connected;
+		} else {
+			if (gpio_get_value(output->hpd_gpio) == 0)
+				status = connector_status_disconnected;
+			else
+				status = connector_status_connected;
+		}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		if (!output->panel)
 			status = connector_status_disconnected;
 		else
 			status = connector_status_connected;
+<<<<<<< HEAD
 
 		if (connector->connector_type == DRM_MODE_CONNECTOR_LVDS)
 			status = connector_status_connected;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return status;
 }
 
+<<<<<<< HEAD
 static void drm_connector_clear(struct drm_connector *connector)
 {
 	memset(connector, 0, sizeof(*connector));
@@ -183,11 +220,29 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
 	.mode_set = tegra_encoder_mode_set,
 };
 
+=======
+void tegra_output_connector_destroy(struct drm_connector *connector)
+{
+	drm_connector_unregister(connector);
+	drm_connector_cleanup(connector);
+}
+
+void tegra_output_encoder_destroy(struct drm_encoder *encoder)
+{
+	drm_encoder_cleanup(encoder);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static irqreturn_t hpd_irq(int irq, void *data)
 {
 	struct tegra_output *output = data;
 
+<<<<<<< HEAD
 	drm_helper_hpd_irq_event(output->connector.dev);
+=======
+	if (output->connector.dev)
+		drm_helper_hpd_irq_event(output->connector.dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return IRQ_HANDLED;
 }
@@ -195,7 +250,10 @@ static irqreturn_t hpd_irq(int irq, void *data)
 int tegra_output_probe(struct tegra_output *output)
 {
 	struct device_node *ddc, *panel;
+<<<<<<< HEAD
 	enum of_gpio_flags flags;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int err, size;
 
 	if (!output->of_node)
@@ -226,7 +284,11 @@ int tegra_output_probe(struct tegra_output *output)
 
 	output->hpd_gpio = of_get_named_gpio_flags(output->of_node,
 						   "nvidia,hpd-gpio", 0,
+<<<<<<< HEAD
 						   &flags);
+=======
+						   &output->hpd_gpio_flags);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (gpio_is_valid(output->hpd_gpio)) {
 		unsigned long flags;
 
@@ -259,12 +321,26 @@ int tegra_output_probe(struct tegra_output *output)
 		}
 
 		output->connector.polled = DRM_CONNECTOR_POLL_HPD;
+<<<<<<< HEAD
+=======
+
+		/*
+		 * Disable the interrupt until the connector has been
+		 * initialized to avoid a race in the hotplug interrupt
+		 * handler.
+		 */
+		disable_irq(output->hpd_irq);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return 0;
 }
 
+<<<<<<< HEAD
 int tegra_output_remove(struct tegra_output *output)
+=======
+void tegra_output_remove(struct tegra_output *output)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	if (gpio_is_valid(output->hpd_gpio)) {
 		free_irq(output->hpd_irq, output);
@@ -273,12 +349,16 @@ int tegra_output_remove(struct tegra_output *output)
 
 	if (output->ddc)
 		put_device(&output->ddc->dev);
+<<<<<<< HEAD
 
 	return 0;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
 {
+<<<<<<< HEAD
 	int connector, encoder;
 
 	switch (output->type) {
@@ -323,11 +403,41 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
 	drm_connector_register(&output->connector);
 
 	output->encoder.possible_crtcs = 0x3;
+=======
+	int err;
+
+	if (output->panel) {
+		err = drm_panel_attach(output->panel, &output->connector);
+		if (err < 0)
+			return err;
+	}
+
+	/*
+	 * The connector is now registered and ready to receive hotplug events
+	 * so the hotplug interrupt can be enabled.
+	 */
+	if (gpio_is_valid(output->hpd_gpio))
+		enable_irq(output->hpd_irq);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
 
+<<<<<<< HEAD
 int tegra_output_exit(struct tegra_output *output)
 {
 	return 0;
+=======
+void tegra_output_exit(struct tegra_output *output)
+{
+	/*
+	 * The connector is going away, so the interrupt must be disabled to
+	 * prevent the hotplug interrupt handler from potentially crashing.
+	 */
+	if (gpio_is_valid(output->hpd_gpio))
+		disable_irq(output->hpd_irq);
+
+	if (output->panel)
+		drm_panel_detach(output->panel);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

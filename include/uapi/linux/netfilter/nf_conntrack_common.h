@@ -107,8 +107,16 @@ enum ip_conntrack_events {
 	IPCT_NATSEQADJ = IPCT_SEQADJ,
 	IPCT_SECMARK,		/* new security mark has been set */
 	IPCT_LABEL,		/* new connlabel has been set */
+<<<<<<< HEAD
 };
 
+=======
+	IPCT_COUNTER,		/* Packet counters have matched. */
+};
+
+#define IPCT_COUNTER IPCT_COUNTER
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum ip_conntrack_expect_events {
 	IPEXP_NEW,		/* new expectation */
 	IPEXP_DESTROY,		/* destroyed expectation */

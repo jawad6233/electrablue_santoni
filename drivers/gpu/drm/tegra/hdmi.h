@@ -201,7 +201,11 @@
 #define HDMI_NV_PDISP_SOR_CRCB					0x5d
 #define HDMI_NV_PDISP_SOR_BLANK					0x5e
 #define HDMI_NV_PDISP_SOR_SEQ_CTL				0x5f
+<<<<<<< HEAD
 #define SOR_SEQ_CTL_PU_PC(x) (((x) & 0xf) <<  0)
+=======
+#define SOR_SEQ_PU_PC(x)     (((x) & 0xf) <<  0)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define SOR_SEQ_PU_PC_ALT(x) (((x) & 0xf) <<  4)
 #define SOR_SEQ_PD_PC(x)     (((x) & 0xf) <<  8)
 #define SOR_SEQ_PD_PC_ALT(x) (((x) & 0xf) << 12)

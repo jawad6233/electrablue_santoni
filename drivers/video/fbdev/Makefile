@@ -126,7 +126,13 @@ obj-y                             += omap2/
 obj-$(CONFIG_XEN_FBDEV_FRONTEND)  += xen-fbfront.o
 obj-$(CONFIG_FB_CARMINE)          += carminefb.o
 obj-$(CONFIG_FB_MB862XX)	  += mb862xx/
+<<<<<<< HEAD
 obj-$(CONFIG_FB_MSM)              += msm/
+=======
+ifneq ($(filter y, $(CONFIG_FB_MSM) $(CONFIG_MSM_DBA)),)
+obj-y                             += msm/
+endif
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_FB_NUC900)           += nuc900fb.o
 obj-$(CONFIG_FB_JZ4740)		  += jz4740_fb.o
 obj-$(CONFIG_FB_PUV3_UNIGFX)      += fb-puv3.o

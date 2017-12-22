@@ -1757,6 +1757,7 @@ min_max_possible_capacity = 1024; /* min(rq->max_possible_capacity) */
 __read_mostly unsigned int sched_ravg_window = 10000000;
 
 /* Min window size (in ns) = 10ms */
+<<<<<<< HEAD
 #ifdef CONFIG_HZ_300
 /*
  * Tick interval becomes to 3333333 due to
@@ -1766,6 +1767,9 @@ __read_mostly unsigned int sched_ravg_window = 10000000;
 #else
 #define MIN_SCHED_RAVG_WINDOW 10000000
 #endif
+=======
+#define MIN_SCHED_RAVG_WINDOW 10000000
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Max window size (in ns) = 1s */
 #define MAX_SCHED_RAVG_WINDOW 1000000000
@@ -4387,7 +4391,11 @@ void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
 		if (p->sched_class->migrate_task_rq)
 			p->sched_class->migrate_task_rq(p, new_cpu);
 		p->se.nr_migrations++;
+<<<<<<< HEAD
 		perf_sw_event_sched(PERF_COUNT_SW_CPU_MIGRATIONS, 1, 0);
+=======
+		perf_sw_event(PERF_COUNT_SW_CPU_MIGRATIONS, 1, NULL, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		fixup_busy_time(p, new_cpu);
 	}
@@ -5039,6 +5047,7 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
 
 	success = 1; /* we're going to change ->state */
 
+<<<<<<< HEAD
 	/*
 	 * Ensure we load p->on_rq _after_ p->state, otherwise it would
 	 * be possible to, falsely, observe p->on_rq == 0 and get stuck
@@ -5061,6 +5070,8 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
 	 * current.
 	 */
 	smp_rmb();
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (p->on_rq && ttwu_remote(p, wake_flags))
 		goto stat;
 
@@ -5904,6 +5915,7 @@ unsigned long nr_iowait_cpu(int cpu)
 	return atomic_read(&this->nr_iowait);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_QUIET
 u64 nr_running_integral(unsigned int cpu)
 {
@@ -5934,6 +5946,8 @@ u64 nr_running_integral(unsigned int cpu)
 }
 #endif
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void get_iowait_load(unsigned long *nr_waiters, unsigned long *load)
 {
 	struct rq *this = this_rq();
@@ -8156,16 +8170,26 @@ void show_state_filter(unsigned long state_filter)
 		/*
 		 * reset the NMI-timeout, listing all files on a slow
 		 * console might take a lot of time:
+<<<<<<< HEAD
 		 * Also, reset softlockup watchdogs on all CPUs, because
 		 * another CPU might be blocked waiting for us to process
 		 * an IPI.
 		 */
 		touch_nmi_watchdog();
 		touch_all_softlockup_watchdogs();
+=======
+		 */
+		touch_nmi_watchdog();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!state_filter || (p->state & state_filter))
 			sched_show_task(p);
 	}
 
+<<<<<<< HEAD
+=======
+	touch_all_softlockup_watchdogs();
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_SYSRQ_SCHED_DEBUG
 	sysrq_sched_debug_show();
 #endif
@@ -9433,9 +9457,12 @@ enum s_alloc {
  * Build an iteration mask that can exclude certain CPUs from the upwards
  * domain traversal.
  *
+<<<<<<< HEAD
  * Only CPUs that can arrive at this group should be considered to continue
  * balancing.
  *
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Asymmetric node setups can result in situations where the domain tree is of
  * unequal depth, make sure to skip domains that already cover the entire
  * range.
@@ -9447,11 +9474,16 @@ enum s_alloc {
  */
 static void build_group_mask(struct sched_domain *sd, struct sched_group *sg)
 {
+<<<<<<< HEAD
 	const struct cpumask *sg_span = sched_group_cpus(sg);
+=======
+	const struct cpumask *span = sched_domain_span(sd);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct sd_data *sdd = sd->private;
 	struct sched_domain *sibling;
 	int i;
 
+<<<<<<< HEAD
 	for_each_cpu(i, sg_span) {
 		sibling = *per_cpu_ptr(sdd->sd, i);
 
@@ -9465,13 +9497,21 @@ static void build_group_mask(struct sched_domain *sd, struct sched_group *sg)
 
 		/* If we would not end up here, we can't continue from here */
 		if (!cpumask_equal(sg_span, sched_domain_span(sibling->child)))
+=======
+	for_each_cpu(i, span) {
+		sibling = *per_cpu_ptr(sdd->sd, i);
+		if (!cpumask_test_cpu(i, sched_domain_span(sibling)))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 
 		cpumask_set_cpu(i, sched_group_mask(sg));
 	}
+<<<<<<< HEAD
 
 	/* We must not have empty masks here */
 	WARN_ON_ONCE(cpumask_empty(sched_group_mask(sg)));
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*

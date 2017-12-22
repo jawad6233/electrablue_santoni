@@ -26,6 +26,7 @@ Zswap evicts pages from compressed cache on an LRU basis to the backing swap
 device when the compressed pool reaches its size limit.  This requirement had
 been identified in prior community discussions.
 
+<<<<<<< HEAD
 Zswap is disabled by default but can be enabled at boot time by setting
 the "enabled" attribute to 1 at boot time. ie: zswap.enabled=1.  Zswap
 can also be enabled and disabled at runtime using the sysfs interface.
@@ -42,6 +43,10 @@ either invalidated or faulted back into memory.  In order to force all
 pages out of the compressed pool, a swapoff on the swap device(s) will
 fault back into memory all swapped out pages, including those in the
 compressed pool.
+=======
+To enabled zswap, the "enabled" attribute must be set to 1 at boot time.  e.g.
+zswap.enabled=1
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 Design:
 

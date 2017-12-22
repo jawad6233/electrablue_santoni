@@ -1055,12 +1055,29 @@ config TOUCHSCREEN_FT5X06
          Say Y here if you have a ft5X06 touchscreen.
 	 Ft5x06 controllers are multi touch controllers which can
 	 report 5 touches at a time.
+<<<<<<< HEAD
+=======
+         
+         You have to select your touchpanel model below, otherwise
+         compilation will fail.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
          If unsure, say N.
 
          To compile this driver as a module, choose M here: the
          module will be called ft5x06_ts.
 
+<<<<<<< HEAD
+=======
+config FOCALTECH_5336
+       bool "Support for Focaltech 5336 touchscreen"
+       depends on TOUCHSCREEN_FT5X06
+       help
+         Say Y if you have a FT5336 touchscreen.
+         
+         if unsure, say N.
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config FT_SECURE_TOUCH
 	bool "Secure Touch support for Focaltech Touchscreen"
 	depends on TOUCHSCREEN_FT5X06
@@ -1137,10 +1154,13 @@ config TOUCHSCREEN_MAXIM_STI
 
 source "drivers/input/touchscreen/gt9xx/Kconfig"
 
+<<<<<<< HEAD
 config TOUCHSCREEN_FT5336
 	tristate "FOCALTECH touchpanel FT5336 series"
 	depends on I2C
 
 source "drivers/input/touchscreen/FT5336/Kconfig"
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endif

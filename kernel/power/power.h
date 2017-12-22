@@ -201,6 +201,11 @@ static inline void suspend_test_finish(const char *label) {}
 
 #ifdef CONFIG_PM_SLEEP
 /* kernel/power/main.c */
+<<<<<<< HEAD
+=======
+extern int __pm_notifier_call_chain(unsigned long val, int nr_to_call,
+				    int *nr_calls);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int pm_notifier_call_chain(unsigned long val);
 #endif
 

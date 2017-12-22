@@ -60,12 +60,17 @@ nvkm_client_ioctl(void *priv, bool super, void *data, u32 size, void **hack)
 static int
 nvkm_client_resume(void *priv)
 {
+<<<<<<< HEAD
 	return nouveau_client_init(priv);
+=======
+	return nvkm_client_init(priv);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int
 nvkm_client_suspend(void *priv)
 {
+<<<<<<< HEAD
 	return nouveau_client_fini(priv, true);
 }
 
@@ -76,6 +81,16 @@ nvkm_client_fini(void *priv)
 	nouveau_client_fini(nv_client(client), false);
 	atomic_set(&client->refcount, 1);
 	nouveau_object_ref(NULL, &client);
+=======
+	return nvkm_client_fini(priv, true);
+}
+
+static void
+nvkm_client_driver_fini(void *priv)
+{
+	struct nvkm_client *client = priv;
+	nvkm_client_del(&client);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int
@@ -107,6 +122,7 @@ nvkm_client_ntfy(const void *header, u32 length, const void *data, u32 size)
 }
 
 static int
+<<<<<<< HEAD
 nvkm_client_init(const char *name, u64 device, const char *cfg,
 		 const char *dbg, void **ppriv)
 {
@@ -114,6 +130,15 @@ nvkm_client_init(const char *name, u64 device, const char *cfg,
 	int ret;
 
 	ret = nouveau_client_create(name, device, cfg, dbg, &client);
+=======
+nvkm_client_driver_init(const char *name, u64 device, const char *cfg,
+			const char *dbg, void **ppriv)
+{
+	struct nvkm_client *client;
+	int ret;
+
+	ret = nvkm_client_new(name, device, cfg, dbg, &client);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	*ppriv = client;
 	if (ret)
 		return ret;
@@ -125,8 +150,13 @@ nvkm_client_init(const char *name, u64 device, const char *cfg,
 const struct nvif_driver
 nvif_driver_nvkm = {
 	.name = "nvkm",
+<<<<<<< HEAD
 	.init = nvkm_client_init,
 	.fini = nvkm_client_fini,
+=======
+	.init = nvkm_client_driver_init,
+	.fini = nvkm_client_driver_fini,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.suspend = nvkm_client_suspend,
 	.resume = nvkm_client_resume,
 	.ioctl = nvkm_client_ioctl,

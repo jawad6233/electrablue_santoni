@@ -86,6 +86,10 @@ obj-$(CONFIG_PERF_EVENTS)	+= perf_regs.o
 obj-$(CONFIG_HW_PERF_EVENTS)	+= perf_event.o perf_event_cpu.o
 AFLAGS_iwmmxt.o			:= -Wa,-mcpu=iwmmxt
 obj-$(CONFIG_ARM_CPU_TOPOLOGY)  += topology.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_VDSO)		+= vdso.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 ifneq ($(CONFIG_ARCH_EBSA110),y)
   obj-y		+= io.o

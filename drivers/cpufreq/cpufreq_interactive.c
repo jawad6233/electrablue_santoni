@@ -31,7 +31,10 @@
 #include <linux/workqueue.h>
 #include <linux/kthread.h>
 #include <linux/slab.h>
+<<<<<<< HEAD
 #include <linux/display_state.h>
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/cpufreq_interactive.h>
@@ -161,6 +164,7 @@ struct cpufreq_interactive_tunables {
 
 	/* Whether to enable prediction or not */
 	bool enable_prediction;
+<<<<<<< HEAD
 
 	/* Improves frequency selection for more energy */
 	bool powersave_bias;
@@ -168,6 +172,8 @@ struct cpufreq_interactive_tunables {
 	/* Maximum frequency while the screen is off */
 #define DEFAULT_SCREEN_OFF_MAX 1401600
 	unsigned long screen_off_max;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* For cases where we have single governor instance for system */
@@ -427,6 +433,7 @@ static u64 update_load(int cpu)
 		ppol->policy->governor_data;
 	u64 now;
 	u64 now_idle;
+<<<<<<< HEAD
 	unsigned int delta_idle;
 	unsigned int delta_time;
 	u64 active_time;
@@ -434,6 +441,15 @@ static u64 update_load(int cpu)
 	now_idle = get_cpu_idle_time(cpu, &now, tunables->io_is_busy);
 	delta_idle = (unsigned int)(now_idle - pcpu->time_in_idle);
 	delta_time = (unsigned int)(now - pcpu->time_in_idle_timestamp);
+=======
+	u64 delta_idle;
+	u64 delta_time;
+	u64 active_time;
+
+	now_idle = get_cpu_idle_time(cpu, &now, tunables->io_is_busy);
+	delta_idle = (now_idle - pcpu->time_in_idle);
+	delta_time = (now - pcpu->time_in_idle_timestamp);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (delta_time <= delta_idle)
 		active_time = 0;
@@ -487,7 +503,10 @@ static void cpufreq_interactive_timer(unsigned long data)
 	bool skip_hispeed_logic, skip_min_sample_time;
 	bool jump_to_max_no_ts = false;
 	bool jump_to_max = false;
+<<<<<<< HEAD
 	bool start_hyst = true;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!down_read_trylock(&ppol->enable_sem))
 		return;
@@ -583,7 +602,11 @@ static void cpufreq_interactive_timer(unsigned long data)
 	}
 
 	new_freq = chosen_freq;
+<<<<<<< HEAD
 	if (false && (jump_to_max_no_ts || jump_to_max)) {
+=======
+	if (jump_to_max_no_ts || jump_to_max) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		new_freq = ppol->policy->cpuinfo.max_freq;
 	} else if (!skip_hispeed_logic) {
 		if (pol_load >= tunables->go_hispeed_load ||
@@ -597,12 +620,17 @@ static void cpufreq_interactive_timer(unsigned long data)
 	}
 
 	if (now - ppol->max_freq_hyst_start_time <
+<<<<<<< HEAD
 	    tunables->max_freq_hysteresis) {
 		if (new_freq < ppol->policy->max &&
 				ppol->policy->max <= tunables->hispeed_freq)
 			start_hyst = false;
 		new_freq = max(tunables->hispeed_freq, new_freq);
 	}
+=======
+	    tunables->max_freq_hysteresis)
+		new_freq = max(tunables->hispeed_freq, new_freq);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!skip_hispeed_logic &&
 	    ppol->target_freq >= tunables->hispeed_freq &&
@@ -659,7 +687,11 @@ static void cpufreq_interactive_timer(unsigned long data)
 		ppol->floor_validate_time = now;
 	}
 
+<<<<<<< HEAD
 	if (start_hyst && new_freq >= ppol->policy->max && !jump_to_max_no_ts)
+=======
+	if (new_freq >= ppol->policy->max && !jump_to_max_no_ts)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ppol->max_freq_hyst_start_time = now;
 
 	if (ppol->target_freq == new_freq &&
@@ -712,8 +744,11 @@ static int cpufreq_interactive_speedchange_task(void *data)
 	cpumask_t tmp_mask;
 	unsigned long flags;
 	struct cpufreq_interactive_policyinfo *ppol;
+<<<<<<< HEAD
 	struct cpufreq_interactive_tunables *tunables;
 	bool display_on = is_display_on();
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	while (1) {
 		set_current_state(TASK_INTERRUPTIBLE);
@@ -737,7 +772,10 @@ static int cpufreq_interactive_speedchange_task(void *data)
 
 		for_each_cpu(cpu, &tmp_mask) {
 			ppol = per_cpu(polinfo, cpu);
+<<<<<<< HEAD
 			tunables = ppol->policy->governor_data;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (!down_read_trylock(&ppol->enable_sem))
 				continue;
 			if (!ppol->governor_enabled) {
@@ -745,6 +783,7 @@ static int cpufreq_interactive_speedchange_task(void *data)
 				continue;
 			}
 
+<<<<<<< HEAD
 			if (unlikely(!display_on)) {
 			    if (ppol->target_freq > tunables->screen_off_max)
 				ppol->target_freq = tunables->screen_off_max;
@@ -760,6 +799,12 @@ static int cpufreq_interactive_speedchange_task(void *data)
 							    ppol->target_freq,
 							    CPUFREQ_RELATION_H);
 			}
+=======
+			if (ppol->target_freq != ppol->policy->cur)
+				__cpufreq_driver_target(ppol->policy,
+							ppol->target_freq,
+							CPUFREQ_RELATION_H);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			trace_cpufreq_interactive_setspeed(cpu,
 						     ppol->target_freq,
 						     ppol->policy->cur);
@@ -838,8 +883,13 @@ static int load_change_callback(struct notifier_block *nb, unsigned long val,
 	spin_unlock_irqrestore(&ppol->target_freq_lock, flags);
 
 	if (!hrtimer_is_queued(&ppol->notif_timer))
+<<<<<<< HEAD
 		hrtimer_start(&ppol->notif_timer, ms_to_ktime(1),
 			      HRTIMER_MODE_REL);
+=======
+		__hrtimer_start_range_ns(&ppol->notif_timer, ms_to_ktime(1),
+					0, HRTIMER_MODE_REL, 0);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 exit:
 	up_read(&ppol->enable_sem);
 	return 0;
@@ -879,7 +929,11 @@ static int cpufreq_interactive_notifier(
 	int cpu;
 	unsigned long flags;
 
+<<<<<<< HEAD
 	if (val == CPUFREQ_PRECHANGE) {
+=======
+	if (val == CPUFREQ_POSTCHANGE) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ppol = per_cpu(polinfo, freq->cpu);
 		if (!ppol)
 			return 0;
@@ -1187,7 +1241,11 @@ static ssize_t show_boost(struct cpufreq_interactive_tunables *tunables,
 static ssize_t store_boost(struct cpufreq_interactive_tunables *tunables,
 			   const char *buf, size_t count)
 {
+<<<<<<< HEAD
 /*	int ret;
+=======
+	int ret;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned long val;
 
 	ret = kstrtoul(buf, 0, &val);
@@ -1204,7 +1262,11 @@ static ssize_t store_boost(struct cpufreq_interactive_tunables *tunables,
 		tunables->boostpulse_endtime = ktime_to_us(ktime_get());
 		trace_cpufreq_interactive_unboost("off");
 	}
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return count;
 }
 
@@ -1421,6 +1483,7 @@ static ssize_t store_use_migration_notif(
 	return count;
 }
 
+<<<<<<< HEAD
 static ssize_t show_powersave_bias(struct cpufreq_interactive_tunables *tunables,
 		char *buf)
 {
@@ -1466,6 +1529,8 @@ static ssize_t store_screen_off_maxfreq(
 	return count;
 }
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Create show/store routines
  * - sys: One governor instance for complete SYSTEM
@@ -1520,8 +1585,11 @@ show_store_gov_pol_sys(align_windows);
 show_store_gov_pol_sys(ignore_hispeed_on_notif);
 show_store_gov_pol_sys(fast_ramp_down);
 show_store_gov_pol_sys(enable_prediction);
+<<<<<<< HEAD
 show_store_gov_pol_sys(powersave_bias);
 show_store_gov_pol_sys(screen_off_maxfreq);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define gov_sys_attr_rw(_name)						\
 static struct global_attr _name##_gov_sys =				\
@@ -1552,8 +1620,11 @@ gov_sys_pol_attr_rw(align_windows);
 gov_sys_pol_attr_rw(ignore_hispeed_on_notif);
 gov_sys_pol_attr_rw(fast_ramp_down);
 gov_sys_pol_attr_rw(enable_prediction);
+<<<<<<< HEAD
 gov_sys_pol_attr_rw(powersave_bias);
 gov_sys_pol_attr_rw(screen_off_maxfreq);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static struct global_attr boostpulse_gov_sys =
 	__ATTR(boostpulse, 0200, NULL, store_boostpulse_gov_sys);
@@ -1581,8 +1652,11 @@ static struct attribute *interactive_attributes_gov_sys[] = {
 	&ignore_hispeed_on_notif_gov_sys.attr,
 	&fast_ramp_down_gov_sys.attr,
 	&enable_prediction_gov_sys.attr,
+<<<<<<< HEAD
 	&powersave_bias_gov_sys.attr,
 	&screen_off_maxfreq_gov_sys.attr,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	NULL,
 };
 
@@ -1611,8 +1685,11 @@ static struct attribute *interactive_attributes_gov_pol[] = {
 	&ignore_hispeed_on_notif_gov_pol.attr,
 	&fast_ramp_down_gov_pol.attr,
 	&enable_prediction_gov_pol.attr,
+<<<<<<< HEAD
 	&powersave_bias_gov_pol.attr,
 	&screen_off_maxfreq_gov_pol.attr,
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	NULL,
 };
 
@@ -1652,7 +1729,10 @@ static struct cpufreq_interactive_tunables *alloc_tunable(
 	tunables->timer_rate = DEFAULT_TIMER_RATE;
 	tunables->boostpulse_duration_val = DEFAULT_MIN_SAMPLE_TIME;
 	tunables->timer_slack_val = DEFAULT_TIMER_SLACK;
+<<<<<<< HEAD
 	tunables->screen_off_max = DEFAULT_SCREEN_OFF_MAX;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock_init(&tunables->target_loads_lock);
 	spin_lock_init(&tunables->above_hispeed_delay_lock);

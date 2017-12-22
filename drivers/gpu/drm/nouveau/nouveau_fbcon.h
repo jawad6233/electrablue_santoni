@@ -36,7 +36,10 @@ struct nouveau_fbdev {
 	struct nouveau_framebuffer nouveau_fb;
 	struct list_head fbdev_list;
 	struct drm_device *dev;
+<<<<<<< HEAD
 	struct work_struct work;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int saved_flags;
 	struct nvif_object surf2d;
 	struct nvif_object clip;

@@ -15,11 +15,16 @@
 #ifndef _EXYNOS_DRM_DRV_H_
 #define _EXYNOS_DRM_DRV_H_
 
+<<<<<<< HEAD
+=======
+#include <drm/drmP.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/module.h>
 
 #define MAX_CRTC	3
 #define MAX_PLANE	5
 #define MAX_FB_BUFFER	4
+<<<<<<< HEAD
 #define DEFAULT_ZPOS	-1
 
 #define _wait_for(COND, MS) ({ \
@@ -46,6 +51,13 @@ enum exynos_drm_device_type {
 	EXYNOS_DEVICE_TYPE_CRTC,
 	EXYNOS_DEVICE_TYPE_CONNECTOR,
 };
+=======
+
+#define DEFAULT_WIN	0
+
+#define to_exynos_crtc(x)	container_of(x, struct exynos_drm_crtc, base)
+#define to_exynos_plane(x)	container_of(x, struct exynos_drm_plane, base)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* this enumerates display type. */
 enum exynos_drm_output_type {
@@ -61,6 +73,7 @@ enum exynos_drm_output_type {
 /*
  * Exynos drm common overlay structure.
  *
+<<<<<<< HEAD
  * @fb_x: offset x on a framebuffer to be displayed.
  *	- the unit is screen coordinates.
  * @fb_y: offset y on a framebuffer to be displayed.
@@ -90,10 +103,29 @@ enum exynos_drm_output_type {
  * @local_path: in case of lcd type, local path mode on or off.
  * @transparency: transparency on or off.
  * @activated: activated or not.
+=======
+ * @base: plane object
+ * @src_x: offset x on a framebuffer to be displayed.
+ *	- the unit is screen coordinates.
+ * @src_y: offset y on a framebuffer to be displayed.
+ *	- the unit is screen coordinates.
+ * @src_w: width of a partial image to be displayed from framebuffer.
+ * @src_h: height of a partial image to be displayed from framebuffer.
+ * @crtc_x: offset x on hardware screen.
+ * @crtc_y: offset y on hardware screen.
+ * @crtc_w: window width to be displayed (hardware screen).
+ * @crtc_h: window height to be displayed (hardware screen).
+ * @h_ratio: horizontal scaling ratio, 16.16 fixed point
+ * @v_ratio: vertical scaling ratio, 16.16 fixed point
+ * @dma_addr: array of bus(accessed by dma) address to the memory region
+ *	      allocated for a overlay.
+ * @zpos: order of overlay layer(z position).
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * this structure is common to exynos SoC and its contents would be copied
  * to hardware specific overlay info.
  */
+<<<<<<< HEAD
 struct exynos_drm_overlay {
 	unsigned int fb_x;
 	unsigned int fb_y;
@@ -177,11 +209,37 @@ struct exynos_drm_display {
  * @dpms: control device power.
  * @mode_fixup: fix mode data before applying it
  * @mode_set: set the given mode to the manager
+=======
+
+struct exynos_drm_plane {
+	struct drm_plane base;
+	unsigned int src_x;
+	unsigned int src_y;
+	unsigned int src_w;
+	unsigned int src_h;
+	unsigned int crtc_x;
+	unsigned int crtc_y;
+	unsigned int crtc_w;
+	unsigned int crtc_h;
+	unsigned int h_ratio;
+	unsigned int v_ratio;
+	dma_addr_t dma_addr[MAX_FB_BUFFER];
+	unsigned int zpos;
+	struct drm_framebuffer *pending_fb;
+};
+
+/*
+ * Exynos drm crtc ops
+ *
+ * @enable: enable the device
+ * @disable: disable the device
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @commit: set current hw specific display mode to hw.
  * @enable_vblank: specific driver callback for enabling vblank interrupt.
  * @disable_vblank: specific driver callback for disabling vblank interrupt.
  * @wait_for_vblank: wait for vblank interrupt to make sure that
  *	hardware overlay is updated.
+<<<<<<< HEAD
  * @win_mode_set: copy drm overlay info to hw specific overlay info.
  * @win_commit: apply hardware specific overlay data to registers.
  * @win_enable: enable hardware specific overlay.
@@ -228,6 +286,70 @@ struct exynos_drm_manager {
 	int pipe;
 	struct exynos_drm_manager_ops *ops;
 	void *ctx;
+=======
+ * @atomic_check: validate state
+ * @atomic_begin: prepare a window to receive a update
+ * @atomic_flush: mark the end of a window update
+ * @update_plane: apply hardware specific overlay data to registers.
+ * @disable_plane: disable hardware specific overlay.
+ * @te_handler: trigger to transfer video image at the tearing effect
+ *	synchronization signal if there is a page flip request.
+ * @clock_enable: optional function enabling/disabling display domain clock,
+ *	called from exynos-dp driver before powering up (with
+ *	'enable' argument as true) and after powering down (with
+ *	'enable' as false).
+ */
+struct exynos_drm_crtc;
+struct exynos_drm_crtc_ops {
+	void (*enable)(struct exynos_drm_crtc *crtc);
+	void (*disable)(struct exynos_drm_crtc *crtc);
+	void (*commit)(struct exynos_drm_crtc *crtc);
+	int (*enable_vblank)(struct exynos_drm_crtc *crtc);
+	void (*disable_vblank)(struct exynos_drm_crtc *crtc);
+	void (*wait_for_vblank)(struct exynos_drm_crtc *crtc);
+	int (*atomic_check)(struct exynos_drm_crtc *crtc,
+			    struct drm_crtc_state *state);
+	void (*atomic_begin)(struct exynos_drm_crtc *crtc,
+			      struct exynos_drm_plane *plane);
+	void (*update_plane)(struct exynos_drm_crtc *crtc,
+			     struct exynos_drm_plane *plane);
+	void (*disable_plane)(struct exynos_drm_crtc *crtc,
+			      struct exynos_drm_plane *plane);
+	void (*atomic_flush)(struct exynos_drm_crtc *crtc,
+			      struct exynos_drm_plane *plane);
+	void (*te_handler)(struct exynos_drm_crtc *crtc);
+	void (*clock_enable)(struct exynos_drm_crtc *crtc, bool enable);
+};
+
+/*
+ * Exynos specific crtc structure.
+ *
+ * @base: crtc object.
+ * @type: one of EXYNOS_DISPLAY_TYPE_LCD and HDMI.
+ * @pipe: a crtc index created at load() with a new crtc object creation
+ *	and the crtc object would be set to private->crtc array
+ *	to get a crtc object corresponding to this pipe from private->crtc
+ *	array when irq interrupt occurred. the reason of using this pipe is that
+ *	drm framework doesn't support multiple irq yet.
+ *	we can refer to the crtc to current hardware interrupt occurred through
+ *	this pipe value.
+ * @enabled: if the crtc is enabled or not
+ * @event: vblank event that is currently queued for flip
+ * @wait_update: wait all pending planes updates to finish
+ * @pending_update: number of pending plane updates in this crtc
+ * @ops: pointer to callbacks for exynos drm specific functionality
+ * @ctx: A pointer to the crtc's implementation specific context
+ */
+struct exynos_drm_crtc {
+	struct drm_crtc			base;
+	enum exynos_drm_output_type	type;
+	unsigned int			pipe;
+	struct drm_pending_vblank_event	*event;
+	wait_queue_head_t		wait_update;
+	atomic_t			pending_update;
+	const struct exynos_drm_crtc_ops	*ops;
+	void				*ctx;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct exynos_drm_g2d_private {
@@ -251,25 +373,45 @@ struct drm_exynos_file_private {
  * @da_space_size: size of device address space.
  *	if 0 then default value is used for it.
  * @pipe: the pipe number for this crtc/manager.
+<<<<<<< HEAD
+=======
+ * @pending: the crtcs that have pending updates to finish
+ * @lock: protect access to @pending
+ * @wait: wait an atomic commit to finish
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct exynos_drm_private {
 	struct drm_fb_helper *fb_helper;
 
+<<<<<<< HEAD
 	/* list head for new event to be added. */
 	struct list_head pageflip_event_list;
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * created crtc object would be contained at this array and
 	 * this array is used to be aware of which crtc did it request vblank.
 	 */
 	struct drm_crtc *crtc[MAX_CRTC];
 	struct drm_property *plane_zpos_property;
+<<<<<<< HEAD
 	struct drm_property *crtc_mode_property;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	unsigned long da_start;
 	unsigned long da_space_size;
 
 	unsigned int pipe;
+<<<<<<< HEAD
+=======
+
+	/* for atomic commit */
+	u32			pending;
+	spinlock_t		lock;
+	wait_queue_head_t	wait;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /*
@@ -279,8 +421,11 @@ struct exynos_drm_private {
  * @dev: pointer to device object for subdrv device driver.
  * @drm_dev: pointer to drm_device and this pointer would be set
  *	when sub driver calls exynos_drm_subdrv_register().
+<<<<<<< HEAD
  * @manager: subdrv has its own manager to control a hardware appropriately
  *     and we can access a hardware drawing on this manager.
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @probe: this callback would be called by exynos drm driver after
  *     subdrv is registered to it.
  * @remove: this callback is used to release resources created
@@ -312,6 +457,7 @@ int exynos_drm_device_subdrv_remove(struct drm_device *dev);
 int exynos_drm_subdrv_open(struct drm_device *dev, struct drm_file *file);
 void exynos_drm_subdrv_close(struct drm_device *dev, struct drm_file *file);
 
+<<<<<<< HEAD
 /*
  * this function registers exynos drm hdmi platform device. It ensures only one
  * instance of the device is created.
@@ -364,6 +510,33 @@ void exynos_drm_component_del(struct device *dev,
 				enum exynos_drm_device_type dev_type);
 
 extern struct platform_driver fimd_driver;
+=======
+#ifdef CONFIG_DRM_EXYNOS_DPI
+struct drm_encoder *exynos_dpi_probe(struct device *dev);
+int exynos_dpi_remove(struct drm_encoder *encoder);
+int exynos_dpi_bind(struct drm_device *dev, struct drm_encoder *encoder);
+#else
+static inline struct drm_encoder *
+exynos_dpi_probe(struct device *dev) { return NULL; }
+static inline int exynos_dpi_remove(struct drm_encoder *encoder)
+{
+	return 0;
+}
+static inline int exynos_dpi_bind(struct drm_device *dev,
+				  struct drm_encoder *encoder)
+{
+	return 0;
+}
+#endif
+
+int exynos_atomic_commit(struct drm_device *dev, struct drm_atomic_state *state,
+			 bool async);
+
+
+extern struct platform_driver fimd_driver;
+extern struct platform_driver exynos5433_decon_driver;
+extern struct platform_driver decon_driver;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern struct platform_driver dp_driver;
 extern struct platform_driver dsi_driver;
 extern struct platform_driver mixer_driver;
@@ -375,4 +548,8 @@ extern struct platform_driver fimc_driver;
 extern struct platform_driver rotator_driver;
 extern struct platform_driver gsc_driver;
 extern struct platform_driver ipp_driver;
+<<<<<<< HEAD
+=======
+extern struct platform_driver mic_driver;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

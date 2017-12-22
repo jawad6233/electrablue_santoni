@@ -2227,7 +2227,11 @@ retry:
 	if (!abs_time)
 		goto out;
 
+<<<<<<< HEAD
 	restart = &current_thread_info()->restart_block;
+=======
+	restart = &current->restart_block;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	restart->fn = futex_wait_restart;
 	restart->futex.uaddr = uaddr;
 	restart->futex.val = val;

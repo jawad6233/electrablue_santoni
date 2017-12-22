@@ -810,8 +810,11 @@ int elv_register_queue(struct request_queue *q)
 		}
 		kobject_uevent(&e->kobj, KOBJ_ADD);
 		e->registered = 1;
+<<<<<<< HEAD
 		if (e->type->ops.elevator_registered_fn)
 			e->type->ops.elevator_registered_fn(q);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return error;
 }

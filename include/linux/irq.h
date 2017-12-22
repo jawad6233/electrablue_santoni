@@ -442,6 +442,7 @@ static inline int irq_set_parent(int irq, int parent_irq)
  * Built-in IRQ handlers for various IRQ types,
  * callable via desc->handle_irq()
  */
+<<<<<<< HEAD
 extern void handle_level_irq(unsigned int irq, struct irq_desc *desc);
 extern void handle_fasteoi_irq(unsigned int irq, struct irq_desc *desc);
 extern void handle_edge_irq(unsigned int irq, struct irq_desc *desc);
@@ -451,6 +452,17 @@ extern void handle_percpu_irq(unsigned int irq, struct irq_desc *desc);
 extern void handle_percpu_devid_irq(unsigned int irq, struct irq_desc *desc);
 extern void handle_bad_irq(unsigned int irq, struct irq_desc *desc);
 extern void handle_nested_irq(unsigned int irq);
+=======
+extern bool handle_level_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_fasteoi_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_edge_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_edge_eoi_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_simple_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_percpu_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_percpu_devid_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_bad_irq(unsigned int irq, struct irq_desc *desc);
+extern bool handle_nested_irq(unsigned int irq);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern int irq_chip_compose_msi_msg(struct irq_data *data, struct msi_msg *msg);
 #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
@@ -848,6 +860,16 @@ static inline void irq_gc_lock(struct irq_chip_generic *gc) { }
 static inline void irq_gc_unlock(struct irq_chip_generic *gc) { }
 #endif
 
+<<<<<<< HEAD
+=======
+static inline void irq_reg_writel(struct irq_chip_generic *gc,
+				  u32 val, int reg_offset)
+{
+	if (gc->reg_writel)
+		gc->reg_writel(val, gc->reg_base + reg_offset);
+	else
+		writel(val, gc->reg_base + reg_offset);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * The irqsave variants are for usage in non interrupt code. Do not use
  * them in irq_chip callbacks. Use irq_gc_lock() instead.
@@ -858,6 +880,7 @@ static inline void irq_gc_unlock(struct irq_chip_generic *gc) { }
 #define irq_gc_unlock_irqrestore(gc, flags)	\
 	raw_spin_unlock_irqrestore(&(gc)->lock, flags)
 
+<<<<<<< HEAD
 static inline void irq_reg_writel(struct irq_chip_generic *gc,
 				  u32 val, int reg_offset)
 {
@@ -865,6 +888,8 @@ static inline void irq_reg_writel(struct irq_chip_generic *gc,
 		gc->reg_writel(val, gc->reg_base + reg_offset);
 	else
 		writel(val, gc->reg_base + reg_offset);
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline u32 irq_reg_readl(struct irq_chip_generic *gc,

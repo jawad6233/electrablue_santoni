@@ -30,10 +30,13 @@ struct devfreq_msm_adreno_tz_data {
 		s64 busy_time;
 		u32 ctxt_aware_target_pwrlevel;
 		u32 ctxt_aware_busy_penalty;
+<<<<<<< HEAD
 #if 1
 		int last_level;
 		int cycles_keeping_level;
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} bin;
 	struct {
 		u64 total_time;

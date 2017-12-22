@@ -23,8 +23,14 @@ obj-$(CONFIG_ARCH_MSMCOBALT)	+= clock-gcc-cobalt.o
 obj-$(CONFIG_ARCH_MSMCOBALT)	+= clock-gpu-cobalt.o
 obj-$(CONFIG_ARCH_MSMCOBALT)	+= clock-mmss-cobalt.o
 
+<<<<<<< HEAD
 # MDMCALIFORNIUM
 obj-$(CONFIG_ARCH_MDMCALIFORNIUM)	+= clock-gcc-californium.o
+=======
+# MDM9650
+obj-$(CONFIG_ARCH_MDM9650)	+= clock-gcc-9650.o
+obj-$(CONFIG_ARCH_SDX20)	+= clock-gcc-9650.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 # MDM9607
 obj-$(CONFIG_ARCH_MDM9607)	+=clock-gcc-mdm9607.o
@@ -35,15 +41,31 @@ obj-$(CONFIG_ARCH_MSM8909)	+= clock-gcc-8909.o
 
 # ACPU clock
 obj-$(CONFIG_ARCH_MDM9640)      += clock-a7.o
+<<<<<<< HEAD
 obj-$(CONFIG_ARCH_MDMCALIFORNIUM)	+= clock-a7.o
 obj-$(CONFIG_ARCH_MDM9607)	+= clock-a7.o
 obj-$(CONFIG_ARCH_MSM8916)	+= clock-a7.o
 obj-$(CONFIG_ARCH_MSM8909)	+= clock-a7.o
+=======
+obj-$(CONFIG_ARCH_MDM9650)	+= clock-a7.o
+obj-$(CONFIG_ARCH_SDX20)	+= clock-a7.o
+obj-$(CONFIG_ARCH_MDM9607)	+= clock-a7.o
+obj-$(CONFIG_ARCH_MSM8916)	+= clock-a7.o
+obj-$(CONFIG_ARCH_MSM8909)	+= clock-a7.o
+obj-$(CONFIG_ARCH_MSM8953)	+= clock-a7.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_ARCH_MSM8916)	+= clock-cpu-8939.o
 obj-$(CONFIG_ARCH_MSM8916)	+= clock-gcc-8952.o
 obj-$(CONFIG_ARCH_MSM8916)	+= clock-gcc-8953.o
 obj-$(CONFIG_ARCH_MSM8916)	+= clock-rcgwr.o
+<<<<<<< HEAD
 obj-$(CONFIG_ARCH_MSM8916)      += clock-cpu-8953.o
+=======
+obj-$(CONFIG_ARCH_MSM8916)	+= clock-cpu-8953.o
+obj-$(CONFIG_ARCH_MSM8953)	+= clock-gcc-8953.o
+obj-$(CONFIG_ARCH_MSM8953)	+= clock-rcgwr.o
+obj-$(CONFIG_ARCH_MSM8953)	+= clock-cpu-8953.o
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-y				+= gdsc.o
 obj-y				+= mdss/

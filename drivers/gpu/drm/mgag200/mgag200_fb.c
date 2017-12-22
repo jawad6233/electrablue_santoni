@@ -101,7 +101,11 @@ static void mga_fillrect(struct fb_info *info,
 			 const struct fb_fillrect *rect)
 {
 	struct mga_fbdev *mfbdev = info->par;
+<<<<<<< HEAD
 	sys_fillrect(info, rect);
+=======
+	drm_fb_helper_sys_fillrect(info, rect);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mga_dirty_update(mfbdev, rect->dx, rect->dy, rect->width,
 			 rect->height);
 }
@@ -110,7 +114,11 @@ static void mga_copyarea(struct fb_info *info,
 			 const struct fb_copyarea *area)
 {
 	struct mga_fbdev *mfbdev = info->par;
+<<<<<<< HEAD
 	sys_copyarea(info, area);
+=======
+	drm_fb_helper_sys_copyarea(info, area);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mga_dirty_update(mfbdev, area->dx, area->dy, area->width,
 			 area->height);
 }
@@ -119,7 +127,11 @@ static void mga_imageblit(struct fb_info *info,
 			  const struct fb_image *image)
 {
 	struct mga_fbdev *mfbdev = info->par;
+<<<<<<< HEAD
 	sys_imageblit(info, image);
+=======
+	drm_fb_helper_sys_imageblit(info, image);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mga_dirty_update(mfbdev, image->dx, image->dy, image->width,
 			 image->height);
 }
@@ -166,8 +178,11 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 	struct fb_info *info;
 	struct drm_framebuffer *fb;
 	struct drm_gem_object *gobj = NULL;
+<<<<<<< HEAD
 	struct device *device = &dev->pdev->dev;
 	struct mgag200_bo *bo;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 	void *sysram;
 	int size;
@@ -185,6 +200,7 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 		DRM_ERROR("failed to create fbcon backing object %d\n", ret);
 		return ret;
 	}
+<<<<<<< HEAD
 	bo = gem_to_mga_bo(gobj);
 
 	sysram = vmalloc(size);
@@ -194,12 +210,28 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 	info = framebuffer_alloc(0, device);
 	if (info == NULL)
 		return -ENOMEM;
+=======
+
+	sysram = vmalloc(size);
+	if (!sysram)
+		goto err_sysram;
+
+	info = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(info)) {
+		ret = PTR_ERR(info);
+		goto err_alloc_fbi;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	info->par = mfbdev;
 
 	ret = mgag200_framebuffer_init(dev, &mfbdev->mfb, &mode_cmd, gobj);
 	if (ret)
+<<<<<<< HEAD
 		return ret;
+=======
+		goto err_framebuffer_init;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mfbdev->sysram = sysram;
 	mfbdev->size = size;
@@ -208,6 +240,7 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 
 	/* setup helper */
 	mfbdev->helper.fb = fb;
+<<<<<<< HEAD
 	mfbdev->helper.fbdev = info;
 
 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
@@ -216,6 +249,8 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 		ret = -ENOMEM;
 		goto out;
 	}
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	strcpy(info->fix.id, "mgadrmfb");
 
@@ -223,11 +258,14 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 	info->fbops = &mgag200fb_ops;
 
 	/* setup aperture base/size for vesafb takeover */
+<<<<<<< HEAD
 	info->apertures = alloc_apertures(1);
 	if (!info->apertures) {
 		ret = -ENOMEM;
 		goto out;
 	}
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	info->apertures->ranges[0].base = mdev->dev->mode_config.fb_base;
 	info->apertures->ranges[0].size = mdev->mc.vram_size;
 
@@ -241,14 +279,28 @@ static int mgag200fb_create(struct drm_fb_helper *helper,
 
 	DRM_DEBUG_KMS("allocated %dx%d\n",
 		      fb->width, fb->height);
+<<<<<<< HEAD
 	return 0;
 out:
+=======
+
+	return 0;
+
+err_framebuffer_init:
+	drm_fb_helper_release_fbi(helper);
+err_alloc_fbi:
+	vfree(sysram);
+err_sysram:
+	drm_gem_object_unreference_unlocked(gobj);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
 static int mga_fbdev_destroy(struct drm_device *dev,
 				struct mga_fbdev *mfbdev)
 {
+<<<<<<< HEAD
 	struct fb_info *info;
 	struct mga_framebuffer *mfb = &mfbdev->mfb;
 
@@ -260,6 +312,12 @@ static int mga_fbdev_destroy(struct drm_device *dev,
 			fb_dealloc_cmap(&info->cmap);
 		framebuffer_release(info);
 	}
+=======
+	struct mga_framebuffer *mfb = &mfbdev->mfb;
+
+	drm_fb_helper_unregister_fbi(&mfbdev->helper);
+	drm_fb_helper_release_fbi(&mfbdev->helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (mfb->obj) {
 		drm_gem_object_unreference_unlocked(mfb->obj);
@@ -301,23 +359,43 @@ int mgag200_fbdev_init(struct mga_device *mdev)
 	ret = drm_fb_helper_init(mdev->dev, &mfbdev->helper,
 				 mdev->num_crtc, MGAG200FB_CONN_LIMIT);
 	if (ret)
+<<<<<<< HEAD
 		return ret;
 
 	ret = drm_fb_helper_single_add_all_connectors(&mfbdev->helper);
 	if (ret)
 		goto fini;
+=======
+		goto err_fb_helper;
+
+	ret = drm_fb_helper_single_add_all_connectors(&mfbdev->helper);
+	if (ret)
+		goto err_fb_setup;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* disable all the possible outputs/crtcs before entering KMS mode */
 	drm_helper_disable_unused_functions(mdev->dev);
 
 	ret = drm_fb_helper_initial_config(&mfbdev->helper, bpp_sel);
 	if (ret)
+<<<<<<< HEAD
 		goto fini;
 
 	return 0;
 
 fini:
 	drm_fb_helper_fini(&mfbdev->helper);
+=======
+		goto err_fb_setup;
+
+	return 0;
+
+err_fb_setup:
+	drm_fb_helper_fini(&mfbdev->helper);
+err_fb_helper:
+	mdev->mfbdev = NULL;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 

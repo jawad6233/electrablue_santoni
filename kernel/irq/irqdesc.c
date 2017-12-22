@@ -15,6 +15,10 @@
 #include <linux/radix-tree.h>
 #include <linux/bitmap.h>
 #include <linux/irqdomain.h>
+<<<<<<< HEAD
+=======
+#include <linux/wakeup_reason.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "internals.h"
 
@@ -340,16 +344,35 @@ void irq_init_desc(unsigned int irq)
 /**
  * generic_handle_irq - Invoke the handler for a particular irq
  * @irq:	The irq number to handle
+<<<<<<< HEAD
  *
  */
+=======
+ * returns:
+ * 	negative on error
+ *	0 when the interrupt handler was not called
+ *	1 when the interrupt handler was called
+ */
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int generic_handle_irq(unsigned int irq)
 {
 	struct irq_desc *desc = irq_to_desc(irq);
 
 	if (!desc)
 		return -EINVAL;
+<<<<<<< HEAD
 	generic_handle_irq_desc(irq, desc);
 	return 0;
+=======
+
+	if (unlikely(logging_wakeup_reasons_nosync()))
+		return log_possible_wakeup_reason(irq,
+				desc,
+				generic_handle_irq_desc);
+
+	return generic_handle_irq_desc(irq, desc);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL_GPL(generic_handle_irq);
 

@@ -71,6 +71,14 @@ module_param(min_cpu_freq, uint, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(min_cpu_freq,
 	"to set minimum cpu frquency to when ethernet ifc is active");
 
+<<<<<<< HEAD
+=======
+static unsigned int skb_timestamp_enable;
+module_param(skb_timestamp_enable, uint, S_IRUGO | S_IWUSR);
+MODULE_PARM_DESC(skb_timestamp_enable,
+	"to enable timestamping for TX and RX packets");
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* this refers to max number sgs per transfer
  * which includes headers/data packets
  */
@@ -677,6 +685,11 @@ static void process_rx_w(struct work_struct *work)
 		dev->net->stats.rx_packets++;
 		dev->net->stats.rx_bytes += skb->len;
 
+<<<<<<< HEAD
+=======
+		if (skb_timestamp_enable)
+			skb->tstamp = ktime_get();
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		status = netif_rx_ni(skb);
 	}
 	set_wake_up_idle(false);
@@ -1064,13 +1077,21 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 	int			extra_alloc = 0;
 	int			retval;
 	struct usb_request	*req = NULL;
+<<<<<<< HEAD
 	struct sk_buff		*new_skb;
+=======
+	struct sk_buff		*new_skb, *clone = NULL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned long		flags;
 	struct usb_ep		*in = NULL;
 	u16			cdc_filter = 0;
 	bool			multi_pkt_xfer = false;
 	u32			fixed_in_len;
 	bool			is_fixed;
+<<<<<<< HEAD
+=======
+	struct skb_shared_hwtstamps hwtstamps;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock_irqsave(&dev->lock, flags);
 	if (dev->port_usb) {
@@ -1284,6 +1305,19 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 		req->no_interrupt = 0;
 	}
 
+<<<<<<< HEAD
+=======
+	if (skb_timestamp_enable) {
+		skb->tstamp = ktime_get();
+		clone = skb_clone_sk(skb);
+		if (clone) {
+			memset(&hwtstamps, 0,
+					sizeof(struct skb_shared_hwtstamps));
+			skb_complete_tx_timestamp(clone, &hwtstamps);
+		}
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	retval = usb_ep_queue(in, req, GFP_ATOMIC);
 	switch (retval) {
 	default:

@@ -37,9 +37,17 @@ struct render_state {
 	struct drm_i915_gem_object *obj;
 	u64 ggtt_offset;
 	int gen;
+<<<<<<< HEAD
 };
 
 int i915_gem_render_state_init(struct intel_engine_cs *ring);
+=======
+	u32 aux_batch_size;
+	u32 aux_batch_offset;
+};
+
+int i915_gem_render_state_init(struct drm_i915_gem_request *req);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void i915_gem_render_state_fini(struct render_state *so);
 int i915_gem_render_state_prepare(struct intel_engine_cs *ring,
 				  struct render_state *so);

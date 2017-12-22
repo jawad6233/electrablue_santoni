@@ -34,7 +34,11 @@ static void omap_irq_update(struct drm_device *dev)
 	struct omap_drm_irq *irq;
 	uint32_t irqmask = priv->vblank_mask;
 
+<<<<<<< HEAD
 	BUG_ON(!spin_is_locked(&list_lock));
+=======
+	assert_spin_locked(&list_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_for_each_entry(irq, &priv->irq_list, node)
 		irqmask |= irq->irqmask;
@@ -134,7 +138,11 @@ int omap_irq_wait(struct drm_device *dev, struct omap_irq_wait *wait,
 /**
  * enable_vblank - enable vblank interrupt events
  * @dev: DRM device
+<<<<<<< HEAD
  * @crtc: which irq to enable
+=======
+ * @pipe: which irq to enable
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Enable vblank interrupts for @crtc.  If the device doesn't have
  * a hardware vblank counter, this routine should be a no-op, since
@@ -144,6 +152,7 @@ int omap_irq_wait(struct drm_device *dev, struct omap_irq_wait *wait,
  * Zero on success, appropriate errno if the given @crtc's vblank
  * interrupt cannot be enabled.
  */
+<<<<<<< HEAD
 int omap_irq_enable_vblank(struct drm_device *dev, int crtc_id)
 {
 	struct omap_drm_private *priv = dev->dev_private;
@@ -153,11 +162,24 @@ int omap_irq_enable_vblank(struct drm_device *dev, int crtc_id)
 	DBG("dev=%p, crtc=%d", dev, crtc_id);
 
 	dispc_runtime_get();
+=======
+int omap_irq_enable_vblank(struct drm_device *dev, unsigned int pipe)
+{
+	struct omap_drm_private *priv = dev->dev_private;
+	struct drm_crtc *crtc = priv->crtcs[pipe];
+	unsigned long flags;
+
+	DBG("dev=%p, crtc=%u", dev, pipe);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_lock_irqsave(&list_lock, flags);
 	priv->vblank_mask |= pipe2vbl(crtc);
 	omap_irq_update(dev);
 	spin_unlock_irqrestore(&list_lock, flags);
+<<<<<<< HEAD
 	dispc_runtime_put();
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -165,12 +187,17 @@ int omap_irq_enable_vblank(struct drm_device *dev, int crtc_id)
 /**
  * disable_vblank - disable vblank interrupt events
  * @dev: DRM device
+<<<<<<< HEAD
  * @crtc: which irq to enable
+=======
+ * @pipe: which irq to enable
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Disable vblank interrupts for @crtc.  If the device doesn't have
  * a hardware vblank counter, this routine should be a no-op, since
  * interrupts will have to stay on to keep the count accurate.
  */
+<<<<<<< HEAD
 void omap_irq_disable_vblank(struct drm_device *dev, int crtc_id)
 {
 	struct omap_drm_private *priv = dev->dev_private;
@@ -180,14 +207,30 @@ void omap_irq_disable_vblank(struct drm_device *dev, int crtc_id)
 	DBG("dev=%p, crtc=%d", dev, crtc_id);
 
 	dispc_runtime_get();
+=======
+void omap_irq_disable_vblank(struct drm_device *dev, unsigned int pipe)
+{
+	struct omap_drm_private *priv = dev->dev_private;
+	struct drm_crtc *crtc = priv->crtcs[pipe];
+	unsigned long flags;
+
+	DBG("dev=%p, crtc=%u", dev, pipe);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_lock_irqsave(&list_lock, flags);
 	priv->vblank_mask &= ~pipe2vbl(crtc);
 	omap_irq_update(dev);
 	spin_unlock_irqrestore(&list_lock, flags);
+<<<<<<< HEAD
 	dispc_runtime_put();
 }
 
 irqreturn_t omap_irq_handler(int irq, void *arg)
+=======
+}
+
+static irqreturn_t omap_irq_handler(int irq, void *arg)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_device *dev = (struct drm_device *) arg;
 	struct omap_drm_private *priv = dev->dev_private;
@@ -222,6 +265,7 @@ irqreturn_t omap_irq_handler(int irq, void *arg)
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 void omap_irq_preinstall(struct drm_device *dev)
 {
 	DBG("dev=%p", dev);
@@ -239,6 +283,31 @@ int omap_irq_postinstall(struct drm_device *dev)
 
 	INIT_LIST_HEAD(&priv->irq_list);
 
+=======
+/*
+ * We need a special version, instead of just using drm_irq_install(),
+ * because we need to register the irq via omapdss.  Once omapdss and
+ * omapdrm are merged together we can assign the dispc hwmod data to
+ * ourselves and drop these and just use drm_irq_{install,uninstall}()
+ */
+
+int omap_drm_irq_install(struct drm_device *dev)
+{
+	struct omap_drm_private *priv = dev->dev_private;
+	struct omap_drm_irq *error_handler = &priv->error_handler;
+	int ret;
+
+	INIT_LIST_HEAD(&priv->irq_list);
+
+	dispc_runtime_get();
+	dispc_clear_irqstatus(0xffffffff);
+	dispc_runtime_put();
+
+	ret = dispc_request_irq(omap_irq_handler, dev);
+	if (ret < 0)
+		return ret;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	error_handler->irq = omap_irq_error_handler;
 	error_handler->irqmask = DISPC_IRQ_OCP_ERR;
 
@@ -249,6 +318,7 @@ int omap_irq_postinstall(struct drm_device *dev)
 
 	omap_irq_register(dev, error_handler);
 
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -319,6 +389,24 @@ int omap_drm_irq_uninstall(struct drm_device *dev)
 	/*
 	 * Wake up any waiters so they don't hang.
 	 */
+=======
+	dev->irq_enabled = true;
+
+	return 0;
+}
+
+void omap_drm_irq_uninstall(struct drm_device *dev)
+{
+	unsigned long irqflags;
+	int i;
+
+	if (!dev->irq_enabled)
+		return;
+
+	dev->irq_enabled = false;
+
+	/* Wake up any waiters so they don't hang. */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (dev->num_crtcs) {
 		spin_lock_irqsave(&dev->vbl_lock, irqflags);
 		for (i = 0; i < dev->num_crtcs; i++) {
@@ -330,6 +418,7 @@ int omap_drm_irq_uninstall(struct drm_device *dev)
 		spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
 	}
 
+<<<<<<< HEAD
 	if (!irq_enabled)
 		return -EINVAL;
 
@@ -339,4 +428,7 @@ int omap_drm_irq_uninstall(struct drm_device *dev)
 	dispc_free_irq(dev);
 
 	return 0;
+=======
+	dispc_free_irq(dev);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

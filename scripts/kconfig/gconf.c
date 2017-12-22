@@ -1498,9 +1498,18 @@ int main(int ac, char *av[])
 		case 'a':
 			//showAll = 1;
 			break;
+<<<<<<< HEAD
 		case 'h':
 		case '?':
 			printf("%s <config>\n", av[0]);
+=======
+		case 's':
+			conf_set_message_callback(NULL);
+			break;
+		case 'h':
+		case '?':
+			printf("%s [-s] <config>\n", av[0]);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			exit(0);
 		}
 		name = av[2];

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * \file drm_auth.c
  * IOCTLs for authentication
@@ -6,6 +7,8 @@
  * \author Gareth Hughes <gareth@valinux.com>
  */
 
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Created: Tue Feb  2 08:37:54 1999 by faith@valinux.com
  *
@@ -13,6 +16,12 @@
  * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
  * All Rights Reserved.
  *
+<<<<<<< HEAD
+=======
+ * Author Rickard E. (Rik) Faith <faith@valinux.com>
+ * Author Gareth Hughes <gareth@valinux.com>
+ *
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation
@@ -36,6 +45,7 @@
 #include <drm/drmP.h>
 #include "drm_internal.h"
 
+<<<<<<< HEAD
 struct drm_magic_entry {
 	struct list_head head;
 	struct drm_hash_item hash_item;
@@ -184,6 +194,49 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
  * Checks if \p file_priv is associated with the magic number passed in \arg.
  * This ioctl needs protection by the drm_global_mutex, which protects
  * struct drm_file::magic and struct drm_magic_entry::priv.
+=======
+/**
+ * drm_getmagic - Get unique magic of a client
+ * @dev: DRM device to operate on
+ * @data: ioctl data containing the drm_auth object
+ * @file_priv: DRM file that performs the operation
+ *
+ * This looks up the unique magic of the passed client and returns it. If the
+ * client did not have a magic assigned, yet, a new one is registered. The magic
+ * is stored in the passed drm_auth object.
+ *
+ * Returns: 0 on success, negative error code on failure.
+ */
+int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+{
+	struct drm_auth *auth = data;
+	int ret = 0;
+
+	mutex_lock(&dev->struct_mutex);
+	if (!file_priv->magic) {
+		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
+				1, 0, GFP_KERNEL);
+		if (ret >= 0)
+			file_priv->magic = ret;
+	}
+	auth->magic = file_priv->magic;
+	mutex_unlock(&dev->struct_mutex);
+
+	DRM_DEBUG("%u\n", auth->magic);
+
+	return ret < 0 ? ret : 0;
+}
+
+/**
+ * drm_authmagic - Authenticate client with a magic
+ * @dev: DRM device to operate on
+ * @data: ioctl data containing the drm_auth object
+ * @file_priv: DRM file that performs the operation
+ *
+ * This looks up a DRM client by the passed magic and authenticates it.
+ *
+ * Returns: 0 on success, negative error code on failure.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 int drm_authmagic(struct drm_device *dev, void *data,
 		  struct drm_file *file_priv)
@@ -192,10 +245,23 @@ int drm_authmagic(struct drm_device *dev, void *data,
 	struct drm_file *file;
 
 	DRM_DEBUG("%u\n", auth->magic);
+<<<<<<< HEAD
 	if ((file = drm_find_file(file_priv->master, auth->magic))) {
 		file->authenticated = 1;
 		drm_remove_magic(file_priv->master, auth->magic);
 		return 0;
 	}
 	return -EINVAL;
+=======
+
+	mutex_lock(&dev->struct_mutex);
+	file = idr_find(&file_priv->master->magic_map, auth->magic);
+	if (file) {
+		file->authenticated = 1;
+		idr_replace(&file_priv->master->magic_map, NULL, auth->magic);
+	}
+	mutex_unlock(&dev->struct_mutex);
+
+	return file ? 0 : -EINVAL;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

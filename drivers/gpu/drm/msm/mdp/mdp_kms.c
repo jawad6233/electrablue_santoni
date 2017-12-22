@@ -34,15 +34,30 @@ static void update_irq(struct mdp_kms *mdp_kms)
 	struct mdp_irq *irq;
 	uint32_t irqmask = mdp_kms->vblank_mask;
 
+<<<<<<< HEAD
 	BUG_ON(!spin_is_locked(&list_lock));
+=======
+	assert_spin_locked(&list_lock);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_for_each_entry(irq, &mdp_kms->irq_list, node)
 		irqmask |= irq->irqmask;
 
+<<<<<<< HEAD
 	mdp_kms->funcs->set_irqmask(mdp_kms, irqmask);
 }
 
 static void update_irq_unlocked(struct mdp_kms *mdp_kms)
+=======
+	mdp_kms->funcs->set_irqmask(mdp_kms, irqmask, mdp_kms->cur_irq_mask);
+	mdp_kms->cur_irq_mask = irqmask;
+}
+
+/* if an mdp_irq's irqmask has changed, such as when mdp5 crtc<->encoder
+ * link changes, this must be called to figure out the new global irqmask
+ */
+void mdp_irq_update(struct mdp_kms *mdp_kms)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	unsigned long flags;
 	spin_lock_irqsave(&list_lock, flags);
@@ -122,7 +137,11 @@ void mdp_irq_register(struct mdp_kms *mdp_kms, struct mdp_irq *irq)
 	spin_unlock_irqrestore(&list_lock, flags);
 
 	if (needs_update)
+<<<<<<< HEAD
 		update_irq_unlocked(mdp_kms);
+=======
+		mdp_irq_update(mdp_kms);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void mdp_irq_unregister(struct mdp_kms *mdp_kms, struct mdp_irq *irq)
@@ -141,5 +160,9 @@ void mdp_irq_unregister(struct mdp_kms *mdp_kms, struct mdp_irq *irq)
 	spin_unlock_irqrestore(&list_lock, flags);
 
 	if (needs_update)
+<<<<<<< HEAD
 		update_irq_unlocked(mdp_kms);
+=======
+		mdp_irq_update(mdp_kms);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

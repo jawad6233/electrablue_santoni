@@ -9,16 +9,40 @@
 
 /* ---------------------------------------------------------------------- */
 
+<<<<<<< HEAD
+=======
+static int bochsfb_mmap(struct fb_info *info,
+			struct vm_area_struct *vma)
+{
+	struct drm_fb_helper *fb_helper = info->par;
+	struct bochs_device *bochs =
+		container_of(fb_helper, struct bochs_device, fb.helper);
+	struct bochs_bo *bo = gem_to_bochs_bo(bochs->fb.gfb.obj);
+
+	return ttm_fbdev_mmap(vma, &bo->bo);
+}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct fb_ops bochsfb_ops = {
 	.owner = THIS_MODULE,
 	.fb_check_var = drm_fb_helper_check_var,
 	.fb_set_par = drm_fb_helper_set_par,
+<<<<<<< HEAD
 	.fb_fillrect = sys_fillrect,
 	.fb_copyarea = sys_copyarea,
 	.fb_imageblit = sys_imageblit,
 	.fb_pan_display = drm_fb_helper_pan_display,
 	.fb_blank = drm_fb_helper_blank,
 	.fb_setcmap = drm_fb_helper_setcmap,
+=======
+	.fb_fillrect = drm_fb_helper_sys_fillrect,
+	.fb_copyarea = drm_fb_helper_sys_copyarea,
+	.fb_imageblit = drm_fb_helper_sys_imageblit,
+	.fb_pan_display = drm_fb_helper_pan_display,
+	.fb_blank = drm_fb_helper_blank,
+	.fb_setcmap = drm_fb_helper_setcmap,
+	.fb_mmap = bochsfb_mmap,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static int bochsfb_create_object(struct bochs_device *bochs,
@@ -44,11 +68,17 @@ static int bochsfb_create(struct drm_fb_helper *helper,
 {
 	struct bochs_device *bochs =
 		container_of(helper, struct bochs_device, fb.helper);
+<<<<<<< HEAD
 	struct drm_device *dev = bochs->dev;
 	struct fb_info *info;
 	struct drm_framebuffer *fb;
 	struct drm_mode_fb_cmd2 mode_cmd;
 	struct device *device = &dev->pdev->dev;
+=======
+	struct fb_info *info;
+	struct drm_framebuffer *fb;
+	struct drm_mode_fb_cmd2 mode_cmd;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_gem_object *gobj = NULL;
 	struct bochs_bo *bo = NULL;
 	int size, ret;
@@ -94,22 +124,38 @@ static int bochsfb_create(struct drm_fb_helper *helper,
 	ttm_bo_unreserve(&bo->bo);
 
 	/* init fb device */
+<<<<<<< HEAD
 	info = framebuffer_alloc(0, device);
 	if (info == NULL)
 		return -ENOMEM;
+=======
+	info = drm_fb_helper_alloc_fbi(helper);
+	if (IS_ERR(info))
+		return PTR_ERR(info);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	info->par = &bochs->fb.helper;
 
 	ret = bochs_framebuffer_init(bochs->dev, &bochs->fb.gfb, &mode_cmd, gobj);
+<<<<<<< HEAD
 	if (ret)
 		return ret;
+=======
+	if (ret) {
+		drm_fb_helper_release_fbi(helper);
+		return ret;
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	bochs->fb.size = size;
 
 	/* setup helper */
 	fb = &bochs->fb.gfb.base;
 	bochs->fb.helper.fb = fb;
+<<<<<<< HEAD
 	bochs->fb.helper.fbdev = info;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	strcpy(info->fix.id, "bochsdrmfb");
 
@@ -123,6 +169,7 @@ static int bochsfb_create(struct drm_fb_helper *helper,
 	info->screen_base = bo->kmap.virtual;
 	info->screen_size = size;
 
+<<<<<<< HEAD
 #if 0
 	/* FIXME: get this right for mmap(/dev/fb0) */
 	info->fix.smem_start = bochs_bo_mmap_offset(bo);
@@ -134,6 +181,11 @@ static int bochsfb_create(struct drm_fb_helper *helper,
 		DRM_ERROR("%s: can't allocate color map\n", info->fix.id);
 		return -ENOMEM;
 	}
+=======
+	drm_vma_offset_remove(&bo->bo.bdev->vma_manager, &bo->bo.vma_node);
+	info->fix.smem_start = 0;
+	info->fix.smem_len = size;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -141,6 +193,7 @@ static int bochsfb_create(struct drm_fb_helper *helper,
 static int bochs_fbdev_destroy(struct bochs_device *bochs)
 {
 	struct bochs_framebuffer *gfb = &bochs->fb.gfb;
+<<<<<<< HEAD
 	struct fb_info *info;
 
 	DRM_DEBUG_DRIVER("\n");
@@ -153,6 +206,13 @@ static int bochs_fbdev_destroy(struct bochs_device *bochs)
 			fb_dealloc_cmap(&info->cmap);
 		framebuffer_release(info);
 	}
+=======
+
+	DRM_DEBUG_DRIVER("\n");
+
+	drm_fb_helper_unregister_fbi(&bochs->fb.helper);
+	drm_fb_helper_release_fbi(&bochs->fb.helper);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (gfb->obj) {
 		drm_gem_object_unreference_unlocked(gfb->obj);

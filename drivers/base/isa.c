@@ -39,7 +39,11 @@ static int isa_bus_probe(struct device *dev)
 {
 	struct isa_driver *isa_driver = dev->platform_data;
 
+<<<<<<< HEAD
 	if (isa_driver->probe)
+=======
+	if (isa_driver && isa_driver->probe)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return isa_driver->probe(dev, to_isa_dev(dev)->id);
 
 	return 0;
@@ -49,7 +53,11 @@ static int isa_bus_remove(struct device *dev)
 {
 	struct isa_driver *isa_driver = dev->platform_data;
 
+<<<<<<< HEAD
 	if (isa_driver->remove)
+=======
+	if (isa_driver && isa_driver->remove)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return isa_driver->remove(dev, to_isa_dev(dev)->id);
 
 	return 0;
@@ -59,7 +67,11 @@ static void isa_bus_shutdown(struct device *dev)
 {
 	struct isa_driver *isa_driver = dev->platform_data;
 
+<<<<<<< HEAD
 	if (isa_driver->shutdown)
+=======
+	if (isa_driver && isa_driver->shutdown)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		isa_driver->shutdown(dev, to_isa_dev(dev)->id);
 }
 
@@ -67,7 +79,11 @@ static int isa_bus_suspend(struct device *dev, pm_message_t state)
 {
 	struct isa_driver *isa_driver = dev->platform_data;
 
+<<<<<<< HEAD
 	if (isa_driver->suspend)
+=======
+	if (isa_driver && isa_driver->suspend)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return isa_driver->suspend(dev, to_isa_dev(dev)->id, state);
 
 	return 0;
@@ -77,7 +93,11 @@ static int isa_bus_resume(struct device *dev)
 {
 	struct isa_driver *isa_driver = dev->platform_data;
 
+<<<<<<< HEAD
 	if (isa_driver->resume)
+=======
+	if (isa_driver && isa_driver->resume)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return isa_driver->resume(dev, to_isa_dev(dev)->id);
 
 	return 0;

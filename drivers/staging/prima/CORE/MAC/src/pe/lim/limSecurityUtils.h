@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -42,6 +46,21 @@
 #define LIM_ENCR_AUTH_BODY_LEN  (sizeof(tSirMacAuthFrameBody) + \
                                 SIR_MAC_WEP_IV_LENGTH + \
                                 SIR_MAC_WEP_ICV_LENGTH)
+<<<<<<< HEAD
+=======
+
+#define LIM_ENCR_AUTH_BODY_LEN_SAP  (SIR_MAC_SAP_AUTH_CHALLENGE_LENGTH + \
+                                     SIR_MAC_CHALLENGE_ID_LEN + \
+                                     SIR_MAC_AUTH_FRAME_INFO_LEN + \
+                                     SIR_MAC_WEP_IV_LENGTH + \
+                                     SIR_MAC_WEP_ICV_LENGTH)
+
+#define LIM_ENCR_AUTH_INFO_LEN  (SIR_MAC_AUTH_FRAME_INFO_LEN +\
+                                 SIR_MAC_WEP_IV_LENGTH + \
+                                 SIR_MAC_WEP_ICV_LENGTH + \
+                                 SIR_MAC_CHALLENGE_ID_LEN)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct tLimPreAuthNode;
 
 tANI_U8        limIsAuthAlgoSupported(tpAniSirGlobal, tAniAuthType, tpPESession);
@@ -59,7 +78,11 @@ tANI_U8 limDeleteOpenAuthPreAuthNode(tpAniSirGlobal pMac);
 
 // Encryption/Decryption related functions
 tCfgWepKeyEntry    *limLookUpKeyMappings(tSirMacAddr);
+<<<<<<< HEAD
 void               limComputeCrc32(tANI_U8 *, tANI_U8 *, tANI_U8);
+=======
+void               limComputeCrc32(tANI_U8 *, tANI_U8 *, tANI_U16);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void               limRC4(tANI_U8 *, tANI_U8 *, tANI_U8 *, tANI_U32, tANI_U16);
 void               limEncryptAuthFrame(tpAniSirGlobal, tANI_U8, tANI_U8 *, tANI_U8 *, tANI_U8 *, tANI_U32);
 tANI_U8                 limDecryptAuthFrame(tpAniSirGlobal, tANI_U8 *, tANI_U8 *, tANI_U8 *, tANI_U32, tANI_U16);

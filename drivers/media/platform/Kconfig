@@ -95,8 +95,13 @@ config VIDEO_OMAP3
 	tristate "OMAP 3 Camera support"
 	depends on VIDEO_V4L2 && I2C && VIDEO_V4L2_SUBDEV_API && ARCH_OMAP3
 	depends on HAS_DMA
+<<<<<<< HEAD
 	select ARM_DMA_USE_IOMMU
 	select OMAP_IOMMU
+=======
+	depends on OMAP_IOMMU
+	select ARM_DMA_USE_IOMMU
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select VIDEOBUF2_DMA_CONTIG
 	---help---
 	  Driver for an OMAP 3 camera controller.

@@ -408,6 +408,11 @@ ENTRY(vector_swi)
  USER(	ldr	scno, [lr, #-4]		)	@ get SWI instruction
 #endif
 
+<<<<<<< HEAD
+=======
+	uaccess_disable tbl
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	adr	tbl, sys_call_table		@ load syscall table pointer
 
 #if defined(CONFIG_OABI_COMPAT)

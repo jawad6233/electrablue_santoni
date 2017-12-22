@@ -542,11 +542,16 @@ static int gsc_src_set_fmt(struct device *dev, u32 fmt)
 		cfg |= (GSC_IN_CHROMA_ORDER_CBCR |
 			GSC_IN_YUV420_2P);
 		break;
+<<<<<<< HEAD
 	case DRM_FORMAT_NV12MT:
 		cfg |= (GSC_IN_TILE_C_16x8 | GSC_IN_TILE_MODE);
 		break;
 	default:
 		dev_err(ippdrv->dev, "inavlid target yuv order 0x%x.\n", fmt);
+=======
+	default:
+		dev_err(ippdrv->dev, "invalid target yuv order 0x%x.\n", fmt);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -585,19 +590,40 @@ static int gsc_src_set_transf(struct device *dev,
 		break;
 	case EXYNOS_DRM_DEGREE_180:
 		cfg |= GSC_IN_ROT_180;
+<<<<<<< HEAD
 		break;
 	case EXYNOS_DRM_DEGREE_270:
 		cfg |= GSC_IN_ROT_270;
 		break;
 	default:
 		dev_err(ippdrv->dev, "inavlid degree value %d.\n", degree);
+=======
+		if (flip & EXYNOS_DRM_FLIP_VERTICAL)
+			cfg &= ~GSC_IN_ROT_XFLIP;
+		if (flip & EXYNOS_DRM_FLIP_HORIZONTAL)
+			cfg &= ~GSC_IN_ROT_YFLIP;
+		break;
+	case EXYNOS_DRM_DEGREE_270:
+		cfg |= GSC_IN_ROT_270;
+		if (flip & EXYNOS_DRM_FLIP_VERTICAL)
+			cfg &= ~GSC_IN_ROT_XFLIP;
+		if (flip & EXYNOS_DRM_FLIP_HORIZONTAL)
+			cfg &= ~GSC_IN_ROT_YFLIP;
+		break;
+	default:
+		dev_err(ippdrv->dev, "invalid degree value %d.\n", degree);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	gsc_write(cfg, GSC_IN_CON);
 
+<<<<<<< HEAD
 	ctx->rotation = cfg &
 		(GSC_IN_ROT_90 | GSC_IN_ROT_270) ? 1 : 0;
+=======
+	ctx->rotation = (cfg & GSC_IN_ROT_90) ? 1 : 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	*swap = ctx->rotation;
 
 	return 0;
@@ -717,7 +743,11 @@ static int gsc_src_set_addr(struct device *dev,
 		property->prop_id, buf_id, buf_type);
 
 	if (buf_id > GSC_MAX_SRC) {
+<<<<<<< HEAD
 		dev_info(ippdrv->dev, "inavlid buf_id %d.\n", buf_id);
+=======
+		dev_info(ippdrv->dev, "invalid buf_id %d.\n", buf_id);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -809,11 +839,16 @@ static int gsc_dst_set_fmt(struct device *dev, u32 fmt)
 		cfg |= (GSC_OUT_CHROMA_ORDER_CBCR |
 			GSC_OUT_YUV420_2P);
 		break;
+<<<<<<< HEAD
 	case DRM_FORMAT_NV12MT:
 		cfg |= (GSC_OUT_TILE_C_16x8 | GSC_OUT_TILE_MODE);
 		break;
 	default:
 		dev_err(ippdrv->dev, "inavlid target yuv order 0x%x.\n", fmt);
+=======
+	default:
+		dev_err(ippdrv->dev, "invalid target yuv order 0x%x.\n", fmt);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -852,19 +887,40 @@ static int gsc_dst_set_transf(struct device *dev,
 		break;
 	case EXYNOS_DRM_DEGREE_180:
 		cfg |= GSC_IN_ROT_180;
+<<<<<<< HEAD
 		break;
 	case EXYNOS_DRM_DEGREE_270:
 		cfg |= GSC_IN_ROT_270;
 		break;
 	default:
 		dev_err(ippdrv->dev, "inavlid degree value %d.\n", degree);
+=======
+		if (flip & EXYNOS_DRM_FLIP_VERTICAL)
+			cfg &= ~GSC_IN_ROT_XFLIP;
+		if (flip & EXYNOS_DRM_FLIP_HORIZONTAL)
+			cfg &= ~GSC_IN_ROT_YFLIP;
+		break;
+	case EXYNOS_DRM_DEGREE_270:
+		cfg |= GSC_IN_ROT_270;
+		if (flip & EXYNOS_DRM_FLIP_VERTICAL)
+			cfg &= ~GSC_IN_ROT_XFLIP;
+		if (flip & EXYNOS_DRM_FLIP_HORIZONTAL)
+			cfg &= ~GSC_IN_ROT_YFLIP;
+		break;
+	default:
+		dev_err(ippdrv->dev, "invalid degree value %d.\n", degree);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
 	gsc_write(cfg, GSC_IN_CON);
 
+<<<<<<< HEAD
 	ctx->rotation = cfg &
 		(GSC_IN_ROT_90 | GSC_IN_ROT_270) ? 1 : 0;
+=======
+	ctx->rotation = (cfg & GSC_IN_ROT_90) ? 1 : 0;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	*swap = ctx->rotation;
 
 	return 0;
@@ -1168,7 +1224,11 @@ static int gsc_dst_set_addr(struct device *dev,
 		property->prop_id, buf_id, buf_type);
 
 	if (buf_id > GSC_MAX_DST) {
+<<<<<<< HEAD
 		dev_info(ippdrv->dev, "inavlid buf_id %d.\n", buf_id);
+=======
+		dev_info(ippdrv->dev, "invalid buf_id %d.\n", buf_id);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 
@@ -1764,7 +1824,11 @@ static int gsc_resume(struct device *dev)
 }
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_PM_RUNTIME
+=======
+#ifdef CONFIG_PM
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int gsc_runtime_suspend(struct device *dev)
 {
 	struct gsc_context *ctx = get_gsc_context(dev);

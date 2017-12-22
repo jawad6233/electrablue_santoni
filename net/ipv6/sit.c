@@ -1093,6 +1093,10 @@ static void ipip6_tunnel_update(struct ip_tunnel *t, struct ip_tunnel_parm *p)
 	ipip6_tunnel_link(sitn, t);
 	t->parms.iph.ttl = p->iph.ttl;
 	t->parms.iph.tos = p->iph.tos;
+<<<<<<< HEAD
+=======
+	t->parms.iph.frag_off = p->iph.frag_off;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (t->parms.link != p->link) {
 		t->parms.link = p->link;
 		ipip6_tunnel_bind_dev(t->dev);

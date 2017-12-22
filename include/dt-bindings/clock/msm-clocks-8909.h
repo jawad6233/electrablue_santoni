@@ -230,4 +230,9 @@
 #define clk_audio_ap_clk                        0x312ac429
 #define clk_audio_pmi_clk                       0xb7ba2274
 
+<<<<<<< HEAD
+=======
+#define clk_audio_lpass_mclk			0x575ec22b
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

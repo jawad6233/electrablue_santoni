@@ -19,6 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+<<<<<<< HEAD
 
 #ifndef __NOUVEAU_PLATFORM_H__
 #define __NOUVEAU_PLATFORM_H__
@@ -46,4 +47,11 @@ struct nouveau_platform_device {
 #define nv_device_to_platform(d)                                               \
 	container_of(d, struct nouveau_platform_device, device)
 
+=======
+#ifndef __NOUVEAU_PLATFORM_H__
+#define __NOUVEAU_PLATFORM_H__
+#include "nouveau_drm.h"
+
+extern struct platform_driver nouveau_platform_driver;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

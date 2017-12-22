@@ -509,6 +509,15 @@
 #define DCCG_AUDIO_DTO1_MODULE            0x05c4
 #define DCCG_AUDIO_DTO1_LOAD              0x05c8
 #define DCCG_AUDIO_DTO1_CNTL              0x05cc
+<<<<<<< HEAD
+=======
+#       define DCCG_AUDIO_DTO1_USE_512FBR_DTO (1 << 3)
+
+#define DCE41_DENTIST_DISPCLK_CNTL			0x049c
+#       define DENTIST_DPREFCLK_WDIVIDER(x)		(((x) & 0x7f) << 24)
+#       define DENTIST_DPREFCLK_WDIVIDER_MASK		(0x7f << 24)
+#       define DENTIST_DPREFCLK_WDIVIDER_SHIFT		24
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* DCE 4.0 AFMT */
 #define HDMI_CONTROL                         0x7030
@@ -1190,6 +1199,13 @@
 #define		SOFT_RESET_REGBB			(1 << 22)
 #define		SOFT_RESET_ORB				(1 << 23)
 
+<<<<<<< HEAD
+=======
+#define SRBM_READ_ERROR					0xE98
+#define SRBM_INT_CNTL					0xEA0
+#define SRBM_INT_ACK					0xEA8
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* display watermarks */
 #define	DC_LB_MEMORY_SPLIT				  0x6b0c
 #define	PRIORITY_A_CNT			                  0x6b18
@@ -1515,6 +1531,10 @@
 #define UVD_UDEC_DBW_ADDR_CONFIG			0xef54
 #define UVD_RBC_RB_RPTR					0xf690
 #define UVD_RBC_RB_WPTR					0xf694
+<<<<<<< HEAD
+=======
+#define UVD_STATUS					0xf6bc
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * PM4

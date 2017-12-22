@@ -483,7 +483,11 @@ static int oaktrail_crtc_mode_set(struct drm_crtc *crtc,
 
 	/* Flush the plane changes */
 	{
+<<<<<<< HEAD
 		struct drm_crtc_helper_funcs *crtc_funcs =
+=======
+		const struct drm_crtc_helper_funcs *crtc_funcs =
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    crtc->helper_private;
 		crtc_funcs->mode_set_base(crtc, x, y, old_fb);
 	}

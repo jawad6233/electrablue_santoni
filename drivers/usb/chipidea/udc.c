@@ -1794,6 +1794,11 @@ static int udc_start(struct ci_hdrc *ci)
 	struct device *dev = ci->dev;
 	int retval = 0;
 
+<<<<<<< HEAD
+=======
+	spin_lock_init(&ci->lock);
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ci->gadget.ops          = &usb_gadget_ops;
 	ci->gadget.speed        = USB_SPEED_UNKNOWN;
 	ci->gadget.max_speed    = USB_SPEED_HIGH;
@@ -1888,7 +1893,10 @@ static void udc_id_switch_for_host(struct ci_hdrc *ci)
 int ci_hdrc_gadget_init(struct ci_hdrc *ci)
 {
 	struct ci_role_driver *rdrv;
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!hw_read(ci, CAP_DCCPARAMS, DCCPARAMS_DC))
 		return -ENXIO;
@@ -1901,10 +1909,16 @@ int ci_hdrc_gadget_init(struct ci_hdrc *ci)
 	rdrv->stop	= udc_id_switch_for_host;
 	rdrv->irq	= udc_irq;
 	rdrv->name	= "gadget";
+<<<<<<< HEAD
 
 	ret = udc_start(ci);
 	if (!ret)
 		ci->roles[CI_ROLE_GADGET] = rdrv;
 
 	return ret;
+=======
+	ci->roles[CI_ROLE_GADGET] = rdrv;
+
+	return udc_start(ci);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

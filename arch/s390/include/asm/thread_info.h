@@ -39,7 +39,10 @@ struct thread_info {
 	unsigned long		sys_call_table;	/* System call table address */
 	unsigned int		cpu;		/* current CPU */
 	int			preempt_count;	/* 0 => preemptable, <0 => BUG */
+<<<<<<< HEAD
 	struct restart_block	restart_block;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int		system_call;
 	__u64			user_timer;
 	__u64			system_timer;
@@ -56,9 +59,12 @@ struct thread_info {
 	.flags		= 0,			\
 	.cpu		= 0,			\
 	.preempt_count	= INIT_PREEMPT_COUNT,	\
+<<<<<<< HEAD
 	.restart_block	= {			\
 		.fn = do_no_restart_syscall,	\
 	},					\
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #define init_thread_info	(init_thread_union.thread_info)

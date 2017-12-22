@@ -153,10 +153,17 @@ extern void get_avenrun(unsigned long *loads, unsigned long offset, int shift);
 
 #define FSHIFT		11		/* nr of bits of precision */
 #define FIXED_1		(1<<FSHIFT)	/* 1.0 as fixed-point */
+<<<<<<< HEAD
 #define LOAD_FREQ	(4*HZ+61)	/* 5 sec intervals */
 #define EXP_1		1896		/* 1/exp(5sec/1min) as fixed-point */
 #define EXP_5		2017		/* 1/exp(5sec/5min) */
 #define EXP_15		2038		/* 1/exp(5sec/15min) */
+=======
+#define LOAD_FREQ	(5*HZ+1)	/* 5 sec intervals */
+#define EXP_1		1884		/* 1/exp(5sec/1min) as fixed-point */
+#define EXP_5		2014		/* 1/exp(5sec/5min) */
+#define EXP_15		2037		/* 1/exp(5sec/15min) */
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define CALC_LOAD(load,exp,n) \
 	load *= exp; \
@@ -172,9 +179,12 @@ extern bool single_task_running(void);
 extern unsigned long nr_iowait(void);
 extern unsigned long nr_iowait_cpu(int cpu);
 extern void get_iowait_load(unsigned long *nr_waiters, unsigned long *load);
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_QUIET
 extern u64 nr_running_integral(unsigned int cpu);
 #endif
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern void sched_update_nr_prod(int cpu, long delta, bool inc);
 extern void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg);
@@ -1431,6 +1441,10 @@ struct task_struct {
 
 	unsigned long atomic_flags; /* Flags needing atomic access. */
 
+<<<<<<< HEAD
+=======
+	struct restart_block restart_block;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pid_t pid;
 	pid_t tgid;
 
@@ -1756,6 +1770,20 @@ struct task_struct {
 	/* bitmask and counter of trace recursion */
 	unsigned long trace_recursion;
 #endif /* CONFIG_TRACING */
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_KCOV
+	/* Coverage collection mode enabled for this task (0 if disabled). */
+	enum kcov_mode kcov_mode;
+	/* Size of the kcov_area. */
+	unsigned	kcov_size;
+	/* Buffer for coverage collection. */
+	void		*kcov_area;
+	/* kcov desciptor wired with this task or NULL. */
+	struct kcov	*kcov;
+#endif
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_MEMCG /* memcg uses this to do batch job */
 	unsigned int memcg_kmem_skip_account;
 	struct memcg_oom_info {
@@ -3203,6 +3231,13 @@ static inline void inc_syscw(struct task_struct *tsk)
 {
 	tsk->ioac.syscw++;
 }
+<<<<<<< HEAD
+=======
+static inline void inc_syscfs(struct task_struct *tsk)
+{
+	tsk->ioac.syscfs++;
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else
 static inline void add_rchar(struct task_struct *tsk, ssize_t amt)
 {
@@ -3219,6 +3254,12 @@ static inline void inc_syscr(struct task_struct *tsk)
 static inline void inc_syscw(struct task_struct *tsk)
 {
 }
+<<<<<<< HEAD
+=======
+static inline void inc_syscfs(struct task_struct *tsk)
+{
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 #ifndef TASK_SIZE_OF

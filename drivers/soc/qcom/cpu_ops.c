@@ -75,7 +75,11 @@ static int secondary_pen_release(unsigned int cpu)
 	 */
 	arch_send_wakeup_ipi_mask(cpumask_of(cpu));
 
+<<<<<<< HEAD
 	timeout = jiffies + msecs_to_jiffies(1000);
+=======
+	timeout = jiffies + (1 * HZ);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	while (time_before(jiffies, timeout)) {
 		if (secondary_holding_pen_release == INVALID_HWID)
 			break;

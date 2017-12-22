@@ -43,6 +43,10 @@
 #define TEMP_MAX_POINT 95
 #define CPU_HOTPLUG_LIMIT 80
 #define CPU_BIT_MASK(cpu) BIT(cpu)
+<<<<<<< HEAD
+=======
+#define DEFAULT_TEMP 40
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define DEFAULT_LOW_HYST_TEMP 10
 #define DEFAULT_HIGH_HYST_TEMP 5
 #define CLUSTER_OFFSET_FOR_MPIDR 8
@@ -307,7 +311,11 @@ static __ref int do_sampling(void *data)
 	static int prev_temp[NR_CPUS];
 
 	while (!kthread_should_stop()) {
+<<<<<<< HEAD
 		wait_for_completion_interruptible(&sampling_completion);
+=======
+		wait_for_completion(&sampling_completion);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cancel_delayed_work(&sampling_work);
 
 		mutex_lock(&kthread_update_mutex);
@@ -331,8 +339,12 @@ static __ref int do_sampling(void *data)
 		if (!poll_ms)
 			goto unlock;
 
+<<<<<<< HEAD
 		queue_delayed_work(system_power_efficient_wq,
 			&sampling_work,
+=======
+		schedule_delayed_work(&sampling_work,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			msecs_to_jiffies(poll_ms));
 unlock:
 		mutex_unlock(&kthread_update_mutex);

@@ -3079,8 +3079,16 @@ static int ep_queue(struct usb_ep *ep, struct usb_request *req,
 
 	trace("%pK, %pK, %X", ep, req, gfp_flags);
 
+<<<<<<< HEAD
 	spin_lock_irqsave(mEp->lock, flags);
 	if (ep == NULL || req == NULL || mEp->desc == NULL) {
+=======
+	if (ep == NULL)
+		return -EINVAL;
+
+	spin_lock_irqsave(mEp->lock, flags);
+	if (req == NULL || mEp->desc == NULL) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		retval = -EINVAL;
 		goto done;
 	}
@@ -3166,6 +3174,10 @@ static int ep_queue(struct usb_ep *ep, struct usb_request *req,
 					__func__);
 			dev_dbg(mEp->device, "%s: Remote wakeup is not supported. ept #%d\n",
 					__func__, mEp->num);
+<<<<<<< HEAD
+=======
+			mEp->multi_req = false;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			retval = -EAGAIN;
 			goto done;
@@ -3218,12 +3230,23 @@ static int ep_dequeue(struct usb_ep *ep, struct usb_request *req)
 				__func__);
 		return -EAGAIN;
 	}
+<<<<<<< HEAD
+=======
+
+	if (ep == NULL)
+		return -EINVAL;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_lock_irqsave(mEp->lock, flags);
 	/*
 	 * Only ep0 IN is exposed to composite.  When a req is dequeued
 	 * on ep0, check both ep0 IN and ep0 OUT queues.
 	 */
+<<<<<<< HEAD
 	if (ep == NULL || req == NULL || mReq->req.status != -EALREADY ||
+=======
+	if (req == NULL || mReq->req.status != -EALREADY ||
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mEp->desc == NULL || list_empty(&mReq->queue) ||
 		(list_empty(&mEp->qh.queue) && ((mEp->type !=
 			USB_ENDPOINT_XFER_CONTROL) ||
@@ -3250,6 +3273,22 @@ static int ep_dequeue(struct usb_ep *ep, struct usb_request *req)
 		mReq->map     = 0;
 	}
 	req->status = -ECONNRESET;
+<<<<<<< HEAD
+=======
+
+	if (mEp->last_zptr) {
+		dma_pool_free(mEp->td_pool, mEp->last_zptr, mEp->last_zdma);
+		mEp->last_zptr = NULL;
+		mEp->last_zdma = 0;
+	}
+
+	if (mReq->zptr) {
+		dma_pool_free(mEp->td_pool, mReq->zptr, mReq->zdma);
+		mReq->zptr = NULL;
+		mReq->zdma = 0;
+	}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (mEp->multi_req) {
 		restore_original_req(mReq);
 		mEp->multi_req = false;

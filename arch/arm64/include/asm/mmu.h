@@ -17,6 +17,7 @@
 #define __ASM_MMU_H
 
 typedef struct {
+<<<<<<< HEAD
 	unsigned int id;
 	raw_spinlock_t id_lock;
 	void *vdso;
@@ -29,6 +30,20 @@ typedef struct {
 
 extern void paging_init(void);
 extern void setup_mm_for_reboot(void);
+=======
+	atomic64_t	id;
+	void		*vdso;
+} mm_context_t;
+
+/*
+ * This macro is only used by the TLBI code, which cannot race with an
+ * ASID change and therefore doesn't need to reload the counter using
+ * atomic64_read.
+ */
+#define ASID(mm)	((mm)->context.id.counter & 0xffff)
+
+extern void paging_init(void);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern void __iomem *early_io_map(phys_addr_t phys, unsigned long virt);
 extern void init_mem_pgprot(void);
 extern void mem_text_write_kernel_word(u32 *addr, u32 word);

@@ -100,8 +100,14 @@ static int parse_one(char *param,
 		     unsigned num_params,
 		     s16 min_level,
 		     s16 max_level,
+<<<<<<< HEAD
 		     int (*handle_unknown)(char *param, char *val,
 				     const char *doing))
+=======
+		     void *arg,
+		     int (*handle_unknown)(char *param, char *val,
+				     const char *doing, void *arg))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	unsigned int i;
 	int err;
@@ -128,7 +134,11 @@ static int parse_one(char *param,
 
 	if (handle_unknown) {
 		pr_debug("doing %s: %s='%s'\n", doing, param, val);
+<<<<<<< HEAD
 		return handle_unknown(param, val, doing);
+=======
+		return handle_unknown(param, val, doing, arg);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	pr_debug("Unknown argument '%s'\n", param);
@@ -194,7 +204,13 @@ char *parse_args(const char *doing,
 		 unsigned num,
 		 s16 min_level,
 		 s16 max_level,
+<<<<<<< HEAD
 		 int (*unknown)(char *param, char *val, const char *doing))
+=======
+		 void *arg,
+		 int (*unknown)(char *param, char *val,
+				const char *doing, void *arg))
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	char *param, *val;
 
@@ -214,7 +230,11 @@ char *parse_args(const char *doing,
 			return args;
 		irq_was_disabled = irqs_disabled();
 		ret = parse_one(param, val, doing, params, num,
+<<<<<<< HEAD
 				min_level, max_level, unknown);
+=======
+				min_level, max_level, arg, unknown);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (irq_was_disabled && !irqs_disabled())
 			pr_warn("%s: option '%s' enabled irq's!\n",
 				doing, param);
@@ -298,11 +318,18 @@ int param_get_charp(char *buffer, const struct kernel_param *kp)
 }
 EXPORT_SYMBOL(param_get_charp);
 
+<<<<<<< HEAD
 void param_free_charp(void *arg)
 {
 	maybe_kfree_parameter(*((char **)arg));
 }
 EXPORT_SYMBOL(param_free_charp);
+=======
+static void param_free_charp(void *arg)
+{
+	maybe_kfree_parameter(*((char **)arg));
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct kernel_param_ops param_ops_charp = {
 	.set = param_set_charp,

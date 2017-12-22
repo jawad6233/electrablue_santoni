@@ -1,6 +1,10 @@
 /**************************************************************************
  *
+<<<<<<< HEAD
  * Copyright © 2011 VMware, Inc., Palo Alto, CA., USA
+=======
+ * Copyright © 2011-2012 VMware, Inc., Palo Alto, CA., USA
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a

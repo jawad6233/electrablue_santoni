@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -298,7 +302,12 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
             if (psessionEntry->limSystemRole == eLIM_STA_ROLE)
             {
                 if (pProbeRsp->channelSwitchPresent ||
+<<<<<<< HEAD
                     pProbeRsp->propIEinfo.propChannelSwitchPresent)
+=======
+                    pProbeRsp->propIEinfo.propChannelSwitchPresent ||
+                    pProbeRsp->ecsa_present)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 {
                     limUpdateChannelSwitch(pMac, pProbeRsp, psessionEntry);
                 }

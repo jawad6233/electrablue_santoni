@@ -17,3 +17,8 @@ header-y += tegra_drm.h
 header-y += via_drm.h
 header-y += vmwgfx_drm.h
 header-y += msm_drm.h
+<<<<<<< HEAD
+=======
+header-y += virtgpu_drm.h
+header-y += sde_drm.h
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

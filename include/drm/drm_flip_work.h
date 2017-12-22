@@ -25,6 +25,10 @@
 #define DRM_FLIP_WORK_H
 
 #include <linux/kfifo.h>
+<<<<<<< HEAD
+=======
+#include <linux/spinlock.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/workqueue.h>
 
 /**
@@ -32,9 +36,15 @@
  *
  * Util to queue up work to run from work-queue context after flip/vblank.
  * Typically this can be used to defer unref of framebuffer's, cursor
+<<<<<<< HEAD
  * bo's, etc until after vblank.  The APIs are all safe (and lockless)
  * for up to one producer and once consumer at a time.  The single-consumer
  * aspect is ensured by committing the queued work to a single work-queue.
+=======
+ * bo's, etc until after vblank.  The APIs are all thread-safe.
+ * Moreover, drm_flip_work_queue_task and drm_flip_work_queue can be called
+ * in atomic context.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 
 struct drm_flip_work;
@@ -51,6 +61,7 @@ struct drm_flip_work;
 typedef void (*drm_flip_func_t)(struct drm_flip_work *work, void *val);
 
 /**
+<<<<<<< HEAD
  * struct drm_flip_work - flip work queue
  * @name: debug name
  * @pending: number of queued but not committed items
@@ -71,6 +82,42 @@ void drm_flip_work_queue(struct drm_flip_work *work, void *val);
 void drm_flip_work_commit(struct drm_flip_work *work,
 		struct workqueue_struct *wq);
 int drm_flip_work_init(struct drm_flip_work *work, int size,
+=======
+ * struct drm_flip_task - flip work task
+ * @node: list entry element
+ * @data: data to pass to work->func
+ */
+struct drm_flip_task {
+	struct list_head node;
+	void *data;
+};
+
+/**
+ * struct drm_flip_work - flip work queue
+ * @name: debug name
+ * @func: callback fxn called for each committed item
+ * @worker: worker which calls @func
+ * @queued: queued tasks
+ * @commited: commited tasks
+ * @lock: lock to access queued and commited lists
+ */
+struct drm_flip_work {
+	const char *name;
+	drm_flip_func_t func;
+	struct work_struct worker;
+	struct list_head queued;
+	struct list_head commited;
+	spinlock_t lock;
+};
+
+struct drm_flip_task *drm_flip_work_allocate_task(void *data, gfp_t flags);
+void drm_flip_work_queue_task(struct drm_flip_work *work,
+			      struct drm_flip_task *task);
+void drm_flip_work_queue(struct drm_flip_work *work, void *val);
+void drm_flip_work_commit(struct drm_flip_work *work,
+		struct workqueue_struct *wq);
+void drm_flip_work_init(struct drm_flip_work *work,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		const char *name, drm_flip_func_t func);
 void drm_flip_work_cleanup(struct drm_flip_work *work);
 

@@ -43,6 +43,15 @@
 
 #define MSM_CPE_LAB_THREAD_TIMEOUT (3 * (HZ/10))
 
+<<<<<<< HEAD
+=======
+/*
+ * Driver ioctl will parse only so many params
+ * size of LSM_PARAMS_MAX is last LSM_PARAM_TYPE + 1
+ */
+#define LSM_PARAMS_MAX (LSM_POLLING_ENABLE + 1)
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define MSM_CPE_LSM_GRAB_LOCK(lock, name)		\
 {						\
 	pr_debug("%s: %s lock acquire\n",	\
@@ -1060,7 +1069,10 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 	struct cpe_lsm_lab *lab_d = &lsm_d->lab;
 	struct snd_dma_buffer *dma_buf = &substream->dma_buffer;
 	struct msm_slim_dma_data *dma_data = NULL;
+<<<<<<< HEAD
 	struct snd_lsm_event_status *user;
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct snd_lsm_detection_params det_params;
 	int rc = 0;
 
@@ -1329,11 +1341,21 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 		break;
 
 	case SNDRV_LSM_EVENT_STATUS:
+<<<<<<< HEAD
 		dev_dbg(rtd->dev,
 			"%s: %s\n",
 			__func__, "SNDRV_LSM_EVENT_STATUS");
 
 		user = arg;
+=======
+	case SNDRV_LSM_EVENT_STATUS_V3: {
+		struct snd_lsm_event_status *user;
+		struct snd_lsm_event_status_v3 *user_v3;
+
+		dev_dbg(rtd->dev,
+			"%s: %s\n",
+			__func__, "SNDRV_LSM_EVENT_STATUS(_V3)");
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/*
 		 * Release the api lock before wait to allow
@@ -1354,6 +1376,7 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 			if (atomic_read(&lsm_d->event_avail) == 1) {
 				rc = 0;
 				atomic_set(&lsm_d->event_avail, 0);
+<<<<<<< HEAD
 				if (lsm_d->ev_det_pld_size >
 					user->payload_size) {
 					dev_err(rtd->dev,
@@ -1379,6 +1402,64 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 			}
 		}
 
+=======
+
+				if (cmd == SNDRV_LSM_EVENT_STATUS) {
+					user = arg;
+					if (lsm_d->ev_det_pld_size >
+						user->payload_size) {
+						dev_err(rtd->dev,
+							"%s: avail pld_bytes = %u, needed = %u\n",
+							__func__,
+							user->payload_size,
+							lsm_d->ev_det_pld_size);
+						return -EINVAL;
+					}
+
+					user->status = lsm_d->ev_det_status;
+					user->payload_size =
+							lsm_d->ev_det_pld_size;
+					memcpy(user->payload,
+					       lsm_d->ev_det_payload,
+					       lsm_d->ev_det_pld_size);
+				} else {
+					user_v3 = arg;
+					if (lsm_d->ev_det_pld_size >
+						user_v3->payload_size) {
+						dev_err(rtd->dev,
+							"%s: avail pld_bytes = %u, needed = %u\n",
+							__func__,
+							user_v3->payload_size,
+							lsm_d->ev_det_pld_size);
+						return -EINVAL;
+					}
+					/* event status timestamp not supported
+					 * on CPE mode. Set msw and lsw to 0.
+					 */
+					user_v3->timestamp_lsw = 0;
+					user_v3->timestamp_msw = 0;
+					user_v3->status = lsm_d->ev_det_status;
+					user_v3->payload_size =
+							lsm_d->ev_det_pld_size;
+					memcpy(user_v3->payload,
+					       lsm_d->ev_det_payload,
+					       lsm_d->ev_det_pld_size);
+				}
+			} else if (atomic_read(&lsm_d->event_stop) == 1) {
+				dev_dbg(rtd->dev,
+					"%s: wait_aborted\n", __func__);
+				if (cmd == SNDRV_LSM_EVENT_STATUS) {
+					user = arg;
+					user->payload_size = 0;
+				} else {
+					user_v3 = arg;
+					user_v3->payload_size = 0;
+				}
+				rc = 0;
+			}
+		}
+	}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 
 	case SNDRV_LSM_ABORT_EVENT:
@@ -1510,6 +1591,23 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 		}
 		break;
 
+<<<<<<< HEAD
+=======
+	case SNDRV_LSM_SET_PORT: {
+		u32 port_id = cpe->input_port_id;
+
+		dev_dbg(rtd->dev, "%s: %s\n", __func__, "SNDRV_LSM_SET_PORT");
+		rc = lsm_ops->lsm_set_port(cpe->core_handle, session, &port_id);
+		if (rc) {
+			dev_err(rtd->dev,
+				"%s: lsm_set_port failed, err = %d\n",
+				__func__, rc);
+			return rc;
+		}
+	}
+	break;
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		dev_dbg(rtd->dev,
 			"%s: Default snd_lib_ioctl cmd 0x%x\n",
@@ -1521,7 +1619,11 @@ static int msm_cpe_lsm_ioctl_shared(struct snd_pcm_substream *substream,
 }
 
 static int msm_cpe_lsm_lab_start(struct snd_pcm_substream *substream,
+<<<<<<< HEAD
 		struct snd_lsm_event_status *event_status)
+=======
+		u16 event_det_status)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct snd_soc_pcm_runtime *rtd;
 	struct cpe_lsm_data *lsm_d = NULL;
@@ -1574,7 +1676,11 @@ static int msm_cpe_lsm_lab_start(struct snd_pcm_substream *substream,
 	reinit_completion(&lab_d->thread_complete);
 
 	if (session->lab_enable &&
+<<<<<<< HEAD
 	    event_status->status ==
+=======
+	    event_det_status ==
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	    LSM_VOICE_WAKEUP_STATUS_DETECTED) {
 		out_port = &session->afe_out_port_cfg;
 		out_port->port_id = session->afe_out_port_id;
@@ -2179,7 +2285,64 @@ static int msm_cpe_lsm_ioctl(struct snd_pcm_substream *substream,
 			goto done;
 		}
 
+<<<<<<< HEAD
 		msm_cpe_lsm_lab_start(substream, event_status);
+=======
+		msm_cpe_lsm_lab_start(substream, event_status->status);
+		msm_cpe_process_event_status_done(lsm_d);
+		kfree(event_status);
+	}
+		break;
+	case SNDRV_LSM_EVENT_STATUS_V3: {
+		struct snd_lsm_event_status_v3 u_event_status;
+		struct snd_lsm_event_status_v3 *event_status = NULL;
+		int u_pld_size = 0;
+
+		if (copy_from_user(&u_event_status, (void *)arg,
+				   sizeof(struct snd_lsm_event_status_v3))) {
+			dev_err(rtd->dev,
+				"%s: event status copy from user failed, size %zd\n",
+				__func__,
+				sizeof(struct snd_lsm_event_status_v3));
+			err = -EFAULT;
+			goto done;
+		}
+
+		if (u_event_status.payload_size >
+		    LISTEN_MAX_STATUS_PAYLOAD_SIZE) {
+			dev_err(rtd->dev,
+				"%s: payload_size %d is invalid, max allowed = %d\n",
+				__func__, u_event_status.payload_size,
+				LISTEN_MAX_STATUS_PAYLOAD_SIZE);
+			err = -EINVAL;
+			goto done;
+		}
+
+		u_pld_size = sizeof(struct snd_lsm_event_status_v3) +
+				u_event_status.payload_size;
+
+		event_status = kzalloc(u_pld_size, GFP_KERNEL);
+		if (!event_status) {
+			err = -ENOMEM;
+			goto done;
+		} else {
+			event_status->payload_size =
+				u_event_status.payload_size;
+			err = msm_cpe_lsm_ioctl_shared(substream,
+						       cmd, event_status);
+		}
+
+		if (!err  && copy_to_user(arg, event_status, u_pld_size)) {
+			dev_err(rtd->dev,
+				"%s: copy to user failed\n",
+				__func__);
+			kfree(event_status);
+			err = -EFAULT;
+			goto done;
+		}
+
+		msm_cpe_lsm_lab_start(substream, event_status->status);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		msm_cpe_process_event_status_done(lsm_d);
 		kfree(event_status);
 	}
@@ -2502,7 +2665,101 @@ static int msm_cpe_lsm_ioctl_compat(struct snd_pcm_substream *substream,
 			goto done;
 		}
 
+<<<<<<< HEAD
 		msm_cpe_lsm_lab_start(substream, event_status);
+=======
+		msm_cpe_lsm_lab_start(substream, event_status->status);
+		msm_cpe_process_event_status_done(lsm_d);
+		kfree(event_status);
+		kfree(udata_32);
+	}
+		break;
+	case SNDRV_LSM_EVENT_STATUS_V3: {
+		struct snd_lsm_event_status_v3 *event_status = NULL;
+		struct snd_lsm_event_status_v3 u_event_status32;
+		struct snd_lsm_event_status_v3 *udata_32 = NULL;
+		int u_pld_size = 0;
+
+		dev_dbg(rtd->dev,
+			"%s: ioctl %s\n", __func__,
+			"SNDRV_LSM_EVENT_STATUS_V3_32");
+
+		if (copy_from_user(&u_event_status32, (void *)arg,
+				   sizeof(struct snd_lsm_event_status_v3))) {
+			dev_err(rtd->dev,
+				"%s: event status copy from user failed, size %zd\n",
+				__func__,
+				sizeof(struct snd_lsm_event_status_v3));
+			err = -EFAULT;
+			goto done;
+		}
+
+		if (u_event_status32.payload_size >
+		   LISTEN_MAX_STATUS_PAYLOAD_SIZE) {
+			dev_err(rtd->dev,
+				"%s: payload_size %d is invalid, max allowed = %d\n",
+				__func__, u_event_status32.payload_size,
+				LISTEN_MAX_STATUS_PAYLOAD_SIZE);
+			err = -EINVAL;
+			goto done;
+		}
+
+		u_pld_size = sizeof(struct snd_lsm_event_status_v3) +
+				u_event_status32.payload_size;
+		event_status = kzalloc(u_pld_size, GFP_KERNEL);
+		if (!event_status) {
+			dev_err(rtd->dev,
+				"%s: No memory for event status\n",
+				__func__);
+			err = -ENOMEM;
+			goto done;
+		} else {
+			event_status->payload_size =
+				u_event_status32.payload_size;
+			err = msm_cpe_lsm_ioctl_shared(substream,
+						       cmd, event_status);
+			if (err)
+				dev_err(rtd->dev,
+					"%s: %s failed, error = %d\n",
+					__func__,
+					"SNDRV_LSM_EVENT_STATUS_V3_32",
+					err);
+		}
+
+		if (!err) {
+			udata_32 = kzalloc(u_pld_size, GFP_KERNEL);
+			if (!udata_32) {
+				dev_err(rtd->dev,
+					"%s: nomem for udata\n",
+					__func__);
+				err = -EFAULT;
+			} else {
+				udata_32->timestamp_lsw =
+					event_status->timestamp_lsw;
+				udata_32->timestamp_msw =
+					event_status->timestamp_msw;
+				udata_32->status = event_status->status;
+				udata_32->payload_size =
+					event_status->payload_size;
+				memcpy(udata_32->payload,
+				       event_status->payload,
+				       u_pld_size);
+			}
+		}
+
+		if (!err  && copy_to_user(arg, udata_32,
+					  u_pld_size)) {
+			dev_err(rtd->dev,
+				"%s: copy to user failed\n",
+				__func__);
+			kfree(event_status);
+			kfree(udata_32);
+			err = -EFAULT;
+			goto done;
+		}
+
+		msm_cpe_lsm_lab_start(substream, event_status->status);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		msm_cpe_process_event_status_done(lsm_d);
 		kfree(event_status);
 		kfree(udata_32);

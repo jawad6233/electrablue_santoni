@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2014, 2016-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -236,6 +240,23 @@ tpPESession peFindSessionByBssid(tpAniSirGlobal pMac,  tANI_U8*  bssid,    tANI_
 
 }
 
+<<<<<<< HEAD
+=======
+tANI_S8 limGetInfraSessionId(tpAniSirGlobal pMac)
+{
+    tANI_U8 i;
+    for (i = 0; i < pMac->lim.maxBssId; i++)
+    {
+        if ((pMac->lim.gpSession[i].valid) &&
+           (pMac->lim.gpSession[i].limSystemRole == eLIM_STA_ROLE))
+        {
+            return i;
+        }
+    }
+    limLog(pMac, LOG4, FL("Session lookup fails for infra mode"));
+    return -1;
+}
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*--------------------------------------------------------------------------
   \brief peFindSessionByBssIdx() - looks up the PE session given the bssIdx.

@@ -17,10 +17,14 @@
  */
 #include <linux/linkage.h>
 
+<<<<<<< HEAD
 #include <asm/alternative.h>
 #include <asm/assembler.h>
 #include <asm/cpufeature.h>
 #include <asm/sysreg.h>
+=======
+#include <asm/uaccess.h>
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	.text
 
@@ -33,17 +37,26 @@
  * Alignment fixed up by hardware.
  */
 ENTRY(__clear_user)
+<<<<<<< HEAD
 ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(0)), ARM64_HAS_PAN, \
 	    CONFIG_ARM64_PAN)
+=======
+	uaccess_enable_not_uao x2, x3
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mov	x2, x1			// save the size for fixup return
 	subs	x1, x1, #8
 	b.mi	2f
 1:
+<<<<<<< HEAD
 USER(9f, str	xzr, [x0], #8	)
+=======
+uao_user_alternative 9f, str, sttr, xzr, x0, 8
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	subs	x1, x1, #8
 	b.pl	1b
 2:	adds	x1, x1, #4
 	b.mi	3f
+<<<<<<< HEAD
 USER(9f, str	wzr, [x0], #4	)
 	sub	x1, x1, #4
 3:	adds	x1, x1, #2
@@ -56,6 +69,19 @@ USER(9f, strb	wzr, [x0]	)
 5:	mov	x0, #0
 ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(1)), ARM64_HAS_PAN, \
 	    CONFIG_ARM64_PAN)
+=======
+uao_user_alternative 9f, str, sttr, wzr, x0, 4
+	sub	x1, x1, #4
+3:	adds	x1, x1, #2
+	b.mi	4f
+uao_user_alternative 9f, strh, sttrh, wzr, x0, 2
+	sub	x1, x1, #2
+4:	adds	x1, x1, #1
+	b.mi	5f
+uao_user_alternative 9f, strb, sttrb, wzr, x0, 0
+5:	mov	x0, #0
+	uaccess_disable_not_uao x2
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret
 ENDPROC(__clear_user)
 

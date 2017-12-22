@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -73,7 +77,11 @@ static void ptt_sock_dump_buf(const unsigned char * pbuf, int cnt)
     int i;
     for (i = 0; i < cnt ; i++) {
         if ((i%16)==0)
+<<<<<<< HEAD
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"\n%p:", pbuf);
+=======
+            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"\n%pK:", pbuf);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO," %02X", *pbuf);
         pbuf++;
     }

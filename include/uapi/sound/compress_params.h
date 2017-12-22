@@ -70,6 +70,14 @@
 #define Q6_DTS		0x00010D88
 #define Q6_DTS_LBR	0x00010DBB
 
+<<<<<<< HEAD
+=======
+/* Timestamp flsg */
+/* Bit-0 - 1 : Enable Timestamp mode */
+/* Bit-0 - 0 : Disable Timestamp mode */
+#define COMPRESSED_TIMESTAMP_FLAG 0x0001
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Codecs are listed linearly to allow for extensibility */
 #define SND_AUDIOCODEC_PCM                   ((__u32) 0x00000001)
 #define SND_AUDIOCODEC_MP3                   ((__u32) 0x00000002)
@@ -97,7 +105,14 @@
 #define SND_AUDIOCODEC_EAC3                  ((__u32) 0x00000018)
 #define SND_AUDIOCODEC_ALAC                  ((__u32) 0x00000019)
 #define SND_AUDIOCODEC_APE                   ((__u32) 0x00000020)
+<<<<<<< HEAD
 #define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_APE
+=======
+#define SND_AUDIOCODEC_DSD                   ((__u32) 0x00000021)
+#define SND_AUDIOCODEC_APTX                  ((__u32) 0x00000022)
+#define SND_AUDIOCODEC_TRUEHD                ((__u32) 0x00000023)
+#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_TRUEHD
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Profile and modes are listed with bit masks. This allows for a
  * more compact representation of fields that will not evolve
@@ -390,6 +405,15 @@ struct snd_dec_ape {
 	__u32 seek_table_present;
 };
 
+<<<<<<< HEAD
+=======
+struct snd_dec_aptx {
+	__u32 lap;
+	__u32 uap;
+	__u32 nap;
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 union snd_codec_options {
 	struct snd_enc_wma wma;
 	struct snd_enc_vorbis vorbis;
@@ -401,6 +425,10 @@ union snd_codec_options {
 	struct snd_dec_vorbis vorbis_dec;
 	struct snd_dec_alac alac;
 	struct snd_dec_ape ape;
+<<<<<<< HEAD
+=======
+	struct snd_dec_aptx aptx_dec;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } __attribute__((packed, aligned(4)));
 
 /** struct snd_codec_desc - description of codec capabilities
@@ -479,7 +507,21 @@ struct snd_codec {
 	__u32 align;
 	__u32 compr_passthr;
 	union snd_codec_options options;
+<<<<<<< HEAD
 	__u32 reserved[3];
 } __attribute__((packed, aligned(4)));
 
+=======
+	__u32 flags;
+	__u32 reserved[2];
+} __attribute__((packed, aligned(4)));
+
+struct snd_codec_metadata {
+	__u32 length;
+	__u32 offset;
+	__u64 timestamp;
+	__u32 reserved[4];
+};
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

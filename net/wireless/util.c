@@ -1251,14 +1251,24 @@ bool ieee80211_operating_class_to_band(u8 operating_class,
 EXPORT_SYMBOL(ieee80211_operating_class_to_band);
 
 int cfg80211_validate_beacon_int(struct cfg80211_registered_device *rdev,
+<<<<<<< HEAD
 				 u32 beacon_int)
 {
 	struct wireless_dev *wdev;
 	int res = 0;
+=======
+				 enum nl80211_iftype iftype, u32 beacon_int)
+{
+	struct wireless_dev *wdev;
+	struct iface_combination_params params = {
+		.beacon_int_gcd = beacon_int,	/* GCD(n) = n */
+	};
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!beacon_int)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	list_for_each_entry(wdev, &rdev->wdev_list, list) {
 		if (!wdev->beacon_interval)
 			continue;
@@ -1275,6 +1285,42 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 			       const int num_different_channels,
 			       const u8 radar_detect,
 			       const int iftype_num[NUM_NL80211_IFTYPES],
+=======
+	params.iftype_num[iftype] = 1;
+	list_for_each_entry(wdev, &rdev->wdev_list, list) {
+		if (!wdev->beacon_interval)
+			continue;
+
+		params.iftype_num[wdev->iftype]++;
+	}
+
+	list_for_each_entry(wdev, &rdev->wdev_list, list) {
+		u32 bi_prev = wdev->beacon_interval;
+
+		if (!wdev->beacon_interval)
+			continue;
+
+		/* slight optimisation - skip identical BIs */
+		if (wdev->beacon_interval == beacon_int)
+			continue;
+
+		params.beacon_int_different = true;
+
+		/* Get the GCD */
+		while (bi_prev != 0) {
+			u32 tmp_bi = bi_prev;
+
+			bi_prev = params.beacon_int_gcd % bi_prev;
+			params.beacon_int_gcd = tmp_bi;
+		}
+	}
+
+	return cfg80211_check_combinations(&rdev->wiphy, &params);
+}
+
+int cfg80211_iter_combinations(struct wiphy *wiphy,
+			       struct iface_combination_params *params,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       void (*iter)(const struct ieee80211_iface_combination *c,
 					    void *data),
 			       void *data)
@@ -1285,7 +1331,11 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 	int num_interfaces = 0;
 	u32 used_iftypes = 0;
 
+<<<<<<< HEAD
 	if (radar_detect) {
+=======
+	if (params->radar_detect) {
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		rcu_read_lock();
 		regdom = rcu_dereference(cfg80211_regdomain);
 		if (regdom)
@@ -1294,8 +1344,13 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 	}
 
 	for (iftype = 0; iftype < NUM_NL80211_IFTYPES; iftype++) {
+<<<<<<< HEAD
 		num_interfaces += iftype_num[iftype];
 		if (iftype_num[iftype] > 0 &&
+=======
+		num_interfaces += params->iftype_num[iftype];
+		if (params->iftype_num[iftype] > 0 &&
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    !(wiphy->software_iftypes & BIT(iftype)))
 			used_iftypes |= BIT(iftype);
 	}
@@ -1309,7 +1364,11 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 
 		if (num_interfaces > c->max_interfaces)
 			continue;
+<<<<<<< HEAD
 		if (num_different_channels > c->num_different_channels)
+=======
+		if (params->num_different_channels > c->num_different_channels)
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			continue;
 
 		limits = kmemdup(c->limits, sizeof(limits[0]) * c->n_limits,
@@ -1324,6 +1383,7 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 				all_iftypes |= limits[j].types;
 				if (!(limits[j].types & BIT(iftype)))
 					continue;
+<<<<<<< HEAD
 				if (limits[j].max < iftype_num[iftype])
 					goto cont;
 				limits[j].max -= iftype_num[iftype];
@@ -1334,6 +1394,19 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 			goto cont;
 
 		if (radar_detect && c->radar_detect_regions &&
+=======
+				if (limits[j].max < params->iftype_num[iftype])
+					goto cont;
+				limits[j].max -= params->iftype_num[iftype];
+			}
+		}
+
+		if (params->radar_detect !=
+			(c->radar_detect_widths & params->radar_detect))
+			goto cont;
+
+		if (params->radar_detect && c->radar_detect_regions &&
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    !(c->radar_detect_regions & BIT(region)))
 			goto cont;
 
@@ -1345,6 +1418,20 @@ int cfg80211_iter_combinations(struct wiphy *wiphy,
 		if ((all_iftypes & used_iftypes) != used_iftypes)
 			goto cont;
 
+<<<<<<< HEAD
+=======
+		if (params->beacon_int_gcd) {
+			if (c->beacon_int_min_gcd &&
+			    params->beacon_int_gcd < c->beacon_int_min_gcd) {
+				kfree(limits);
+				return -EINVAL;
+			}
+			if (!c->beacon_int_min_gcd &&
+			    params->beacon_int_different)
+				goto cont;
+		}
+
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* This combination covered all interface types and
 		 * supported the requested numbers, so we're good.
 		 */
@@ -1367,6 +1454,7 @@ cfg80211_iter_sum_ifcombs(const struct ieee80211_iface_combination *c,
 }
 
 int cfg80211_check_combinations(struct wiphy *wiphy,
+<<<<<<< HEAD
 				const int num_different_channels,
 				const u8 radar_detect,
 				const int iftype_num[NUM_NL80211_IFTYPES])
@@ -1375,6 +1463,13 @@ int cfg80211_check_combinations(struct wiphy *wiphy,
 
 	err = cfg80211_iter_combinations(wiphy, num_different_channels,
 					 radar_detect, iftype_num,
+=======
+				struct iface_combination_params *params)
+{
+	int err, num = 0;
+
+	err = cfg80211_iter_combinations(wiphy, params,
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					 cfg80211_iter_sum_ifcombs, &num);
 	if (err)
 		return err;
@@ -1393,14 +1488,25 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 				 u8 radar_detect)
 {
 	struct wireless_dev *wdev_iter;
+<<<<<<< HEAD
 	int num[NUM_NL80211_IFTYPES];
+=======
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct ieee80211_channel
 			*used_channels[CFG80211_MAX_NUM_DIFFERENT_CHANNELS];
 	struct ieee80211_channel *ch;
 	enum cfg80211_chan_mode chmode;
+<<<<<<< HEAD
 	int num_different_channels = 0;
 	int total = 1;
 	int i;
+=======
+	int total = 1;
+	int i;
+	struct iface_combination_params params = {
+		.radar_detect = radar_detect,
+	};
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ASSERT_RTNL();
 
@@ -1417,10 +1523,16 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 		return 0;
 	}
 
+<<<<<<< HEAD
 	memset(num, 0, sizeof(num));
 	memset(used_channels, 0, sizeof(used_channels));
 
 	num[iftype] = 1;
+=======
+	memset(used_channels, 0, sizeof(used_channels));
+
+	params.iftype_num[iftype] = 1;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* TODO: We'll probably not need this anymore, since this
 	 * should only be called with CHAN_MODE_UNDEFINED. There are
@@ -1433,10 +1545,17 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 	case CHAN_MODE_SHARED:
 		WARN_ON(!chan);
 		used_channels[0] = chan;
+<<<<<<< HEAD
 		num_different_channels++;
 		break;
 	case CHAN_MODE_EXCLUSIVE:
 		num_different_channels++;
+=======
+		params.num_different_channels++;
+		break;
+	case CHAN_MODE_EXCLUSIVE:
+		params.num_different_channels++;
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 	}
 
@@ -1464,7 +1583,12 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 		 */
 		mutex_lock_nested(&wdev_iter->mtx, 1);
 		__acquire(wdev_iter->mtx);
+<<<<<<< HEAD
 		cfg80211_get_chan_state(wdev_iter, &ch, &chmode, &radar_detect);
+=======
+		cfg80211_get_chan_state(wdev_iter, &ch, &chmode,
+					&params.radar_detect);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wdev_unlock(wdev_iter);
 
 		switch (chmode) {
@@ -1480,6 +1604,7 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 
 			if (used_channels[i] == NULL) {
 				used_channels[i] = ch;
+<<<<<<< HEAD
 				num_different_channels++;
 			}
 			break;
@@ -1497,6 +1622,24 @@ int cfg80211_can_use_iftype_chan(struct cfg80211_registered_device *rdev,
 
 	return cfg80211_check_combinations(&rdev->wiphy, num_different_channels,
 					   radar_detect, num);
+=======
+				params.num_different_channels++;
+			}
+			break;
+		case CHAN_MODE_EXCLUSIVE:
+			params.num_different_channels++;
+			break;
+		}
+
+		params.iftype_num[wdev_iter->iftype]++;
+		total++;
+	}
+
+	if (total == 1 && !params.radar_detect)
+		return 0;
+
+	return cfg80211_check_combinations(&rdev->wiphy, &params);
+>>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int ieee80211_get_ratemask(struct ieee80211_supported_band *sband,
