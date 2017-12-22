@@ -36,6 +36,9 @@
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
 
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+#include <linux/input/doubletap2wake.h>
+#endif
 
 #if defined(CONFIG_FB)
 #include <linux/notifier.h>
@@ -1321,6 +1324,11 @@ static int ft5x06_ts_suspend(struct device *dev)
 {
 	struct ft5x06_ts_data *data = dev_get_drvdata(dev);
 	int err;
+
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+       if (dt2w_switch > 0)
+	       return 0;
+#endif
 
 	if (data->loading_fw) {
 		dev_info(dev, "Firmware loading in process...\n");
