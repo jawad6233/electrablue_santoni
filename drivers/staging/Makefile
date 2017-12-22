@@ -23,11 +23,8 @@ obj-$(CONFIG_VT6655)		+= vt6655/
 obj-$(CONFIG_VT6656)		+= vt6656/
 obj-$(CONFIG_VME_BUS)		+= vme/
 obj-$(CONFIG_IIO)		+= iio/
-<<<<<<< HEAD
 obj-$(CONFIG_SNAPPY_COMPRESS)	+= snappy/
 obj-$(CONFIG_SNAPPY_DECOMPRESS)	+= snappy/ 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_FB_XGI)		+= xgifb/
 obj-$(CONFIG_USB_EMXX)		+= emxx_udc/
 obj-$(CONFIG_BCM_WIMAX)		+= bcm/
@@ -50,10 +47,5 @@ obj-$(CONFIG_MTD_SPINAND_MT29F)	+= mt29f_spinand/
 obj-$(CONFIG_GS_FPGABOOT)	+= gs_fpgaboot/
 obj-$(CONFIG_CRYPTO_SKEIN)	+= skein/
 obj-$(CONFIG_UNISYSSPAR)	+= unisys/
-<<<<<<< HEAD
 obj-$(CONFIG_PRIMA_WLAN)	+= prima/
 obj-$(CONFIG_PRONTO_WLAN)	+= prima/
-=======
-obj-$(CONFIG_PRIMA_WLAN)        += prima/
-obj-$(CONFIG_PRONTO_WLAN)       += prima/
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

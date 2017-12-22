@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2016, Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2017, Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,11 +24,6 @@
 #include "msm_bus_noc.h"
 #include "msm_bus_bimc.h"
 
-<<<<<<< HEAD
-=======
-static LIST_HEAD(fabdev_list);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int msm_bus_dev_init_qos(struct device *dev, void *data);
 
 ssize_t bw_show(struct device *dev, struct device_attribute *attr,
@@ -59,16 +50,6 @@ ssize_t bw_show(struct device *dev, struct device_attribute *attr,
 			bus_node->lnode_list[i].lnode_ab[ACTIVE_CTX],
 			bus_node->lnode_list[i].lnode_ib[DUAL_CTX],
 			bus_node->lnode_list[i].lnode_ab[DUAL_CTX]);
-<<<<<<< HEAD
-=======
-		trace_printk(
-		"[%d]:%s:Act_IB %llu Act_AB %llu Slp_IB %llu Slp_AB %llu\n",
-			i, bus_node->lnode_list[i].cl_name,
-			bus_node->lnode_list[i].lnode_ib[ACTIVE_CTX],
-			bus_node->lnode_list[i].lnode_ab[ACTIVE_CTX],
-			bus_node->lnode_list[i].lnode_ib[DUAL_CTX],
-			bus_node->lnode_list[i].lnode_ab[DUAL_CTX]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	off += scnprintf((buf + off), PAGE_SIZE,
 	"Max_Act_IB %llu Sum_Act_AB %llu Act_Util_fact %d Act_Vrail_comp %d\n",
@@ -82,21 +63,6 @@ ssize_t bw_show(struct device *dev, struct device_attribute *attr,
 		bus_node->node_bw[DUAL_CTX].sum_ab,
 		bus_node->node_bw[DUAL_CTX].util_used,
 		bus_node->node_bw[DUAL_CTX].vrail_used);
-<<<<<<< HEAD
-=======
-	trace_printk(
-	"Max_Act_IB %llu Sum_Act_AB %llu Act_Util_fact %d Act_Vrail_comp %d\n",
-		bus_node->node_bw[ACTIVE_CTX].max_ib,
-		bus_node->node_bw[ACTIVE_CTX].sum_ab,
-		bus_node->node_bw[ACTIVE_CTX].util_used,
-		bus_node->node_bw[ACTIVE_CTX].vrail_used);
-	trace_printk(
-	"Max_Slp_IB %llu Sum_Slp_AB %lluSlp_Util_fact %d Slp_Vrail_comp %d\n",
-		bus_node->node_bw[DUAL_CTX].max_ib,
-		bus_node->node_bw[DUAL_CTX].sum_ab,
-		bus_node->node_bw[DUAL_CTX].util_used,
-		bus_node->node_bw[DUAL_CTX].vrail_used);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return off;
 }
 
@@ -446,71 +412,6 @@ static int msm_bus_agg_fab_clks(struct msm_bus_node_device_type *bus_dev)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-static void msm_bus_log_fab_max_votes(struct msm_bus_node_device_type *bus_dev)
-{
-	int ctx;
-	struct timespec ts;
-	uint32_t vrail_comp = 0;
-	struct msm_bus_node_device_type *node;
-	uint64_t max_ib, max_ib_temp[NUM_CTX];
-
-	for (ctx = 0; ctx < NUM_CTX; ctx++) {
-		max_ib_temp[ctx] = 0;
-		bus_dev->node_bw[ctx].max_ib = 0;
-		bus_dev->node_bw[ctx].max_ab = 0;
-		bus_dev->node_bw[ctx].max_ib_cl_name = NULL;
-		bus_dev->node_bw[ctx].max_ab_cl_name = NULL;
-	}
-
-	list_for_each_entry(node, &bus_dev->devlist, dev_link) {
-		for (ctx = 0; ctx < NUM_CTX; ctx++) {
-			max_ib = node->node_bw[ctx].max_ib;
-			vrail_comp = node->node_bw[ctx].vrail_used;
-
-			if (vrail_comp && (vrail_comp != 100)) {
-				max_ib *= 100;
-				max_ib = msm_bus_div64(vrail_comp, max_ib);
-			}
-
-			if (max_ib > max_ib_temp[ctx]) {
-				max_ib_temp[ctx] = max_ib;
-				bus_dev->node_bw[ctx].max_ib =
-					node->node_bw[ctx].max_ib;
-				bus_dev->node_bw[ctx].max_ib_cl_name =
-					node->node_bw[ctx].max_ib_cl_name;
-			}
-
-			if (node->node_bw[ctx].max_ab >
-					bus_dev->node_bw[ctx].max_ab) {
-				bus_dev->node_bw[ctx].max_ab =
-					node->node_bw[ctx].max_ab;
-				bus_dev->node_bw[ctx].max_ab_cl_name =
-					node->node_bw[ctx].max_ab_cl_name;
-			}
-		}
-	}
-
-	ts = ktime_to_timespec(ktime_get());
-	for (ctx = 0; ctx < NUM_CTX; ctx++) {
-		trace_bus_max_votes((int)ts.tv_sec, (int)ts.tv_nsec,
-				bus_dev->node_info->name,
-				((ctx == ACTIVE_CTX) ? "active" : "sleep"),
-				"ib", bus_dev->node_bw[ctx].max_ib,
-				bus_dev->node_bw[ctx].max_ib_cl_name);
-	}
-
-	for (ctx = 0; ctx < NUM_CTX; ctx++) {
-		trace_bus_max_votes((int)ts.tv_sec, (int)ts.tv_nsec,
-				bus_dev->node_info->name,
-				((ctx == ACTIVE_CTX) ? "active" : "sleep"),
-				"ab", bus_dev->node_bw[ctx].max_ab,
-				bus_dev->node_bw[ctx].max_ab_cl_name);
-	}
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int msm_bus_commit_data(struct list_head *clist)
 {
 	int ret = 0;
@@ -520,15 +421,8 @@ int msm_bus_commit_data(struct list_head *clist)
 
 	list_for_each_entry(node, clist, link) {
 		/* Aggregate the bus clocks */
-<<<<<<< HEAD
 		if (node->node_info->is_fab_dev)
 			msm_bus_agg_fab_clks(node);
-=======
-		if (node->node_info->is_fab_dev) {
-			msm_bus_agg_fab_clks(node);
-			msm_bus_log_fab_max_votes(node);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	list_for_each_entry_safe(node, node_tmp, clist, link) {
@@ -1207,56 +1101,6 @@ int msm_bus_device_remove(struct platform_device *pdev)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-/**
- * msm_bus_panic_callback() - panic notification callback function.
- *              This function is invoked when a kernel panic occurs.
- * @nfb:        Notifier block pointer
- * @event:      Value passed unmodified to notifier function
- * @data:       Pointer passed unmodified to notifier function
- *
- * Return: NOTIFY_OK
- */
-static int msm_bus_panic_callback(struct notifier_block *nfb,
-					unsigned long event, void *data)
-{
-	struct msm_bus_node_device_type *bus_node = NULL;
-	unsigned int ctx;
-
-	list_for_each_entry(bus_node, &fabdev_list, dev_link) {
-		for (ctx = 0; ctx < NUM_CTX; ctx++) {
-			if (bus_node->node_bw[ctx].max_ib_cl_name &&
-				bus_node->node_bw[ctx].max_ib) {
-				pr_err("%s: %s: %s max_ib: %llu: client-name: %s\n",
-				__func__, bus_node->node_info->name,
-				((ctx == ACTIVE_CTX) ? "active" : "sleep"),
-				bus_node->node_bw[ctx].max_ib,
-				bus_node->node_bw[ctx].max_ib_cl_name);
-			}
-		}
-
-		for (ctx = 0; ctx < NUM_CTX; ctx++) {
-			if (bus_node->node_bw[ctx].max_ab_cl_name &&
-				bus_node->node_bw[ctx].max_ab) {
-				pr_err("%s: %s: %s max_ab: %llu: client-name: %s\n",
-				__func__, bus_node->node_info->name,
-				((ctx == ACTIVE_CTX) ? "active" : "sleep"),
-				bus_node->node_bw[ctx].max_ab,
-				bus_node->node_bw[ctx].max_ab_cl_name);
-			}
-		}
-	}
-
-	return NOTIFY_OK;
-}
-
-static struct notifier_block msm_bus_panic_notifier = {
-	.notifier_call = msm_bus_panic_callback,
-	.priority = 1,
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int msm_bus_device_probe(struct platform_device *pdev)
 {
 	unsigned int i, ret;
@@ -1278,10 +1122,6 @@ static int msm_bus_device_probe(struct platform_device *pdev)
 
 	for (i = 0; i < pdata->num_devices; i++) {
 		struct device *node_dev = NULL;
-<<<<<<< HEAD
-=======
-		struct msm_bus_node_device_type *bus_node = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		node_dev = msm_bus_device_init(&pdata->info[i]);
 
@@ -1308,12 +1148,6 @@ static int msm_bus_device_probe(struct platform_device *pdev)
 					__func__, pdata->info[i].node_info->id);
 				goto exit_device_probe;
 			}
-<<<<<<< HEAD
-=======
-
-			bus_node = to_msm_bus_node(node_dev);
-			list_add_tail(&bus_node->dev_link, &fabdev_list);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 
@@ -1335,12 +1169,6 @@ static int msm_bus_device_probe(struct platform_device *pdev)
 	msm_bus_arb_setops_adhoc(&arb_ops);
 	bus_for_each_dev(&msm_bus_type, NULL, NULL, msm_bus_node_debug);
 
-<<<<<<< HEAD
-=======
-	atomic_notifier_chain_register(&panic_notifier_list,
-						&msm_bus_panic_notifier);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	devm_kfree(&pdev->dev, pdata->info);
 	devm_kfree(&pdev->dev, pdata);
 exit_device_probe:

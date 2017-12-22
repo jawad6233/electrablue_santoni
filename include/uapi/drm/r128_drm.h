@@ -33,11 +33,6 @@
 #ifndef __R128_DRM_H__
 #define __R128_DRM_H__
 
-<<<<<<< HEAD
-=======
-#include <drm/drm.h>
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* WARNING: If you change any of these defines, make sure to change the
  * defines in the X server file (r128_sarea.h)
  */

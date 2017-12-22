@@ -56,12 +56,7 @@ obj-$(CONFIG_DM_CACHE)		+= dm-cache.o
 obj-$(CONFIG_DM_CACHE_MQ)	+= dm-cache-mq.o
 obj-$(CONFIG_DM_CACHE_CLEANER)	+= dm-cache-cleaner.o
 obj-$(CONFIG_DM_ERA)		+= dm-era.o
-<<<<<<< HEAD
 obj-$(CONFIG_DM_REQ_CRYPT)	+= dm-req-crypt.o
-=======
-obj-$(CONFIG_DM_REQ_CRYPT)     += dm-req-crypt.o
-obj-$(CONFIG_DM_ANDROID_VERITY) += dm-android-verity.o
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 ifeq ($(CONFIG_DM_UEVENT),y)
 dm-mod-objs			+= dm-uevent.o
@@ -70,10 +65,7 @@ endif
 ifeq ($(CONFIG_DM_VERITY_FEC),y)
 dm-verity-objs			+= dm-verity-fec.o
 endif
-<<<<<<< HEAD
 
 ifeq ($(CONFIG_DM_ANDROID_VERITY),y)
 dm-verity-objs			+= dm-android-verity.o
 endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

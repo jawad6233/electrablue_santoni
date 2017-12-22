@@ -14,12 +14,6 @@
 #define HDMI_STA           0x0010
 #define HDMI_STA_DLL_LCK   BIT(5)
 
-<<<<<<< HEAD
-=======
-#define HDMI_STA_HOT_PLUG_SHIFT 4
-#define HDMI_STA_HOT_PLUG	(1 << HDMI_STA_HOT_PLUG_SHIFT)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct sti_hdmi;
 
 struct hdmi_phy_ops {
@@ -43,10 +37,7 @@ struct hdmi_phy_ops {
  * @irq_status: interrupt status register
  * @phy_ops: phy start/stop operations
  * @enabled: true if hdmi is enabled else false
-<<<<<<< HEAD
  * @hpd_gpio: hdmi hot plug detect gpio number
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @hpd: hot plug detect status
  * @wait_event: wait event
  * @event_received: wait event status
@@ -66,18 +57,11 @@ struct sti_hdmi {
 	u32 irq_status;
 	struct hdmi_phy_ops *phy_ops;
 	bool enabled;
-<<<<<<< HEAD
 	int hpd_gpio;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bool hpd;
 	wait_queue_head_t wait_event;
 	bool event_received;
 	struct reset_control *reset;
-<<<<<<< HEAD
-=======
-	struct i2c_adapter *ddc_adapt;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 u32 hdmi_read(struct sti_hdmi *hdmi, int offset);

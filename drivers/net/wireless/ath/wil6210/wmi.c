@@ -22,10 +22,6 @@
 #include "txrx.h"
 #include "wmi.h"
 #include "trace.h"
-<<<<<<< HEAD
-=======
-#include "ftm.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static uint max_assoc_sta = WIL6210_MAX_CID;
 module_param(max_assoc_sta, uint, S_IRUGO | S_IWUSR);
@@ -316,7 +312,6 @@ static void wmi_evt_ready(struct wil6210_priv *wil, int id, void *d, int len)
 	struct wireless_dev *wdev = wil->wdev;
 	struct wmi_ready_event *evt = d;
 
-<<<<<<< HEAD
 	wil->fw_version = le32_to_cpu(evt->sw_version);
 	wil->n_mids = evt->numof_additional_mids;
 
@@ -325,16 +320,6 @@ static void wmi_evt_ready(struct wil6210_priv *wil, int id, void *d, int len)
 	/* ignore MAC address, we already have it from the boot loader */
 	snprintf(wdev->wiphy->fw_version, sizeof(wdev->wiphy->fw_version),
 		 "%d", wil->fw_version);
-=======
-	wil->n_mids = evt->numof_additional_mids;
-
-	wil_info(wil, "FW ver. %s(SW %d); MAC %pM; %d MID's\n",
-		 wil->fw_version, le32_to_cpu(evt->sw_version),
-		 evt->mac, wil->n_mids);
-	/* ignore MAC address, we already have it from the boot loader */
-	strlcpy(wdev->wiphy->fw_version, wil->fw_version,
-		sizeof(wdev->wiphy->fw_version));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wil_set_recovery_state(wil, fw_recovery_idle);
 	set_bit(wil_status_fwready, wil->status);
@@ -439,10 +424,6 @@ static void wmi_evt_tx_mgmt(struct wil6210_priv *wil, int id, void *d, int len)
 static void wmi_evt_scan_complete(struct wil6210_priv *wil, int id,
 				  void *d, int len)
 {
-<<<<<<< HEAD
-=======
-	mutex_lock(&wil->p2p_wdev_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (wil->scan_request) {
 		struct wmi_scan_complete_event *data = d;
 		bool aborted = (data->status != WMI_SCAN_SUCCESS);
@@ -452,23 +433,14 @@ static void wmi_evt_scan_complete(struct wil6210_priv *wil, int id,
 			     wil->scan_request, aborted);
 
 		del_timer_sync(&wil->scan_timer);
-<<<<<<< HEAD
 		mutex_lock(&wil->p2p_wdev_mutex);
 		cfg80211_scan_done(wil->scan_request, aborted);
 		wil->radio_wdev = wil->wdev;
 		mutex_unlock(&wil->p2p_wdev_mutex);
-=======
-		cfg80211_scan_done(wil->scan_request, aborted);
-		wil->radio_wdev = wil->wdev;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wil->scan_request = NULL;
 	} else {
 		wil_err(wil, "SCAN_COMPLETE while not scanning\n");
 	}
-<<<<<<< HEAD
-=======
-	mutex_unlock(&wil->p2p_wdev_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void wmi_evt_connect(struct wil6210_priv *wil, int id, void *d, int len)
@@ -801,33 +773,6 @@ __acquires(&sta->tid_rx_lock) __releases(&sta->tid_rx_lock)
 	spin_unlock_bh(&sta->tid_rx_lock);
 }
 
-<<<<<<< HEAD
-=======
-static void wmi_evt_aoa_meas(struct wil6210_priv *wil, int id,
-			     void *d, int len)
-{
-	struct wmi_aoa_meas_event *evt = d;
-
-	wil_aoa_evt_meas(wil, evt, len);
-}
-
-static void wmi_evt_ftm_session_ended(struct wil6210_priv *wil, int id,
-				      void *d, int len)
-{
-	struct wmi_tof_session_end_event *evt = d;
-
-	wil_ftm_evt_session_ended(wil, evt);
-}
-
-static void wmi_evt_per_dest_res(struct wil6210_priv *wil, int id,
-				 void *d, int len)
-{
-	struct wmi_tof_ftm_per_dest_res_event *evt = d;
-
-	wil_ftm_evt_per_dest_res(wil, evt);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * Some events are ignored for purpose; and need not be interpreted as
  * "unhandled events"
@@ -855,16 +800,6 @@ static const struct {
 	{WMI_DELBA_EVENTID,		wmi_evt_delba},
 	{WMI_VRING_EN_EVENTID,		wmi_evt_vring_en},
 	{WMI_DATA_PORT_OPEN_EVENTID,		wmi_evt_ignore},
-<<<<<<< HEAD
-=======
-	{WMI_AOA_MEAS_EVENTID,			wmi_evt_aoa_meas},
-	{WMI_TOF_SESSION_END_EVENTID,		wmi_evt_ftm_session_ended},
-	{WMI_TOF_GET_CAPABILITIES_EVENTID,	wmi_evt_ignore},
-	{WMI_TOF_SET_LCR_EVENTID,		wmi_evt_ignore},
-	{WMI_TOF_SET_LCI_EVENTID,		wmi_evt_ignore},
-	{WMI_TOF_FTM_PER_DEST_RES_EVENTID,	wmi_evt_per_dest_res},
-	{WMI_TOF_CHANNEL_INFO_EVENTID,		wmi_evt_ignore},
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /*

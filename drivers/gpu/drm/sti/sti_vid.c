@@ -6,11 +6,7 @@
 
 #include <drm/drmP.h>
 
-<<<<<<< HEAD
 #include "sti_layer.h"
-=======
-#include "sti_plane.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "sti_vid.h"
 #include "sti_vtg.h"
 
@@ -47,34 +43,15 @@
 #define VID_MPR2_BT709          0x07150545
 #define VID_MPR3_BT709          0x00000AE8
 
-<<<<<<< HEAD
 static int sti_vid_prepare_layer(struct sti_layer *vid, bool first_prepare)
 {
 	u32 val;
-=======
-void sti_vid_commit(struct sti_vid *vid,
-		    struct drm_plane_state *state)
-{
-	struct drm_crtc *crtc = state->crtc;
-	struct drm_display_mode *mode = &crtc->mode;
-	int dst_x = state->crtc_x;
-	int dst_y = state->crtc_y;
-	int dst_w = clamp_val(state->crtc_w, 0, mode->crtc_hdisplay - dst_x);
-	int dst_h = clamp_val(state->crtc_h, 0, mode->crtc_vdisplay - dst_y);
-	u32 val, ydo, xdo, yds, xds;
-
-	/* Input / output size
-	 * Align to upper even value */
-	dst_w = ALIGN(dst_w, 2);
-	dst_h = ALIGN(dst_h, 2);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Unmask */
 	val = readl(vid->regs + VID_CTL);
 	val &= ~VID_CTL_IGNORE;
 	writel(val, vid->regs + VID_CTL);
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -95,18 +72,6 @@ static int sti_vid_commit_layer(struct sti_layer *vid)
 }
 
 static int sti_vid_disable_layer(struct sti_layer *vid)
-=======
-	ydo = sti_vtg_get_line_number(*mode, dst_y);
-	yds = sti_vtg_get_line_number(*mode, dst_y + dst_h - 1);
-	xdo = sti_vtg_get_pixel_number(*mode, dst_x);
-	xds = sti_vtg_get_pixel_number(*mode, dst_x + dst_w - 1);
-
-	writel((ydo << 16) | xdo, vid->regs + VID_VPO);
-	writel((yds << 16) | xds, vid->regs + VID_VPS);
-}
-
-void sti_vid_disable(struct sti_vid *vid)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	u32 val;
 
@@ -114,7 +79,6 @@ void sti_vid_disable(struct sti_vid *vid)
 	val = readl(vid->regs + VID_CTL);
 	val |= VID_CTL_IGNORE;
 	writel(val, vid->regs + VID_CTL);
-<<<<<<< HEAD
 
 	return 0;
 }
@@ -130,11 +94,6 @@ static unsigned int sti_vid_get_nb_formats(struct sti_layer *layer)
 }
 
 static void sti_vid_init(struct sti_layer *vid)
-=======
-}
-
-static void sti_vid_init(struct sti_vid *vid)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	/* Enable PSI, Mask layer */
 	writel(VID_CTL_PSI_ENABLE | VID_CTL_IGNORE, vid->regs + VID_CTL);
@@ -154,7 +113,6 @@ static void sti_vid_init(struct sti_vid *vid)
 	writel(VID_CSAT_DFLT, vid->regs + VID_CSAT);
 }
 
-<<<<<<< HEAD
 static const struct sti_layer_funcs vid_ops = {
 	.get_formats = sti_vid_get_formats,
 	.get_nb_formats = sti_vid_get_nb_formats,
@@ -167,12 +125,6 @@ static const struct sti_layer_funcs vid_ops = {
 struct sti_layer *sti_vid_create(struct device *dev)
 {
 	struct sti_layer *vid;
-=======
-struct sti_vid *sti_vid_create(struct device *dev, int id,
-			       void __iomem *baseaddr)
-{
-	struct sti_vid *vid;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	vid = devm_kzalloc(dev, sizeof(*vid), GFP_KERNEL);
 	if (!vid) {
@@ -180,15 +132,7 @@ struct sti_vid *sti_vid_create(struct device *dev, int id,
 		return NULL;
 	}
 
-<<<<<<< HEAD
 	vid->ops = &vid_ops;
-=======
-	vid->dev = dev;
-	vid->regs = baseaddr;
-	vid->id = id;
-
-	sti_vid_init(vid);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return vid;
 }

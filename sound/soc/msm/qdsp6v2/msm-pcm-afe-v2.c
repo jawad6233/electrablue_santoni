@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2 and
@@ -245,15 +241,6 @@ static void pcm_afe_process_tx_pkt(uint32_t opcode,
 		}
 		break;
 	}
-<<<<<<< HEAD
-=======
-	case RESET_EVENTS:
-		prtd->pcm_irq_pos += snd_pcm_lib_period_bytes
-						(prtd->substream);
-		prtd->reset_event = true;
-		snd_pcm_period_elapsed(prtd->substream);
-		break;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		break;
 	}
@@ -355,19 +342,6 @@ static void pcm_afe_process_rx_pkt(uint32_t opcode,
 		}
 		break;
 	}
-<<<<<<< HEAD
-=======
-	case RESET_EVENTS:
-		prtd->pcm_irq_pos += snd_pcm_lib_period_bytes
-							(prtd->substream);
-		prtd->reset_event = true;
-		if (!prtd->mmap_flag) {
-			atomic_set(&prtd->rec_bytes_avail, 1);
-			wake_up(&prtd->read_wait);
-		}
-		snd_pcm_period_elapsed(prtd->substream);
-		break;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		break;
 	}
@@ -440,11 +414,7 @@ static int msm_afe_open(struct snd_pcm_substream *substream)
 		pr_err("Failed to allocate memory for msm_audio\n");
 		return -ENOMEM;
 	} else
-<<<<<<< HEAD
 		pr_debug("prtd %p\n", prtd);
-=======
-		pr_debug("prtd %pK\n", prtd);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_init(&prtd->lock);
 	spin_lock_init(&prtd->dsp_lock);
@@ -500,10 +470,6 @@ static int msm_afe_open(struct snd_pcm_substream *substream)
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	prtd->reset_event = false;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -517,11 +483,7 @@ static int msm_afe_playback_copy(struct snd_pcm_substream *substream,
 	char *hwbuf = runtime->dma_area + frames_to_bytes(runtime, hwoff);
 	u32 mem_map_handle = 0;
 
-<<<<<<< HEAD
 	pr_debug("%s : appl_ptr 0x%lx hw_ptr 0x%lx dest_to_copy 0x%p\n",
-=======
-	pr_debug("%s : appl_ptr 0x%lx hw_ptr 0x%lx dest_to_copy 0x%pK\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		__func__,
 		runtime->control->appl_ptr, runtime->status->hw_ptr, hwbuf);
 
@@ -609,11 +571,7 @@ static int msm_afe_capture_copy(struct snd_pcm_substream *substream,
 		}
 		atomic_set(&prtd->rec_bytes_avail, 0);
 	}
-<<<<<<< HEAD
 	pr_debug("%s:appl_ptr 0x%lx hw_ptr 0x%lx src_to_copy 0x%p\n",
-=======
-	pr_debug("%s:appl_ptr 0x%lx hw_ptr 0x%lx src_to_copy 0x%pK\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			__func__, runtime->control->appl_ptr,
 			runtime->status->hw_ptr, hwbuf);
 
@@ -632,22 +590,8 @@ static int msm_afe_copy(struct snd_pcm_substream *substream, int channel,
 			snd_pcm_uframes_t hwoff, void __user *buf,
 			snd_pcm_uframes_t frames)
 {
-<<<<<<< HEAD
 	int ret = 0;
 
-=======
-	struct snd_pcm_runtime *runtime = substream->runtime;
-	struct pcm_afe_info *prtd = runtime->private_data;
-
-	int ret = 0;
-
-	if (prtd->reset_event) {
-		pr_debug("%s: reset events received from ADSP, return error\n",
-			__func__);
-		return -ENETRESET;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
 		ret = msm_afe_playback_copy(substream, channel, hwoff,
 					buf, frames);
@@ -714,10 +658,6 @@ done:
 	mutex_unlock(&prtd->lock);
 	prtd->prepared--;
 	kfree(prtd);
-<<<<<<< HEAD
-=======
-	runtime->private_data = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 static int msm_afe_prepare(struct snd_pcm_substream *substream)
@@ -826,11 +766,7 @@ static int msm_afe_hw_params(struct snd_pcm_substream *substream,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	pr_debug("%s:buf = %p\n", __func__, buf);
-=======
-	pr_debug("%s:buf = %pK\n", __func__, buf);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dma_buf->dev.type = SNDRV_DMA_TYPE_DEV;
 	dma_buf->dev.dev = substream->pcm->card->dev;
 	dma_buf->private_data = NULL;
@@ -868,15 +804,6 @@ static snd_pcm_uframes_t msm_afe_pointer(struct snd_pcm_substream *substream)
 	if (prtd->pcm_irq_pos >= snd_pcm_lib_buffer_bytes(substream))
 		prtd->pcm_irq_pos = 0;
 
-<<<<<<< HEAD
-=======
-	if (prtd->reset_event) {
-		pr_debug("%s: reset events received from ADSP, return XRUN\n",
-			__func__);
-		return SNDRV_PCM_POS_XRUN;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pr_debug("pcm_irq_pos = %d\n", prtd->pcm_irq_pos);
 	return bytes_to_frames(runtime, (prtd->pcm_irq_pos));
 }

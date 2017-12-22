@@ -48,13 +48,7 @@ struct thread_info {
 	mm_segment_t		addr_limit;	/* address limit */
 	struct task_struct	*task;		/* main task structure */
 	struct exec_domain	*exec_domain;	/* execution domain */
-<<<<<<< HEAD
 	struct restart_block	restart_block;
-=======
-#ifdef CONFIG_ARM64_SW_TTBR0_PAN
-	u64			ttbr0;		/* saved TTBR0_EL1 */
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int			preempt_count;	/* 0 => preemptable, <0 => bug */
 	int			cpu;		/* cpu */
 };
@@ -66,12 +60,9 @@ struct thread_info {
 	.flags		= 0,						\
 	.preempt_count	= INIT_PREEMPT_COUNT,				\
 	.addr_limit	= KERNEL_DS,					\
-<<<<<<< HEAD
 	.restart_block	= {						\
 		.fn	= do_no_restart_syscall,			\
 	},								\
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #define init_thread_info	(init_thread_union.thread_info)
@@ -87,23 +78,10 @@ register unsigned long current_stack_pointer asm ("sp");
  */
 static inline struct thread_info *current_thread_info(void) __attribute_const__;
 
-<<<<<<< HEAD
 static inline struct thread_info *current_thread_info(void)
 {
 	return (struct thread_info *)
 		(current_stack_pointer & ~(THREAD_SIZE - 1));
-=======
-/*
- * struct thread_info can be accessed directly via sp_el0.
- */
-static inline struct thread_info *current_thread_info(void)
-{
-	unsigned long sp_el0;
-
-	asm ("mrs %0, sp_el0" : "=r" (sp_el0));
-
-	return (struct thread_info *)sp_el0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #define thread_saved_pc(tsk)	\

@@ -110,7 +110,6 @@ static DEFINE_MUTEX(register_mutex);
 static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
 static struct usb_driver usb_audio_driver;
 
-<<<<<<< HEAD
 struct snd_usb_substream *find_snd_usb_substream(unsigned int card_num,
 	unsigned int pcm_idx, unsigned int direction, struct snd_usb_audio
 	**uchip, void (*disconnect_cb)(struct snd_usb_audio *chip))
@@ -176,8 +175,6 @@ err:
 	return subs;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * disconnect streams
  * called from snd_usb_audio_disconnect()
@@ -412,10 +409,7 @@ static int snd_usb_audio_free(struct snd_usb_audio *chip)
 	list_for_each_safe(p, n, &chip->ep_list)
 		snd_usb_endpoint_free(p);
 
-<<<<<<< HEAD
 	mutex_destroy(&chip->dev_lock);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_destroy(&chip->mutex);
 	kfree(chip);
 	return 0;
@@ -482,10 +476,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
 
 	mutex_init(&chip->mutex);
 	init_rwsem(&chip->shutdown_rwsem);
-<<<<<<< HEAD
 	mutex_init(&chip->dev_lock);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	chip->index = idx;
 	chip->dev = dev;
 	chip->card = card;
@@ -711,12 +702,9 @@ static void snd_usb_audio_disconnect(struct usb_device *dev,
 	chip->shutdown = 1;
 	up_write(&chip->shutdown_rwsem);
 
-<<<<<<< HEAD
 	if (chip->disconnect_cb)
 		chip->disconnect_cb(chip);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&register_mutex);
 	if (!was_shutdown) {
 		struct snd_usb_endpoint *ep;

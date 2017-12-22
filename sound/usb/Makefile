@@ -24,7 +24,4 @@ obj-$(CONFIG_SND_USB_USX2Y) += snd-usbmidi-lib.o
 obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
 
 obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/
-<<<<<<< HEAD
 obj-$(CONFIG_SND_USB_AUDIO_QMI) += usb_audio_qmi_v01.o usb_audio_qmi_svc.o
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

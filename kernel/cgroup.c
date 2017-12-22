@@ -2346,7 +2346,6 @@ int subsys_cgroup_allow_attach(struct cgroup_subsys_state *css, struct cgroup_ta
 	return 0;
 }
 
-<<<<<<< HEAD
 static int cgroup_allow_attach(struct cgroup *cgrp, struct cgroup_taskset *tset)
 {
 	struct cgroup_subsys_state *css;
@@ -2366,8 +2365,6 @@ static int cgroup_allow_attach(struct cgroup *cgrp, struct cgroup_taskset *tset)
 	return 0;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Find the task_struct of the task to attach by vpid and pass it along to the
  * function to attach either it or all tasks in its threadgroup. Will lock
@@ -2405,7 +2402,6 @@ retry_find_task:
 		tcred = __task_cred(tsk);
 		if (!uid_eq(cred->euid, GLOBAL_ROOT_UID) &&
 		    !uid_eq(cred->euid, tcred->uid) &&
-<<<<<<< HEAD
 		    !uid_eq(cred->euid, tcred->suid)) {
 			/*
 			 * if the default permission check fails, give each
@@ -2425,13 +2421,6 @@ retry_find_task:
 				rcu_read_unlock();
 				goto out_unlock_cgroup;
 			}
-=======
-		    !uid_eq(cred->euid, tcred->suid) &&
-		    !ns_capable(tcred->user_ns, CAP_SYS_NICE)) {
-			rcu_read_unlock();
-			ret = -EACCES;
-			goto out_unlock_cgroup;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	} else
 		tsk = current;

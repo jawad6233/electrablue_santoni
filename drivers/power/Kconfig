@@ -506,19 +506,6 @@ config QPNP_SMBCHARGER
 	  The driver also offers relevant information to userspace via the
 	  power supply framework.
 
-<<<<<<< HEAD
-=======
-config QPNP_SMB2
-	tristate "QPNP SMB Charger driver"
-	depends on SPMI || MSM_SPMI
-	depends on OF_SPMI
-	help
-	  Enables support for the SMB2 charging peripheral.
-	  This charger module supports Type-C and uUSB interface with
-	  autonomous charging and APSD for different charging sources.
-	  This module also interfaces USB PD for power-delivery support.
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config FUELGAUGE_STC3117
 	tristate "STC3117 fuel gauge driver"
 	default n
@@ -539,19 +526,6 @@ config QPNP_FG
 	  fuel gauge. The state of charge is reported through a BMS power
 	  supply property and also sends uevents when the capacity is updated.
 
-<<<<<<< HEAD
-=======
-config QPNP_FG_GEN3
-	tristate "QPNP GEN3 fuel gauge driver"
-	depends on SPMI || MSM_SPMI
-	depends on OF_SPMI
-	help
-	  Say Y here to enable the GEN3 Fuel Gauge driver. This adds support
-	  for battery fuel gauging and state of charge of battery connected to
-	  the fuel gauge. The state of charge is reported through a BMS power
-	  supply property and also sends uevents when the capacity is updated.
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config BATTERY_BCL
 	tristate "Battery Current Limit driver"
 	depends on THERMAL_MONITOR

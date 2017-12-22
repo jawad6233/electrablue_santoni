@@ -715,23 +715,15 @@ int mmc_queue_suspend(struct mmc_queue *mq, int wait)
 		if (wait) {
 
 			/*
-<<<<<<< HEAD
 			 * After blk_stop_queue is called, wait for all
-=======
-			 * After blk_cleanup_queue is called, wait for all
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			 * active_reqs to complete.
 			 * Then wait for cmdq thread to exit before calling
 			 * cmdq shutdown to avoid race between issuing
 			 * requests and shutdown of cmdq.
 			 */
-<<<<<<< HEAD
 			spin_lock_irqsave(q->queue_lock, flags);
 			blk_stop_queue(q);
 			spin_unlock_irqrestore(q->queue_lock, flags);
-=======
-			blk_cleanup_queue(q);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			if (host->cmdq_ctx.active_reqs)
 				wait_for_completion(
@@ -756,21 +748,9 @@ int mmc_queue_suspend(struct mmc_queue *mq, int wait)
 	}
 
 	if (!(test_and_set_bit(MMC_QUEUE_SUSPENDED, &mq->flags))) {
-<<<<<<< HEAD
 		spin_lock_irqsave(q->queue_lock, flags);
 		blk_stop_queue(q);
 		spin_unlock_irqrestore(q->queue_lock, flags);
-=======
-		if (!wait) {
-			/* suspend/stop the queue in case of suspend */
-			spin_lock_irqsave(q->queue_lock, flags);
-			blk_stop_queue(q);
-			spin_unlock_irqrestore(q->queue_lock, flags);
-		} else {
-			/* shutdown the queue in case of shutdown/reboot */
-			blk_cleanup_queue(q);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		rc = down_trylock(&mq->thread_sem);
 		if (rc && !wait) {

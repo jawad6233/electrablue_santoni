@@ -406,12 +406,6 @@ static int __init mtd_oobtest_init(void)
 	if (err)
 		goto out;
 
-<<<<<<< HEAD
-=======
-	if (!mtd || !(mtd->ecclayout) || !(mtd->ecclayout->oobavail))
-		goto out;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	use_offset = 0;
 	use_len = mtd->ecclayout->oobavail;
 	use_len_max = mtd->ecclayout->oobavail;

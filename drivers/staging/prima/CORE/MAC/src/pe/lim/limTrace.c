@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2015, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -96,13 +92,6 @@ static tANI_U8* __limTraceGetTimerString( tANI_U16 timerId )
         CASE_RETURN_STRING(eLIM_INSERT_SINGLESHOT_NOA_TIMER);
         CASE_RETURN_STRING(eLIM_CONVERT_ACTIVE_CHANNEL_TO_PASSIVE);
         CASE_RETURN_STRING(eLIM_AUTH_RETRY_TIMER);
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-        CASE_RETURN_STRING(eLIM_PREAUTH_MBB_RSP_TIMER);
-        CASE_RETURN_STRING(eLIM_REASSOC_MBB_RSP_TIMER);
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         default:
             return( "UNKNOWN" );
             break;

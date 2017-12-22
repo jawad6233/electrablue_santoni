@@ -153,13 +153,6 @@ void prepare_namespace(void);
 void __init load_default_modules(void);
 int __init init_rootfs(void);
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_DEBUG_RODATA
-void mark_rodata_ro(void);
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern void (*late_time_init)(void);
 
 extern bool initcall_debug;

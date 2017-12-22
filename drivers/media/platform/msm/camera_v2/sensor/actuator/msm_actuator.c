@@ -96,14 +96,6 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-	if (a_ctrl->i2c_reg_tbl == NULL) {
-		pr_err("failed. i2c reg tabl is NULL");
-		return;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	size = a_ctrl->reg_tbl_size;
 	write_arr = a_ctrl->reg_tbl;
 	i2c_tbl = a_ctrl->i2c_reg_tbl;
@@ -1286,17 +1278,9 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 
 	if (copy_from_user(&a_ctrl->region_params,
 		(void *)set_info->af_tuning_params.region_params,
-<<<<<<< HEAD
 		a_ctrl->region_size * sizeof(struct region_params_t)))
 		return -EFAULT;
 
-=======
-		a_ctrl->region_size * sizeof(struct region_params_t))) {
-		a_ctrl->total_steps = 0;
-		pr_err("Error copying region_params\n");
-		return -EFAULT;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (a_ctrl->act_device_type == MSM_CAMERA_PLATFORM_DEVICE) {
 		cci_client = a_ctrl->i2c_client.cci_client;
 		cci_client->sid =
@@ -1720,13 +1704,6 @@ static long msm_actuator_subdev_do_ioctl(
 			parg = &actuator_data;
 			break;
 		}
-<<<<<<< HEAD
-=======
-		break;
-	case VIDIOC_MSM_ACTUATOR_CFG:
-		pr_err("%s: invalid cmd 0x%x received\n", __func__, cmd);
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	rc = msm_actuator_subdev_ioctl(sd, cmd, parg);
@@ -1959,26 +1936,15 @@ static int32_t msm_actuator_platform_probe(struct platform_device *pdev)
 	}
 	rc = msm_sensor_driver_get_gpio_data(&(msm_actuator_t->gconf),
 		(&pdev->dev)->of_node);
-<<<<<<< HEAD
 	if (rc < 0) {
 		pr_err("%s: No/Error Actuator GPIOs\n", __func__);
-=======
-	if (-ENODEV == rc) {
-		pr_notice("No valid actuator GPIOs data\n");
-	} else if (rc < 0) {
-		pr_err("Error Actuator GPIOs\n");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		msm_actuator_t->cam_pinctrl_status = 1;
 		rc = msm_camera_pinctrl_init(
 			&(msm_actuator_t->pinctrl_info), &(pdev->dev));
 		if (rc < 0) {
-<<<<<<< HEAD
 			pr_err("ERR:%s: Error in reading actuator pinctrl\n",
 				__func__);
-=======
-			pr_err("ERR: Error in reading actuator pinctrl\n");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			msm_actuator_t->cam_pinctrl_status = 0;
 		}
 	}
@@ -2068,11 +2034,8 @@ static int __init msm_actuator_init_module(void)
 	int32_t rc = 0;
 	CDBG("Enter\n");
 	rc = platform_driver_register(&msm_actuator_platform_driver);
-<<<<<<< HEAD
 	if (!rc)
 		return rc;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	CDBG("%s:%d rc %d\n", __func__, __LINE__, rc);
 	return i2c_add_driver(&msm_actuator_i2c_driver);

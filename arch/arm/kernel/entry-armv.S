@@ -146,17 +146,10 @@ ENDPROC(__und_invalid)
 #define SPFIX(code...)
 #endif
 
-<<<<<<< HEAD
 	.macro	svc_entry, stack_hole=0, trace=1
  UNWIND(.fnstart		)
  UNWIND(.save {r0 - pc}		)
 	sub	sp, sp, #(S_FRAME_SIZE + \stack_hole - 4)
-=======
-	.macro	svc_entry, stack_hole=0, trace=1, uaccess=1
- UNWIND(.fnstart		)
- UNWIND(.save {r0 - pc}		)
-	sub	sp, sp, #(S_FRAME_SIZE + 8 + \stack_hole - 4)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_THUMB2_KERNEL
  SPFIX(	str	r0, [sp]	)	@ temporarily saved
  SPFIX(	mov	r0, sp		)
@@ -171,11 +164,7 @@ ENDPROC(__und_invalid)
 	ldmia	r0, {r3 - r5}
 	add	r7, sp, #S_SP - 4	@ here for interlock avoidance
 	mov	r6, #-1			@  ""  ""      ""       ""
-<<<<<<< HEAD
 	add	r2, sp, #(S_FRAME_SIZE + \stack_hole - 4)
-=======
-	add	r2, sp, #(S_FRAME_SIZE + 8 + \stack_hole - 4)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  SPFIX(	addeq	r2, r2, #4	)
 	str	r3, [sp, #-4]!		@ save the "real" r0 copied
 					@ from the exception stack
@@ -193,14 +182,6 @@ ENDPROC(__und_invalid)
 	@
 	stmia	r7, {r2 - r6}
 
-<<<<<<< HEAD
-=======
-	uaccess_save r0
-	.if \uaccess
-	uaccess_disable r0
-	.endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.if \trace
 #ifdef CONFIG_TRACE_IRQFLAGS
 	bl	trace_hardirqs_off
@@ -210,11 +191,7 @@ ENDPROC(__und_invalid)
 
 	.align	5
 __dabt_svc:
-<<<<<<< HEAD
 	svc_entry
-=======
-	svc_entry uaccess=0
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mov	r2, sp
 	dabt_helper
  THUMB(	ldr	r5, [sp, #S_PSR]	)	@ potentially updated CPSR
@@ -388,11 +365,7 @@ ENDPROC(__fiq_abt)
 #error "sizeof(struct pt_regs) must be a multiple of 8"
 #endif
 
-<<<<<<< HEAD
 	.macro	usr_entry, trace=1
-=======
-	.macro	usr_entry, trace=1, uaccess=1
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  UNWIND(.fnstart	)
  UNWIND(.cantunwind	)	@ don't unwind the user space
 	sub	sp, sp, #S_FRAME_SIZE
@@ -424,13 +397,6 @@ ENDPROC(__fiq_abt)
  ARM(	stmdb	r0, {sp, lr}^			)
  THUMB(	store_user_sp_lr r0, r1, S_SP - S_PC	)
 
-<<<<<<< HEAD
-=======
-	.if \uaccess
-	uaccess_disable ip
-	.endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	@ Enable the alignment trap while in kernel mode
  ATRAP(	teq	r8, r7)
  ATRAP( mcrne	p15, 0, r8, c1, c0, 0)
@@ -466,11 +432,7 @@ ENDPROC(__fiq_abt)
 
 	.align	5
 __dabt_usr:
-<<<<<<< HEAD
 	usr_entry
-=======
-	usr_entry uaccess=0
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kuser_cmpxchg_check
 	mov	r2, sp
 	dabt_helper
@@ -493,11 +455,7 @@ ENDPROC(__irq_usr)
 
 	.align	5
 __und_usr:
-<<<<<<< HEAD
 	usr_entry
-=======
-	usr_entry uaccess=0
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mov	r2, r4
 	mov	r3, r5
@@ -523,11 +481,6 @@ __und_usr:
 1:	ldrt	r0, [r4]
  ARM_BE8(rev	r0, r0)				@ little endian instruction
 
-<<<<<<< HEAD
-=======
-	uaccess_disable ip
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	@ r0 = 32-bit ARM instruction which caused the exception
 	@ r2 = PC value for the following instruction (:= regs->ARM_pc)
 	@ r4 = PC value for the faulting instruction
@@ -562,16 +515,9 @@ __und_usr_thumb:
 2:	ldrht	r5, [r4]
 ARM_BE8(rev16	r5, r5)				@ little endian instruction
 	cmp	r5, #0xe800			@ 32bit instruction if xx != 0
-<<<<<<< HEAD
 	blo	__und_usr_fault_16		@ 16bit undefined instruction
 3:	ldrht	r0, [r2]
 ARM_BE8(rev16	r0, r0)				@ little endian instruction
-=======
-	blo	__und_usr_fault_16_pan		@ 16bit undefined instruction
-3:	ldrht	r0, [r2]
-ARM_BE8(rev16	r0, r0)				@ little endian instruction
-	uaccess_disable ip
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	add	r2, r2, #2			@ r2 is PC + 2, make it PC + 4
 	str	r2, [sp, #S_PC]			@ it's a 2x16bit instr, update
 	orr	r0, r0, r5, lsl #16
@@ -766,11 +712,6 @@ ENDPROC(no_fp)
 __und_usr_fault_32:
 	mov	r1, #4
 	b	1f
-<<<<<<< HEAD
-=======
-__und_usr_fault_16_pan:
-	uaccess_disable ip
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 __und_usr_fault_16:
 	mov	r1, #2
 1:	mov	r0, sp
@@ -826,11 +767,6 @@ ENTRY(__switch_to)
 	ldr	r4, [r2, #TI_TP_VALUE]
 	ldr	r5, [r2, #TI_TP_VALUE + 4]
 #ifdef CONFIG_CPU_USE_DOMAINS
-<<<<<<< HEAD
-=======
-	mrc	p15, 0, r6, c3, c0, 0		@ Get domain register
-	str	r6, [r1, #TI_CPU_DOMAIN]	@ Save old domain register
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ldr	r6, [r2, #TI_CPU_DOMAIN]
 #endif
 	switch_tls r1, r4, r5, r3, r7

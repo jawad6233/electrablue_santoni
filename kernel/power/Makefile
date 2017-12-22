@@ -11,10 +11,7 @@ obj-$(CONFIG_HIBERNATION)	+= hibernate.o snapshot.o swap.o user.o \
 				   block_io.o
 obj-$(CONFIG_PM_AUTOSLEEP)	+= autosleep.o
 obj-$(CONFIG_PM_WAKELOCKS)	+= wakelock.o
-<<<<<<< HEAD
 obj-$(CONFIG_SUSPEND_TIME)	+= suspend_time.o
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-$(CONFIG_MAGIC_SYSRQ)	+= poweroff.o
 

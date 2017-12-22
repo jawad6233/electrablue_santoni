@@ -1211,7 +1211,6 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 			break;
 	}
 
-<<<<<<< HEAD
 	if (xpad_device[i].xtype == XTYPE_XBOXONE &&
 	    intf->cur_altsetting->desc.bInterfaceNumber != 0) {
 		/*
@@ -1222,8 +1221,6 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 		return -ENODEV;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	xpad = kzalloc(sizeof(struct usb_xpad), GFP_KERNEL);
 	if (!xpad)
 		return -ENOMEM;
@@ -1254,11 +1251,6 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 		if (intf->cur_altsetting->desc.bInterfaceClass == USB_CLASS_VENDOR_SPEC) {
 			if (intf->cur_altsetting->desc.bInterfaceProtocol == 129)
 				xpad->xtype = XTYPE_XBOX360W;
-<<<<<<< HEAD
-=======
-			else if (intf->cur_altsetting->desc.bInterfaceProtocol == 208)
-				xpad->xtype = XTYPE_XBOXONE;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			else
 				xpad->xtype = XTYPE_XBOX360;
 		} else {
@@ -1273,20 +1265,6 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 			xpad->mapping |= MAP_STICKS_TO_NULL;
 	}
 
-<<<<<<< HEAD
-=======
-	if (xpad->xtype == XTYPE_XBOXONE &&
-	    intf->cur_altsetting->desc.bInterfaceNumber != 0) {
-		/*
-		 * The Xbox One controller lists three interfaces all with the
-		 * same interface class, subclass and protocol. Differentiate by
-		 * interface number.
-		 */
-		error = -ENODEV;
-		goto err_free_in_urb;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	error = xpad_init_output(intf, xpad);
 	if (error)
 		goto err_free_in_urb;

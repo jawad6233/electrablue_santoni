@@ -75,10 +75,6 @@
 #include <linux/uprobes.h>
 #include <linux/aio.h>
 #include <linux/compiler.h>
-<<<<<<< HEAD
-=======
-#include <linux/kcov.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -376,11 +372,6 @@ static struct task_struct *dup_task_struct(struct task_struct *orig)
 
 	account_kernel_stack(ti, 1);
 
-<<<<<<< HEAD
-=======
-	kcov_task_init(tsk);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return tsk;
 
 free_ti:
@@ -765,12 +756,8 @@ struct mm_struct *mm_access(struct task_struct *task, unsigned int mode)
 
 	mm = get_task_mm(task);
 	if (mm && mm != current->mm &&
-<<<<<<< HEAD
 			!ptrace_may_access(task, mode) &&
 			!capable(CAP_SYS_RESOURCE)) {
-=======
-			!ptrace_may_access(task, mode)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mmput(mm);
 		mm = ERR_PTR(-EACCES);
 	}
@@ -1072,11 +1059,7 @@ static void posix_cpu_timers_init_group(struct signal_struct *sig)
 	/* Thread group counters. */
 	thread_group_cputime_init(sig);
 
-<<<<<<< HEAD
 	cpu_limit = ACCESS_ONCE(sig->rlim[RLIMIT_CPU].rlim_cur);
-=======
-	cpu_limit = READ_ONCE(sig->rlim[RLIMIT_CPU].rlim_cur);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (cpu_limit != RLIM_INFINITY) {
 		sig->cputime_expires.prof_exp = secs_to_cputime(cpu_limit);
 		sig->cputimer.running = 1;

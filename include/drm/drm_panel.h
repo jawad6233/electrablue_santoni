@@ -29,10 +29,6 @@
 struct drm_connector;
 struct drm_device;
 struct drm_panel;
-<<<<<<< HEAD
-=======
-struct display_timing;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * struct drm_panel_funcs - perform operations on a given panel
@@ -42,11 +38,6 @@ struct display_timing;
  * @enable: enable panel (turn on back light, etc.)
  * @get_modes: add modes to the connector that the panel is attached to and
  * return the number of modes added
-<<<<<<< HEAD
-=======
- * @get_timings: copy display timings into the provided array and return
- * the number of display timings available
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * The .prepare() function is typically called before the display controller
  * starts to transmit video data. Panel drivers can use this to turn the panel
@@ -77,11 +68,6 @@ struct drm_panel_funcs {
 	int (*prepare)(struct drm_panel *panel);
 	int (*enable)(struct drm_panel *panel);
 	int (*get_modes)(struct drm_panel *panel);
-<<<<<<< HEAD
-=======
-	int (*get_timings)(struct drm_panel *panel, unsigned int num_timings,
-			   struct display_timing *timings);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct drm_panel {

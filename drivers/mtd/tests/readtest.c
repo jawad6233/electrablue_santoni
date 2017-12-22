@@ -35,13 +35,6 @@ static int dev = -EINVAL;
 module_param(dev, int, S_IRUGO);
 MODULE_PARM_DESC(dev, "MTD device number to use");
 
-<<<<<<< HEAD
-=======
-static int use_auto_oob;
-module_param(use_auto_oob, int, S_IRUGO);
-MODULE_PARM_DESC(use_auto_oob, "Set use_auto_oob = 1 to use MTD_OPS_AUTO_OOB when writing to oob");
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct mtd_info *mtd;
 static unsigned char *iobuf;
 static unsigned char *iobuf1;
@@ -68,12 +61,7 @@ static int read_eraseblock_by_page(int ebnum)
 		if (mtd->oobsize) {
 			struct mtd_oob_ops ops;
 
-<<<<<<< HEAD
 			ops.mode      = MTD_OPS_PLACE_OOB;
-=======
-			ops.mode      = use_auto_oob ? MTD_OPS_AUTO_OOB :
-					MTD_OPS_PLACE_OOB;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ops.len       = 0;
 			ops.retlen    = 0;
 			ops.ooblen    = mtd->oobsize;

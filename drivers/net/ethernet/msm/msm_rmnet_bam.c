@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -455,11 +451,7 @@ static int rmnet_xmit(struct sk_buff *skb, struct net_device *dev)
 	if (netif_queue_stopped(dev)) {
 		pr_err("[%s]fatal: rmnet_xmit called when "
 			"netif_queue is stopped", dev->name);
-<<<<<<< HEAD
 		return 0;
-=======
-		return NETDEV_TX_BUSY;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	spin_lock_irqsave(&p->lock, flags);

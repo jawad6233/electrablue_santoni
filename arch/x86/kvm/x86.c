@@ -1061,16 +1061,11 @@ static void update_pvclock_gtod(struct timekeeper *tk)
 	struct pvclock_gtod_data *vdata = &pvclock_gtod_data;
 	u64 boot_ns;
 
-<<<<<<< HEAD
 	boot_ns = ktime_to_ns(ktime_add(tk->tkr.base_mono, tk->offs_boot));
-=======
-	boot_ns = ktime_to_ns(ktime_add(tk->tkr_mono.base, tk->offs_boot));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	write_seqcount_begin(&vdata->seq);
 
 	/* copy pvclock gtod data */
-<<<<<<< HEAD
 	vdata->clock.vclock_mode	= tk->tkr.clock->archdata.vclock_mode;
 	vdata->clock.cycle_last		= tk->tkr.cycle_last;
 	vdata->clock.mask		= tk->tkr.mask;
@@ -1079,16 +1074,6 @@ static void update_pvclock_gtod(struct timekeeper *tk)
 
 	vdata->boot_ns			= boot_ns;
 	vdata->nsec_base		= tk->tkr.xtime_nsec;
-=======
-	vdata->clock.vclock_mode	= tk->tkr_mono.clock->archdata.vclock_mode;
-	vdata->clock.cycle_last		= tk->tkr_mono.cycle_last;
-	vdata->clock.mask		= tk->tkr_mono.mask;
-	vdata->clock.mult		= tk->tkr_mono.mult;
-	vdata->clock.shift		= tk->tkr_mono.shift;
-
-	vdata->boot_ns			= boot_ns;
-	vdata->nsec_base		= tk->tkr_mono.xtime_nsec;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	write_seqcount_end(&vdata->seq);
 }

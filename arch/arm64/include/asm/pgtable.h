@@ -63,7 +63,6 @@ extern void __pmd_error(const char *file, int line, unsigned long val);
 extern void __pud_error(const char *file, int line, unsigned long val);
 extern void __pgd_error(const char *file, int line, unsigned long val);
 
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 #define PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
 #define PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
@@ -71,10 +70,6 @@ extern void __pgd_error(const char *file, int line, unsigned long val);
 #define PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF)
 #define PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF)
 #endif
-=======
-#define PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
-#define PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define PROT_DEVICE_nGnRnE	(PROT_DEFAULT | PTE_PXN | PTE_UXN | PTE_ATTRINDX(MT_DEVICE_nGnRnE))
 #define PROT_DEVICE_nGnRE	(PROT_DEFAULT | PTE_PXN | PTE_UXN | PTE_ATTRINDX(MT_DEVICE_nGnRE))
@@ -126,13 +121,8 @@ extern void __pgd_error(const char *file, int line, unsigned long val);
  * ZERO_PAGE is a global shared page that is always zero: used
  * for zero-mapped memory areas etc..
  */
-<<<<<<< HEAD
 extern struct page *empty_zero_page;
 #define ZERO_PAGE(vaddr)	(empty_zero_page)
-=======
-extern unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)];
-#define ZERO_PAGE(vaddr)	virt_to_page(empty_zero_page)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define pte_ERROR(pte)		__pte_error(__FILE__, __LINE__, pte_val(pte))
 
@@ -363,18 +353,9 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
 
 #ifdef CONFIG_ARM64_64K_PAGES
 #define pud_sect(pud)		(0)
-<<<<<<< HEAD
 #else
 #define pud_sect(pud)		((pud_val(pud) & PUD_TYPE_MASK) == \
 				 PUD_TYPE_SECT)
-=======
-#define pud_table(pud)		(1)
-#else
-#define pud_sect(pud)		((pud_val(pud) & PUD_TYPE_MASK) == \
-				 PUD_TYPE_SECT)
-#define pud_table(pud)		((pud_val(pud) & PUD_TYPE_MASK) == \
-				 PUD_TYPE_TABLE)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 static inline void set_pmd(pmd_t *pmdp, pmd_t pmd)
@@ -544,24 +525,6 @@ extern int kern_addr_valid(unsigned long addr);
 
 #define pgtable_cache_init() do { } while (0)
 
-<<<<<<< HEAD
-=======
-/*
- * On AArch64, the cache coherency is handled via the set_pte_at() function.
- */
-static inline void update_mmu_cache(struct vm_area_struct *vma,
-				    unsigned long addr, pte_t *ptep)
-{
-	/*
-	 * We don't do anything here, so there's a very small chance of
-	 * us retaking a user fault which we just fixed up. The alternative
-	 * is doing a dsb(ishst), but that penalises the fastpath.
-	 */
-}
-
-#define update_mmu_cache_pmd(vma, address, pmd) do { } while (0)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* !__ASSEMBLY__ */
 
 #endif /* __ASM_PGTABLE_H */

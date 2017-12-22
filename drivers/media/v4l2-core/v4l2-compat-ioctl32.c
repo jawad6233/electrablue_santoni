@@ -852,10 +852,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 	int compatible_arg = 1;
 	long err = 0;
 
-<<<<<<< HEAD
-=======
-	memset(&karg, 0, sizeof(karg));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* First, convert the command. */
 	switch (cmd) {
 	case VIDIOC_G_FMT32: cmd = VIDIOC_G_FMT; break;

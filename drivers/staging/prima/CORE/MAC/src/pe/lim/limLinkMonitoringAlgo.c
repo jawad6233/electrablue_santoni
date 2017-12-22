@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -59,12 +55,6 @@
 #endif //FEATURE_WLAN_DIAG_SUPPORT
 #include "limSession.h"
 #include "limSerDesUtils.h"
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-#include "lim_mbb.h"
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 
 /**
@@ -121,18 +111,6 @@ limDeleteStaContext(tpAniSirGlobal pMac, tpSirMsgQ limMsg)
         return;
     }
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-    if (lim_is_mbb_reassoc_in_progress(pMac, psessionEntry))
-    {
-        limLog(pMac, LOGE,
-             FL("Ignore delete sta as LFR MBB in progress"));
-        return;
-    }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     switch(pMsg->reasonCode)
     {
         case HAL_DEL_STA_REASON_CODE_KEEP_ALIVE:
@@ -331,11 +309,7 @@ limTriggerSTAdeletion(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession pse
         pStaDs->sta_deletion_in_progress) {
          /* Already in the process of deleting context for the peer */
         limLog(pMac, LOG1,
-<<<<<<< HEAD
             FL("Deletion is in progress (%d) for peer:%p in mlmState %d"),
-=======
-            FL("Deletion is in progress (%d) for peer:%pK in mlmState %d"),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             pStaDs->sta_deletion_in_progress, pStaDs->staAddr,
             pStaDs->mlmStaContext.mlmState);
          return;
@@ -500,18 +474,6 @@ void limHandleHeartBeatFailure(tpAniSirGlobal pMac,tpPESession psessionEntry)
     /* Ensure HB Status for the session has been reseted */
     psessionEntry->LimHBFailureStatus = eANI_BOOLEAN_FALSE;
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-    if (lim_is_mbb_reassoc_in_progress(pMac, psessionEntry))
-    {
-        limLog(pMac, LOGE,
-               FL("Ignore Heartbeat failure as LFR MBB in progress"));
-        return;
-    }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if (((psessionEntry->limSystemRole == eLIM_STA_ROLE)||
          (psessionEntry->limSystemRole == eLIM_BT_AMP_STA_ROLE))&&
          (psessionEntry->limMlmState == eLIM_MLM_LINK_ESTABLISHED_STATE)&&

@@ -195,7 +195,6 @@ __ext3_set_acl(handle_t *handle, struct inode *inode, int type,
 		case ACL_TYPE_ACCESS:
 			name_index = EXT3_XATTR_INDEX_POSIX_ACL_ACCESS;
 			if (acl) {
-<<<<<<< HEAD
 				error = posix_acl_equiv_mode(acl, &inode->i_mode);
 				if (error < 0)
 					return error;
@@ -205,13 +204,6 @@ __ext3_set_acl(handle_t *handle, struct inode *inode, int type,
 					if (error == 0)
 						acl = NULL;
 				}
-=======
-				error = posix_acl_update_mode(inode, &inode->i_mode, &acl);
-				if (error)
-					return error;
-				inode->i_ctime = CURRENT_TIME_SEC;
-				ext3_mark_inode_dirty(handle, inode);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			}
 			break;
 

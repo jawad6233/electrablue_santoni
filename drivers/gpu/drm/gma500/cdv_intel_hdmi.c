@@ -195,11 +195,7 @@ static int cdv_hdmi_set_property(struct drm_connector *connector,
 					    encoder->crtc->x, encoder->crtc->y, encoder->crtc->primary->fb))
 					return -1;
 			} else {
-<<<<<<< HEAD
 				struct drm_encoder_helper_funcs *helpers
-=======
-				const struct drm_encoder_helper_funcs *helpers
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 						    = encoder->helper_private;
 				helpers->mode_set(encoder, &crtc->saved_mode,
 					     &crtc->saved_adjusted_mode);

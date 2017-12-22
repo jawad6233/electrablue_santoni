@@ -187,11 +187,7 @@ EXPORT_SYMBOL(setattr_copy);
  * the file open for write, as there can be no conflicting delegation in
  * that case.
  */
-<<<<<<< HEAD
 int notify_change(struct dentry * dentry, struct iattr * attr, struct inode **delegated_inode)
-=======
-int notify_change2(struct vfsmount *mnt, struct dentry * dentry, struct iattr * attr, struct inode **delegated_inode)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct inode *inode = dentry->d_inode;
 	umode_t mode = inode->i_mode;
@@ -266,13 +262,7 @@ int notify_change2(struct vfsmount *mnt, struct dentry * dentry, struct iattr * 
 	if (error)
 		return error;
 
-<<<<<<< HEAD
 	if (inode->i_op->setattr)
-=======
-	if (mnt && inode->i_op->setattr2)
-		error = inode->i_op->setattr2(mnt, dentry, attr);
-	else if (inode->i_op->setattr)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		error = inode->i_op->setattr(dentry, attr);
 	else
 		error = simple_setattr(dentry, attr);
@@ -285,13 +275,4 @@ int notify_change2(struct vfsmount *mnt, struct dentry * dentry, struct iattr * 
 
 	return error;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(notify_change2);
-
-int notify_change(struct dentry * dentry, struct iattr * attr, struct inode **delegated_inode)
-{
-	return notify_change2(NULL, dentry, attr, delegated_inode);
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 EXPORT_SYMBOL(notify_change);

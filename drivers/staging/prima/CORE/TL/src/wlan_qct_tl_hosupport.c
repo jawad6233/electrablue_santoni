@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -361,22 +357,14 @@ void WLANTL_HSDebugDisplay
          {
             if(VOS_MODULE_ID_HDD == hoSupport->registeredInd[idx].whoIsClient[sIdx])
             {
-<<<<<<< HEAD
                TLLOG1(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Client HDD pCB %p, triggerEvt %d, RSSI %d",
-=======
-               TLLOG1(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Client HDD pCB %pK, triggerEvt %d, RSSI %d",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                    hoSupport->registeredInd[idx].crossCBFunction[sIdx],
                              hoSupport->registeredInd[idx].triggerEvent[sIdx],
                              hoSupport->registeredInd[idx].rssiValue));
             }
             else
             {
-<<<<<<< HEAD
                TLLOG1(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Client SME pCB %p, triggerEvt %d, RSSI %d",
-=======
-               TLLOG1(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Client SME pCB %pK, triggerEvt %d, RSSI %d",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                              hoSupport->registeredInd[idx].crossCBFunction[sIdx],
                              hoSupport->registeredInd[idx].triggerEvent[sIdx],
                              hoSupport->registeredInd[idx].rssiValue));
@@ -1529,20 +1517,12 @@ VOS_STATUS WLANTL_HSRegRSSIIndicationCB
          {
             for(sIdx = 0; sIdx < WLANTL_HS_NUM_CLIENT; sIdx++)
             {
-<<<<<<< HEAD
                TLLOGE(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Reg CB P %p, registered CB P %p",
-=======
-               TLLOGE(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Reg CB P %pK, registered CB P %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                              crossCBFunction,
                              hoSupport->registeredInd[idx].crossCBFunction[sIdx]));
                if(crossCBFunction == hoSupport->registeredInd[idx].crossCBFunction[sIdx])
                {
-<<<<<<< HEAD
                   TLLOGE(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Same RSSI %d, Same CB %p already registered",
-=======
-                  TLLOGE(VOS_TRACE(VOS_MODULE_ID_TL, VOS_TRACE_LEVEL_INFO,"Same RSSI %d, Same CB %pK already registered",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                                rssiValue, crossCBFunction));
                   WLANTL_HSDebugDisplay(pAdapter);
                   THSRELEASELOCK("WLANTL_HSRegRSSIIndicationCB", &tlCtxt->hoSupport.hosLock);

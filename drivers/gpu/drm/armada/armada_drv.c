@@ -11,10 +11,6 @@
 #include <linux/of_graph.h>
 #include <drm/drmP.h>
 #include <drm/drm_crtc_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_of.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "armada_crtc.h"
 #include "armada_drm.h"
 #include "armada_gem.h"
@@ -22,7 +18,6 @@
 #include <drm/armada_drm.h>
 #include "armada_ioctlP.h"
 
-<<<<<<< HEAD
 #ifdef CONFIG_DRM_ARMADA_TDA1998X
 #include <drm/i2c/tda998x.h>
 #include "armada_slave.h"
@@ -64,8 +59,6 @@ static bool is_componentized(struct device *dev)
 	return dev->of_node || dev->platform_data;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void armada_drm_unref_work(struct work_struct *work)
 {
 	struct armada_private *priv =
@@ -98,7 +91,6 @@ void armada_drm_queue_unref_work(struct drm_device *dev,
 
 static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 {
-<<<<<<< HEAD
 	const struct platform_device_id *id;
 	const struct armada_variant *variant;
 	struct armada_private *priv;
@@ -109,13 +101,6 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 	memset(res, 0, sizeof(res));
 
 	for (n = i = 0; ; n++) {
-=======
-	struct armada_private *priv;
-	struct resource *mem = NULL;
-	int ret, n;
-
-	for (n = 0; ; n++) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		struct resource *r = platform_get_resource(dev->platformdev,
 							   IORESOURCE_MEM, n);
 		if (!r)
@@ -124,11 +109,8 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 		/* Resources above 64K are graphics memory */
 		if (resource_size(r) > SZ_64K)
 			mem = r;
-<<<<<<< HEAD
 		else if (i < ARRAY_SIZE(priv->dcrtc))
 			res[i++] = r;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		else
 			return -EINVAL;
 	}
@@ -149,7 +131,6 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 	platform_set_drvdata(dev->platformdev, dev);
 	dev->dev_private = priv;
 
-<<<<<<< HEAD
 	/* Get the implementation specific driver data. */
 	id = platform_get_device_id(dev->platformdev);
 	if (!id)
@@ -157,8 +138,6 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 
 	variant = (const struct armada_variant *)id->driver_data;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	INIT_WORK(&priv->fb_unref_work, armada_drm_unref_work);
 	INIT_KFIFO(priv->fb_unref);
 
@@ -178,7 +157,6 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 	dev->mode_config.funcs = &armada_drm_mode_config_funcs;
 	drm_mm_init(&priv->linear, mem->start, resource_size(mem));
 
-<<<<<<< HEAD
 	/* Create all LCD controllers */
 	for (n = 0; n < ARRAY_SIZE(priv->dcrtc); n++) {
 		int irq;
@@ -207,11 +185,6 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 			goto err_kms;
 #endif
 	}
-=======
-	ret = component_bind_all(dev->dev, dev);
-	if (ret)
-		goto err_kms;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
 	if (ret)
@@ -229,12 +202,8 @@ static int armada_drm_load(struct drm_device *dev, unsigned long flags)
 	return 0;
 
  err_comp:
-<<<<<<< HEAD
 	if (is_componentized(dev->dev))
 		component_unbind_all(dev->dev, dev);
-=======
-	component_unbind_all(dev->dev, dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  err_kms:
 	drm_mode_config_cleanup(dev);
 	drm_mm_takedown(&priv->linear);
@@ -250,12 +219,8 @@ static int armada_drm_unload(struct drm_device *dev)
 	drm_kms_helper_poll_fini(dev);
 	armada_fbdev_fini(dev);
 
-<<<<<<< HEAD
 	if (is_componentized(dev->dev))
 		component_unbind_all(dev->dev, dev);
-=======
-	component_unbind_all(dev->dev, dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	drm_mode_config_cleanup(dev);
 	drm_mm_takedown(&priv->linear);
@@ -265,7 +230,6 @@ static int armada_drm_unload(struct drm_device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 void armada_drm_vbl_event_add(struct armada_crtc *dcrtc,
 	struct armada_vbl_event *evt)
 {
@@ -320,26 +284,6 @@ static struct drm_ioctl_desc armada_ioctls[] = {
 		DRM_UNLOCKED),
 	DRM_IOCTL_DEF_DRV(ARMADA_GEM_PWRITE, armada_gem_pwrite_ioctl,
 		DRM_UNLOCKED),
-=======
-/* These are called under the vbl_lock. */
-static int armada_drm_enable_vblank(struct drm_device *dev, unsigned int pipe)
-{
-	struct armada_private *priv = dev->dev_private;
-	armada_drm_crtc_enable_irq(priv->dcrtc[pipe], VSYNC_IRQ_ENA);
-	return 0;
-}
-
-static void armada_drm_disable_vblank(struct drm_device *dev, unsigned int pipe)
-{
-	struct armada_private *priv = dev->dev_private;
-	armada_drm_crtc_disable_irq(priv->dcrtc[pipe], VSYNC_IRQ_ENA);
-}
-
-static struct drm_ioctl_desc armada_ioctls[] = {
-	DRM_IOCTL_DEF_DRV(ARMADA_GEM_CREATE, armada_gem_create_ioctl,0),
-	DRM_IOCTL_DEF_DRV(ARMADA_GEM_MMAP, armada_gem_mmap_ioctl, 0),
-	DRM_IOCTL_DEF_DRV(ARMADA_GEM_PWRITE, armada_gem_pwrite_ioctl, 0),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static void armada_drm_lastclose(struct drm_device *dev)
@@ -366,11 +310,7 @@ static struct drm_driver armada_drm_driver = {
 	.lastclose		= armada_drm_lastclose,
 	.unload			= armada_drm_unload,
 	.set_busid		= drm_platform_set_busid,
-<<<<<<< HEAD
 	.get_vblank_counter	= drm_vblank_count,
-=======
-	.get_vblank_counter	= drm_vblank_no_hw_counter,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.enable_vblank		= armada_drm_enable_vblank,
 	.disable_vblank		= armada_drm_disable_vblank,
 #ifdef CONFIG_DEBUG_FS
@@ -440,7 +380,6 @@ static void armada_add_endpoints(struct device *dev,
 	}
 }
 
-<<<<<<< HEAD
 static int armada_drm_find_components(struct device *dev,
 	struct component_match **match)
 {
@@ -478,31 +417,6 @@ static int armada_drm_find_components(struct device *dev,
 
 		for (i = 0; devices[i]; i++)
 			component_match_add(dev, match, compare_dev_name,
-=======
-static const struct component_master_ops armada_master_ops = {
-	.bind = armada_drm_bind,
-	.unbind = armada_drm_unbind,
-};
-
-static int armada_drm_probe(struct platform_device *pdev)
-{
-	struct component_match *match = NULL;
-	struct device *dev = &pdev->dev;
-	int ret;
-
-	ret = drm_of_component_probe(dev, compare_dev_name, &armada_master_ops);
-	if (ret != -EINVAL)
-		return ret;
-
-	if (dev->platform_data) {
-		char **devices = dev->platform_data;
-		struct device_node *port;
-		struct device *d;
-		int i;
-
-		for (i = 0; devices[i]; i++)
-			component_match_add(dev, &match, compare_dev_name,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					    devices[i]);
 
 		if (i == 0) {
@@ -512,23 +426,15 @@ static int armada_drm_probe(struct platform_device *pdev)
 
 		for (i = 0; devices[i]; i++) {
 			d = bus_find_device_by_name(&platform_bus_type, NULL,
-<<<<<<< HEAD
 					devices[i]);
 			if (d && d->of_node) {
 				for_each_child_of_node(d->of_node, port)
 					armada_add_endpoints(dev, match, port);
-=======
-						    devices[i]);
-			if (d && d->of_node) {
-				for_each_child_of_node(d->of_node, port)
-					armada_add_endpoints(dev, &match, port);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			}
 			put_device(d);
 		}
 	}
 
-<<<<<<< HEAD
 	return 0;
 }
 
@@ -552,37 +458,24 @@ static int armada_drm_probe(struct platform_device *pdev)
 	} else {
 		return drm_platform_init(&armada_drm_driver, pdev);
 	}
-=======
-	return component_master_add_with_match(&pdev->dev, &armada_master_ops,
-					       match);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int armada_drm_remove(struct platform_device *pdev)
 {
-<<<<<<< HEAD
 	if (is_componentized(&pdev->dev))
 		component_master_del(&pdev->dev, &armada_master_ops);
 	else
 		drm_put_dev(platform_get_drvdata(pdev));
-=======
-	component_master_del(&pdev->dev, &armada_master_ops);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
 static const struct platform_device_id armada_drm_platform_ids[] = {
 	{
 		.name		= "armada-drm",
-<<<<<<< HEAD
 		.driver_data	= (unsigned long)&armada510_ops,
 	}, {
 		.name		= "armada-510-drm",
 		.driver_data	= (unsigned long)&armada510_ops,
-=======
-	}, {
-		.name		= "armada-510-drm",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	},
 	{ },
 };
@@ -593,10 +486,7 @@ static struct platform_driver armada_drm_platform_driver = {
 	.remove	= armada_drm_remove,
 	.driver	= {
 		.name	= "armada-drm",
-<<<<<<< HEAD
 		.owner	= THIS_MODULE,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	},
 	.id_table = armada_drm_platform_ids,
 };

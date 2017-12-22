@@ -104,11 +104,6 @@ DEFINE_CLK_DUMMY(gcc_ce1_axi_m_clk, 0);
 DEFINE_CLK_DUMMY(measure_only_bimc_hmss_axi_clk, 0);
 
 DEFINE_CLK_RPM_SMD_XO_BUFFER(ln_bb_clk, ln_bb_a_clk, LN_BB_CLK_ID);
-<<<<<<< HEAD
-=======
-DEFINE_CLK_RPM_SMD_XO_BUFFER_PINCTRL(ln_bb_clk_pin, ln_bb_a_clk_pin,
-				LN_BB_CLK_PIN_ID);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static DEFINE_CLK_VOTER(mcd_ce1_clk, &ce1_clk.c, 85710000);
 static DEFINE_CLK_VOTER(pnoc_keepalive_a_clk, &pnoc_a_clk.c, LONG_MAX);
 static DEFINE_CLK_VOTER(pnoc_msmbus_clk, &pnoc_clk.c, LONG_MAX);
@@ -3373,11 +3368,6 @@ static struct clk_lookup msm_clocks_rpm_8996[] = {
 	CLK_LIST(ipa_clk),
 	CLK_LIST(ln_bb_clk),
 	CLK_LIST(ln_bb_a_clk),
-<<<<<<< HEAD
-=======
-	CLK_LIST(ln_bb_clk_pin),
-	CLK_LIST(ln_bb_a_clk_pin),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	CLK_LIST(mcd_ce1_clk),
 	CLK_LIST(pnoc_keepalive_a_clk),
 	CLK_LIST(pnoc_msmbus_clk),

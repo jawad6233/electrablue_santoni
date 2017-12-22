@@ -21,12 +21,9 @@ static inline int dl_task(struct task_struct *p)
 	return dl_prio(p->prio);
 }
 
-<<<<<<< HEAD
 static inline bool dl_time_before(u64 a, u64 b)
 {
 	return (s64)(a - b) < 0;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* _SCHED_DEADLINE_H */

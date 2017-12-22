@@ -9,10 +9,7 @@
 
 #undef TRACE_SYSTEM
 #define TRACE_SYSTEM radeon
-<<<<<<< HEAD
 #define TRACE_SYSTEM_STRING __stringify(TRACE_SYSTEM)
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define TRACE_INCLUDE_FILE radeon_trace
 
 TRACE_EVENT(radeon_bo_create,
@@ -41,11 +38,7 @@ TRACE_EVENT(radeon_cs,
 
 	    TP_fast_assign(
 			   __entry->ring = p->ring;
-<<<<<<< HEAD
 			   __entry->dw = p->chunks[p->chunk_ib_idx].length_dw;
-=======
-			   __entry->dw = p->chunk_ib->length_dw;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			   __entry->fences = radeon_fence_count_emitted(
 				p->rdev, p->ring);
 			   ),

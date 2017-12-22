@@ -68,11 +68,7 @@ early_param("initrd", early_initrd);
  * currently assumes that for memory starting above 4G, 32-bit devices will
  * use a DMA offset.
  */
-<<<<<<< HEAD
 static phys_addr_t max_zone_dma_phys(void)
-=======
-static phys_addr_t __init max_zone_dma_phys(void)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	phys_addr_t offset = memblock_start_of_DRAM() & GENMASK_ULL(63, 32);
 	return min(offset + (1ULL << 32), memblock_end_of_DRAM());
@@ -128,19 +124,11 @@ EXPORT_SYMBOL(pfn_valid);
 #endif
 
 #ifndef CONFIG_SPARSEMEM
-<<<<<<< HEAD
 static void arm64_memory_present(void)
 {
 }
 #else
 static void arm64_memory_present(void)
-=======
-static void __init arm64_memory_present(void)
-{
-}
-#else
-static void __init arm64_memory_present(void)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct memblock_region *reg;
 
@@ -150,35 +138,10 @@ static void __init arm64_memory_present(void)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-static phys_addr_t memory_limit = (phys_addr_t)ULLONG_MAX;
-
-/*
- * Limit the memory size that was specified via FDT.
- */
-static int __init early_mem(char *p)
-{
-	if (!p)
-		return 1;
-
-	memory_limit = memparse(p, &p) & PAGE_MASK;
-	pr_notice("Memory limited to %lldMB\n", memory_limit >> 20);
-
-	return 0;
-}
-early_param("mem", early_mem);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void __init arm64_memblock_init(void)
 {
 	phys_addr_t dma_phys_limit = 0;
 
-<<<<<<< HEAD
-=======
-	memblock_enforce_memory_limit(memory_limit);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * Register the kernel text, kernel data, initrd, and initial
 	 * pagetables with memblock.

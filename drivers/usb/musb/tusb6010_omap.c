@@ -220,10 +220,7 @@ static int tusb_omap_dma_program(struct dma_channel *channel, u16 packet_sz,
 	u32				dma_remaining;
 	int				src_burst, dst_burst;
 	u16				csr;
-<<<<<<< HEAD
 	u32				psize;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int				ch;
 	s8				dmareq;
 	s8				sync_dev;
@@ -395,29 +392,19 @@ static int tusb_omap_dma_program(struct dma_channel *channel, u16 packet_sz,
 
 	if (chdat->tx) {
 		/* Send transfer_packet_sz packets at a time */
-<<<<<<< HEAD
 		psize = musb_readl(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET);
 		psize &= ~0x7ff;
 		psize |= chdat->transfer_packet_sz;
 		musb_writel(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET, psize);
-=======
-		musb_writel(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET,
-			chdat->transfer_packet_sz);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		musb_writel(ep_conf, TUSB_EP_TX_OFFSET,
 			TUSB_EP_CONFIG_XFR_SIZE(chdat->transfer_len));
 	} else {
 		/* Receive transfer_packet_sz packets at a time */
-<<<<<<< HEAD
 		psize = musb_readl(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET);
 		psize &= ~(0x7ff << 16);
 		psize |= (chdat->transfer_packet_sz << 16);
 		musb_writel(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET, psize);
-=======
-		musb_writel(ep_conf, TUSB_EP_MAX_PACKET_SIZE_OFFSET,
-			chdat->transfer_packet_sz << 16);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		musb_writel(ep_conf, TUSB_EP_RX_OFFSET,
 			TUSB_EP_CONFIG_XFR_SIZE(chdat->transfer_len));

@@ -302,11 +302,7 @@ struct msm_eeprom_cfg_data {
 	enum eeprom_cfg_type_t cfgtype;
 	uint8_t is_supported;
 	union {
-<<<<<<< HEAD
 		char eeprom_name[MAX_EEPROM_NAME];
-=======
-		char eeprom_name[MAX_SENSOR_NAME];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		struct eeprom_get_t get_data;
 		struct eeprom_read_t read_data;
 		struct eeprom_write_t write_data;

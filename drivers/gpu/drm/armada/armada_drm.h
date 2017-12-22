@@ -37,7 +37,6 @@ static inline uint32_t armada_pitch(uint32_t width, uint32_t bpp)
 	return ALIGN(pitch, 128);
 }
 
-<<<<<<< HEAD
 struct armada_vbl_event {
 	struct list_head	node;
 	void			*data;
@@ -56,8 +55,6 @@ void armada_drm_vbl_event_remove_unlocked(struct armada_crtc *,
 	__e->fn = _f;					\
 } while (0)
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct armada_private;
 

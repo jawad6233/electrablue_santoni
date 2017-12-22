@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -515,12 +511,6 @@ __packed struct qseecom_continue_blocked_request_ireq {
 #define TZ_OS_REGISTER_LISTENER_ID \
 	TZ_SYSCALL_CREATE_SMC_ID(TZ_OWNER_QSEE_OS, TZ_SVC_LISTENER, 0x01)
 
-<<<<<<< HEAD
-=======
-#define TZ_OS_REGISTER_LISTENER_SMCINVOKE_ID \
-	TZ_SYSCALL_CREATE_SMC_ID(TZ_OWNER_QSEE_OS, TZ_SVC_LISTENER, 0x06)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define TZ_OS_REGISTER_LISTENER_ID_PARAM_ID \
 	TZ_SYSCALL_CREATE_PARAM_ID_3( \
 	TZ_SYSCALL_PARAM_TYPE_VAL, TZ_SYSCALL_PARAM_TYPE_BUF_RW, \

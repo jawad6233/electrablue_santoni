@@ -23,20 +23,6 @@
 
 #include "msm_drv.h"
 
-<<<<<<< HEAD
-=======
-#define MAX_PLANE	4
-
-/**
- * Device Private DRM Mode Flags
- * drm_mode->private_flags
- */
-/* Connector has interpreted seamless transition request as dynamic fps */
-#define MSM_MODE_FLAG_SEAMLESS_DYNAMIC_FPS	(1<<0)
-/* Transition to new mode requires a wait-for-vblank before the modeset */
-#define MSM_MODE_FLAG_VBLANK_PRE_MODESET	(1<<1)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* As there are different display controller blocks depending on the
  * snapdragon version, the kms support is split out and the appropriate
  * implementation is loaded at runtime.  The kms module is responsible
@@ -52,42 +38,10 @@ struct msm_kms_funcs {
 	irqreturn_t (*irq)(struct msm_kms *kms);
 	int (*enable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
 	void (*disable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
-<<<<<<< HEAD
 	/* misc: */
 	const struct msm_format *(*get_format)(struct msm_kms *kms, uint32_t format);
 	long (*round_pixclk)(struct msm_kms *kms, unsigned long rate,
 			struct drm_encoder *encoder);
-=======
-	/* modeset, bracketing atomic_commit(): */
-	void (*prepare_fence)(struct msm_kms *kms,
-			struct drm_atomic_state *state);
-	void (*prepare_commit)(struct msm_kms *kms,
-			struct drm_atomic_state *state);
-	void (*commit)(struct msm_kms *kms, struct drm_atomic_state *state);
-	void (*complete_commit)(struct msm_kms *kms,
-			struct drm_atomic_state *state);
-	/* functions to wait for atomic commit completed on each CRTC */
-	void (*wait_for_crtc_commit_done)(struct msm_kms *kms,
-					struct drm_crtc *crtc);
-	/* get msm_format w/ optional format modifiers from drm_mode_fb_cmd2 */
-	const struct msm_format *(*get_format)(struct msm_kms *kms,
-					const uint32_t format,
-					const uint64_t *modifiers,
-					const uint32_t modifiers_len);
-	/* do format checking on format modified through fb_cmd2 modifiers */
-	int (*check_modified_format)(const struct msm_kms *kms,
-			const struct msm_format *msm_fmt,
-			const struct drm_mode_fb_cmd2 *cmd,
-			struct drm_gem_object **bos);
-	/* misc: */
-	long (*round_pixclk)(struct msm_kms *kms, unsigned long rate,
-			struct drm_encoder *encoder);
-	int (*set_split_display)(struct msm_kms *kms,
-			struct drm_encoder *encoder,
-			struct drm_encoder *slave_encoder,
-			bool is_cmd_mode);
-	void (*postopen)(struct msm_kms *kms, struct drm_file *file);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* cleanup: */
 	void (*preclose)(struct msm_kms *kms, struct drm_file *file);
 	void (*destroy)(struct msm_kms *kms);
@@ -108,38 +62,7 @@ static inline void msm_kms_init(struct msm_kms *kms,
 	kms->funcs = funcs;
 }
 
-<<<<<<< HEAD
 struct msm_kms *mdp4_kms_init(struct drm_device *dev);
 struct msm_kms *mdp5_kms_init(struct drm_device *dev);
-=======
-#ifdef CONFIG_DRM_MSM_MDP4
-struct msm_kms *mdp4_kms_init(struct drm_device *dev);
-#else
-static inline
-struct msm_kms *mdp4_kms_init(struct drm_device *dev) { return NULL; };
-#endif
-struct msm_kms *mdp5_kms_init(struct drm_device *dev);
-struct msm_kms *sde_kms_init(struct drm_device *dev);
-
-/**
- * Mode Set Utility Functions
- */
-static inline bool msm_is_mode_seamless(const struct drm_display_mode *mode)
-{
-	return (mode->flags & DRM_MODE_FLAG_SEAMLESS);
-}
-
-static inline bool msm_is_mode_dynamic_fps(const struct drm_display_mode *mode)
-{
-	return ((mode->flags & DRM_MODE_FLAG_SEAMLESS) &&
-		(mode->private_flags & MSM_MODE_FLAG_SEAMLESS_DYNAMIC_FPS));
-}
-
-static inline bool msm_needs_vblank_pre_modeset(
-		const struct drm_display_mode *mode)
-{
-	return (mode->private_flags & MSM_MODE_FLAG_VBLANK_PRE_MODESET);
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* __MSM_KMS_H__ */

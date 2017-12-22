@@ -70,34 +70,17 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
 	BUG_ON(pixels_2 != pixels_current && pixels_2 != pixels_prev);
 	BUG_ON(pixels_current == pixels_prev);
 
-<<<<<<< HEAD
-=======
-	if (!handle || !file_priv) {
-		mga_hide_cursor(mdev);
-		return 0;
-	}
-
-	obj = drm_gem_object_lookup(dev, file_priv, handle);
-	if (!obj)
-		return -ENOENT;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = mgag200_bo_reserve(pixels_1, true);
 	if (ret) {
 		WREG8(MGA_CURPOSXL, 0);
 		WREG8(MGA_CURPOSXH, 0);
-<<<<<<< HEAD
 		return ret;
-=======
-		goto out_unref;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	ret = mgag200_bo_reserve(pixels_2, true);
 	if (ret) {
 		WREG8(MGA_CURPOSXL, 0);
 		WREG8(MGA_CURPOSXH, 0);
 		mgag200_bo_unreserve(pixels_1);
-<<<<<<< HEAD
 		return ret;
 	}
 
@@ -105,9 +88,6 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
 		mga_hide_cursor(mdev);
 		ret = 0;
 		goto out1;
-=======
-		goto out_unreserve1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Move cursor buffers into VRAM if they aren't already */
@@ -126,7 +106,6 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
 		}
 	}
 
-<<<<<<< HEAD
 	mutex_lock(&dev->struct_mutex);
 	obj = drm_gem_object_lookup(dev, file_priv, handle);
 	if (!obj) {
@@ -137,8 +116,6 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
 	drm_gem_object_unreference(obj);
 	mutex_unlock(&dev->struct_mutex);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bo = gem_to_mga_bo(obj);
 	ret = mgag200_bo_reserve(bo, true);
 	if (ret) {
@@ -275,15 +252,7 @@ int mga_crtc_cursor_set(struct drm_crtc *crtc,
 	if (ret)
 		mga_hide_cursor(mdev);
 	mgag200_bo_unreserve(pixels_1);
-<<<<<<< HEAD
 	mgag200_bo_unreserve(pixels_2);
-=======
-out_unreserve1:
-	mgag200_bo_unreserve(pixels_2);
-out_unref:
-	drm_gem_object_unreference_unlocked(obj);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 

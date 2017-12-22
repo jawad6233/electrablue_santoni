@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -72,11 +68,6 @@ static struct cnss_dfs_nol_info {
 	u16 dfs_nol_info_len;
 } dfs_nol_info;
 
-<<<<<<< HEAD
-=======
-static enum cnss_cc_src cnss_cc_source = CNSS_SOURCE_CORE;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int cnss_set_wlan_unsafe_channel(u16 *unsafe_ch_list, u16 ch_count)
 {
 	mutex_lock(&unsafe_channel_list_lock);
@@ -272,7 +263,6 @@ void cnss_dump_stack(struct task_struct *task)
 }
 EXPORT_SYMBOL(cnss_dump_stack);
 
-<<<<<<< HEAD
 enum cnss_dev_bus_type cnss_get_dev_bus_type(struct device *dev)
 {
 	if (!dev)
@@ -287,19 +277,10 @@ enum cnss_dev_bus_type cnss_get_dev_bus_type(struct device *dev)
 		return CNSS_BUS_PCI;
 	else
 		return CNSS_BUS_NONE;
-=======
-struct cnss_dev_platform_ops *cnss_get_platform_ops(struct device *dev)
-{
-	if (!dev)
-		return NULL;
-	else
-		return dev->platform_data;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int cnss_common_request_bus_bandwidth(struct device *dev, int bandwidth)
 {
-<<<<<<< HEAD
 	int ret;
 
 	switch (cnss_get_dev_bus_type(dev)) {
@@ -316,20 +297,11 @@ int cnss_common_request_bus_bandwidth(struct device *dev, int bandwidth)
 	}
 
 	return ret;
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->request_bus_bandwidth)
-		return pf_ops->request_bus_bandwidth(bandwidth);
-	else
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_request_bus_bandwidth);
 
 void *cnss_common_get_virt_ramdump_mem(struct device *dev, unsigned long *size)
 {
-<<<<<<< HEAD
 	switch (cnss_get_dev_bus_type(dev)) {
 	case CNSS_BUS_SDIO:
 		return cnss_sdio_get_virt_ramdump_mem(size);
@@ -339,20 +311,11 @@ void *cnss_common_get_virt_ramdump_mem(struct device *dev, unsigned long *size)
 		pr_debug("%s: Invalid device type\n", __func__);
 		return NULL;
 	}
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->get_virt_ramdump_mem)
-		return pf_ops->get_virt_ramdump_mem(size);
-	else
-		return NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_get_virt_ramdump_mem);
 
 void cnss_common_device_self_recovery(struct device *dev)
 {
-<<<<<<< HEAD
 	switch (cnss_get_dev_bus_type(dev)) {
 	case CNSS_BUS_SDIO:
 		cnss_sdio_device_self_recovery();
@@ -364,18 +327,11 @@ void cnss_common_device_self_recovery(struct device *dev)
 		pr_debug("%s: Invalid device type\n", __func__);
 		break;
 	}
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->device_self_recovery)
-		pf_ops->device_self_recovery();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_device_self_recovery);
 
 void cnss_common_schedule_recovery_work(struct device *dev)
 {
-<<<<<<< HEAD
 	switch (cnss_get_dev_bus_type(dev)) {
 	case CNSS_BUS_SDIO:
 		cnss_sdio_schedule_recovery_work();
@@ -387,18 +343,11 @@ void cnss_common_schedule_recovery_work(struct device *dev)
 		pr_debug("%s: Invalid device type\n", __func__);
 		break;
 	}
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->schedule_recovery_work)
-		pf_ops->schedule_recovery_work();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_schedule_recovery_work);
 
 void cnss_common_device_crashed(struct device *dev)
 {
-<<<<<<< HEAD
 	switch (cnss_get_dev_bus_type(dev)) {
 	case CNSS_BUS_SDIO:
 		cnss_sdio_device_crashed();
@@ -410,18 +359,11 @@ void cnss_common_device_crashed(struct device *dev)
 		pr_debug("%s: Invalid device type\n", __func__);
 		break;
 	}
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->device_crashed)
-		pf_ops->device_crashed();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_device_crashed);
 
 u8 *cnss_common_get_wlan_mac_address(struct device *dev, uint32_t *num)
 {
-<<<<<<< HEAD
 	u8 *ret;
 
 	switch (cnss_get_dev_bus_type(dev)) {
@@ -437,21 +379,12 @@ u8 *cnss_common_get_wlan_mac_address(struct device *dev, uint32_t *num)
 		break;
 	}
 	return ret;
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->get_wlan_mac_address)
-		return pf_ops->get_wlan_mac_address(num);
-	else
-		return NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_get_wlan_mac_address);
 
 int cnss_common_set_wlan_mac_address(
 		struct device *dev, const u8 *in, uint32_t len)
 {
-<<<<<<< HEAD
 	int ret;
 
 	switch (cnss_get_dev_bus_type(dev)) {
@@ -468,20 +401,11 @@ int cnss_common_set_wlan_mac_address(
 	}
 
 	return ret;
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->set_wlan_mac_address)
-		return pf_ops->set_wlan_mac_address(in, len);
-	else
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_common_set_wlan_mac_address);
 
 int cnss_power_up(struct device *dev)
 {
-<<<<<<< HEAD
 	int ret;
 
 	switch (cnss_get_dev_bus_type(dev)) {
@@ -498,20 +422,11 @@ int cnss_power_up(struct device *dev)
 	}
 
 	return ret;
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->power_up)
-		return pf_ops->power_up(dev);
-	else
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_power_up);
 
 int cnss_power_down(struct device *dev)
 {
-<<<<<<< HEAD
 	int ret;
 
 	switch (cnss_get_dev_bus_type(dev)) {
@@ -528,14 +443,6 @@ int cnss_power_down(struct device *dev)
 	}
 
 	return ret;
-=======
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->power_down)
-		return pf_ops->power_down(dev);
-	else
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 EXPORT_SYMBOL(cnss_power_down);
 
@@ -580,49 +487,7 @@ int cnss_get_fw_files_for_target(struct cnss_fw_files *pfw_files,
 }
 EXPORT_SYMBOL(cnss_get_fw_files_for_target);
 
-<<<<<<< HEAD
-=======
-void cnss_set_cc_source(enum cnss_cc_src cc_source)
-{
-	cnss_cc_source = cc_source;
-}
-EXPORT_SYMBOL(cnss_set_cc_source);
-
-enum cnss_cc_src cnss_get_cc_source(void)
-{
-	return cnss_cc_source;
-}
-EXPORT_SYMBOL(cnss_get_cc_source);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 const char *cnss_wlan_get_evicted_data_file(void)
 {
 	return FW_FILES_QCA6174_FW_3_0.evicted_data;
 }
-<<<<<<< HEAD
-=======
-
-int cnss_common_register_tsf_captured_handler(struct device *dev,
-					      irq_handler_t handler, void *ctx)
-{
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->register_tsf_captured_handler)
-		return pf_ops->register_tsf_captured_handler(handler, ctx);
-	else
-		return -EINVAL;
-}
-EXPORT_SYMBOL(cnss_common_register_tsf_captured_handler);
-
-int cnss_common_unregister_tsf_captured_handler(struct device *dev,
-						void *ctx)
-{
-	struct cnss_dev_platform_ops *pf_ops = cnss_get_platform_ops(dev);
-
-	if (pf_ops && pf_ops->unregister_tsf_captured_handler)
-		return pf_ops->unregister_tsf_captured_handler(ctx);
-	else
-		return -EINVAL;
-}
-EXPORT_SYMBOL(cnss_common_unregister_tsf_captured_handler);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

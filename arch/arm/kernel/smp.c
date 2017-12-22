@@ -87,17 +87,9 @@ void __init smp_set_ops(struct smp_operations *ops)
 
 static unsigned long get_arch_pgd(pgd_t *pgd)
 {
-<<<<<<< HEAD
 	phys_addr_t pgdir = virt_to_idmap(pgd);
 	BUG_ON(pgdir & ARCH_PGD_MASK);
 	return pgdir >> ARCH_PGD_SHIFT;
-=======
-#ifdef CONFIG_ARM_LPAE
-	return __phys_to_pfn(virt_to_phys(pgd));
-#else
-	return virt_to_phys(pgd);
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int __cpu_up(unsigned int cpu, struct task_struct *idle)
@@ -117,11 +109,7 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
 #endif
 
 #ifdef CONFIG_MMU
-<<<<<<< HEAD
 	secondary_data.pgdir = get_arch_pgd(idmap_pgd);
-=======
-	secondary_data.pgdir = virt_to_phys(idmap_pgd);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	secondary_data.swapper_pg_dir = get_arch_pgd(swapper_pg_dir);
 #endif
 	sync_cache_w(&secondary_data);

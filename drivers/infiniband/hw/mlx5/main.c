@@ -1099,11 +1099,6 @@ static int create_umr_res(struct mlx5_ib_dev *dev)
 	qp->real_qp    = qp;
 	qp->uobject    = NULL;
 	qp->qp_type    = MLX5_IB_QPT_REG_UMR;
-<<<<<<< HEAD
-=======
-	qp->send_cq    = init_attr->send_cq;
-	qp->recv_cq    = init_attr->recv_cq;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	attr->qp_state = IB_QPS_INIT;
 	attr->port_num = 1;

@@ -19,10 +19,7 @@
 
 struct hdmi_phy_8x74 {
 	struct hdmi_phy base;
-<<<<<<< HEAD
 	struct hdmi *hdmi;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void __iomem *mmio;
 };
 #define to_hdmi_phy_8x74(x) container_of(x, struct hdmi_phy_8x74, base)
@@ -44,7 +41,6 @@ static void hdmi_phy_8x74_destroy(struct hdmi_phy *phy)
 	kfree(phy_8x74);
 }
 
-<<<<<<< HEAD
 static void hdmi_phy_8x74_reset(struct hdmi_phy *phy)
 {
 	struct hdmi_phy_8x74 *phy_8x74 = to_hdmi_phy_8x74(phy);
@@ -98,8 +94,6 @@ static void hdmi_phy_8x74_reset(struct hdmi_phy *phy)
 	}
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void hdmi_phy_8x74_powerup(struct hdmi_phy *phy,
 		unsigned long int pixclock)
 {
@@ -123,10 +117,7 @@ static void hdmi_phy_8x74_powerdown(struct hdmi_phy *phy)
 
 static const struct hdmi_phy_funcs hdmi_phy_8x74_funcs = {
 		.destroy = hdmi_phy_8x74_destroy,
-<<<<<<< HEAD
 		.reset = hdmi_phy_8x74_reset,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.powerup = hdmi_phy_8x74_powerup,
 		.powerdown = hdmi_phy_8x74_powerdown,
 };
@@ -147,11 +138,8 @@ struct hdmi_phy *hdmi_phy_8x74_init(struct hdmi *hdmi)
 
 	phy->funcs = &hdmi_phy_8x74_funcs;
 
-<<<<<<< HEAD
 	phy_8x74->hdmi = hdmi;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* for 8x74, the phy mmio is mapped separately: */
 	phy_8x74->mmio = msm_ioremap(hdmi->pdev,
 			"phy_physical", "HDMI_8x74");

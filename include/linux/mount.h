@@ -66,10 +66,6 @@ struct vfsmount {
 	struct dentry *mnt_root;	/* root of the mounted tree */
 	struct super_block *mnt_sb;	/* pointer to superblock */
 	int mnt_flags;
-<<<<<<< HEAD
-=======
-	void *data;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct file; /* forward dec */
@@ -96,10 +92,6 @@ extern struct vfsmount *vfs_kern_mount(struct file_system_type *type,
 extern void mnt_set_expiry(struct vfsmount *mnt, struct list_head *expiry_list);
 extern void mark_mounts_for_expiry(struct list_head *mounts);
 
-<<<<<<< HEAD
 extern dev_t name_to_dev_t(char *name);
-=======
-extern dev_t name_to_dev_t(const char *name);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* _LINUX_MOUNT_H */

@@ -140,10 +140,6 @@ int radeon_fence_emit(struct radeon_device *rdev,
 	(*fence)->rdev = rdev;
 	(*fence)->seq = seq;
 	(*fence)->ring = ring;
-<<<<<<< HEAD
-=======
-	(*fence)->is_vm_update = false;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fence_init(&(*fence)->base, &radeon_fence_ops,
 		   &rdev->fence_queue.lock, rdev->fence_context + ring, seq);
 	radeon_fence_ring_emit(rdev, ring, *fence);

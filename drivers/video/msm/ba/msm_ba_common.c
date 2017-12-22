@@ -189,10 +189,7 @@ void msm_ba_add_inputs(struct v4l2_subdev *sd)
 	int start_index = 0;
 	int end_index = 0;
 	int dev_id = 0;
-<<<<<<< HEAD
 	int status = 0;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dev_ctxt = get_ba_dev();
 	if (!list_empty(&dev_ctxt->inputs))
@@ -222,7 +219,6 @@ void msm_ba_add_inputs(struct v4l2_subdev *sd)
 			input->input_user_type =
 				msm_ba_inp_cfg[i].input_user_type;
 			input->sd = sd;
-<<<<<<< HEAD
 			rc = v4l2_subdev_call(
 				sd, video, g_input_status, &status);
 			if (rc)
@@ -231,8 +227,6 @@ void msm_ba_add_inputs(struct v4l2_subdev *sd)
 					sd->name);
 			else
 				input->signal_status = status;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			list_add_tail(&input->list, &dev_ctxt->inputs);
 			dev_ctxt->num_inputs++;
 			dprintk(BA_DBG, "Add input: name %s on %d",

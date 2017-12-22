@@ -129,11 +129,7 @@
 		status = "okay";
 		pm8953_l1: regulator-l1 {
 			regulator-min-microvolt = <1000000>;
-<<<<<<< HEAD
 			regulator-max-microvolt = <1000000>;
-=======
-			regulator-max-microvolt = <1100000>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			qcom,init-voltage = <1000000>;
 			status = "okay";
 		};
@@ -292,11 +288,7 @@
 		status = "okay";
 		pm8953_l22: regulator-l22 {
 			regulator-min-microvolt = <2800000>;
-<<<<<<< HEAD
 			regulator-max-microvolt = <2800000>;
-=======
-			regulator-max-microvolt = <2850000>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			qcom,init-voltage = <2800000>;
 			status = "okay";
 		};

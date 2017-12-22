@@ -47,22 +47,6 @@ int wl18xx_wait_for_event(struct wl1271 *wl, enum wlcore_wait_event event,
 	return wlcore_cmd_wait_for_event_or_timeout(wl, local_event, timeout);
 }
 
-<<<<<<< HEAD
-=======
-static const char *wl18xx_radar_type_decode(u8 radar_type)
-{
-	switch (radar_type) {
-	case RADAR_TYPE_REGULAR:
-		return "REGULAR";
-	case RADAR_TYPE_CHIRP:
-		return "CHIRP";
-	case RADAR_TYPE_NONE:
-	default:
-		return "N/A";
-	}
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int wlcore_smart_config_sync_event(struct wl1271 *wl, u8 sync_channel,
 					  u8 sync_band)
 {
@@ -131,17 +115,6 @@ int wl18xx_process_mailbox_events(struct wl1271 *wl)
 			wl18xx_scan_completed(wl, wl->scan_wlvif);
 	}
 
-<<<<<<< HEAD
-=======
-	if (vector & RADAR_DETECTED_EVENT_ID) {
-		wl1271_info("radar event: channel %d type %s",
-			    mbox->radar_channel,
-			    wl18xx_radar_type_decode(mbox->radar_type));
-
-		ieee80211_radar_detected(wl->hw);
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (vector & PERIODIC_SCAN_REPORT_EVENT_ID) {
 		wl1271_debug(DEBUG_EVENT,
 			     "PERIODIC_SCAN_REPORT_EVENT (results %d)",

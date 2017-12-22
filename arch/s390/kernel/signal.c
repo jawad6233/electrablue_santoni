@@ -162,11 +162,7 @@ static int restore_sigregs(struct pt_regs *regs, _sigregs __user *sregs)
 	_sigregs user_sregs;
 
 	/* Alwys make any pending restarted system call return -EINTR */
-<<<<<<< HEAD
 	current_thread_info()->restart_block.fn = do_no_restart_syscall;
-=======
-	current->restart_block.fn = do_no_restart_syscall;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (__copy_from_user(&user_sregs, sregs, sizeof(user_sregs)))
 		return -EFAULT;

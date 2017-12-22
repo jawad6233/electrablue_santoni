@@ -279,10 +279,6 @@ static int child_count;
 static int single_menu_mode;
 static int show_all_options;
 static int save_and_exit;
-<<<<<<< HEAD
-=======
-static int silent;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static void conf(struct menu *menu, struct menu *active_menu);
 static void conf_choice(struct menu *menu);
@@ -781,19 +777,10 @@ static void conf_message_callback(const char *fmt, va_list ap)
 	char buf[PATH_MAX+1];
 
 	vsnprintf(buf, sizeof(buf), fmt, ap);
-<<<<<<< HEAD
 	if (save_and_exit)
 		printf("%s", buf);
 	else
 		show_textbox(NULL, buf, 6, 60);
-=======
-	if (save_and_exit) {
-		if (!silent)
-			printf("%s", buf);
-	} else {
-		show_textbox(NULL, buf, 6, 60);
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void show_help(struct menu *menu)
@@ -990,7 +977,6 @@ static int handle_exit(void)
 		}
 		/* fall through */
 	case -1:
-<<<<<<< HEAD
 		printf(_("\n\n"
 			 "*** End of the configuration.\n"
 			 "*** Execute 'make' to start the build or try 'make help'."
@@ -1001,20 +987,6 @@ static int handle_exit(void)
 		fprintf(stderr, _("\n\n"
 				  "Your configuration changes were NOT saved."
 				  "\n\n"));
-=======
-		if (!silent)
-			printf(_("\n\n"
-				 "*** End of the configuration.\n"
-				 "*** Execute 'make' to start the build or try 'make help'."
-				 "\n\n"));
-		res = 0;
-		break;
-	default:
-		if (!silent)
-			fprintf(stderr, _("\n\n"
-					  "Your configuration changes were NOT saved."
-					  "\n\n"));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (res != KEY_ESC)
 			res = 0;
 	}
@@ -1038,15 +1010,6 @@ int main(int ac, char **av)
 
 	signal(SIGINT, sig_handler);
 
-<<<<<<< HEAD
-=======
-	if (ac > 1 && strcmp(av[1], "-s") == 0) {
-		silent = 1;
-		/* Silence conf_read() until the real callback is set up */
-		conf_set_message_callback(NULL);
-		av++;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	conf_parse(av[1]);
 	conf_read(NULL);
 

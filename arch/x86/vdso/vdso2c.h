@@ -140,11 +140,7 @@ static void BITSFUNC(go)(void *raw_addr, size_t raw_len,
 	fprintf(outfile, "#include <asm/vdso.h>\n");
 	fprintf(outfile, "\n");
 	fprintf(outfile,
-<<<<<<< HEAD
 		"static unsigned char raw_data[%lu] __page_aligned_data = {",
-=======
-		"static unsigned char raw_data[%lu] __ro_after_init __aligned(PAGE_SIZE) = {",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mapping_size);
 	for (j = 0; j < stripped_len; j++) {
 		if (j % 10 == 0)

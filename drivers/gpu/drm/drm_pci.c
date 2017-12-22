@@ -27,10 +27,6 @@
 #include <linux/dma-mapping.h>
 #include <linux/export.h>
 #include <drm/drmP.h>
-<<<<<<< HEAD
-=======
-#include "drm_internal.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "drm_legacy.h"
 
 /**
@@ -269,12 +265,6 @@ void drm_pci_agp_destroy(struct drm_device *dev)
  * then register the character device and inter module information.
  * Try and register, if we fail to register, backout previous work.
  *
-<<<<<<< HEAD
-=======
- * NOTE: This function is deprecated, please use drm_dev_alloc() and
- * drm_dev_register() instead and remove your ->load() callback.
- *
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Return: 0 on success or a negative error code on failure.
  */
 int drm_get_pci_dev(struct pci_dev *pdev, const struct pci_device_id *ent,
@@ -335,13 +325,6 @@ EXPORT_SYMBOL(drm_get_pci_dev);
  * Initializes a drm_device structures, registering the stubs and initializing
  * the AGP device.
  *
-<<<<<<< HEAD
-=======
- * NOTE: This function is deprecated. Modern modesetting drm drivers should use
- * pci_register_driver() directly, this function only provides shadow-binding
- * support for old legacy drivers on top of that core pci function.
- *
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Return: 0 on success or a negative error code on failure.
  */
 int drm_pci_init(struct drm_driver *driver, struct pci_driver *pdriver)
@@ -451,13 +434,6 @@ EXPORT_SYMBOL(drm_pci_init);
  *
  * Unregisters one or more devices matched by a PCI driver from the DRM
  * subsystem.
-<<<<<<< HEAD
-=======
- *
- * NOTE: This function is deprecated. Modern modesetting drm drivers should use
- * pci_unregister_driver() directly, this function only provides shadow-binding
- * support for old legacy drivers on top of that core pci function.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 void drm_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver)
 {

@@ -51,11 +51,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
 	fctx->base.read = nv10_fence_read;
 	fctx->base.sync = nv17_fence_sync;
 
-<<<<<<< HEAD
 	ret = nvif_object_init(chan->object, NULL, NvSema, NV_DMA_IN_MEMORY,
-=======
-	ret = nvif_object_init(&chan->user, NvSema, NV_DMA_IN_MEMORY,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			       &(struct nv_dma_v0) {
 					.target = NV_DMA_V0_TARGET_VRAM,
 					.access = NV_DMA_V0_ACCESS_RDWR,
@@ -70,11 +66,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
 		u32 start = bo->bo.mem.start * PAGE_SIZE;
 		u32 limit = start + bo->bo.mem.size - 1;
 
-<<<<<<< HEAD
 		ret = nvif_object_init(chan->object, NULL, NvEvoSema0 + i,
-=======
-		ret = nvif_object_init(&chan->user, NvEvoSema0 + i,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				       NV_DMA_IN_MEMORY, &(struct nv_dma_v0) {
 						.target = NV_DMA_V0_TARGET_VRAM,
 						.access = NV_DMA_V0_ACCESS_RDWR,
@@ -110,11 +102,7 @@ nv50_fence_create(struct nouveau_drm *drm)
 	ret = nouveau_bo_new(drm->dev, 4096, 0x1000, TTM_PL_FLAG_VRAM,
 			     0, 0x0000, NULL, NULL, &priv->bo);
 	if (!ret) {
-<<<<<<< HEAD
 		ret = nouveau_bo_pin(priv->bo, TTM_PL_FLAG_VRAM);
-=======
-		ret = nouveau_bo_pin(priv->bo, TTM_PL_FLAG_VRAM, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!ret) {
 			ret = nouveau_bo_map(priv->bo);
 			if (ret)

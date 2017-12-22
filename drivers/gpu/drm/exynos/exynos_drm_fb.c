@@ -16,20 +16,12 @@
 #include <drm/drm_crtc.h>
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_fb_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_atomic.h>
-#include <drm/drm_atomic_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <uapi/drm/exynos_drm.h>
 
 #include "exynos_drm_drv.h"
 #include "exynos_drm_fb.h"
 #include "exynos_drm_fbdev.h"
-<<<<<<< HEAD
 #include "exynos_drm_gem.h"
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "exynos_drm_iommu.h"
 #include "exynos_drm_crtc.h"
 
@@ -39,7 +31,6 @@
  * exynos specific framebuffer structure.
  *
  * @fb: drm framebuffer obejct.
-<<<<<<< HEAD
  * @buf_cnt: a buffer count to drm framebuffer.
  * @exynos_gem_obj: array of exynos specific gem object containing a gem object.
  */
@@ -51,17 +42,6 @@ struct exynos_drm_fb {
 
 static int check_fb_gem_memory_type(struct drm_device *drm_dev,
 				struct exynos_drm_gem_obj *exynos_gem_obj)
-=======
- * @exynos_gem: array of exynos specific gem object containing a gem object.
- */
-struct exynos_drm_fb {
-	struct drm_framebuffer	fb;
-	struct exynos_drm_gem	*exynos_gem[MAX_FB_BUFFER];
-};
-
-static int check_fb_gem_memory_type(struct drm_device *drm_dev,
-				    struct exynos_drm_gem *exynos_gem)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	unsigned int flags;
 
@@ -72,11 +52,7 @@ static int check_fb_gem_memory_type(struct drm_device *drm_dev,
 	if (is_drm_iommu_supported(drm_dev))
 		return 0;
 
-<<<<<<< HEAD
 	flags = exynos_gem_obj->flags;
-=======
-	flags = exynos_gem->flags;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * without iommu support, not support physically non-continuous memory
@@ -100,7 +76,6 @@ static void exynos_drm_fb_destroy(struct drm_framebuffer *fb)
 
 	drm_framebuffer_cleanup(fb);
 
-<<<<<<< HEAD
 	for (i = 0; i < ARRAY_SIZE(exynos_fb->exynos_gem_obj); i++) {
 		struct drm_gem_object *obj;
 
@@ -108,15 +83,6 @@ static void exynos_drm_fb_destroy(struct drm_framebuffer *fb)
 			continue;
 
 		obj = &exynos_fb->exynos_gem_obj[i]->base;
-=======
-	for (i = 0; i < ARRAY_SIZE(exynos_fb->exynos_gem); i++) {
-		struct drm_gem_object *obj;
-
-		if (exynos_fb->exynos_gem[i] == NULL)
-			continue;
-
-		obj = &exynos_fb->exynos_gem[i]->base;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		drm_gem_object_unreference_unlocked(obj);
 	}
 
@@ -130,17 +96,12 @@ static int exynos_drm_fb_create_handle(struct drm_framebuffer *fb,
 {
 	struct exynos_drm_fb *exynos_fb = to_exynos_fb(fb);
 
-<<<<<<< HEAD
 	/* This fb should have only one gem object. */
 	if (WARN_ON(exynos_fb->buf_cnt != 1))
 		return -EINVAL;
 
 	return drm_gem_handle_create(file_priv,
 			&exynos_fb->exynos_gem_obj[0]->base, handle);
-=======
-	return drm_gem_handle_create(file_priv,
-				     &exynos_fb->exynos_gem[0]->base, handle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int exynos_drm_fb_dirty(struct drm_framebuffer *fb,
@@ -159,7 +120,6 @@ static struct drm_framebuffer_funcs exynos_drm_fb_funcs = {
 	.dirty		= exynos_drm_fb_dirty,
 };
 
-<<<<<<< HEAD
 void exynos_drm_fb_set_buf_cnt(struct drm_framebuffer *fb,
 						unsigned int cnt)
 {
@@ -196,23 +156,10 @@ exynos_drm_framebuffer_init(struct drm_device *dev,
 		return ERR_PTR(-EINVAL);
 	}
 
-=======
-struct drm_framebuffer *
-exynos_drm_framebuffer_init(struct drm_device *dev,
-			    struct drm_mode_fb_cmd2 *mode_cmd,
-			    struct exynos_drm_gem **exynos_gem,
-			    int count)
-{
-	struct exynos_drm_fb *exynos_fb;
-	int i;
-	int ret;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	exynos_fb = kzalloc(sizeof(*exynos_fb), GFP_KERNEL);
 	if (!exynos_fb)
 		return ERR_PTR(-ENOMEM);
 
-<<<<<<< HEAD
 	drm_helper_mode_fill_fb_struct(&exynos_fb->fb, mode_cmd);
 	exynos_fb->exynos_gem_obj[0] = exynos_gem_obj;
 
@@ -261,36 +208,12 @@ static u32 exynos_drm_format_num_buffers(struct drm_mode_fb_cmd2 *mode_cmd)
 	}
 
 	return cnt;
-=======
-	for (i = 0; i < count; i++) {
-		ret = check_fb_gem_memory_type(dev, exynos_gem[i]);
-		if (ret < 0)
-			goto err;
-
-		exynos_fb->exynos_gem[i] = exynos_gem[i];
-	}
-
-	drm_helper_mode_fill_fb_struct(&exynos_fb->fb, mode_cmd);
-
-	ret = drm_framebuffer_init(dev, &exynos_fb->fb, &exynos_drm_fb_funcs);
-	if (ret < 0) {
-		DRM_ERROR("failed to initialize framebuffer\n");
-		goto err;
-	}
-
-	return &exynos_fb->fb;
-
-err:
-	kfree(exynos_fb);
-	return ERR_PTR(ret);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static struct drm_framebuffer *
 exynos_user_fb_create(struct drm_device *dev, struct drm_file *file_priv,
 		      struct drm_mode_fb_cmd2 *mode_cmd)
 {
-<<<<<<< HEAD
 	struct drm_gem_object *obj;
 	struct exynos_drm_gem_obj *exynos_gem_obj;
 	struct exynos_drm_fb *exynos_fb;
@@ -359,50 +282,10 @@ struct exynos_drm_gem_buf *exynos_drm_fb_buffer(struct drm_framebuffer *fb,
 {
 	struct exynos_drm_fb *exynos_fb = to_exynos_fb(fb);
 	struct exynos_drm_gem_buf *buffer;
-=======
-	struct exynos_drm_gem *exynos_gem[MAX_FB_BUFFER];
-	struct drm_gem_object *obj;
-	struct drm_framebuffer *fb;
-	int i;
-	int ret;
-
-	for (i = 0; i < drm_format_num_planes(mode_cmd->pixel_format); i++) {
-		obj = drm_gem_object_lookup(dev, file_priv,
-					    mode_cmd->handles[i]);
-		if (!obj) {
-			DRM_ERROR("failed to lookup gem object\n");
-			ret = -ENOENT;
-			goto err;
-		}
-
-		exynos_gem[i] = to_exynos_gem(obj);
-	}
-
-	fb = exynos_drm_framebuffer_init(dev, mode_cmd, exynos_gem, i);
-	if (IS_ERR(fb)) {
-		ret = PTR_ERR(fb);
-		goto err;
-	}
-
-	return fb;
-
-err:
-	while (i--)
-		drm_gem_object_unreference_unlocked(&exynos_gem[i]->base);
-
-	return ERR_PTR(ret);
-}
-
-struct exynos_drm_gem *exynos_drm_fb_gem(struct drm_framebuffer *fb, int index)
-{
-	struct exynos_drm_fb *exynos_fb = to_exynos_fb(fb);
-	struct exynos_drm_gem *exynos_gem;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (index >= MAX_FB_BUFFER)
 		return NULL;
 
-<<<<<<< HEAD
 	buffer = exynos_fb->exynos_gem_obj[index]->buffer;
 	if (!buffer)
 		return NULL;
@@ -410,15 +293,6 @@ struct exynos_drm_gem *exynos_drm_fb_gem(struct drm_framebuffer *fb, int index)
 	DRM_DEBUG_KMS("dma_addr = 0x%lx\n", (unsigned long)buffer->dma_addr);
 
 	return buffer;
-=======
-	exynos_gem = exynos_fb->exynos_gem[index];
-	if (!exynos_gem)
-		return NULL;
-
-	DRM_DEBUG_KMS("dma_addr: 0x%lx\n", (unsigned long)exynos_gem->dma_addr);
-
-	return exynos_gem;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void exynos_drm_output_poll_changed(struct drm_device *dev)
@@ -435,11 +309,6 @@ static void exynos_drm_output_poll_changed(struct drm_device *dev)
 static const struct drm_mode_config_funcs exynos_drm_mode_config_funcs = {
 	.fb_create = exynos_user_fb_create,
 	.output_poll_changed = exynos_drm_output_poll_changed,
-<<<<<<< HEAD
-=======
-	.atomic_check = drm_atomic_helper_check,
-	.atomic_commit = exynos_atomic_commit,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 void exynos_drm_mode_config_init(struct drm_device *dev)

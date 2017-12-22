@@ -333,11 +333,7 @@ struct tracer_flags {
 
 
 /**
-<<<<<<< HEAD
  * struct tracer - a specific tracer and its callbacks to interact with debugfs
-=======
- * struct tracer - a specific tracer and its callbacks to interact with tracefs
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @name: the name chosen to select it on the available_tracers file
  * @init: called when one switches to this tracer (echo name > current_tracer)
  * @reset: called when one switches to another tracer
@@ -545,10 +541,7 @@ struct dentry *trace_create_file(const char *name,
 				 void *data,
 				 const struct file_operations *fops);
 
-<<<<<<< HEAD
 struct dentry *tracing_init_dentry_tr(struct trace_array *tr);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct dentry *tracing_init_dentry(void);
 
 struct ring_buffer_event;
@@ -666,10 +659,7 @@ static inline void __trace_stack(struct trace_array *tr, unsigned long flags,
 extern cycle_t ftrace_now(int cpu);
 
 extern void trace_find_cmdline(int pid, char comm[]);
-<<<<<<< HEAD
 extern int trace_find_tgid(int pid);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #ifdef CONFIG_DYNAMIC_FTRACE
 extern unsigned long ftrace_update_tot_cnt;
@@ -950,10 +940,7 @@ enum trace_iterator_flags {
 	TRACE_ITER_IRQ_INFO		= 0x800000,
 	TRACE_ITER_MARKERS		= 0x1000000,
 	TRACE_ITER_FUNCTION		= 0x2000000,
-<<<<<<< HEAD
 	TRACE_ITER_TGID 		= 0x4000000,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /*
@@ -1326,20 +1313,4 @@ int perf_ftrace_event_register(struct ftrace_event_call *call,
 #define perf_ftrace_event_register NULL
 #endif
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_FTRACE_SYSCALLS
-void init_ftrace_syscalls(void);
-#else
-static inline void init_ftrace_syscalls(void) { }
-#endif
-
-#ifdef CONFIG_EVENT_TRACING
-void trace_event_init(void);
-#else
-static inline void __init trace_event_init(void) { }
-#endif
-
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* _LINUX_KERNEL_TRACE_H */

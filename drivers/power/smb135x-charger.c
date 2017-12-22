@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016 The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -408,11 +404,6 @@ struct smb135x_chg {
 	bool				resume_completed;
 	bool				irq_waiting;
 	bool				device_suspended;
-<<<<<<< HEAD
-=======
-	bool				usbin_uv;
-	u32				src_detect_low_tries;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32				usb_suspended;
 	u32				dc_suspended;
 	struct mutex			path_suspend_lock;
@@ -428,10 +419,6 @@ struct smb135x_chg {
 	struct regulator		*therm_bias_vreg;
 	struct regulator		*usb_pullup_vreg;
 	struct delayed_work		wireless_insertion_work;
-<<<<<<< HEAD
-=======
-	struct delayed_work		src_detect_low_work;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	unsigned int			thermal_levels;
 	unsigned int			therm_lvl_sel;
@@ -453,11 +440,6 @@ int retry_sleep_ms[RETRY_COUNT] = {
 	10, 20, 30, 40, 50
 };
 
-<<<<<<< HEAD
-=======
-static irqreturn_t smb135x_chg_stat_handler(int irq, void *dev_id);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void smb135x_stay_awake(struct smb135x_chg *chip)
 {
 	if (chip->device_suspended)
@@ -2875,42 +2857,6 @@ static int handle_usb_insertion(struct smb135x_chg *chip)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-#define SRC_DETECT_LOW_DELAY_MS		msecs_to_jiffies(200)
-#define SRC_DETECT_LOW_TRIES		20
-static void src_detect_check_work(struct work_struct *work)
-{
-	struct smb135x_chg *chip = container_of(work,
-			struct smb135x_chg, src_detect_low_work.work);
-
-	pr_debug("usb_present=%d usbin_uv=%d src_det_tries=%d\n",
-			chip->usb_present, chip->usbin_uv,
-			chip->src_detect_low_tries);
-
-	if (!chip->usb_present || !chip->usbin_uv) {
-		/*
-		 * either src_detect was detected or USB voltage
-		 * recovered after a UV.
-		 */
-		smb135x_relax(chip);
-		return;
-	}
-
-	smb135x_chg_stat_handler(chip->client->irq, chip);
-
-	/* reschedule the work if usb is still present */
-	if (chip->usb_present &&
-			chip->src_detect_low_tries < SRC_DETECT_LOW_TRIES) {
-		chip->src_detect_low_tries++;
-		schedule_delayed_work(&chip->src_detect_low_work,
-					SRC_DETECT_LOW_DELAY_MS);
-	} else {
-		smb135x_relax(chip);
-	}
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * usbin_uv_handler()
  * @chip: pointer to smb135x_chg chip
@@ -2924,22 +2870,9 @@ static int usbin_uv_handler(struct smb135x_chg *chip, u8 rt_stat)
 	bool usb_present = !rt_stat;
 
 	if (usb_present) {
-<<<<<<< HEAD
 		pr_debug("Set usb psy dp=f dm=f\n");
 		power_supply_set_dp_dm(chip->usb_psy,
 				POWER_SUPPLY_DP_DM_DPF_DMF);
-=======
-		chip->usbin_uv = false;
-		pr_debug("Set usb psy dp=f dm=f\n");
-		power_supply_set_dp_dm(chip->usb_psy,
-				POWER_SUPPLY_DP_DM_DPF_DMF);
-	} else {
-		chip->usbin_uv = true;
-		chip->src_detect_low_tries = 0;
-		smb135x_stay_awake(chip);
-		schedule_delayed_work(&chip->src_detect_low_work,
-					SRC_DETECT_LOW_DELAY_MS);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	pr_debug("chip->usb_present = %d usb_present = %d\n",
@@ -4300,10 +4233,6 @@ static int smb135x_main_charger_probe(struct i2c_client *client,
 	INIT_DELAYED_WORK(&chip->reset_otg_oc_count_work,
 					reset_otg_oc_count_work);
 	INIT_DELAYED_WORK(&chip->hvdcp_det_work, smb135x_hvdcp_det_work);
-<<<<<<< HEAD
-=======
-	INIT_DELAYED_WORK(&chip->src_detect_low_work, src_detect_check_work);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_init(&chip->path_suspend_lock);
 	mutex_init(&chip->current_change_lock);
 	mutex_init(&chip->read_write_lock);
@@ -4479,13 +4408,8 @@ static int smb135x_parallel_charger_probe(struct i2c_client *client,
 
 	i2c_set_clientdata(client, chip);
 
-<<<<<<< HEAD
 	chip->parallel_psy.name		= "usb-parallel";
 	chip->parallel_psy.type		= POWER_SUPPLY_TYPE_USB_PARALLEL;
-=======
-	chip->parallel_psy.name		= "parallel";
-	chip->parallel_psy.type		= POWER_SUPPLY_TYPE_PARALLEL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	chip->parallel_psy.get_property	= smb135x_parallel_get_property;
 	chip->parallel_psy.set_property	= smb135x_parallel_set_property;
 	chip->parallel_psy.properties	= smb135x_parallel_properties;

@@ -164,11 +164,8 @@ struct snd_usb_stream {
 	struct list_head list;
 };
 
-<<<<<<< HEAD
 struct snd_usb_substream *find_snd_usb_substream(unsigned int card_num,
 	unsigned int pcm_idx, unsigned int direction, struct snd_usb_audio
 	**uchip, void (*disconnect_cb)(struct snd_usb_audio *chip));
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* __USBAUDIO_CARD_H */

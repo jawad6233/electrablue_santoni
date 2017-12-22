@@ -7,32 +7,13 @@ ORIG_CFLAGS := $(KBUILD_CFLAGS)
 KBUILD_CFLAGS = $(subst -pg,,$(ORIG_CFLAGS))
 endif
 
-<<<<<<< HEAD
-=======
-# These files are disabled because they produce lots of non-interesting and/or
-# flaky coverage that is not a function of syscall inputs. For example,
-# rbtree can be global and individual rotations don't correlate with inputs.
-KCOV_INSTRUMENT_string.o := n
-KCOV_INSTRUMENT_rbtree.o := n
-KCOV_INSTRUMENT_list_debug.o := n
-KCOV_INSTRUMENT_debugobjects.o := n
-KCOV_INSTRUMENT_dynamic_debug.o := n
-# Kernel does not boot if we instrument this file as it uses custom calling
-# convention (see CONFIG_ARCH_HWEIGHT_CFLAGS).
-KCOV_INSTRUMENT_hweight.o := n
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 lib-y := ctype.o string.o vsprintf.o cmdline.o \
 	 rbtree.o radix-tree.o dump_stack.o timerqueue.o\
 	 idr.o int_sqrt.o extable.o \
 	 sha1.o md5.o irq_regs.o argv_split.o \
 	 proportions.o flex_proportions.o ratelimit.o show_mem.o \
 	 is_single_threaded.o plist.o decompress.o kobject_uevent.o \
-<<<<<<< HEAD
 	 earlycpio.o memcopy.o
-=======
-	 earlycpio.o
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-$(CONFIG_ARCH_HAS_DEBUG_STRICT_USER_COPY_CHECKS) += usercopy.o
 lib-$(CONFIG_MMU) += ioremap.o

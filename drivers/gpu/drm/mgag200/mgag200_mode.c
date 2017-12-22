@@ -15,10 +15,6 @@
 
 #include <drm/drmP.h>
 #include <drm/drm_crtc_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_plane_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "mgag200_drv.h"
 
@@ -107,11 +103,6 @@ static bool mga_crtc_mode_fixup(struct drm_crtc *crtc,
 	return true;
 }
 
-<<<<<<< HEAD
-=======
-#define P_ARRAY_SIZE 9
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
 {
 	unsigned int vcomax, vcomin, pllreffreq;
@@ -119,7 +110,6 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
 	unsigned int testp, testm, testn;
 	unsigned int p, m, n;
 	unsigned int computed;
-<<<<<<< HEAD
 
 	m = n = p = 0;
 	vcomax = 320000;
@@ -151,99 +141,6 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
 				}
 			}
 		}
-=======
-	unsigned int pvalues_e4[P_ARRAY_SIZE] = {16, 14, 12, 10, 8, 6, 4, 2, 1};
-	unsigned int fvv;
-	unsigned int i;
-
-	if (mdev->unique_rev_id <= 0x03) {
-
-		m = n = p = 0;
-		vcomax = 320000;
-		vcomin = 160000;
-		pllreffreq = 25000;
-
-		delta = 0xffffffff;
-		permitteddelta = clock * 5 / 1000;
-
-		for (testp = 8; testp > 0; testp /= 2) {
-			if (clock * testp > vcomax)
-				continue;
-			if (clock * testp < vcomin)
-				continue;
-
-			for (testn = 17; testn < 256; testn++) {
-				for (testm = 1; testm < 32; testm++) {
-					computed = (pllreffreq * testn) /
-						(testm * testp);
-					if (computed > clock)
-						tmpdelta = computed - clock;
-					else
-						tmpdelta = clock - computed;
-					if (tmpdelta < delta) {
-						delta = tmpdelta;
-						m = testm - 1;
-						n = testn - 1;
-						p = testp - 1;
-					}
-				}
-			}
-		}
-	} else {
-
-
-		m = n = p = 0;
-		vcomax        = 1600000;
-		vcomin        = 800000;
-		pllreffreq    = 25000;
-
-		if (clock < 25000)
-			clock = 25000;
-
-		clock = clock * 2;
-
-		delta = 0xFFFFFFFF;
-		/* Permited delta is 0.5% as VESA Specification */
-		permitteddelta = clock * 5 / 1000;
-
-		for (i = 0 ; i < P_ARRAY_SIZE ; i++) {
-			testp = pvalues_e4[i];
-
-			if ((clock * testp) > vcomax)
-				continue;
-			if ((clock * testp) < vcomin)
-				continue;
-
-			for (testn = 50; testn <= 256; testn++) {
-				for (testm = 1; testm <= 32; testm++) {
-					computed = (pllreffreq * testn) /
-						(testm * testp);
-					if (computed > clock)
-						tmpdelta = computed - clock;
-					else
-						tmpdelta = clock - computed;
-
-					if (tmpdelta < delta) {
-						delta = tmpdelta;
-						m = testm - 1;
-						n = testn - 1;
-						p = testp - 1;
-					}
-				}
-			}
-		}
-
-		fvv = pllreffreq * (n + 1) / (m + 1);
-		fvv = (fvv - 800000) / 50000;
-
-		if (fvv > 15)
-			fvv = 15;
-
-		p |= (fvv << 4);
-		m |= 0x80;
-
-		clock = clock / 2;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (delta > permitteddelta) {
@@ -254,30 +151,14 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
-<<<<<<< HEAD
-=======
-
-	if (mdev->unique_rev_id >= 0x04) {
-		WREG_DAC(0x1a, 0x09);
-		msleep(20);
-		WREG_DAC(0x1a, 0x01);
-
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
 static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
 {
 	unsigned int vcomax, vcomin, pllreffreq;
-<<<<<<< HEAD
 	unsigned int delta, tmpdelta, permitteddelta;
 	unsigned int testp, testm, testn;
-=======
-	unsigned int delta, tmpdelta;
-	unsigned int testp, testm, testn, testp2;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int p, m, n;
 	unsigned int computed;
 	int i, j, tmpcount, vcount;
@@ -285,7 +166,6 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
 	u8 tmp;
 
 	m = n = p = 0;
-<<<<<<< HEAD
 	vcomax = 550000;
 	vcomin = 150000;
 	pllreffreq = 48000;
@@ -312,73 +192,6 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
 					n = testn - 1;
 					m = (testm - 1) | ((n >> 1) & 0x80);
 					p = testp - 1;
-=======
-
-	delta = 0xffffffff;
-
-	if (mdev->type == G200_EW3) {
-
-		vcomax = 800000;
-		vcomin = 400000;
-		pllreffreq = 25000;
-
-		for (testp = 1; testp < 8; testp++) {
-			for (testp2 = 1; testp2 < 8; testp2++) {
-				if (testp < testp2)
-					continue;
-				if ((clock * testp * testp2) > vcomax)
-					continue;
-				if ((clock * testp * testp2) < vcomin)
-					continue;
-				for (testm = 1; testm < 26; testm++) {
-					for (testn = 32; testn < 2048 ; testn++) {
-						computed = (pllreffreq * testn) /
-							(testm * testp * testp2);
-						if (computed > clock)
-							tmpdelta = computed - clock;
-						else
-							tmpdelta = clock - computed;
-						if (tmpdelta < delta) {
-							delta = tmpdelta;
-							m = ((testn & 0x100) >> 1) |
-								(testm);
-							n = (testn & 0xFF);
-							p = ((testn & 0x600) >> 3) |
-								(testp2 << 3) |
-								(testp);
-						}
-					}
-				}
-			}
-		}
-	} else {
-
-		vcomax = 550000;
-		vcomin = 150000;
-		pllreffreq = 48000;
-
-		for (testp = 1; testp < 9; testp++) {
-			if (clock * testp > vcomax)
-				continue;
-			if (clock * testp < vcomin)
-				continue;
-
-			for (testm = 1; testm < 17; testm++) {
-				for (testn = 1; testn < 151; testn++) {
-					computed = (pllreffreq * testn) /
-						(testm * testp);
-					if (computed > clock)
-						tmpdelta = computed - clock;
-					else
-						tmpdelta = clock - computed;
-					if (tmpdelta < delta) {
-						delta = tmpdelta;
-						n = testn - 1;
-						m = (testm - 1) |
-							((n >> 1) & 0x80);
-						p = testp - 1;
-					}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				}
 			}
 		}
@@ -484,11 +297,7 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
 static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
 {
 	unsigned int vcomax, vcomin, pllreffreq;
-<<<<<<< HEAD
 	unsigned int delta, tmpdelta, permitteddelta;
-=======
-	unsigned int delta, tmpdelta;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int testp, testm, testn;
 	unsigned int p, m, n;
 	unsigned int computed;
@@ -500,10 +309,7 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
 	pllreffreq = 50000;
 
 	delta = 0xffffffff;
-<<<<<<< HEAD
 	permitteddelta = clock * 5 / 1000;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (testp = 16; testp > 0; testp--) {
 		if (clock * testp > vcomax)
@@ -585,11 +391,7 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
 static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
 {
 	unsigned int vcomax, vcomin, pllreffreq;
-<<<<<<< HEAD
 	unsigned int delta, tmpdelta, permitteddelta;
-=======
-	unsigned int delta, tmpdelta;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int testp, testm, testn;
 	unsigned int p, m, n;
 	unsigned int computed;
@@ -603,10 +405,7 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
 	pllreffreq = 33333;
 
 	delta = 0xffffffff;
-<<<<<<< HEAD
 	permitteddelta = clock * 5 / 1000;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (testp = 16; testp > 0; testp >>= 1) {
 		if (clock * testp > vcomax)
@@ -772,10 +571,6 @@ static int mga_crtc_set_plls(struct mga_device *mdev, long clock)
 		return mga_g200se_set_plls(mdev, clock);
 		break;
 	case G200_WB:
-<<<<<<< HEAD
-=======
-	case G200_EW3:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return mga_g200wb_set_plls(mdev, clock);
 		break;
 	case G200_EV:
@@ -1027,10 +822,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
 		option2 = 0x00008000;
 		break;
 	case G200_WB:
-<<<<<<< HEAD
-=======
-	case G200_EW3:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		dacvalue[MGA1064_VREF_CTL] = 0x07;
 		option = 0x41049120;
 		option2 = 0x0000b000;
@@ -1086,14 +877,7 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
 		if (IS_G200_SE(mdev) &&
 		    ((i == 0x2c) || (i == 0x2d) || (i == 0x2e)))
 			continue;
-<<<<<<< HEAD
 		if ((mdev->type == G200_EV || mdev->type == G200_WB || mdev->type == G200_EH) &&
-=======
-		if ((mdev->type == G200_EV ||
-		    mdev->type == G200_WB ||
-		    mdev->type == G200_EH ||
-		    mdev->type == G200_EW3) &&
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		    (i >= 0x44) && (i <= 0x4e))
 			continue;
 
@@ -1195,11 +979,7 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
 	else
 		ext_vga[3] = ((1 << bppshift) - 1) | 0x80;
 	ext_vga[4] = 0;
-<<<<<<< HEAD
 	if (mdev->type == G200_WB)
-=======
-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ext_vga[1] |= 0x88;
 
 	/* Set pixel clocks */
@@ -1215,12 +995,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
 	if (mdev->type == G200_ER)
 		WREG_ECRT(0x24, 0x5);
 
-<<<<<<< HEAD
-=======
-	if (mdev->type == G200_EW3)
-		WREG_ECRT(0x34, 0x5);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (mdev->type == G200_EV) {
 		WREG_ECRT(6, 0);
 	}
@@ -1433,11 +1207,7 @@ static void mga_crtc_prepare(struct drm_crtc *crtc)
 		WREG_SEQ(1, tmp | 0x20);
 	}
 
-<<<<<<< HEAD
 	if (mdev->type == G200_WB)
-=======
-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mga_g200wb_prepare(crtc);
 
 	WREG_CRT(17, 0);
@@ -1451,17 +1221,10 @@ static void mga_crtc_commit(struct drm_crtc *crtc)
 {
 	struct drm_device *dev = crtc->dev;
 	struct mga_device *mdev = dev->dev_private;
-<<<<<<< HEAD
 	struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
 	u8 tmp;
 
 	if (mdev->type == G200_WB)
-=======
-	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
-	u8 tmp;
-
-	if (mdev->type == G200_WB || mdev->type == G200_EW3)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mga_g200wb_commit(crtc);
 
 	if (mdev->type == G200_SE_A || mdev->type == G200_SE_B) {
@@ -1731,11 +1494,7 @@ static int mga_vga_mode_valid(struct drm_connector *connector,
 			if (mga_vga_calculate_mode_bandwidth(mode, bpp)
 				> (24400 * 1024))
 				return MODE_BANDWIDTH;
-<<<<<<< HEAD
 		} else if (mdev->unique_rev_id >= 0x02) {
-=======
-		} else if (mdev->unique_rev_id == 0x02) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (mode->hdisplay > 1920)
 				return MODE_VIRTUAL_X;
 			if (mode->vdisplay > 1200)

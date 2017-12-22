@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2613,11 +2609,7 @@ static const struct snd_kcontrol_new msm8x16_wcd_snd_controls[] = {
 					8, 0, analog_gain),
 	SOC_SINGLE_TLV("ADC3 Volume", MSM8X16_WCD_A_ANALOG_TX_3_EN, 3,
 					8, 0, analog_gain),
-<<<<<<< HEAD
 #ifndef CONFIG_SOUND_CONTROL
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	SOC_SINGLE_SX_TLV("RX1 Digital Volume",
 			  MSM8X16_WCD_A_CDC_RX1_VOL_CTL_B2_CTL,
 			0,  -84, 40, digital_gain),
@@ -2627,11 +2619,7 @@ static const struct snd_kcontrol_new msm8x16_wcd_snd_controls[] = {
 	SOC_SINGLE_SX_TLV("RX3 Digital Volume",
 			  MSM8X16_WCD_A_CDC_RX3_VOL_CTL_B2_CTL,
 			0,  -84, 40, digital_gain),
-<<<<<<< HEAD
 #endif
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	SOC_SINGLE_SX_TLV("DEC1 Volume",
 			  MSM8X16_WCD_A_CDC_TX1_VOL_CTL_GAIN,
 			0,  -84, 40, digital_gain),
@@ -3902,30 +3890,12 @@ static int msm8x16_wcd_codec_config_compander(struct snd_soc_codec *codec,
 		msm8x16_wcd->comp_enabled[interp_n]);
 
 	/* compander is not enabled */
-<<<<<<< HEAD
 	if (!msm8x16_wcd->comp_enabled[interp_n])
 		return 0;
-=======
-	if (!msm8x16_wcd->comp_enabled[interp_n]) {
-		if (interp_n < MSM8X16_WCD_RX3)
-			if (get_codec_version(msm8x16_wcd) >= DIANGU)
-				snd_soc_update_bits(codec,
-					MSM8X16_WCD_A_ANALOG_RX_COM_BIAS_DAC,
-					0x08, 0x00);
-		return 0;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	switch (msm8x16_wcd->comp_enabled[interp_n]) {
 	case COMPANDER_1:
 		if (SND_SOC_DAPM_EVENT_ON(event)) {
-<<<<<<< HEAD
-=======
-			if (get_codec_version(msm8x16_wcd) >= DIANGU)
-				snd_soc_update_bits(codec,
-					MSM8X16_WCD_A_ANALOG_RX_COM_BIAS_DAC,
-					0x08, 0x08);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			/* Enable Compander Clock */
 			snd_soc_update_bits(codec,
 				MSM8X16_WCD_A_CDC_COMP0_B2_CTL, 0x0F, 0x09);
@@ -4108,14 +4078,11 @@ void wcd_imped_config(struct snd_soc_codec *codec,
 			 __func__);
 		return;
 	}
-<<<<<<< HEAD
 	if (value >= wcd_imped_val[ARRAY_SIZE(wcd_imped_val) - 1]) {
 		pr_err("%s, invalid imped, greater than 48 Ohm\n = %d\n",
 			__func__, value);
 		return;
 	}
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	codec_version = get_codec_version(msm8x16_wcd);
 
@@ -4126,15 +4093,9 @@ void wcd_imped_config(struct snd_soc_codec *codec,
 		case CONGA:
 			/*
 			 * For 32Ohm load and higher loads, Set 0x19E
-<<<<<<< HEAD
 			 * bit 5 to 1 (POS_6_DB_DI). For loads lower
 			 * than 32Ohm (such as 16Ohm load), Set 0x19E
 			 * bit 5 to 0 (POS_1P5_DB_DI)
-=======
-			 * bit 5 to 1 (POS_0_DB_DI). For loads lower
-			 * than 32Ohm (such as 16Ohm load), Set 0x19E
-			 * bit 5 to 0 (POS_M4P5_DB_DI)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			 */
 			if (value >= 32)
 				snd_soc_update_bits(codec,
@@ -5517,7 +5478,6 @@ static int msm8x16_wcd_device_down(struct snd_soc_codec *codec)
 	struct msm8x16_wcd_priv *msm8x16_wcd_priv =
 		snd_soc_codec_get_drvdata(codec);
 	int i;
-<<<<<<< HEAD
 
 	pdata = snd_soc_card_get_drvdata(codec->component.card);
 	dev_dbg(codec->dev, "%s: device down!\n", __func__);
@@ -5525,22 +5485,6 @@ static int msm8x16_wcd_device_down(struct snd_soc_codec *codec)
 		MSM8X16_WCD_A_ANALOG_TX_1_EN, 0x3);
 	msm8x16_wcd_write(codec,
 		MSM8X16_WCD_A_ANALOG_TX_2_EN, 0x3);
-=======
-	unsigned int tx_1_en;
-	unsigned int tx_2_en;
-
-	pdata = snd_soc_card_get_drvdata(codec->component.card);
-	dev_dbg(codec->dev, "%s: device down!\n", __func__);
-
-	tx_1_en = msm8x16_wcd_read(codec, MSM8X16_WCD_A_ANALOG_TX_1_EN);
-	tx_2_en = msm8x16_wcd_read(codec, MSM8X16_WCD_A_ANALOG_TX_2_EN);
-	tx_1_en = tx_1_en & 0x7f;
-	tx_2_en = tx_2_en & 0x7f;
-	msm8x16_wcd_write(codec,
-		MSM8X16_WCD_A_ANALOG_TX_1_EN, tx_1_en);
-	msm8x16_wcd_write(codec,
-		MSM8X16_WCD_A_ANALOG_TX_2_EN, tx_2_en);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (msm8x16_wcd_priv->boost_option == BOOST_ON_FOREVER) {
 		if ((snd_soc_read(codec, MSM8X16_WCD_A_ANALOG_SPKR_DRV_CTL)
 			& 0x80) == 0) {
@@ -5789,7 +5733,6 @@ static void msm8x16_wcd_configure_cap(struct snd_soc_codec *codec,
 	}
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 static struct snd_soc_codec *sound_control_codec_ptr;
 
@@ -5895,8 +5838,6 @@ static struct attribute_group sound_control_attr_group = {
 static struct kobject *sound_control_kobj;
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int msm8x16_wcd_codec_probe(struct snd_soc_codec *codec)
 {
 	struct msm8x16_wcd_priv *msm8x16_wcd_priv;
@@ -5906,13 +5847,10 @@ static int msm8x16_wcd_codec_probe(struct snd_soc_codec *codec)
 
 	dev_dbg(codec->dev, "%s()\n", __func__);
 
-<<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 	sound_control_codec_ptr = codec;
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	msm8x16_wcd_priv = kzalloc(sizeof(struct msm8x16_wcd_priv), GFP_KERNEL);
 	if (!msm8x16_wcd_priv)
 		return -ENOMEM;
@@ -6430,7 +6368,6 @@ static int msm8x16_wcd_spmi_probe(struct spmi_device *spmi)
 	}
 	dev_set_drvdata(&spmi->dev, msm8x16);
 	spmi_dev_registered_cnt++;
-<<<<<<< HEAD
 
 #ifdef CONFIG_SOUND_CONTROL
 	sound_control_kobj = kobject_create_and_add("sound_control", kernel_kobj);
@@ -6444,8 +6381,6 @@ static int msm8x16_wcd_spmi_probe(struct spmi_device *spmi)
 	}
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 register_codec:
 	if ((spmi_dev_registered_cnt == MAX_MSM8X16_WCD_DEVICE) && (!ret)) {
 		if (msm8x16_wcd_modules[0].spmi) {

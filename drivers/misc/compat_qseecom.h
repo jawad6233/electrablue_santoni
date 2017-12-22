@@ -93,11 +93,7 @@ struct compat_qseecom_load_img_req {
 	compat_long_t  ifd_data_fd; /* in */
 	char	 img_name[MAX_APP_NAME_SIZE]; /* in */
 	compat_ulong_t app_arch; /* in */
-<<<<<<< HEAD
 	compat_int_t app_id; /* out*/
-=======
-	compat_uint_t app_id; /* out*/
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct compat_qseecom_set_sb_mem_param_req {
@@ -121,11 +117,7 @@ struct compat_qseecom_qseos_version_req {
  */
 struct compat_qseecom_qseos_app_load_query {
 	char app_name[MAX_APP_NAME_SIZE]; /* in */
-<<<<<<< HEAD
 	compat_int_t app_id; /* out */
-=======
-	compat_uint_t app_id; /* out */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	compat_ulong_t app_arch;
 };
 

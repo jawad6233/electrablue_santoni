@@ -150,13 +150,7 @@ static int snd_pcm_control_ioctl(struct snd_card *card,
 				err = -ENXIO;
 				goto _error;
 			}
-<<<<<<< HEAD
 			err = snd_pcm_info_user(substream, info);
-=======
-			mutex_lock(&pcm->open_mutex);
-			err = snd_pcm_info_user(substream, info);
-			mutex_unlock(&pcm->open_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		_error:
 			mutex_unlock(&register_mutex);
 			return err;

@@ -16,16 +16,11 @@
 
 #include <linux/linkage.h>
 
-<<<<<<< HEAD
 #include <asm/alternative.h>
 #include <asm/assembler.h>
 #include <asm/cache.h>
 #include <asm/cpufeature.h>
 #include <asm/sysreg.h>
-=======
-#include <asm/cache.h>
-#include <asm/uaccess.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * Copy from user space to a kernel buffer (alignment handled by the hardware)
@@ -39,11 +34,7 @@
  */
 
 	.macro ldrb1 ptr, regB, val
-<<<<<<< HEAD
 	USER(9998f, ldrb  \ptr, [\regB], \val)
-=======
-	uao_user_alternative 9998f, ldrb, ldtrb, \ptr, \regB, \val
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.endm
 
 	.macro strb1 ptr, regB, val
@@ -51,11 +42,7 @@
 	.endm
 
 	.macro ldrh1 ptr, regB, val
-<<<<<<< HEAD
 	USER(9998f, ldrh  \ptr, [\regB], \val)
-=======
-	uao_user_alternative 9998f, ldrh, ldtrh, \ptr, \regB, \val
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.endm
 
 	.macro strh1 ptr, regB, val
@@ -63,11 +50,7 @@
 	.endm
 
 	.macro ldr1 ptr, regB, val
-<<<<<<< HEAD
 	USER(9998f, ldr \ptr, [\regB], \val)
-=======
-	uao_user_alternative 9998f, ldr, ldtr, \ptr, \regB, \val
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.endm
 
 	.macro str1 ptr, regB, val
@@ -75,11 +58,7 @@
 	.endm
 
 	.macro ldp1 ptr, regB, regC, val
-<<<<<<< HEAD
 	USER(9998f, ldp \ptr, \regB, [\regC], \val)
-=======
-	uao_ldp 9998f, \ptr, \regB, \regC, \val
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.endm
 
 	.macro stp1 ptr, regB, regC, val
@@ -87,7 +66,6 @@
 	.endm
 
 end	.req	x5
-<<<<<<< HEAD
 ENTRY(__copy_from_user)
 ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(0)), ARM64_HAS_PAN, \
 	    CONFIG_ARM64_PAN)
@@ -98,16 +76,6 @@ ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(1)), ARM64_HAS_PAN, \
 	mov	x0, #0				// Nothing to copy
 	ret
 ENDPROC(__copy_from_user)
-=======
-ENTRY(__arch_copy_from_user)
-	uaccess_enable_not_uao x3, x4
-	add	end, x0, x2
-#include "copy_template.S"
-	uaccess_disable_not_uao x3
-	mov	x0, #0				// Nothing to copy
-	ret
-ENDPROC(__arch_copy_from_user)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	.section .fixup,"ax"
 	.align	2

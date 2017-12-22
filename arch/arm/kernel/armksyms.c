@@ -91,15 +91,9 @@ EXPORT_SYMBOL(__memzero);
 #ifdef CONFIG_MMU
 EXPORT_SYMBOL(copy_page);
 
-<<<<<<< HEAD
 EXPORT_SYMBOL(__copy_from_user);
 EXPORT_SYMBOL(__copy_to_user);
 EXPORT_SYMBOL(__clear_user);
-=======
-EXPORT_SYMBOL(arm_copy_from_user);
-EXPORT_SYMBOL(arm_copy_to_user);
-EXPORT_SYMBOL(arm_clear_user);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 EXPORT_SYMBOL(__get_user_1);
 EXPORT_SYMBOL(__get_user_2);

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2011-2014, 2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2011-2014, 2016-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -45,15 +41,6 @@
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
 #include "sme_Api.h"
 
-<<<<<<< HEAD
-=======
-/* 15 seconds, for WPA, WPA2, CCKM */
-#define CSR_WAIT_FOR_KEY_TIMEOUT_PERIOD     (15 * PAL_TIMER_TO_SEC_UNIT)
-/* 120 seconds, for WPS */
-#define CSR_WAIT_FOR_WPS_KEY_TIMEOUT_PERIOD (120 * PAL_TIMER_TO_SEC_UNIT)
-
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Enumeration of various states in neighbor roam algorithm */
 typedef enum
 {
@@ -68,13 +55,6 @@ typedef enum
     eCSR_NEIGHBOR_ROAM_STATE_PREAUTHENTICATING,
     eCSR_NEIGHBOR_ROAM_STATE_PREAUTH_DONE,
 #endif /* WLAN_FEATURE_VOWIFI_11R */    
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-    eCSR_NEIGHBOR_ROAM_STATE_MBB_PREAUTH_REASSOC,
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     eNEIGHBOR_STATE_MAX
 } eCsrNeighborRoamState;
 
@@ -91,10 +71,6 @@ typedef struct sCsrNeighborRoamCfgParams
     tANI_U16        neighborResultsRefreshPeriod;
     tANI_U16        emptyScanRefreshPeriod;
     tANI_U8         neighborInitialForcedRoamTo5GhEnable;
-<<<<<<< HEAD
-=======
-    tANI_U8         WeakZoneRssiThresholdForRoam;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tCsrNeighborRoamCfgParams, *tpCsrNeighborRoamCfgParams;
 
 #define CSR_NEIGHBOR_ROAM_INVALID_CHANNEL_INDEX    255
@@ -230,14 +206,6 @@ typedef struct sCsrNeighborRoamControlInfo
     vos_timer_t                 forcedInitialRoamTo5GHTimer;
     tANI_U8                     isForcedInitialRoamTo5GH;
     tANI_U8                     lastSentCmd;
-<<<<<<< HEAD
-=======
-
-#ifdef WLAN_FEATURE_LFR_MBB
-     bool is_pre_auth_reassoc_mbb_timer_started;
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tCsrNeighborRoamControlInfo, *tpCsrNeighborRoamControlInfo;
 
 
@@ -283,18 +251,6 @@ VOS_STATUS csrNeighborRoamMergeChannelLists(tpAniSirGlobal pMac,
                                             tANI_U8  *pOutputChannelList,
                                             tANI_U8  outputNumOfChannels,
                                             tANI_U8  *pMergedOutputNumOfChannels);
-<<<<<<< HEAD
-=======
-tANI_BOOLEAN
-csrNeighborRoamRemoveRoamableAPListEntry(tpAniSirGlobal pMac,
-                 tDblLinkList *pList, tpCsrNeighborRoamBSSInfo pNeighborEntry);
-eHalStatus
-csrNeighborRoamAddBssIdToPreauthFailList(tpAniSirGlobal pMac,
-                                                          tSirMacAddr bssId);
-void csrNeighborRoamFreeNeighborRoamBSSNode(tpAniSirGlobal pMac,
-                              tpCsrNeighborRoamBSSInfo neighborRoamBSSNode);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
 #define ROAM_SCAN_OFFLOAD_START                     1
@@ -326,13 +282,6 @@ eHalStatus csrNeighborRoamHandoffReqHdlr(tpAniSirGlobal pMac, void* pMsg);
 eHalStatus csrNeighborRoamProceedWithHandoffReq(tpAniSirGlobal pMac);
 eHalStatus csrNeighborRoamSssidScanDone(tpAniSirGlobal pMac, eHalStatus status);
 eHalStatus csrNeighborRoamStartLfrScan(tpAniSirGlobal pMac, tANI_U8 OffloadCmdStopReason);
-<<<<<<< HEAD
-=======
-eHalStatus csrRoamStartWaitForKeyTimer(tpAniSirGlobal pMac,
-           tANI_U32 interval);
-void csrRoamLinkUp(tpAniSirGlobal pMac, tCsrBssid bssid);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)

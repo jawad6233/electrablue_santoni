@@ -3115,12 +3115,6 @@ static int ext4_ext_zeroout(struct inode *inode, struct ext4_extent *ex)
 	ee_len    = ext4_ext_get_actual_len(ex);
 	ee_pblock = ext4_ext_pblock(ex);
 
-<<<<<<< HEAD
-=======
-	if (ext4_encrypted_inode(inode))
-		return ext4_encrypted_zeroout(inode, ex);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = sb_issue_zeroout(inode->i_sb, ee_pblock, ee_len, GFP_NOFS);
 	if (ret > 0)
 		ret = 0;
@@ -3549,21 +3543,10 @@ static int ext4_ext_convert_to_initialized(handle_t *handle,
 	 */
 	split_flag |= ee_block + ee_len <= eof_block ? EXT4_EXT_MAY_ZEROOUT : 0;
 
-<<<<<<< HEAD
 	if (EXT4_EXT_MAY_ZEROOUT & split_flag)
 		max_zeroout = sbi->s_extent_max_zeroout_kb >>
 			(inode->i_sb->s_blocksize_bits - 10);
 
-=======
-	if ((EXT4_EXT_MAY_ZEROOUT & split_flag) &&
-	    !ext4_encrypted_inode(inode))
-		max_zeroout = sbi->s_extent_max_zeroout_kb >>
-			(inode->i_sb->s_blocksize_bits - 10);
-
-	if (ext4_encrypted_inode(inode))
-		max_zeroout = 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* If extent is less than s_max_zeroout_kb, zeroout directly */
 	if (max_zeroout && (ee_len <= max_zeroout)) {
 		err = ext4_ext_zeroout(inode, ex);
@@ -4927,23 +4910,6 @@ long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
 	ext4_lblk_t lblk;
 	unsigned int blkbits = inode->i_blkbits;
 
-<<<<<<< HEAD
-=======
-	/*
-	 * Encrypted inodes can't handle collapse range or insert
-	 * range since we would need to re-encrypt blocks with a
-	 * different IV or XTS tweak (which are based on the logical
-	 * block number).
-	 *
-	 * XXX It's not clear why zero range isn't working, but we'll
-	 * leave it disabled for encrypted inodes for now.  This is a
-	 * bug we should fix....
-	 */
-	if (ext4_encrypted_inode(inode) &&
-	    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE)))
-		return -EOPNOTSUPP;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Return error if mode is not supported */
 	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |
 		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE))

@@ -624,13 +624,6 @@ config ARM_LPAE
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
-=======
-config ARM_PV_FIXUP
-	def_bool y
-	depends on ARM_LPAE && ARM_PATCH_PHYS_VIRT && ARCH_KEYSTONE
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 config ARCH_PHYS_ADDR_T_64BIT
 	def_bool ARM_LPAE
 

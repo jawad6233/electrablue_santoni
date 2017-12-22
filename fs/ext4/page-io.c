@@ -26,10 +26,6 @@
 #include <linux/slab.h>
 #include <linux/mm.h>
 #include <linux/ratelimit.h>
-<<<<<<< HEAD
-=======
-#include <linux/backing-dev.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "ext4_jbd2.h"
 #include "xattr.h"
@@ -73,13 +69,6 @@ static void ext4_finish_bio(struct bio *bio)
 
 	bio_for_each_segment_all(bvec, bio, i) {
 		struct page *page = bvec->bv_page;
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_EXT4_FS_ENCRYPTION
-		struct page *data_page = NULL;
-		struct ext4_crypto_ctx *ctx = NULL;
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		struct buffer_head *bh, *head;
 		unsigned bio_start = bvec->bv_offset;
 		unsigned bio_end = bio_start + bvec->bv_len;
@@ -89,18 +78,6 @@ static void ext4_finish_bio(struct bio *bio)
 		if (!page)
 			continue;
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_EXT4_FS_ENCRYPTION
-		if (!page->mapping) {
-			/* The bounce data pages are unmapped. */
-			data_page = page;
-			ctx = (struct ext4_crypto_ctx *)page_private(data_page);
-			page = ctx->w.control_page;
-		}
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (error) {
 			SetPageError(page);
 			set_bit(AS_EIO, &page->mapping->flags);
@@ -125,18 +102,8 @@ static void ext4_finish_bio(struct bio *bio)
 		} while ((bh = bh->b_this_page) != head);
 		bit_spin_unlock(BH_Uptodate_Lock, &head->b_state);
 		local_irq_restore(flags);
-<<<<<<< HEAD
 		if (!under_io)
 			end_page_writeback(page);
-=======
-		if (!under_io) {
-#ifdef CONFIG_EXT4_FS_ENCRYPTION
-			if (ctx)
-				ext4_restore_control_page(data_page);
-#endif
-			end_page_writeback(page);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -411,10 +378,6 @@ static int io_submit_init_bio(struct ext4_io_submit *io,
 
 static int io_submit_add_bh(struct ext4_io_submit *io,
 			    struct inode *inode,
-<<<<<<< HEAD
-=======
-			    struct page *page,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			    struct buffer_head *bh)
 {
 	int ret;
@@ -428,11 +391,7 @@ submit_and_retry:
 		if (ret)
 			return ret;
 	}
-<<<<<<< HEAD
 	ret = bio_add_page(io->io_bio, bh->b_page, bh->b_size, bh_offset(bh));
-=======
-	ret = bio_add_page(io->io_bio, page, bh->b_size, bh_offset(bh));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret != bh->b_size)
 		goto submit_and_retry;
 	io->io_next_block++;
@@ -445,19 +404,11 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
 			struct writeback_control *wbc,
 			bool keep_towrite)
 {
-<<<<<<< HEAD
-=======
-	struct page *data_page = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct inode *inode = page->mapping->host;
 	unsigned block_start, blocksize;
 	struct buffer_head *bh, *head;
 	int ret = 0;
 	int nr_submitted = 0;
-<<<<<<< HEAD
-=======
-	int nr_to_submit = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	blocksize = 1 << inode->i_blkbits;
 
@@ -510,7 +461,6 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
 			unmap_underlying_metadata(bh->b_bdev, bh->b_blocknr);
 		}
 		set_buffer_async_write(bh);
-<<<<<<< HEAD
 	} while ((bh = bh->b_this_page) != head);
 
 	/* Now submit buffers to write */
@@ -519,50 +469,13 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
 		if (!buffer_async_write(bh))
 			continue;
 		ret = io_submit_add_bh(io, inode, bh);
-=======
-		nr_to_submit++;
-	} while ((bh = bh->b_this_page) != head);
-
-	bh = head = page_buffers(page);
-
-	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode) &&
-	    nr_to_submit) {
-		gfp_t gfp_flags = GFP_NOFS;
-
-	retry_encrypt:
-		data_page = ext4_encrypt(inode, page, gfp_flags);
-		if (IS_ERR(data_page)) {
-			ret = PTR_ERR(data_page);
-			if (ret == -ENOMEM && wbc->sync_mode == WB_SYNC_ALL) {
-				if (io->io_bio) {
-					ext4_io_submit(io);
-					congestion_wait(BLK_RW_ASYNC, HZ/50);
-				}
-				gfp_flags |= __GFP_NOFAIL;
-				goto retry_encrypt;
-			}
-			data_page = NULL;
-			goto out;
-		}
-	}
-
-	/* Now submit buffers to write */
-	do {
-		if (!buffer_async_write(bh))
-			continue;
-		ret = io_submit_add_bh(io, inode,
-				       data_page ? data_page : page, bh);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (ret) {
 			/*
 			 * We only get here on ENOMEM.  Not much else
 			 * we can do but mark the page as dirty, and
 			 * better luck next time.
 			 */
-<<<<<<< HEAD
 			redirty_page_for_writepage(wbc, page);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 		nr_submitted++;
@@ -571,14 +484,6 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
 
 	/* Error stopped previous loop? Clean up buffers... */
 	if (ret) {
-<<<<<<< HEAD
-=======
-	out:
-		if (data_page)
-			ext4_restore_control_page(data_page);
-		printk_ratelimited(KERN_ERR "%s: ret = %d\n", __func__, ret);
-		redirty_page_for_writepage(wbc, page);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		do {
 			clear_buffer_async_write(bh);
 			bh = bh->b_this_page;

@@ -507,11 +507,7 @@ cpu_arm1020_name:
 
 	.align
 
-<<<<<<< HEAD
 	.section ".proc.info.init", #alloc, #execinstr
-=======
-	.section ".proc.info.init", #alloc
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	.type	__arm1020_proc_info,#object
 __arm1020_proc_info:
@@ -523,11 +519,7 @@ __arm1020_proc_info:
 	.long   PMD_TYPE_SECT | \
 		PMD_SECT_AP_WRITE | \
 		PMD_SECT_AP_READ
-<<<<<<< HEAD
 	b	__arm1020_setup
-=======
-	initfn	__arm1020_setup, __arm1020_proc_info
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.long	cpu_arch_name
 	.long	cpu_elf_name
 	.long	HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB

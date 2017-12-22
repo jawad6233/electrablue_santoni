@@ -27,31 +27,19 @@ config CRYPTO_AES_ARM64_CE
 	tristate "AES core cipher using ARMv8 Crypto Extensions"
 	depends on ARM64 && KERNEL_MODE_NEON
 	select CRYPTO_ALGAPI
-<<<<<<< HEAD
-=======
-	select CRYPTO_AES
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 config CRYPTO_AES_ARM64_CE_CCM
 	tristate "AES in CCM mode using ARMv8 Crypto Extensions"
 	depends on ARM64 && KERNEL_MODE_NEON
 	select CRYPTO_ALGAPI
-<<<<<<< HEAD
 	select CRYPTO_AES_ARM64_CE
-=======
-	select CRYPTO_AES
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select CRYPTO_AEAD
 
 config CRYPTO_AES_ARM64_CE_BLK
 	tristate "AES in ECB/CBC/CTR/XTS modes using ARMv8 Crypto Extensions"
 	depends on ARM64 && KERNEL_MODE_NEON
 	select CRYPTO_BLKCIPHER
-<<<<<<< HEAD
 	select CRYPTO_AES_ARM64_CE
-=======
-	select CRYPTO_AES
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select CRYPTO_ABLK_HELPER
 
 config CRYPTO_AES_ARM64_NEON_BLK
@@ -61,11 +49,8 @@ config CRYPTO_AES_ARM64_NEON_BLK
 	select CRYPTO_AES
 	select CRYPTO_ABLK_HELPER
 
-<<<<<<< HEAD
 config CRYPTO_CRC32_ARM64
 	tristate "CRC32 and CRC32C using optional ARMv8 instructions"
 	depends on ARM64
 	select CRYPTO_HASH
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endif

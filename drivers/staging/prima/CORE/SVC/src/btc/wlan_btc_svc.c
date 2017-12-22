@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -217,24 +213,6 @@ int btc_activate_service(void *pAdapter)
    nl_srv_register(WLAN_NL_MSG_BTC, btc_msg_callback);
    return 0;
 }
-<<<<<<< HEAD
-=======
-
-/**---------------------------------------------------------------------------
-
-  \brief btc_deactivate_service() - Deactivate btc message handler
-
-  This function unregisters a handler to receive netlink messages
-  addressed to WLAN_NL_MSG_BTC from user space.
-
-  \return - none
-  --------------------------------------------------------------------------*/
-void btc_deactivate_service()
-{
-   //unregister the msg handler for msgs addressed to ANI_NL_MSG_BTC
-   nl_srv_unregister(WLAN_NL_MSG_BTC, btc_msg_callback);
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Callback function invoked by Netlink service for all netlink
  * messages (from user space) addressed to WLAN_NL_MSG_BTC

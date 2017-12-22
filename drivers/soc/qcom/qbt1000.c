@@ -60,10 +60,6 @@ enum sensor_connection_types {
  * user space will provide new value upon tz app load
  */
 static uint32_t g_app_buf_size = SZ_256K;
-<<<<<<< HEAD
-=======
-static char const *const FP_APP_NAME = "fingerpr";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct qbt1000_drvdata {
 	struct class	*qbt1000_class;
@@ -798,16 +794,6 @@ static long qbt1000_ioctl(struct file *file, unsigned cmd, unsigned long arg)
 			goto end;
 		}
 
-<<<<<<< HEAD
-=======
-		if (strcmp(app.name, FP_APP_NAME)) {
-			dev_err(drvdata->dev, "%s: Invalid app name\n",
-				__func__);
-			rc = -EINVAL;
-			goto end;
-		}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (drvdata->app_handle) {
 			dev_err(drvdata->dev, "%s: LOAD app already loaded, unloading first\n",
 				__func__);

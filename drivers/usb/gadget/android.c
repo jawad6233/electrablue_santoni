@@ -73,12 +73,9 @@
 #include "u_qc_ether.c"
 #include "f_gsi.c"
 #include "f_mass_storage.h"
-<<<<<<< HEAD
 #include "f_hid.h"
 #include "f_hid_android_keyboard.c"
 #include "f_hid_android_mouse.c"
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 USB_ETHERNET_MODULE_PARAMETERS();
 #ifdef CONFIG_MEDIA_SUPPORT
@@ -1070,35 +1067,6 @@ static struct android_usb_function rmnet_function = {
 	.attributes	= rmnet_function_attributes,
 };
 
-<<<<<<< HEAD
-=======
-static char gps_transport[MAX_XPORT_STR_LEN];
-
-static ssize_t gps_transport_show(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	return snprintf(buf, PAGE_SIZE, "%s\n", gps_transport);
-}
-
-static ssize_t gps_transport_store(
-		struct device *device, struct device_attribute *attr,
-		const char *buff, size_t size)
-{
-	strlcpy(gps_transport, buff, sizeof(gps_transport));
-
-	return size;
-}
-
-static struct device_attribute dev_attr_gps_transport =
-					__ATTR(transport, S_IRUGO | S_IWUSR,
-							gps_transport_show,
-							gps_transport_store);
-
-static struct device_attribute *gps_function_attrbitutes[] = {
-					&dev_attr_gps_transport,
-					NULL };
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void gps_function_cleanup(struct android_usb_function *f)
 {
 	gps_cleanup();
@@ -1109,20 +1077,10 @@ static int gps_function_bind_config(struct android_usb_function *f,
 {
 	int err;
 	static int gps_initialized;
-<<<<<<< HEAD
 
 	if (!gps_initialized) {
 		gps_initialized = 1;
 		err = gps_init_port();
-=======
-	char buf[MAX_XPORT_STR_LEN], *b;
-
-	if (!gps_initialized) {
-		strlcpy(buf, gps_transport, sizeof(buf));
-		b = strim(buf);
-		gps_initialized = 1;
-		err = gps_init_port(b);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (err) {
 			pr_err("gps: Cannot init gps port");
 			return err;
@@ -1147,10 +1105,6 @@ static struct android_usb_function gps_function = {
 	.name		= "gps",
 	.cleanup	= gps_function_cleanup,
 	.bind_config	= gps_function_bind_config,
-<<<<<<< HEAD
-=======
-	.attributes	= gps_function_attrbitutes,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* ncm */
@@ -3148,7 +3102,6 @@ static struct android_usb_function midi_function = {
 };
 #endif
 
-<<<<<<< HEAD
 static int hid_function_init(struct android_usb_function *f, struct usb_composite_dev *cdev)
 {
 	return ghid_setup(cdev->gadget, 2);
@@ -3184,8 +3137,6 @@ static struct android_usb_function hid_function = {
 	.bind_config	= hid_function_bind_config,
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int rndis_gsi_function_init(struct android_usb_function *f,
 					struct usb_composite_dev *cdev)
 {
@@ -3354,10 +3305,7 @@ static struct android_usb_function *supported_functions[] = {
 #ifdef CONFIG_SND_RAWMIDI
 	[ANDROID_MIDI] = &midi_function,
 #endif
-<<<<<<< HEAD
 	[ANDROID_HID] = &hid_function,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	[ANDROID_RNDIS_GSI] = &rndis_gsi_function,
 	[ANDROID_ECM_GSI] = &ecm_gsi_function,
 	[ANDROID_RMNET_GSI] = &rmnet_gsi_function,
@@ -3397,10 +3345,7 @@ static struct android_usb_function *default_functions[] = {
 #ifdef CONFIG_SND_RAWMIDI
 	&midi_function,
 #endif
-<<<<<<< HEAD
 	&hid_function,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	NULL
 };
 
@@ -3689,13 +3634,8 @@ functions_store(struct device *pdev, struct device_attribute *attr,
 	char buf[256], *b;
 	char aliases[256], *a;
 	int err;
-<<<<<<< HEAD
 	int ffs_enabled = 0;
 	int hid_enabled = 0;
-=======
-	int is_ffs;
-	int ffs_enabled = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_lock(&dev->mutex);
 
@@ -3737,51 +3677,28 @@ functions_store(struct device *pdev, struct device_attribute *attr,
 		curr_conf = curr_conf->next;
 		while (conf_str) {
 			name = strsep(&conf_str, ",");
-<<<<<<< HEAD
-=======
-			is_ffs = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			strlcpy(aliases, dev->ffs_aliases, sizeof(aliases));
 			a = aliases;
 
 			while (a) {
 				char *alias = strsep(&a, ",");
 				if (alias && !strcmp(name, alias)) {
-<<<<<<< HEAD
 					name = "ffs";
-=======
-					is_ffs = 1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					break;
 				}
 			}
 
-<<<<<<< HEAD
 			if (ffs_enabled && !strcmp(name, "ffs"))
 				continue;
 
 			if (hid_enabled && !strcmp(name, "hid"))
 				continue;
-=======
-			if (is_ffs) {
-				if (ffs_enabled)
-					continue;
-				err = android_enable_function(dev, conf, "ffs");
-				if (err)
-					pr_err("android_usb: Cannot enable ffs (%d)",
-									err);
-				else
-					ffs_enabled = 1;
-				continue;
-			}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			if (!strcmp(name, "rndis") &&
 				!strcmp(strim(rndis_transports), "BAM2BAM_IPA"))
 				name = "rndis_qc";
 
 			err = android_enable_function(dev, conf, name);
-<<<<<<< HEAD
 			if (err) {
 				pr_err("android_usb: Cannot enable '%s' (%d)",
 							name, err);
@@ -3804,11 +3721,6 @@ functions_store(struct device *pdev, struct device_attribute *attr,
 							name, err);
 			else
 				hid_enabled = 1;
-=======
-			if (err)
-				pr_err("android_usb: Cannot enable '%s' (%d)",
-							name, err);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 

@@ -1,9 +1,5 @@
 config MSM_CAMERA_SENSOR
-<<<<<<< HEAD
 	    bool "Qualcomm MSM camera sensor support"
-=======
-	    bool "QTI MSM camera sensor support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	    depends on MSMB_CAMERA
 	    select NEW_LEDS
 	    select LEDS_CLASS
@@ -14,11 +10,7 @@ config MSM_CAMERA_SENSOR
           subdev APIs.
 
 config MSM_CPP
-<<<<<<< HEAD
         bool "Qualcomm MSM Camera Post Processing Engine support"
-=======
-        bool "QTI MSM Camera Post Processing Engine support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Camera Post-processing Engine
@@ -27,11 +19,7 @@ config MSM_CPP
           APIs.
 
 config MSM_CCI
-<<<<<<< HEAD
         bool "Qualcomm MSM Camera Control Interface support"
-=======
-        bool "QTI MSM Camera Control Interface support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Camera Control Interface driver only
@@ -41,11 +29,7 @@ config MSM_CCI
           GPIO and data frames.
 
 config MSM_CSI20_HEADER
-<<<<<<< HEAD
         bool "Qualcomm MSM CSI 2.0 Header"
-=======
-        bool "QTI MSM CSI 2.0 Header"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for CSI drivers to include 2.0
@@ -55,11 +39,7 @@ config MSM_CSI20_HEADER
           8930 and 8064 platforms.
 
 config MSM_CSI22_HEADER
-<<<<<<< HEAD
         bool "Qualcomm MSM CSI 2.2 Header"
-=======
-        bool "QTI MSM CSI 2.2 Header"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for CSI drivers to include 2.2
@@ -69,11 +49,7 @@ config MSM_CSI22_HEADER
           platform.
 
 config MSM_CSI30_HEADER
-<<<<<<< HEAD
         bool "Qualcomm MSM CSI 3.0 Header"
-=======
-        bool "QTI MSM CSI 3.0 Header"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for CSI drivers to include 3.0
@@ -83,11 +59,7 @@ config MSM_CSI30_HEADER
           8064 platforms.
 
 config MSM_CSI31_HEADER
-<<<<<<< HEAD
         bool "Qualcomm MSM CSI 3.1 Header"
-=======
-        bool "QTI MSM CSI 3.1 Header"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for CSI drivers to include 3.0
@@ -97,11 +69,7 @@ config MSM_CSI31_HEADER
           APQ8084 platform.
 
 config MSM_CSIPHY
-<<<<<<< HEAD
         bool "Qualcomm MSM Camera Serial Interface Physical receiver support"
-=======
-        bool "QTI MSM Camera Serial Interface Physical receiver support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Camera Serial Interface
@@ -110,11 +78,7 @@ config MSM_CSIPHY
           signalling.
 
 config MSM_CSID
-<<<<<<< HEAD
         bool "Qualcomm MSM Camera Serial Interface decoder support"
-=======
-        bool "QTI MSM Camera Serial Interface decoder support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Camera Serial Interface decoder.
@@ -123,11 +87,7 @@ config MSM_CSID
           and datatype.
 
 config MSM_EEPROM
-<<<<<<< HEAD
         bool "Qualcomm MSM Camera ROM Interface for Calibration support"
-=======
-        bool "QTI MSM Camera ROM Interface for Calibration support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for ROM Interface for Calibration
@@ -135,22 +95,8 @@ config MSM_EEPROM
           and also provides support for writing data in case of FLASH ROM.
 	  Currently supports I2C, CCI and SPI protocol
 
-<<<<<<< HEAD
 config MSM_ISPIF
         bool "Qualcomm MSM Image Signal Processing interface support"
-=======
-config MSM_ISP_V1
-        bool "QTI MSM Image Signal Processing interface support"
-        depends on MSMB_CAMERA
-        ---help---
-          Enable support for Image Signal Processing interface module.
-          This module acts as a crossbar between CSID and VFE. Output
-          of any CID of CSID can be routed to of of pixel or raw
-          data interface in VFE.
-
-config MSM_ISPIF
-        bool "QTI MSM Image Signal Processing interface support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Image Signal Processing interface module.
@@ -159,11 +105,7 @@ config MSM_ISPIF
           data interface in VFE.
 
 config MSM_ISPIF_V1
-<<<<<<< HEAD
         bool "Qualcomm MSM Image Signal Processing interface support"
-=======
-        bool "QTI MSM Image Signal Processing interface support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Image Signal Processing interface module.
@@ -172,11 +114,7 @@ config MSM_ISPIF_V1
           or raw data interface in VFE.
 
 config MSM_ISPIF_V2
-<<<<<<< HEAD
         bool "Qualcomm MSM Image Signal Processing interface support"
-=======
-        bool "QTI MSM Image Signal Processing interface support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         ---help---
           Enable support for Image Signal Processing interface module.
@@ -266,11 +204,7 @@ config OV12830
 		2 lanes max fps is 18, 4 lanes max fps is 24.
 
 config MSM_V4L2_VIDEO_OVERLAY_DEVICE
-<<<<<<< HEAD
 	tristate "Qualcomm MSM V4l2 video overlay device"
-=======
-	tristate "QTI MSM V4l2 video overlay device"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	---help---
 	  Enables support for the MSM V4L2 video
 	  overlay driver. This allows video rendering
@@ -278,13 +212,8 @@ config MSM_V4L2_VIDEO_OVERLAY_DEVICE
 	  APIs, by using /dev/videoX device
 
 config MSMB_JPEG
-<<<<<<< HEAD
 	tristate "Qualcomm MSM Jpeg Encoder Engine support"
         depends on MSMB_CAMERA && (ARCH_MSM8974 || ARCH_MSM8226 || ARCH_APQ8084 || ARCH_MSM8916 || ARCH_MSM)
-=======
-	tristate "QTI MSM Jpeg Encoder Engine support"
-        depends on MSMB_CAMERA && (ARCH_MSM8974 || ARCH_MSM8226 || ARCH_APQ8084 || ARCH_MSM8916 || ARCH_MSM8953 || ARCH_MSM)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	---help---
 	  Enable support for Jpeg Encoder/Decoder
 	  Engine for 8974.
@@ -292,11 +221,7 @@ config MSMB_JPEG
 	  for the JPEG 1.0 encoder and decoder.
 
 config MSM_GEMINI
-<<<<<<< HEAD
 	tristate "Qualcomm MSM Gemini JPEG engine support"
-=======
-	tristate "QTI MSM Gemini JPEG engine support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	depends on MSMB_CAMERA && (ARCH_MSM7X30 || ARCH_MSM8X60 || ARCH_MSM8960)
 	---help---
 	  Enables support for the Gemini JPEG encoder
@@ -305,37 +230,14 @@ config MSM_GEMINI
 	  for JPEG encoding functionality.
 
 config MSM_FD
-<<<<<<< HEAD
 	 tristate "Qualcomm MSM FD face detection engine support"
-=======
-	 tristate "QTI MSM FD face detection engine support"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 depends on MSMB_CAMERA
 	 ---help---
 	    Enables support for the MSM FD face detection engine.
 
 config MSM_JPEGDMA
-<<<<<<< HEAD
 	tristate "Qualcomm Technologies Inc. MSM Jpeg dma"
-=======
-	tristate "QTI MSM Jpeg dma"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         depends on MSMB_CAMERA
         select V4L2_MEM2MEM_DEV
 	---help---
 	  Enable support for Jpeg dma engine.
-<<<<<<< HEAD
-=======
-
-config MSM_SEC_CCI_TA_NAME
-	string "Name of TA to handle Secure CCI transactions"
-	depends on MSM_CCI
-	default "seccamdemo64"
-
-config MSM_SEC_CCI_DEBUG
-	bool "QTI MSM Secure CCI Relay Debug"
-	depends on MSM_CCI
-	---help---
-	  Enables simulation of secure camera for Secure CCI Realy
-	  debugging.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

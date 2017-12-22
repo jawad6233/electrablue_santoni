@@ -17,7 +17,6 @@
 
 #ifndef __ASSEMBLY__
 
-<<<<<<< HEAD
 extern pte_t kasan_zero_pte[];
 extern pte_t kasan_zero_pmd[];
 extern pte_t kasan_zero_pud[];
@@ -27,13 +26,6 @@ void __init kasan_map_early_shadow(pgd_t *pgd);
 void __init kasan_init(void);
 #else
 static inline void kasan_map_early_shadow(pgd_t *pgd) { }
-=======
-#ifdef CONFIG_KASAN
-void __init kasan_early_init(void);
-void __init kasan_init(void);
-#else
-static inline void kasan_early_init(void) { }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void kasan_init(void) { }
 #endif
 

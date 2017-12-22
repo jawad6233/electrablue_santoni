@@ -304,10 +304,6 @@ static ssize_t gadget_dev_desc_UDC_store(struct gadget_info *gi,
 		ret = unregister_gadget(gi);
 		if (ret)
 			goto err;
-<<<<<<< HEAD
-=======
-		kfree(name);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		if (gi->udc_name) {
 			ret = -EBUSY;

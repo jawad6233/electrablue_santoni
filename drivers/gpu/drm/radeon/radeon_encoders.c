@@ -194,10 +194,7 @@ static void radeon_encoder_add_backlight(struct radeon_encoder *radeon_encoder,
 			radeon_atom_backlight_init(radeon_encoder, connector);
 		else
 			radeon_legacy_backlight_init(radeon_encoder, connector);
-<<<<<<< HEAD
 		rdev->mode_info.bl_encoder = radeon_encoder;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -250,20 +247,7 @@ radeon_get_connector_for_encoder(struct drm_encoder *encoder)
 
 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
 		radeon_connector = to_radeon_connector(connector);
-<<<<<<< HEAD
 		if (radeon_encoder->active_device & radeon_connector->devices)
-=======
-		if (radeon_encoder->is_mst_encoder) {
-			struct radeon_encoder_mst *mst_enc;
-
-			if (!radeon_connector->is_mst_connector)
-				continue;
-
-			mst_enc = radeon_encoder->enc_priv;
-			if (mst_enc->connector == radeon_connector->mst_port)
-				return connector;
-		} else if (radeon_encoder->active_device & radeon_connector->devices)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return connector;
 	}
 	return NULL;
@@ -409,12 +393,6 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
 	case DRM_MODE_CONNECTOR_DVID:
 	case DRM_MODE_CONNECTOR_HDMIA:
 	case DRM_MODE_CONNECTOR_DisplayPort:
-<<<<<<< HEAD
-=======
-		if (radeon_connector->is_mst_connector)
-			return false;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		dig_connector = radeon_connector->con_priv;
 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
 		    (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP))

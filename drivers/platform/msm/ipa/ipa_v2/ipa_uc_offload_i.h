@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -439,11 +435,7 @@ enum ipa_hw_offload_channel_states {
 
 
 /**
-<<<<<<< HEAD
  * enum ipa_hw_2_cpu_cmd_resp_status -  Values that represent
-=======
- * enum ipa_hw_2_cpu_offload_cmd_resp_status -  Values that represent
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * offload related command response status to be sent to CPU.
  */
 enum ipa_hw_2_cpu_offload_cmd_resp_status {
@@ -480,50 +472,6 @@ enum ipa_hw_2_cpu_offload_cmd_resp_status {
 };
 
 /**
-<<<<<<< HEAD
-=======
- * enum ipa_hw_2_cpu_cmd_resp_status -  Values that represent WDI related
- * command response status to be sent to CPU.
- */
-enum ipa_hw_2_cpu_cmd_resp_status {
-	IPA_HW_2_CPU_WDI_CMD_STATUS_SUCCESS            =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 0),
-	IPA_HW_2_CPU_MAX_WDI_TX_CHANNELS               =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 1),
-	IPA_HW_2_CPU_WDI_CE_RING_OVERRUN_POSSIBILITY   =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 2),
-	IPA_HW_2_CPU_WDI_CE_RING_SET_UP_FAILURE        =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 3),
-	IPA_HW_2_CPU_WDI_CE_RING_PARAMS_UNALIGNED      =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 4),
-	IPA_HW_2_CPU_WDI_COMP_RING_OVERRUN_POSSIBILITY =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 5),
-	IPA_HW_2_CPU_WDI_COMP_RING_SET_UP_FAILURE      =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 6),
-	IPA_HW_2_CPU_WDI_COMP_RING_PARAMS_UNALIGNED    =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 7),
-	IPA_HW_2_CPU_WDI_UNKNOWN_TX_CHANNEL            =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 8),
-	IPA_HW_2_CPU_WDI_TX_INVALID_FSM_TRANSITION     =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 9),
-	IPA_HW_2_CPU_WDI_TX_FSM_TRANSITION_ERROR       =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 10),
-	IPA_HW_2_CPU_MAX_WDI_RX_CHANNELS               =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 11),
-	IPA_HW_2_CPU_WDI_RX_RING_PARAMS_UNALIGNED      =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 12),
-	IPA_HW_2_CPU_WDI_RX_RING_SET_UP_FAILURE        =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 13),
-	IPA_HW_2_CPU_WDI_UNKNOWN_RX_CHANNEL            =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 14),
-	IPA_HW_2_CPU_WDI_RX_INVALID_FSM_TRANSITION     =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 15),
-	IPA_HW_2_CPU_WDI_RX_FSM_TRANSITION_ERROR       =
-		FEATURE_ENUM_VAL(IPA_HW_FEATURE_WDI, 16),
-};
-
-/**
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * struct IpaHwSetUpCmd  -
  *
  *

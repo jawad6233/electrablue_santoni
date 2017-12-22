@@ -15,7 +15,6 @@
 #ifndef _EXYNOS_DRM_CRTC_H_
 #define _EXYNOS_DRM_CRTC_H_
 
-<<<<<<< HEAD
 struct drm_device;
 struct drm_crtc;
 struct exynos_drm_manager;
@@ -36,26 +35,6 @@ void exynos_drm_crtc_plane_disable(struct drm_crtc *crtc, int zpos);
 /* This function gets pipe value to crtc device matched with out_type. */
 int exynos_drm_crtc_get_pipe_from_type(struct drm_device *drm_dev,
 					unsigned int out_type);
-=======
-#include "exynos_drm_drv.h"
-
-struct exynos_drm_crtc *exynos_drm_crtc_create(struct drm_device *drm_dev,
-					struct drm_plane *plane,
-					int pipe,
-					enum exynos_drm_output_type type,
-					const struct exynos_drm_crtc_ops *ops,
-					void *context);
-int exynos_drm_crtc_enable_vblank(struct drm_device *dev, unsigned int pipe);
-void exynos_drm_crtc_disable_vblank(struct drm_device *dev, unsigned int pipe);
-void exynos_drm_crtc_wait_pending_update(struct exynos_drm_crtc *exynos_crtc);
-void exynos_drm_crtc_finish_update(struct exynos_drm_crtc *exynos_crtc,
-				   struct exynos_drm_plane *exynos_plane);
-void exynos_drm_crtc_complete_scanout(struct drm_framebuffer *fb);
-
-/* This function gets pipe value to crtc device matched with out_type. */
-int exynos_drm_crtc_get_pipe_from_type(struct drm_device *drm_dev,
-				       enum exynos_drm_output_type out_type);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * This function calls the crtc device(manager)'s te_handler() callback

@@ -277,11 +277,7 @@ struct ttm_mem_type_manager {
 	bool has_type;
 	bool use_type;
 	uint32_t flags;
-<<<<<<< HEAD
 	unsigned long gpu_offset;
-=======
-	uint64_t gpu_offset; /* GPU address space is independent of CPU word size */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint64_t size;
 	uint32_t available_caching;
 	uint32_t default_caching;

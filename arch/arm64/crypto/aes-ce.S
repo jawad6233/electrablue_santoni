@@ -45,7 +45,6 @@
 
 	.macro		do_enc_Nx, de, mc, k, i0, i1, i2, i3
 	aes\de		\i0\().16b, \k\().16b
-<<<<<<< HEAD
 	aes\mc		\i0\().16b, \i0\().16b
 	.ifnb		\i1
 	aes\de		\i1\().16b, \k\().16b
@@ -54,20 +53,6 @@
 	aes\de		\i2\().16b, \k\().16b
 	aes\mc		\i2\().16b, \i2\().16b
 	aes\de		\i3\().16b, \k\().16b
-=======
-	.ifnb		\i1
-	aes\de		\i1\().16b, \k\().16b
-	.ifnb		\i3
-	aes\de		\i2\().16b, \k\().16b
-	aes\de		\i3\().16b, \k\().16b
-	.endif
-	.endif
-	aes\mc		\i0\().16b, \i0\().16b
-	.ifnb		\i1
-	aes\mc		\i1\().16b, \i1\().16b
-	.ifnb		\i3
-	aes\mc		\i2\().16b, \i2\().16b
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	aes\mc		\i3\().16b, \i3\().16b
 	.endif
 	.endif

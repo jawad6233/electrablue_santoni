@@ -14,13 +14,9 @@ obj-$(CONFIG_IR_SHARP_DECODER) += ir-sharp-decoder.o
 obj-$(CONFIG_IR_MCE_KBD_DECODER) += ir-mce_kbd-decoder.o
 obj-$(CONFIG_IR_LIRC_CODEC) += ir-lirc-codec.o
 obj-$(CONFIG_IR_XMP_DECODER) += ir-xmp-decoder.o
-<<<<<<< HEAD
 obj-$(CONFIG_IR_DUMP_DECODER) += ir-dump-decoder.o
 obj-$(CONFIG_IR_GPIO) += gpio-ir.o
 obj-$(CONFIG_IR_PWM) += pwm-ir.o
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 # stand-alone IR receivers/transmitters
 obj-$(CONFIG_RC_ATI_REMOTE) += ati_remote.o
 obj-$(CONFIG_IR_HIX5HD2) += ir-hix5hd2.o

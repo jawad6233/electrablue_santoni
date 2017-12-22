@@ -29,10 +29,6 @@
 #include <drm/radeon_drm.h>
 #include "radeon.h"
 #include "radeon_asic.h"
-<<<<<<< HEAD
-=======
-#include "radeon_audio.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "r600d.h"
 #include "atom.h"
 
@@ -59,7 +55,6 @@ enum r600_hdmi_iec_status_bits {
 	AUDIO_STATUS_LEVEL        = 0x80
 };
 
-<<<<<<< HEAD
 static const struct radeon_hdmi_acr r600_hdmi_predefined_acr[] = {
     /*	     32kHz	  44.1kHz	48kHz    */
     /* Clock      N     CTS      N     CTS      N     CTS */
@@ -84,8 +79,6 @@ static int r600_audio_chipset_supported(struct radeon_device *rdev)
 	return ASIC_IS_DCE2(rdev) && !ASIC_IS_NODCE(rdev);
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct r600_audio_pin r600_audio_status(struct radeon_device *rdev)
 {
 	struct r600_audio_pin status;
@@ -198,7 +191,6 @@ void r600_audio_enable(struct radeon_device *rdev,
 	WREG32(AZ_HOT_PLUG_CONTROL, tmp);
 }
 
-<<<<<<< HEAD
 /*
  * initialize the audio vars
  */
@@ -236,15 +228,12 @@ void r600_audio_fini(struct radeon_device *rdev)
 	rdev->audio.enabled = false;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct r600_audio_pin *r600_audio_get_pin(struct radeon_device *rdev)
 {
 	/* only one pin on 6xx-NI */
 	return &rdev->audio.pin[0];
 }
 
-<<<<<<< HEAD
 /*
  * calculate CTS and N values if they are not found in the table
  */
@@ -336,49 +325,11 @@ void r600_hdmi_update_ACR(struct drm_encoder *encoder, uint32_t clock)
 	WREG32_P(HDMI0_ACR_48_1 + offset,
 		 HDMI0_ACR_N_48(acr.n_48khz),
 		 ~HDMI0_ACR_N_48_MASK);
-=======
-void r600_hdmi_update_acr(struct drm_encoder *encoder, long offset,
-	const struct radeon_hdmi_acr *acr)
-{
-	struct drm_device *dev = encoder->dev;
-	struct radeon_device *rdev = dev->dev_private;
-
-	/* DCE 3.0 uses register that's normally for CRC_CONTROL */
-	uint32_t acr_ctl = ASIC_IS_DCE3(rdev) ? DCE3_HDMI0_ACR_PACKET_CONTROL :
-				       HDMI0_ACR_PACKET_CONTROL;
-	WREG32_P(acr_ctl + offset,
-		HDMI0_ACR_SOURCE |		/* select SW CTS value */
-		HDMI0_ACR_AUTO_SEND,	/* allow hw to sent ACR packets when required */
-		~(HDMI0_ACR_SOURCE |
-		HDMI0_ACR_AUTO_SEND));
-
-	WREG32_P(HDMI0_ACR_32_0 + offset,
-		HDMI0_ACR_CTS_32(acr->cts_32khz),
-		~HDMI0_ACR_CTS_32_MASK);
-	WREG32_P(HDMI0_ACR_32_1 + offset,
-		HDMI0_ACR_N_32(acr->n_32khz),
-		~HDMI0_ACR_N_32_MASK);
-
-	WREG32_P(HDMI0_ACR_44_0 + offset,
-		HDMI0_ACR_CTS_44(acr->cts_44_1khz),
-		~HDMI0_ACR_CTS_44_MASK);
-	WREG32_P(HDMI0_ACR_44_1 + offset,
-		HDMI0_ACR_N_44(acr->n_44_1khz),
-		~HDMI0_ACR_N_44_MASK);
-
-	WREG32_P(HDMI0_ACR_48_0 + offset,
-		HDMI0_ACR_CTS_48(acr->cts_48khz),
-		~HDMI0_ACR_CTS_48_MASK);
-	WREG32_P(HDMI0_ACR_48_1 + offset,
-		HDMI0_ACR_N_48(acr->n_48khz),
-		~HDMI0_ACR_N_48_MASK);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*
  * build a HDMI Video Info Frame
  */
-<<<<<<< HEAD
 void r600_hdmi_update_avi_infoframe(struct drm_encoder *encoder, void *buffer,
 				    size_t size)
 {
@@ -389,12 +340,6 @@ void r600_hdmi_update_avi_infoframe(struct drm_encoder *encoder, void *buffer,
 	uint32_t offset = dig->afmt->offset;
 	uint8_t *frame = buffer + 3;
 	uint8_t *header = buffer;
-=======
-void r600_set_avi_packet(struct radeon_device *rdev, u32 offset,
-    unsigned char *buffer, size_t size)
-{
-	uint8_t *frame = buffer + 3;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	WREG32(HDMI0_AVI_INFO0 + offset,
 		frame[0x0] | (frame[0x1] << 8) | (frame[0x2] << 16) | (frame[0x3] << 24));
@@ -403,19 +348,7 @@ void r600_set_avi_packet(struct radeon_device *rdev, u32 offset,
 	WREG32(HDMI0_AVI_INFO2 + offset,
 		frame[0x8] | (frame[0x9] << 8) | (frame[0xA] << 16) | (frame[0xB] << 24));
 	WREG32(HDMI0_AVI_INFO3 + offset,
-<<<<<<< HEAD
 		frame[0xC] | (frame[0xD] << 8) | (header[1] << 24));
-=======
-		frame[0xC] | (frame[0xD] << 8) | (buffer[1] << 24));
-
-	WREG32_OR(HDMI0_INFOFRAME_CONTROL1 + offset,
-		  HDMI0_AVI_INFO_LINE(2));	/* anything other than 0 */
-
-	WREG32_OR(HDMI0_INFOFRAME_CONTROL0 + offset,
-		  HDMI0_AVI_INFO_SEND |	/* enable AVI info frames */
-		  HDMI0_AVI_INFO_CONT);	/* send AVI info frames every frame/field */
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*
@@ -492,7 +425,6 @@ void r600_hdmi_audio_workaround(struct drm_encoder *encoder)
 		 value, ~HDMI0_AUDIO_TEST_EN);
 }
 
-<<<<<<< HEAD
 void r600_audio_set_dto(struct drm_encoder *encoder, u32 clock)
 {
 	struct drm_device *dev = encoder->dev;
@@ -675,96 +607,6 @@ void r600_hdmi_setmode(struct drm_encoder *encoder, struct drm_display_mode *mod
 
 	/* enable audio after to setting up hw */
 	r600_audio_enable(rdev, dig->afmt->pin, 0xf);
-=======
-void r600_hdmi_audio_set_dto(struct radeon_device *rdev,
-    struct radeon_crtc *crtc, unsigned int clock)
-{
-	struct radeon_encoder *radeon_encoder;
-	struct radeon_encoder_atom_dig *dig;
-
-	if (!crtc)
-		return;
-
-	radeon_encoder = to_radeon_encoder(crtc->encoder);
-	dig = radeon_encoder->enc_priv;
-
-	if (!dig)
-		return;
-
-	if (dig->dig_encoder == 0) {
-		WREG32(DCCG_AUDIO_DTO0_PHASE, 24000 * 100);
-		WREG32(DCCG_AUDIO_DTO0_MODULE, clock * 100);
-		WREG32(DCCG_AUDIO_DTO_SELECT, 0); /* select DTO0 */
-	} else {
-		WREG32(DCCG_AUDIO_DTO1_PHASE, 24000 * 100);
-		WREG32(DCCG_AUDIO_DTO1_MODULE, clock * 100);
-		WREG32(DCCG_AUDIO_DTO_SELECT, 1); /* select DTO1 */
-	}
-}
-
-void r600_set_vbi_packet(struct drm_encoder *encoder, u32 offset)
-{
-	struct drm_device *dev = encoder->dev;
-	struct radeon_device *rdev = dev->dev_private;
-
-	WREG32_OR(HDMI0_VBI_PACKET_CONTROL + offset,
-		HDMI0_NULL_SEND |	/* send null packets when required */
-		HDMI0_GC_SEND |		/* send general control packets */
-		HDMI0_GC_CONT);		/* send general control packets every frame */
-}
-
-void r600_set_audio_packet(struct drm_encoder *encoder, u32 offset)
-{
-	struct drm_device *dev = encoder->dev;
-	struct radeon_device *rdev = dev->dev_private;
-
-	WREG32_P(HDMI0_AUDIO_PACKET_CONTROL + offset,
-		HDMI0_AUDIO_SAMPLE_SEND |			/* send audio packets */
-		HDMI0_AUDIO_DELAY_EN(1) |			/* default audio delay */
-		HDMI0_AUDIO_PACKETS_PER_LINE(3) |	/* should be suffient for all audio modes and small enough for all hblanks */
-		HDMI0_60958_CS_UPDATE,				/* allow 60958 channel status fields to be updated */
-		~(HDMI0_AUDIO_SAMPLE_SEND |
-		HDMI0_AUDIO_DELAY_EN_MASK |
-		HDMI0_AUDIO_PACKETS_PER_LINE_MASK |
-		HDMI0_60958_CS_UPDATE));
-
-	WREG32_OR(HDMI0_INFOFRAME_CONTROL0 + offset,
-		HDMI0_AUDIO_INFO_SEND |		/* enable audio info frames (frames won't be set until audio is enabled) */
-		HDMI0_AUDIO_INFO_UPDATE);	/* required for audio info values to be updated */
-
-	WREG32_P(HDMI0_INFOFRAME_CONTROL1 + offset,
-		HDMI0_AUDIO_INFO_LINE(2),	/* anything other than 0 */
-		~HDMI0_AUDIO_INFO_LINE_MASK);
-
-	WREG32_AND(HDMI0_GENERIC_PACKET_CONTROL + offset,
-		~(HDMI0_GENERIC0_SEND |
-		HDMI0_GENERIC0_CONT |
-		HDMI0_GENERIC0_UPDATE |
-		HDMI0_GENERIC1_SEND |
-		HDMI0_GENERIC1_CONT |
-		HDMI0_GENERIC0_LINE_MASK |
-		HDMI0_GENERIC1_LINE_MASK));
-
-	WREG32_P(HDMI0_60958_0 + offset,
-		HDMI0_60958_CS_CHANNEL_NUMBER_L(1),
-		~(HDMI0_60958_CS_CHANNEL_NUMBER_L_MASK |
-		HDMI0_60958_CS_CLOCK_ACCURACY_MASK));
-
-	WREG32_P(HDMI0_60958_1 + offset,
-		HDMI0_60958_CS_CHANNEL_NUMBER_R(2),
-		~HDMI0_60958_CS_CHANNEL_NUMBER_R_MASK);
-}
-
-void r600_set_mute(struct drm_encoder *encoder, u32 offset, bool mute)
-{
-	struct drm_device *dev = encoder->dev;
-	struct radeon_device *rdev = dev->dev_private;
-
-	if (mute)
-		WREG32_OR(HDMI0_GC + offset, HDMI0_GC_AVMUTE);
-	else
-		WREG32_AND(HDMI0_GC + offset, ~HDMI0_GC_AVMUTE);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -843,7 +685,6 @@ void r600_hdmi_enable(struct drm_encoder *encoder, bool enable)
 	if (!dig || !dig->afmt)
 		return;
 
-<<<<<<< HEAD
 	/* Silent, r600_hdmi_enable will raise WARN for us */
 	if (enable && dig->afmt->enabled)
 		return;
@@ -855,8 +696,6 @@ void r600_hdmi_enable(struct drm_encoder *encoder, bool enable)
 		dig->afmt->pin = NULL;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Older chipsets require setting HDMI and routing manually */
 	if (!ASIC_IS_DCE3(rdev)) {
 		if (enable)

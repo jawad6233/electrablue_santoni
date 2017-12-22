@@ -955,11 +955,7 @@ static wpt_status dxeDescAllocAndLink
       }
       memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
-<<<<<<< HEAD
                "Allocated Descriptor VA %p, PA %p", currentDesc, physAddressAlloc);
-=======
-               "Allocated Descriptor VA %pK, PA %pK", currentDesc, physAddressAlloc);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
       currentCtrlBlk->linkedDesc        = currentDesc;
       currentCtrlBlk->linkedDescPhyAddr = physAddress;

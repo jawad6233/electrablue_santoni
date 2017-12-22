@@ -19,12 +19,6 @@ This is now completely optional as the partition information is avaialble from
 bootloader.
 
 Optional properties:
-<<<<<<< HEAD
-=======
-- reg : boot_cfg. This is needed only on the targets where both NAND and eMMC
-  devices are supported. On eMMC based builds, NAND cannot be enabled by
-  default due to the absence of some of its required resources.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - reg : The partition offset and size
 - label : The label / name for this partition.
 - read-only: This parameter, if present, indicates that this partition
@@ -42,17 +36,9 @@ Examples:
 	qcom,nand@f9af0000 {
 		compatible = "qcom,msm-nand";
 		reg = <0xf9af0000 0x1000>,
-<<<<<<< HEAD
 		      <0xf9ac4000 0x8000>;
 		reg-names = "nand_phys",
 			    "bam_phys";
-=======
-		      <0xf9ac4000 0x8000>,
-		      <0x5e02c 0x4>;
-		reg-names = "nand_phys",
-			    "bam_phys",
-			    "boot_cfg";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,reg-adjustment-offset = <0x4000>;
 
 		interrupts = <0 279 0>;

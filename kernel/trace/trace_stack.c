@@ -462,11 +462,7 @@ static __init int stack_trace_init(void)
 	struct dentry *d_tracer;
 
 	d_tracer = tracing_init_dentry();
-<<<<<<< HEAD
 	if (!d_tracer)
-=======
-	if (IS_ERR(d_tracer))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 
 	trace_create_file("stack_max_size", 0644, d_tracer,

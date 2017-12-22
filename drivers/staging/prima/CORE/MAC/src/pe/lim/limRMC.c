@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2013-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2013-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -123,11 +119,7 @@ __rmcGroupInsertHashEntry(tpAniSirGlobal pMac, tSirMacAddr transmitter)
     {
         entry = (tLimRmcGroupContext *)vos_mem_malloc(sizeof(*entry));
 
-<<<<<<< HEAD
         PELOG1(limLog(pMac, LOG1, FL("RMC: Hash Insert:new entry %p"), entry);)
-=======
-        PELOG1(limLog(pMac, LOG1, FL("RMC: Hash Insert:new entry %pK"), entry);)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         if (entry)
         {
@@ -194,11 +186,7 @@ __rmcGroupDeleteHashEntry(tpAniSirGlobal pMac, tSirMacAddr transmitter)
                 prev->next = entry->next;
             }
 
-<<<<<<< HEAD
             PELOG1(limLog(pMac, LOG1, FL("RMC: Hash Delete: entry %p "
-=======
-            PELOG1(limLog(pMac, LOG1, FL("RMC: Hash Delete: entry %pK "
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                          " transmitter " MAC_ADDRESS_STR), entry
                              MAC_ADDR_ARRAY(transmitter));)
 

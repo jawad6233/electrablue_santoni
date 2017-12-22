@@ -498,23 +498,10 @@ static ssize_t ipa_ut_dbgfs_test_write(struct file *file,
 		goto free_mem;
 	}
 
-<<<<<<< HEAD
 	IPA_ACTIVE_CLIENTS_INC_SPECIAL("IPA_UT");
 
 	suite = test->suite;
 	if (suite && suite->meta_data->setup) {
-=======
-	suite = test->suite;
-	if (!suite || !suite->meta_data) {
-		IPA_UT_ERR("test %s with invalid suite\n", test->name);
-		rc = -EINVAL;
-		goto free_mem;
-	}
-
-	IPA_ACTIVE_CLIENTS_INC_SPECIAL("IPA_UT");
-
-	if (suite->meta_data->setup) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPA_UT_DBG("*** Suite '%s': Run setup ***\n",
 			suite->meta_data->name);
 		rc = suite->meta_data->setup(&suite->meta_data->priv);
@@ -543,11 +530,7 @@ static ssize_t ipa_ut_dbgfs_test_write(struct file *file,
 		pr_info("<<<<<<<<<<<=================\n");
 	}
 
-<<<<<<< HEAD
 	if (suite && suite->meta_data->teardown) {
-=======
-	if (suite->meta_data->teardown) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPA_UT_DBG("*** Suite '%s': Run Teardown ***\n",
 			suite->meta_data->name);
 		rc = suite->meta_data->teardown(suite->meta_data->priv);

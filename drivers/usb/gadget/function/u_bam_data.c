@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1427,34 +1423,20 @@ void bam_data_disconnect(struct data_port *gr, enum function_type func,
 			 */
 			spin_unlock_irqrestore(&port->port_lock, flags);
 			usb_ep_disable(port->port_usb->in);
-<<<<<<< HEAD
-=======
-			spin_lock_irqsave(&port->port_lock, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (d->tx_req) {
 				usb_ep_free_request(port->port_usb->in,
 								d->tx_req);
 				d->tx_req = NULL;
 			}
-<<<<<<< HEAD
 
 			usb_ep_disable(port->port_usb->out);
-=======
-			spin_unlock_irqrestore(&port->port_lock, flags);
-
-			usb_ep_disable(port->port_usb->out);
-			spin_lock_irqsave(&port->port_lock, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (d->rx_req) {
 				usb_ep_free_request(port->port_usb->out,
 								d->rx_req);
 				d->rx_req = NULL;
 			}
 
-<<<<<<< HEAD
 			spin_lock_irqsave(&port->port_lock, flags);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			/* Only for SYS2BAM mode related UL workaround */
 			if (d->src_pipe_type == USB_BAM_PIPE_SYS2BAM) {
@@ -2083,7 +2065,6 @@ static void bam2bam_data_resume_work(struct work_struct *w)
 	if (gadget_is_dwc3(gadget) &&
 		msm_dwc3_reset_ep_after_lpm(gadget)) {
 		if (d->tx_req_dequeued) {
-<<<<<<< HEAD
 			configure_usb_data_fifo(d->usb_bam_type,
 				d->dst_connection_idx,
 				port->port_usb->in, d->dst_pipe_type);
@@ -2099,32 +2080,6 @@ static void bam2bam_data_resume_work(struct work_struct *w)
 			msm_dwc3_reset_dbm_ep(port->port_usb->out);
 			spin_lock_irqsave(&port->port_lock, flags);
 		}
-=======
-			msm_ep_unconfig(port->port_usb->in);
-			configure_usb_data_fifo(d->usb_bam_type,
-				d->dst_connection_idx,
-				port->port_usb->in, d->dst_pipe_type);
-		}
-		if (d->rx_req_dequeued) {
-			msm_ep_unconfig(port->port_usb->out);
-			configure_usb_data_fifo(d->usb_bam_type,
-				d->src_connection_idx,
-				port->port_usb->out, d->src_pipe_type);
-		}
-		spin_unlock_irqrestore(&port->port_lock, flags);
-		if (d->tx_req_dequeued)
-			msm_dwc3_reset_dbm_ep(port->port_usb->in);
-		if (d->rx_req_dequeued)
-			msm_dwc3_reset_dbm_ep(port->port_usb->out);
-		spin_lock_irqsave(&port->port_lock, flags);
-		if (port->port_usb) {
-			if (d->tx_req_dequeued)
-				msm_ep_config(port->port_usb->in, d->tx_req);
-			if (d->rx_req_dequeued)
-				msm_ep_config(port->port_usb->out, d->rx_req);
-		}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	d->tx_req_dequeued = false;
 	d->rx_req_dequeued = false;

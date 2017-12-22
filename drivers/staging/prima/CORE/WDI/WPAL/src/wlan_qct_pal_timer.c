@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -66,11 +62,7 @@ static void wpalTimerCback( void * userData )
    else
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_WARN,
-<<<<<<< HEAD
                   " %s pTimer(%p) callback after deleted",
-=======
-                  " %s pTimer(%pK) callback after deleted",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer );
    }
 }/*wpalTimerCback*/
@@ -90,11 +82,7 @@ wpt_status wpalTimerInit(wpt_timer * pTimer, wpal_timer_callback callback, void 
    if( pTimer == NULL || callback == NULL )
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                   " %s Wrong param pTimer(%p) callback(%p)",
-=======
-                  " %s Wrong param pTimer(%pK) callback(%pK)",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer, callback );
       return eWLAN_PAL_STATUS_E_INVAL;
    }
@@ -126,11 +114,7 @@ wpt_status wpalTimerDelete(wpt_timer *pTimer)
    if( pTimer == NULL )
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                   " %s Wrong param pTimer(%p)",
-=======
-                  " %s Wrong param pTimer(%pK)",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer );
       return eWLAN_PAL_STATUS_E_INVAL;
    }
@@ -162,11 +146,7 @@ wpt_status wpalTimerStart(wpt_timer * pTimer, wpt_uint32 timeout)
    if( pTimer == NULL )
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                   " %s Wrong param pTimer(%p)",
-=======
-                  " %s Wrong param pTimer(%pK)",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer );
       return eWLAN_PAL_STATUS_E_INVAL;
    }
@@ -190,11 +170,7 @@ wpt_status wpalTimerStop(wpt_timer * pTimer)
    if( pTimer == NULL )
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                   " %s Wrong param pTimer(%p)",
-=======
-                  " %s Wrong param pTimer(%pK)",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer );
       return eWLAN_PAL_STATUS_E_INVAL;
    }
@@ -215,11 +191,7 @@ WPAL_TIMER_STATE wpalTimerGetCurStatus(wpt_timer * pTimer)
    if( pTimer == NULL )
    {
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                   " %s Wrong param pTimer(%p)",
-=======
-                  " %s Wrong param pTimer(%pK)",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, pTimer );
       return eWLAN_PAL_STATUS_E_INVAL;
    }

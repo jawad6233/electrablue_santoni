@@ -8,14 +8,8 @@ optionally have a register which encodes the maximum rate supported by hw.
 Required properties:
 - compatible: "qcom,clock-a7-8226", "qcom,clock-a7-9630",
 		"qcom,clock-a53-8916", "qcom,clock-a7-vpipa",
-<<<<<<< HEAD
 		"qcom,clock-a7-9640", "qcom,clock-a7-californium"
 		"qcom,clock-a7-9640", "qcom,clock-a7-mdm9607"
-=======
-		"qcom,clock-a7-9640", "qcom,clock-a7-9650",
-		"qcom,clock-a7-9640", "qcom,clock-a7-mdm9607",
-		"qcom,clock-a7-sdx20"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - reg: pairs of physical address and region size
 - reg-names: "rcg-base" is expected
 - clock-names: list of names of clock inputs

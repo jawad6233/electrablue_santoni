@@ -14,10 +14,6 @@
 #include <drm/drmP.h>
 #include <drm/drm_crtc.h>
 #include <drm/drm_crtc_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_plane_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "udl_drv.h"
 
 /*
@@ -343,18 +339,11 @@ static int udl_crtc_mode_set(struct drm_crtc *crtc,
 
 	wrptr = udl_dummy_render(wrptr);
 
-<<<<<<< HEAD
 	ufb->active_16 = true;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (old_fb) {
 		struct udl_framebuffer *uold_fb = to_udl_fb(old_fb);
 		uold_fb->active_16 = false;
 	}
-<<<<<<< HEAD
-=======
-	ufb->active_16 = true;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	udl->mode_buf_len = wrptr - buf;
 
 	/* damage all of it */
@@ -383,16 +372,6 @@ static int udl_crtc_page_flip(struct drm_crtc *crtc,
 	struct drm_device *dev = crtc->dev;
 	unsigned long flags;
 
-<<<<<<< HEAD
-=======
-	struct drm_framebuffer *old_fb = crtc->primary->fb;
-	if (old_fb) {
-		struct udl_framebuffer *uold_fb = to_udl_fb(old_fb);
-		uold_fb->active_16 = false;
-	}
-	ufb->active_16 = true;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	udl_handle_damage(ufb, 0, 0, fb->width, fb->height);
 
 	spin_lock_irqsave(&dev->event_lock, flags);

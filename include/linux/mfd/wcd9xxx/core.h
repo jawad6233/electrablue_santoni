@@ -308,11 +308,7 @@ int wcd9xxx_interface_reg_read(struct wcd9xxx *wcd9xxx, unsigned short reg);
 int wcd9xxx_interface_reg_write(struct wcd9xxx *wcd9xxx, unsigned short reg,
 		u8 val);
 int wcd9xxx_get_logical_addresses(u8 *pgd_la, u8 *inf_la);
-<<<<<<< HEAD
 int wcd9xxx_slim_write_repeat(struct wcd9xxx *wcd9xxx, unsigned short reg,
-=======
-int wcd9xxx_bus_write_repeat(struct wcd9xxx *wcd9xxx, unsigned short reg,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			     int bytes, void *src);
 int wcd9xxx_slim_reserve_bw(struct wcd9xxx *wcd9xxx,
 			    u32 bw_ops, bool commit);

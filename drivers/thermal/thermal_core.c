@@ -443,14 +443,11 @@ int sensor_get_temp(uint32_t sensor_id, long *temp)
 
 	ret = sensor->tz->ops->get_temp(sensor->tz, temp);
 
-<<<<<<< HEAD
 	if (!temp && !ret) {
 		pr_debug("thermal_core: Reporting default temperature.");
 		*temp = DEFAULT_TEMP;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 EXPORT_SYMBOL(sensor_get_temp);

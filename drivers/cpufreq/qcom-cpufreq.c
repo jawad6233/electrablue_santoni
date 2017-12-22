@@ -24,10 +24,7 @@
 #include <linux/cpumask.h>
 #include <linux/suspend.h>
 #include <linux/clk.h>
-<<<<<<< HEAD
 #include <linux/clk/msm-clk-provider.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/err.h>
 #include <linux/platform_device.h>
 #include <linux/of.h>
@@ -40,11 +37,8 @@ static struct clk *l2_clk;
 static DEFINE_PER_CPU(struct cpufreq_frequency_table *, freq_table);
 static bool hotplug_ready;
 
-<<<<<<< HEAD
 static unsigned int max_two_freqs[NR_CPUS][2];
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct cpufreq_suspend_t {
 	struct mutex suspend_mutex;
 	int device_suspended;
@@ -116,14 +110,11 @@ static int msm_cpufreq_target(struct cpufreq_policy *policy,
 
 	ret = set_cpu_freq(policy, table[index].frequency,
 			   table[index].driver_data);
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_TRACK_FREQ_TARGET_INDEX
 	if (!ret)
 		policy->cur_index = index;
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 done:
 	mutex_unlock(&per_cpu(suspend_data, policy->cpu).suspend_mutex);
 	return ret;
@@ -185,17 +176,13 @@ static int msm_cpufreq_init(struct cpufreq_policy *policy)
 			policy->cpu, cur_freq, table[index].frequency);
 	policy->cur = table[index].frequency;
 	policy->freq_table = table;
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_TRACK_FREQ_TARGET_INDEX
 	policy->cur_index = index;
 #endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
 
-<<<<<<< HEAD
 static void set_cpu_freq_pure(unsigned int cpu, unsigned int new_freq)
 {
 	unsigned long rate;
@@ -205,8 +192,6 @@ static void set_cpu_freq_pure(unsigned int cpu, unsigned int new_freq)
 	clk_set_rate(cpu_clk[cpu], rate);
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 		unsigned long action, void *hcpu)
 {
@@ -255,7 +240,6 @@ static int msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 			clk_disable(l2_clk);
 			return NOTIFY_BAD;
 		}
-<<<<<<< HEAD
 		/*
 		 * After a CPU comes online, it refuses to change its frequency
 		 * to the frequency it was running at before going offline. The
@@ -271,8 +255,6 @@ static int msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 			set_cpu_freq_pure(cpu, max_two_freqs[cpu][0]);
 			set_cpu_freq_pure(cpu, max_two_freqs[cpu][1]);
 		}
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		break;
 
 	default:
@@ -301,25 +283,17 @@ static int msm_cpufreq_suspend(void)
 
 static int msm_cpufreq_resume(void)
 {
-<<<<<<< HEAD
 	int cpu;
 #ifndef CONFIG_CPU_BOOST
 	int ret;
 	struct cpufreq_policy policy;
 #endif
-=======
-	int cpu, ret;
-	struct cpufreq_policy policy;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for_each_possible_cpu(cpu) {
 		per_cpu(suspend_data, cpu).device_suspended = 0;
 	}
 
-<<<<<<< HEAD
 #ifndef CONFIG_CPU_BOOST
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * Freq request might be rejected during suspend, resulting
 	 * in policy->cur violating min/max constraint.
@@ -341,10 +315,7 @@ static int msm_cpufreq_resume(void)
 				cpu);
 	}
 	put_online_cpus();
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return NOTIFY_DONE;
 }
@@ -441,12 +412,9 @@ static struct cpufreq_frequency_table *cpufreq_parse_dt(struct device *dev,
 		ftbl[i].frequency = f;
 	}
 
-<<<<<<< HEAD
 	max_two_freqs[cpu][0] = ftbl[i - 2].frequency;
 	max_two_freqs[cpu][1] = ftbl[i - 1].frequency;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ftbl[i].driver_data = i;
 	ftbl[i].frequency = CPUFREQ_TABLE_END;
 
@@ -473,10 +441,7 @@ static int __init msm_cpufreq_probe(struct platform_device *pdev)
 		c = devm_clk_get(dev, clk_name);
 		if (IS_ERR(c))
 			return PTR_ERR(c);
-<<<<<<< HEAD
 		c->flags |= CLKFLAG_NO_RATE_CACHE;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cpu_clk[cpu] = c;
 	}
 	hotplug_ready = true;

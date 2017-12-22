@@ -55,11 +55,7 @@ static void *squashfs_xz_comp_opts(struct squashfs_sb_info *msblk,
 	struct comp_opts *opts;
 	int err = 0, n;
 
-<<<<<<< HEAD
 	opts = kmalloc(sizeof(*opts), GFP_KERNEL);
-=======
-	opts = kmalloc(sizeof(*opts), GFP_ATOMIC);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (opts == NULL) {
 		err = -ENOMEM;
 		goto out2;
@@ -140,20 +136,12 @@ static int squashfs_xz_uncompress(struct squashfs_sb_info *msblk, void *strm,
 	enum xz_ret xz_err;
 	int avail, total = 0, k = 0;
 	struct squashfs_xz *stream = strm;
-<<<<<<< HEAD
-=======
-	void *buf = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	xz_dec_reset(stream->state);
 	stream->buf.in_pos = 0;
 	stream->buf.in_size = 0;
 	stream->buf.out_pos = 0;
-<<<<<<< HEAD
 	stream->buf.out_size = PAGE_CACHE_SIZE;
-=======
-	stream->buf.out_size = PAGE_SIZE;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	stream->buf.out = squashfs_first_page(output);
 
 	do {
@@ -168,29 +156,12 @@ static int squashfs_xz_uncompress(struct squashfs_sb_info *msblk, void *strm,
 
 		if (stream->buf.out_pos == stream->buf.out_size) {
 			stream->buf.out = squashfs_next_page(output);
-<<<<<<< HEAD
 			if (stream->buf.out != NULL) {
 				stream->buf.out_pos = 0;
 				total += PAGE_CACHE_SIZE;
 			}
 		}
 
-=======
-			if (!IS_ERR(stream->buf.out)) {
-				stream->buf.out_pos = 0;
-				total += PAGE_SIZE;
-			}
-		}
-
-		if (!stream->buf.out) {
-			if (!buf) {
-				buf = kmalloc(PAGE_SIZE, GFP_ATOMIC);
-				if (!buf)
-					goto out;
-			}
-			stream->buf.out = buf;
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		xz_err = xz_dec_run(stream->state, &stream->buf);
 
 		if (stream->buf.in_pos == stream->buf.in_size && k < b)
@@ -202,19 +173,11 @@ static int squashfs_xz_uncompress(struct squashfs_sb_info *msblk, void *strm,
 	if (xz_err != XZ_STREAM_END || k < b)
 		goto out;
 
-<<<<<<< HEAD
-=======
-	kfree(buf);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return total + stream->buf.out_pos;
 
 out:
 	for (; k < b; k++)
 		put_bh(bh[k]);
-<<<<<<< HEAD
-=======
-	kfree(buf);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return -EIO;
 }

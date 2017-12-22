@@ -416,7 +416,6 @@ error_out:
 
 static void cpufreq_stats_update_policy_cpu(struct cpufreq_policy *policy)
 {
-<<<<<<< HEAD
 	struct cpufreq_stats *stat;
 
 	pr_debug("Updating stats_table for new_cpu %u from last_cpu %u\n",
@@ -428,13 +427,6 @@ static void cpufreq_stats_update_policy_cpu(struct cpufreq_policy *policy)
 	}
 
 	stat = per_cpu(cpufreq_stats_table, policy->last_cpu);
-=======
-	struct cpufreq_stats *stat = per_cpu(cpufreq_stats_table,
-			policy->last_cpu);
-
-	pr_debug("Updating stats_table for new_cpu %u from last_cpu %u\n",
-			policy->cpu, policy->last_cpu);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	per_cpu(cpufreq_stats_table, policy->cpu) = per_cpu(cpufreq_stats_table,
 			policy->last_cpu);
 	per_cpu(cpufreq_stats_table, policy->last_cpu) = NULL;

@@ -1244,11 +1244,7 @@ static int mos7720_write(struct tty_struct *tty, struct usb_serial_port *port,
 
 	if (urb->transfer_buffer == NULL) {
 		urb->transfer_buffer = kmalloc(URB_TRANSFER_BUFFER_SIZE,
-<<<<<<< HEAD
 					       GFP_ATOMIC);
-=======
-					       GFP_KERNEL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!urb->transfer_buffer)
 			goto exit;
 	}

@@ -428,11 +428,7 @@ static int qcom_ice_enable(struct ice_device *ice_dev)
 		 (ICE_REV(ice_dev->ice_hw_version, MINOR) >= 1))) {
 		reg = qcom_ice_readl(ice_dev, QCOM_ICE_REGS_BYPASS_STATUS);
 		if ((reg & 0x80000000) != 0x0) {
-<<<<<<< HEAD
 			pr_err("%s: Bypass failed for ice = %p",
-=======
-			pr_err("%s: Bypass failed for ice = %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				__func__, (void *)ice_dev);
 			BUG();
 		}
@@ -458,11 +454,7 @@ static int qcom_ice_verify_ice(struct ice_device *ice_dev)
 	}
 	ice_dev->ice_hw_version = rev;
 
-<<<<<<< HEAD
 	dev_info(ice_dev->pdev, "QC ICE %d.%d.%d device found @0x%p\n",
-=======
-	dev_info(ice_dev->pdev, "QC ICE %d.%d.%d device found @0x%pK\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					maj_rev, min_rev, step_rev,
 					ice_dev->mmio);
 
@@ -841,11 +833,7 @@ static int qcom_ice_restore_config(void)
 static int qcom_ice_init_clocks(struct ice_device *ice)
 {
 	int ret = -EINVAL;
-<<<<<<< HEAD
 	struct ice_clk_info *clki;
-=======
-	struct ice_clk_info *clki = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct device *dev = ice->pdev;
 	struct list_head *head = &ice->clk_list_head;
 
@@ -889,11 +877,7 @@ out:
 static int qcom_ice_enable_clocks(struct ice_device *ice, bool enable)
 {
 	int ret = 0;
-<<<<<<< HEAD
 	struct ice_clk_info *clki;
-=======
-	struct ice_clk_info *clki = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct device *dev = ice->pdev;
 	struct list_head *head = &ice->clk_list_head;
 
@@ -1220,11 +1204,7 @@ static void qcom_ice_debug(struct platform_device *pdev)
 		goto out;
 	}
 
-<<<<<<< HEAD
 	pr_err("%s: =========== REGISTER DUMP (%p)===========\n",
-=======
-	pr_err("%s: =========== REGISTER DUMP (%pK)===========\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ice_dev->ice_instance_type, ice_dev);
 
 	pr_err("%s: ICE Control: 0x%08x | ICE Reset: 0x%08x\n",
@@ -1531,11 +1511,7 @@ struct platform_device *qcom_ice_get_pdevice(struct device_node *node)
 	struct ice_device *ice_dev = NULL;
 
 	if (!node) {
-<<<<<<< HEAD
 		pr_err("%s: invalid node %p", __func__, node);
-=======
-		pr_err("%s: invalid node %pK", __func__, node);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto out;
 	}
 
@@ -1552,7 +1528,6 @@ struct platform_device *qcom_ice_get_pdevice(struct device_node *node)
 
 	list_for_each_entry(ice_dev, &ice_devices, list) {
 		if (ice_dev->pdev->of_node == node) {
-<<<<<<< HEAD
 			pr_info("%s: found ice device %p\n", __func__, ice_dev);
 			break;
 		}
@@ -1560,16 +1535,6 @@ struct platform_device *qcom_ice_get_pdevice(struct device_node *node)
 
 	ice_pdev = to_platform_device(ice_dev->pdev);
 	pr_info("%s: matching platform device %p\n", __func__, ice_pdev);
-=======
-			pr_info("%s: found ice device %pK\n", __func__,
-			ice_dev);
-			ice_pdev = to_platform_device(ice_dev->pdev);
-			break;
-		}
-	}
-	if(ice_pdev)
-		pr_info("%s: matching platform device %pK\n", __func__, ice_pdev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out:
 	return ice_pdev;
 }
@@ -1588,19 +1553,11 @@ static struct ice_device *get_ice_device_from_storage_type
 	list_for_each_entry(ice_dev, &ice_devices, list) {
 		if (!strcmp(ice_dev->ice_instance_type, storage_type)) {
 			pr_info("%s: found ice device %p\n", __func__, ice_dev);
-<<<<<<< HEAD
 			break;
 		}
 	}
 out:
 	return ice_dev;
-=======
-			return ice_dev;
-		}
-	}
-out:
-	return NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int enable_ice_setup(struct ice_device *ice_dev)
@@ -1615,11 +1572,7 @@ static int enable_ice_setup(struct ice_device *ice_dev)
 		}
 		ret = regulator_enable(ice_dev->reg);
 		if (ret) {
-<<<<<<< HEAD
 			pr_err("%s:%p: Could not enable regulator\n",
-=======
-			pr_err("%s:%pK: Could not enable regulator\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					__func__, ice_dev);
 			goto out;
 		}
@@ -1627,11 +1580,7 @@ static int enable_ice_setup(struct ice_device *ice_dev)
 
 	/* Setup Clocks */
 	if (qcom_ice_enable_clocks(ice_dev, true)) {
-<<<<<<< HEAD
 		pr_err("%s:%p:%s Could not enable clocks\n", __func__,
-=======
-		pr_err("%s:%pK:%s Could not enable clocks\n", __func__,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				ice_dev, ice_dev->ice_instance_type);
 		goto out_reg;
 	}
@@ -1643,11 +1592,7 @@ static int enable_ice_setup(struct ice_device *ice_dev)
 
 	ret = qcom_ice_set_bus_vote(ice_dev, vote);
 	if (ret) {
-<<<<<<< HEAD
 		pr_err("%s:%p: failed %d\n", __func__, ice_dev, ret);
-=======
-		pr_err("%s:%pK: failed %d\n", __func__, ice_dev, ret);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto out_clocks;
 	}
 
@@ -1679,31 +1624,19 @@ static int disable_ice_setup(struct ice_device *ice_dev)
 	/* Setup Bus Vote */
 	vote = qcom_ice_get_bus_vote(ice_dev, "MIN");
 	if (vote < 0) {
-<<<<<<< HEAD
 		pr_err("%s:%p: Unable to get bus vote\n", __func__, ice_dev);
-=======
-		pr_err("%s:%pK: Unable to get bus vote\n", __func__, ice_dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		goto out_disable_clocks;
 	}
 
 	ret = qcom_ice_set_bus_vote(ice_dev, vote);
 	if (ret)
-<<<<<<< HEAD
 		pr_err("%s:%p: failed %d\n", __func__, ice_dev, ret);
-=======
-		pr_err("%s:%pK: failed %d\n", __func__, ice_dev, ret);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 out_disable_clocks:
 
 	/* Setup Clocks */
 	if (qcom_ice_enable_clocks(ice_dev, false))
-<<<<<<< HEAD
 		pr_err("%s:%p:%s Could not disable clocks\n", __func__,
-=======
-		pr_err("%s:%pK:%s Could not disable clocks\n", __func__,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				ice_dev, ice_dev->ice_instance_type);
 
 	/* Setup Regulator */
@@ -1714,11 +1647,7 @@ out_disable_clocks:
 		}
 		ret = regulator_disable(ice_dev->reg);
 		if (ret) {
-<<<<<<< HEAD
 			pr_err("%s:%p: Could not disable regulator\n",
-=======
-			pr_err("%s:%pK: Could not disable regulator\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					__func__, ice_dev);
 			goto out;
 		}

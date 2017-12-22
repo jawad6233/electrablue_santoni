@@ -28,17 +28,6 @@
 #define SSUSB_GADGET_VBUS_DRAW_UNITS 8
 #define HSUSB_GADGET_VBUS_DRAW_UNITS 2
 
-<<<<<<< HEAD
-=======
-/*
- * Based on enumerated USB speed, draw power with set_config and resume
- * HSUSB: 500mA, SSUSB: 900mA
- */
-#define USB_VBUS_DRAW(speed)\
-	(speed == USB_SPEED_SUPER ?\
-	SSUSB_GADGET_VBUS_DRAW : CONFIG_USB_GADGET_VBUS_DRAW)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static bool enable_l1_for_hs;
 module_param(enable_l1_for_hs, bool, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(enable_l1_for_hs, "Enable support for L1 LPM for HS devices");
@@ -163,11 +152,7 @@ int config_ep_by_speed(struct usb_gadget *g,
 
 ep_found:
 	/* commit results */
-<<<<<<< HEAD
 	_ep->maxpacket = usb_endpoint_maxp(chosen_desc) & 0x7ff;
-=======
-	_ep->maxpacket = usb_endpoint_maxp(chosen_desc);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	_ep->desc = chosen_desc;
 	_ep->comp_desc = NULL;
 	_ep->maxburst = 0;
@@ -677,11 +662,7 @@ static int bos_desc(struct usb_composite_dev *cdev)
 	usb_ext->bLength = USB_DT_USB_EXT_CAP_SIZE;
 	usb_ext->bDescriptorType = USB_DT_DEVICE_CAPABILITY;
 	usb_ext->bDevCapabilityType = USB_CAP_TYPE_EXT;
-<<<<<<< HEAD
 	usb_ext->bmAttributes = cpu_to_le32(USB_LPM_SUPPORT);
-=======
-	usb_ext->bmAttributes = cpu_to_le32(USB_LPM_SUPPORT | USB_BESL_SUPPORT);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (gadget_is_superspeed(cdev->gadget)) {
 		/*
@@ -769,10 +750,7 @@ static int set_config(struct usb_composite_dev *cdev,
 	struct usb_gadget	*gadget = cdev->gadget;
 	struct usb_configuration *c = NULL;
 	int			result = -EINVAL;
-<<<<<<< HEAD
 	unsigned		power = gadget_is_otg(gadget) ? 8 : 100;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int			tmp;
 
 	/*
@@ -886,7 +864,6 @@ static int set_config(struct usb_composite_dev *cdev,
 		}
 	}
 
-<<<<<<< HEAD
 	/* Allow 900mA to draw with Super-Speed */
 	if (gadget->speed == USB_SPEED_SUPER)
 		power = SSUSB_GADGET_VBUS_DRAW;
@@ -895,10 +872,6 @@ static int set_config(struct usb_composite_dev *cdev,
 
 done:
 	usb_gadget_vbus_draw(gadget, power);
-=======
-done:
-	usb_gadget_vbus_draw(gadget, USB_VBUS_DRAW(gadget->speed));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (result >= 0 && cdev->delayed_status)
 		result = USB_GADGET_DELAYED_STATUS;
 	return result;
@@ -1678,11 +1651,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 				cdev->gadget->ep0->maxpacket;
 			if (gadget_is_superspeed(gadget)) {
 				if (gadget->speed >= USB_SPEED_SUPER) {
-<<<<<<< HEAD
 					cdev->desc.bcdUSB = cpu_to_le16(0x0300);
-=======
-					cdev->desc.bcdUSB = cpu_to_le16(0x0310);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					cdev->desc.bMaxPacketSize0 = 9;
 				} else if (gadget->l1_supported ||
 						enable_l1_for_hs) {
@@ -1733,12 +1702,7 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 		case USB_DT_BOS:
 			if ((gadget_is_superspeed(gadget) &&
 				(gadget->speed >= USB_SPEED_SUPER))
-<<<<<<< HEAD
 				 || gadget->l1_supported) {
-=======
-				 || (gadget->l1_supported
-					|| enable_l1_for_hs)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				value = bos_desc(cdev);
 				value = min(w_length, (u16) value);
 			}
@@ -1987,11 +1951,6 @@ unknown:
 			break;
 
 		case USB_RECIP_ENDPOINT:
-<<<<<<< HEAD
-=======
-			if (!cdev->config)
-				break;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			endp = ((w_index & 0x80) >> 3) | (w_index & 0x0f);
 			list_for_each_entry(f, &cdev->config->functions, list) {
 				if (test_bit(endp, f->endpoints))
@@ -2098,11 +2057,7 @@ static ssize_t suspended_show(struct device *dev, struct device_attribute *attr,
 	struct usb_gadget *gadget = dev_to_usb_gadget(dev);
 	struct usb_composite_dev *cdev = get_gadget_data(gadget);
 
-<<<<<<< HEAD
 	return sprintf(buf, "%d\n", cdev->suspended);
-=======
-	return snprintf(buf, PAGE_SIZE, "%d\n", cdev->suspended);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static DEVICE_ATTR_RO(suspended);
 
@@ -2355,10 +2310,7 @@ composite_resume(struct usb_gadget *gadget)
 {
 	struct usb_composite_dev	*cdev = get_gadget_data(gadget);
 	struct usb_function		*f;
-<<<<<<< HEAD
 	u16				maxpower;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 	unsigned long			flags;
 
@@ -2391,14 +2343,10 @@ composite_resume(struct usb_gadget *gadget)
 				f->resume(f);
 		}
 
-<<<<<<< HEAD
 		maxpower = cdev->config->MaxPower;
 
 		usb_gadget_vbus_draw(gadget, maxpower ?
 			maxpower : CONFIG_USB_GADGET_VBUS_DRAW);
-=======
-		usb_gadget_vbus_draw(gadget, USB_VBUS_DRAW(gadget->speed));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	spin_unlock_irqrestore(&cdev->lock, flags);

@@ -1,10 +1,6 @@
 /*
  * Copyright (c) 2013, Sony Mobile Communications AB.
-<<<<<<< HEAD
  * Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -801,11 +797,7 @@ static struct irq_chip msm_gpio_irq_chip = {
 	.irq_set_wake   = msm_gpio_irq_set_wake,
 };
 
-<<<<<<< HEAD
 static void msm_gpio_irq_handler(unsigned int irq, struct irq_desc *desc)
-=======
-bool msm_gpio_irq_handler(unsigned int irq, struct irq_desc *desc)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct gpio_chip *gc = irq_desc_get_handler_data(desc);
 	const struct msm_pingroup *g;
@@ -815,10 +807,6 @@ bool msm_gpio_irq_handler(unsigned int irq, struct irq_desc *desc)
 	int handled = 0;
 	u32 val;
 	int i;
-<<<<<<< HEAD
-=======
-	bool ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	chained_irq_enter(chip, desc);
 
@@ -831,7 +819,6 @@ bool msm_gpio_irq_handler(unsigned int irq, struct irq_desc *desc)
 		val = readl(pctrl->regs + g->intr_status_reg);
 		if (val & BIT(g->intr_status_bit)) {
 			irq_pin = irq_find_mapping(gc->irqdomain, i);
-<<<<<<< HEAD
 			generic_handle_irq(irq_pin);
 			handled++;
 		}
@@ -842,19 +829,6 @@ bool msm_gpio_irq_handler(unsigned int irq, struct irq_desc *desc)
 		handle_bad_irq(irq, desc);
 
 	chained_irq_exit(chip, desc);
-=======
-			handled += generic_handle_irq(irq_pin);
-		}
-	}
-
-	ret = (handled != 0);
-	/* No interrupts were flagged */
-	if (handled == 0)
-		ret = handle_bad_irq(irq, desc);
-
-	chained_irq_exit(chip, desc);
-	return ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*

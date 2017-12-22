@@ -82,13 +82,8 @@
 /* Forward declarations for internal helper functions. */
 static int sctp_writeable(struct sock *sk);
 static void sctp_wfree(struct sk_buff *skb);
-<<<<<<< HEAD
 static int sctp_wait_for_sndbuf(struct sctp_association *, long *timeo_p,
 				size_t msg_len);
-=======
-static int sctp_wait_for_sndbuf(struct sctp_association *asoc, long *timeo_p,
-				size_t msg_len, struct sock **orig_sk);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int sctp_wait_for_packet(struct sock *sk, int *err, long *timeo_p);
 static int sctp_wait_for_connect(struct sctp_association *, long *timeo_p);
 static int sctp_wait_for_accept(struct sock *sk, long timeo);
@@ -1954,22 +1949,9 @@ static int sctp_sendmsg(struct kiocb *iocb, struct sock *sk,
 
 	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
 	if (!sctp_wspace(asoc)) {
-<<<<<<< HEAD
 		err = sctp_wait_for_sndbuf(asoc, &timeo, msg_len);
 		if (err)
 			goto out_free;
-=======
-		/* sk can be changed by peel off when waiting for buf. */
-		err = sctp_wait_for_sndbuf(asoc, &timeo, msg_len, &sk);
-		if (err) {
-			if (err == -ESRCH) {
-				/* asoc is already dead. */
-				new_asoc = NULL;
-				err = -EPIPE;
-			}
-			goto out_free;
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* If an address is passed with the sendto/sendmsg call, it is used
@@ -4491,15 +4473,12 @@ int sctp_do_peeloff(struct sock *sk, sctp_assoc_t id, struct socket **sockp)
 	if (!asoc)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	/* If there is a thread waiting on more sndbuf space for
 	 * sending on this asoc, it cannot be peeled.
 	 */
 	if (waitqueue_active(&asoc->wait))
 		return -EBUSY;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* An association cannot be branched off from an already peeled-off
 	 * socket, nor is this supported for tcp style sockets.
 	 */
@@ -7003,11 +6982,7 @@ void sctp_sock_rfree(struct sk_buff *skb)
 
 /* Helper function to wait for space in the sndbuf.  */
 static int sctp_wait_for_sndbuf(struct sctp_association *asoc, long *timeo_p,
-<<<<<<< HEAD
 				size_t msg_len)
-=======
-				size_t msg_len, struct sock **orig_sk)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct sock *sk = asoc->base.sk;
 	int err = 0;
@@ -7024,18 +6999,10 @@ static int sctp_wait_for_sndbuf(struct sctp_association *asoc, long *timeo_p,
 	for (;;) {
 		prepare_to_wait_exclusive(&asoc->wait, &wait,
 					  TASK_INTERRUPTIBLE);
-<<<<<<< HEAD
 		if (!*timeo_p)
 			goto do_nonblock;
 		if (sk->sk_err || asoc->state >= SCTP_STATE_SHUTDOWN_PENDING ||
 		    asoc->base.dead)
-=======
-		if (asoc->base.dead)
-			goto do_dead;
-		if (!*timeo_p)
-			goto do_nonblock;
-		if (sk->sk_err || asoc->state >= SCTP_STATE_SHUTDOWN_PENDING)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			goto do_error;
 		if (signal_pending(current))
 			goto do_interrupted;
@@ -7048,23 +7015,11 @@ static int sctp_wait_for_sndbuf(struct sctp_association *asoc, long *timeo_p,
 		release_sock(sk);
 		current_timeo = schedule_timeout(current_timeo);
 		lock_sock(sk);
-<<<<<<< HEAD
-=======
-		if (sk != asoc->base.sk) {
-			release_sock(sk);
-			sk = asoc->base.sk;
-			lock_sock(sk);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		*timeo_p = current_timeo;
 	}
 
 out:
-<<<<<<< HEAD
-=======
-	*orig_sk = sk;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	finish_wait(&asoc->wait, &wait);
 
 	/* Release the association's refcnt.  */
@@ -7072,13 +7027,6 @@ out:
 
 	return err;
 
-<<<<<<< HEAD
-=======
-do_dead:
-	err = -ESRCH;
-	goto out;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 do_error:
 	err = -EPIPE;
 	goto out;

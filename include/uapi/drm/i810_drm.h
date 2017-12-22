@@ -1,11 +1,6 @@
 #ifndef _I810_DRM_H_
 #define _I810_DRM_H_
 
-<<<<<<< HEAD
-=======
-#include <drm/drm.h>
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* WARNING: These defines must be the same as what the Xserver uses.
  * if you change them, you must change the defines in the Xserver.
  */

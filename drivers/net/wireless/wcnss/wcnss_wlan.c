@@ -36,10 +36,6 @@
 #include <linux/qpnp/qpnp-adc.h>
 #include <linux/pinctrl/consumer.h>
 #include <linux/pm_qos.h>
-<<<<<<< HEAD
-=======
-#include <soc/qcom/socinfo.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <soc/qcom/subsystem_restart.h>
 #include <soc/qcom/subsystem_notif.h>
@@ -60,10 +56,6 @@
 #define WCNSS_PM_QOS_TIMEOUT	15000
 #define IS_CAL_DATA_PRESENT     0
 #define WAIT_FOR_CBC_IND     2
-<<<<<<< HEAD
-=======
-#define WCNSS_DUAL_BAND_CAPABILITY_OFFSET	(1 << 8)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* module params */
 #define WCNSS_CONFIG_UNSPECIFIED (-1)
@@ -127,11 +119,6 @@ static DEFINE_SPINLOCK(reg_spinlock);
 #define PRONTO_PMU_COM_CSR_OFFSET          0x1040
 #define PRONTO_PMU_SOFT_RESET_OFFSET       0x104C
 
-<<<<<<< HEAD
-=======
-#define PRONTO_QFUSE_DUAL_BAND_OFFSET	   0x0018
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define A2XB_CFG_OFFSET				0x00
 #define A2XB_INT_SRC_OFFSET			0x0c
 #define A2XB_TSTBUS_CTRL_OFFSET		0x14
@@ -196,26 +183,15 @@ static DEFINE_SPINLOCK(reg_spinlock);
 #define WCNSS_MAX_BUILD_VER_LEN		256
 #define WCNSS_MAX_CMD_LEN		(128)
 #define WCNSS_MIN_CMD_LEN		(3)
-<<<<<<< HEAD
 #define WCNSS_MIN_SERIAL_LEN		(6)
 
 /* control messages from userspace */
 #define WCNSS_USR_CTRL_MSG_START  0x00000000
 #define WCNSS_USR_SERIAL_NUM      (WCNSS_USR_CTRL_MSG_START + 1)
-=======
-
-/* control messages from userspace */
-#define WCNSS_USR_CTRL_MSG_START  0x00000000
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define WCNSS_USR_HAS_CAL_DATA    (WCNSS_USR_CTRL_MSG_START + 2)
 #define WCNSS_USR_WLAN_MAC_ADDR   (WCNSS_USR_CTRL_MSG_START + 3)
 
 #define MAC_ADDRESS_STR "%02x:%02x:%02x:%02x:%02x:%02x"
-<<<<<<< HEAD
-=======
-#define SHOW_MAC_ADDRESS_STR	"%02x:%02x:%02x:%02x:%02x:%02x\n"
-#define WCNSS_USER_MAC_ADDR_LENGTH	18
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* message types */
 #define WCNSS_CTRL_MSG_START	0x01000000
@@ -403,10 +379,6 @@ static struct {
 	void __iomem *pronto_saw2_base;
 	void __iomem *pronto_pll_base;
 	void __iomem *pronto_mcu_base;
-<<<<<<< HEAD
-=======
-	void __iomem *pronto_qfuse;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void __iomem *wlan_tx_status;
 	void __iomem *wlan_tx_phy_aborts;
 	void __iomem *wlan_brdg_err_source;
@@ -423,11 +395,7 @@ static struct {
 	int	user_cal_read;
 	int	user_cal_available;
 	u32	user_cal_rcvd;
-<<<<<<< HEAD
 	int	user_cal_exp_size;
-=======
-	u32	user_cal_exp_size;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int	iris_xo_mode_set;
 	int	fw_vbatt_state;
 	char	wlan_nv_macAddr[WLAN_MAC_ADDR_SIZE];
@@ -453,28 +421,16 @@ static struct {
 	int pc_disabled;
 	struct delayed_work wcnss_pm_qos_del_req;
 	struct mutex pm_qos_mutex;
-<<<<<<< HEAD
-=======
-	struct clk *snoc_wcnss;
-	unsigned int snoc_wcnss_clock_freq;
-	bool is_dual_band_disabled;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } *penv = NULL;
 
 static ssize_t wcnss_wlan_macaddr_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-<<<<<<< HEAD
 	char macAddr[WLAN_MAC_ADDR_SIZE];
-=======
-	int index;
-	int macAddr[WLAN_MAC_ADDR_SIZE];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!penv)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	pr_debug("%s: Receive MAC Addr From user space: %s\n", __func__, buf);
 
 	if (WLAN_MAC_ADDR_SIZE != sscanf(buf, MAC_ADDRESS_STR,
@@ -482,28 +438,11 @@ static ssize_t wcnss_wlan_macaddr_store(struct device *dev,
 		 (int *)&macAddr[2], (int *)&macAddr[3],
 		 (int *)&macAddr[4], (int *)&macAddr[5])) {
 
-=======
-	if (WCNSS_USER_MAC_ADDR_LENGTH != strlen(buf)) {
-		dev_err(dev, "%s: Invalid MAC addr length\n", __func__);
-		return -EINVAL;
-	}
-
-	if (WLAN_MAC_ADDR_SIZE != sscanf(buf, MAC_ADDRESS_STR,
-		&macAddr[0], &macAddr[1], &macAddr[2],
-		&macAddr[3], &macAddr[4], &macAddr[5])) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pr_err("%s: Failed to Copy MAC\n", __func__);
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	memcpy(penv->wlan_nv_macAddr, macAddr, sizeof(penv->wlan_nv_macAddr));
-=======
-	for (index = 0; index < WLAN_MAC_ADDR_SIZE; index++) {
-		memcpy(&penv->wlan_nv_macAddr[index],
-		       (char *)&macAddr[index], sizeof(char));
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	pr_info("%s: Write MAC Addr:" MAC_ADDRESS_STR "\n", __func__,
 		penv->wlan_nv_macAddr[0], penv->wlan_nv_macAddr[1],
@@ -519,11 +458,7 @@ static ssize_t wcnss_wlan_macaddr_show(struct device *dev,
 	if (!penv)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	return scnprintf(buf, PAGE_SIZE, MAC_ADDRESS_STR,
-=======
-	return scnprintf(buf, PAGE_SIZE, SHOW_MAC_ADDRESS_STR,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		penv->wlan_nv_macAddr[0], penv->wlan_nv_macAddr[1],
 		penv->wlan_nv_macAddr[2], penv->wlan_nv_macAddr[3],
 		penv->wlan_nv_macAddr[4], penv->wlan_nv_macAddr[5]);
@@ -532,7 +467,6 @@ static ssize_t wcnss_wlan_macaddr_show(struct device *dev,
 static DEVICE_ATTR(wcnss_mac_addr, S_IRUSR | S_IWUSR,
 	wcnss_wlan_macaddr_show, wcnss_wlan_macaddr_store);
 
-<<<<<<< HEAD
 static ssize_t wcnss_serial_number_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -561,8 +495,6 @@ static DEVICE_ATTR(serial_number, S_IRUSR | S_IWUSR,
 	wcnss_serial_number_show, wcnss_serial_number_store);
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static ssize_t wcnss_thermal_mitigation_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -656,33 +588,6 @@ void wcnss_pronto_is_a2xb_bus_stall(void *tst_addr, u32 fifo_mask, char *type)
 	}
 }
 
-<<<<<<< HEAD
-=======
-int wcnss_get_dual_band_capability_info(struct platform_device *pdev)
-{
-	u32 reg = 0;
-	struct resource *res;
-
-	res = platform_get_resource_byname(
-			pdev, IORESOURCE_MEM, "pronto_qfuse");
-	if (!res)
-		return -EINVAL;
-
-	penv->pronto_qfuse = devm_ioremap_resource(&pdev->dev, res);
-	if (IS_ERR(penv->pronto_qfuse))
-		return -ENOMEM;
-
-	reg = readl_relaxed(penv->pronto_qfuse +
-			PRONTO_QFUSE_DUAL_BAND_OFFSET);
-	if (reg & WCNSS_DUAL_BAND_CAPABILITY_OFFSET)
-		penv->is_dual_band_disabled = true;
-	else
-		penv->is_dual_band_disabled = false;
-
-	return 0;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Log pronto debug registers during SSR Timeout CB */
 void wcnss_pronto_log_debug_regs(void)
 {
@@ -1260,7 +1165,6 @@ static int wcnss_create_sysfs(struct device *dev)
 	if (!dev)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	ret = device_create_file(dev, &dev_attr_serial_number);
 	if (ret)
 		return ret;
@@ -1268,11 +1172,6 @@ static int wcnss_create_sysfs(struct device *dev)
 	ret = device_create_file(dev, &dev_attr_thermal_mitigation);
 	if (ret)
 		goto remove_serial;
-=======
-	ret = device_create_file(dev, &dev_attr_thermal_mitigation);
-	if (ret)
-		return ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = device_create_file(dev, &dev_attr_wcnss_version);
 	if (ret)
@@ -1288,11 +1187,8 @@ remove_version:
 	device_remove_file(dev, &dev_attr_wcnss_version);
 remove_thermal:
 	device_remove_file(dev, &dev_attr_thermal_mitigation);
-<<<<<<< HEAD
 remove_serial:
 	device_remove_file(dev, &dev_attr_serial_number);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -1300,10 +1196,7 @@ remove_serial:
 static void wcnss_remove_sysfs(struct device *dev)
 {
 	if (dev) {
-<<<<<<< HEAD
 		device_remove_file(dev, &dev_attr_serial_number);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		device_remove_file(dev, &dev_attr_thermal_mitigation);
 		device_remove_file(dev, &dev_attr_wcnss_version);
 		device_remove_file(dev, &dev_attr_wcnss_mac_addr);
@@ -1751,18 +1644,8 @@ EXPORT_SYMBOL(wcnss_unregister_thermal_mitigation);
 
 unsigned int wcnss_get_serial_number(void)
 {
-<<<<<<< HEAD
 	if (penv)
 		return penv->serial_number;
-=======
-	if (penv) {
-		penv->serial_number = socinfo_get_serial_number();
-		pr_info("%s: Device serial number: %u\n",
-			__func__, penv->serial_number);
-		return penv->serial_number;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 EXPORT_SYMBOL(wcnss_get_serial_number);
@@ -1819,17 +1702,6 @@ int wcnss_wlan_iris_xo_mode(void)
 }
 EXPORT_SYMBOL(wcnss_wlan_iris_xo_mode);
 
-<<<<<<< HEAD
-=======
-int wcnss_wlan_dual_band_disabled(void)
-{
-	if (penv && penv->pdev)
-		return penv->is_dual_band_disabled;
-
-	return -EINVAL;
-}
-EXPORT_SYMBOL(wcnss_wlan_dual_band_disabled);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void wcnss_suspend_notify(void)
 {
@@ -2191,37 +2063,21 @@ void extract_cal_data(int len)
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-	mutex_lock(&penv->dev_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rc = smd_read(penv->smd_ch, (unsigned char *)&calhdr,
 			sizeof(struct cal_data_params));
 	if (rc < sizeof(struct cal_data_params)) {
 		pr_err("wcnss: incomplete cal header read from smd\n");
-<<<<<<< HEAD
-=======
-		mutex_unlock(&penv->dev_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 	}
 
 	if (penv->fw_cal_exp_frag != calhdr.frag_number) {
 		pr_err("wcnss: Invalid frgament");
-<<<<<<< HEAD
 		goto exit;
-=======
-		goto unlock_exit;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (calhdr.frag_size > WCNSS_MAX_FRAME_SIZE) {
 		pr_err("wcnss: Invalid fragment size");
-<<<<<<< HEAD
 		goto exit;
-=======
-		goto unlock_exit;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (penv->fw_cal_available) {
@@ -2230,14 +2086,8 @@ void extract_cal_data(int len)
 		penv->fw_cal_exp_frag++;
 		if (calhdr.msg_flags & LAST_FRAGMENT) {
 			penv->fw_cal_exp_frag = 0;
-<<<<<<< HEAD
 			goto exit;
 		}
-=======
-			goto unlock_exit;
-		}
-		mutex_unlock(&penv->dev_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 	}
 
@@ -2245,11 +2095,7 @@ void extract_cal_data(int len)
 		if (calhdr.total_size > MAX_CALIBRATED_DATA_SIZE) {
 			pr_err("wcnss: Invalid cal data size %d",
 				calhdr.total_size);
-<<<<<<< HEAD
 			goto exit;
-=======
-			goto unlock_exit;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		kfree(penv->fw_cal_data);
 		penv->fw_cal_rcvd = 0;
@@ -2257,18 +2103,11 @@ void extract_cal_data(int len)
 				GFP_KERNEL);
 		if (penv->fw_cal_data == NULL) {
 			smd_read(penv->smd_ch, NULL, calhdr.frag_size);
-<<<<<<< HEAD
 			goto exit;
 		}
 	}
 
 	mutex_lock(&penv->dev_lock);
-=======
-			goto unlock_exit;
-		}
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (penv->fw_cal_rcvd + calhdr.frag_size >
 			MAX_CALIBRATED_DATA_SIZE) {
 		pr_err("calibrated data size is more than expected %d",
@@ -2303,11 +2142,8 @@ void extract_cal_data(int len)
 
 unlock_exit:
 	mutex_unlock(&penv->dev_lock);
-<<<<<<< HEAD
 
 exit:
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wcnss_send_cal_rsp(fw_status);
 	return;
 }
@@ -2805,7 +2641,6 @@ void process_usr_ctrl_cmd(u8 *buf, size_t len)
 
 	switch (cmd) {
 
-<<<<<<< HEAD
 	case WCNSS_USR_SERIAL_NUM:
 		if (WCNSS_MIN_SERIAL_LEN > len) {
 			pr_err("%s: Invalid serial number\n", __func__);
@@ -2815,8 +2650,6 @@ void process_usr_ctrl_cmd(u8 *buf, size_t len)
 			| buf[4] << 8 | buf[5];
 		break;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case WCNSS_USR_HAS_CAL_DATA:
 		if (1 < buf[2])
 			pr_err("%s: Invalid data for cal %d\n", __func__,
@@ -2917,7 +2750,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 	int is_pronto_vadc;
 	int is_pronto_v3;
 	int pil_retry = 0;
-<<<<<<< HEAD
 	int has_pronto_hw = of_property_read_bool(pdev->dev.of_node,
 							"qcom,has-pronto-hw");
 
@@ -2935,25 +2767,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 
 	if (of_property_read_u32(pdev->dev.of_node,
 			"qcom,wlan-rx-buff-count", &penv->wlan_rx_buff_count)) {
-=======
-	struct wcnss_wlan_config *wlan_cfg = &penv->wlan_config;
-	struct device_node *node = (&pdev->dev)->of_node;
-	int has_pronto_hw = of_property_read_bool(node, "qcom,has-pronto-hw");
-
-	is_pronto_vadc = of_property_read_bool(node, "qcom,is-pronto-vadc");
-	is_pronto_v3 = of_property_read_bool(node, "qcom,is-pronto-v3");
-
-	penv->is_vsys_adc_channel =
-		of_property_read_bool(node, "qcom,has-vsys-adc-channel");
-	penv->is_a2xb_split_reg =
-		of_property_read_bool(node, "qcom,has-a2xb-split-reg");
-
-	wlan_cfg->wcn_external_gpio_support =
-		of_property_read_bool(node, "qcom,wcn-external-gpio-support");
-
-	if (of_property_read_u32(node, "qcom,wlan-rx-buff-count",
-				 &penv->wlan_rx_buff_count)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		penv->wlan_rx_buff_count = WCNSS_DEF_WLAN_RX_BUFF_COUNT;
 	}
 
@@ -3014,7 +2827,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 		goto fail;
 	}
 
-<<<<<<< HEAD
 	index++;
 	ret = wcnss_dt_parse_vreg_level(&pdev->dev, index,
 					"qcom,iris-vddpa-current",
@@ -3024,20 +2836,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 	if (ret) {
 		dev_err(&pdev->dev, "error reading voltage-level property\n");
 		goto fail;
-=======
-	if (!wlan_cfg->wcn_external_gpio_support) {
-		index++;
-		ret = wcnss_dt_parse_vreg_level(
-				&pdev->dev, index,
-				"qcom,iris-vddpa-current",
-				"qcom,iris-vddpa-voltage-level",
-				penv->wlan_config.iris_vlevel);
-		if (ret) {
-			dev_err(&pdev->dev,
-				"error reading voltage-level property\n");
-			goto fail;
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	index++;
@@ -3060,13 +2858,8 @@ wcnss_trigger_config(struct platform_device *pdev)
 	pdata = pdev->dev.platform_data;
 	if (WCNSS_CONFIG_UNSPECIFIED == has_48mhz_xo) {
 		if (has_pronto_hw) {
-<<<<<<< HEAD
 			has_48mhz_xo = of_property_read_bool(pdev->dev.of_node,
 							"qcom,has-48mhz-xo");
-=======
-			has_48mhz_xo =
-			of_property_read_bool(node, "qcom,has-48mhz-xo");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else {
 			has_48mhz_xo = pdata->has_48mhz_xo;
 		}
@@ -3077,13 +2870,8 @@ wcnss_trigger_config(struct platform_device *pdev)
 	penv->wlan_config.is_pronto_v3 = is_pronto_v3;
 
 	if (WCNSS_CONFIG_UNSPECIFIED == has_autodetect_xo && has_pronto_hw) {
-<<<<<<< HEAD
 		has_autodetect_xo = of_property_read_bool(pdev->dev.of_node,
 							"qcom,has-autodetect-xo");
-=======
-		has_autodetect_xo =
-			of_property_read_bool(node, "qcom,has-autodetect-xo");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	penv->thermal_mitigation = 0;
@@ -3363,19 +3151,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 				__func__);
 			goto fail_ioremap2;
 		}
-<<<<<<< HEAD
-=======
-
-		if (of_property_read_bool(node,
-					  "qcom,is-dual-band-disabled")) {
-			ret = wcnss_get_dual_band_capability_info(pdev);
-			if (ret) {
-				pr_err(
-				"%s: failed to get dual band info\n", __func__);
-				goto fail_ioremap2;
-			}
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	penv->adc_tm_dev = qpnp_get_adc_tm(&penv->pdev->dev, "wcnss");
@@ -3387,24 +3162,6 @@ wcnss_trigger_config(struct platform_device *pdev)
 		penv->fw_vbatt_state = WCNSS_CONFIG_UNSPECIFIED;
 	}
 
-<<<<<<< HEAD
-=======
-	penv->snoc_wcnss = devm_clk_get(&penv->pdev->dev, "snoc_wcnss");
-	if (IS_ERR(penv->snoc_wcnss)) {
-		pr_err("%s: couldn't get snoc_wcnss\n", __func__);
-		penv->snoc_wcnss = NULL;
-	} else {
-		if (of_property_read_u32(pdev->dev.of_node,
-					 "qcom,snoc-wcnss-clock-freq",
-					 &penv->snoc_wcnss_clock_freq)) {
-			pr_debug("%s: wcnss snoc clock frequency is not defined\n",
-				 __func__);
-			devm_clk_put(&penv->pdev->dev, penv->snoc_wcnss);
-			penv->snoc_wcnss = NULL;
-		}
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (penv->wlan_config.is_pronto_vadc) {
 		penv->vadc_dev = qpnp_get_vadc(&penv->pdev->dev, "wcnss");
 
@@ -3467,41 +3224,6 @@ fail:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-/* Driver requires to directly vote the snoc clocks
- * To enable and disable snoc clock, it call
- * wcnss_snoc_vote function
- */
-void wcnss_snoc_vote(bool clk_chk_en)
-{
-	int rc;
-
-	if (penv->snoc_wcnss == NULL) {
-		pr_err("%s: couldn't get clk snoc_wcnss\n", __func__);
-		return;
-	}
-
-	if (clk_chk_en) {
-		rc = clk_set_rate(penv->snoc_wcnss,
-				  penv->snoc_wcnss_clock_freq);
-		if (rc) {
-			pr_err("%s: snoc_wcnss_clk-clk_set_rate failed =%d\n",
-			       __func__, rc);
-			return;
-		}
-
-		if (clk_prepare_enable(penv->snoc_wcnss)) {
-			pr_err("%s: snoc_wcnss clk enable failed\n", __func__);
-			return;
-		}
-	} else {
-		clk_disable_unprepare(penv->snoc_wcnss);
-	}
-}
-EXPORT_SYMBOL(wcnss_snoc_vote);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* wlan prop driver cannot invoke cancel_work_sync
  * function directly, so to invoke this function it
  * call wcnss_flush_work function

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2017  The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -369,11 +365,6 @@ typedef struct _VosContextType
    struct list_head wdthread_timer_work_list;
    struct work_struct wdthread_work;
    spinlock_t wdthread_work_lock;
-<<<<<<< HEAD
-=======
-   bool snoc_high_freq_voting;
-   spinlock_t freq_voting_lock;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } VosContextType, *pVosContextType;
 
 

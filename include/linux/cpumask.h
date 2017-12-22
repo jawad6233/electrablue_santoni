@@ -22,17 +22,6 @@ typedef struct cpumask { DECLARE_BITMAP(bits, NR_CPUS); } cpumask_t;
  */
 #define cpumask_bits(maskp) ((maskp)->bits)
 
-<<<<<<< HEAD
-=======
-/**
- * cpumask_pr_args - printf args to output a cpumask
- * @maskp: cpumask to be printed
- *
- * Can be used to provide arguments for '%*pb[l]' when printing a cpumask.
- */
-#define cpumask_pr_args(maskp)		nr_cpu_ids, cpumask_bits(maskp)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #if NR_CPUS == 1
 #define nr_cpu_ids		1
 #else

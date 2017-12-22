@@ -38,10 +38,6 @@ struct task_struct *kthread_create_on_cpu(int (*threadfn)(void *data),
 })
 
 void kthread_bind(struct task_struct *k, unsigned int cpu);
-<<<<<<< HEAD
-=======
-void kthread_bind_mask(struct task_struct *k, const struct cpumask *mask);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int kthread_stop(struct task_struct *k);
 bool kthread_should_stop(void);
 bool kthread_should_park(void);

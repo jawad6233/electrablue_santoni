@@ -335,15 +335,11 @@ static int wl1271_probe(struct spi_device *spi)
 
 	memset(&pdev_data, 0x00, sizeof(pdev_data));
 
-<<<<<<< HEAD
 	pdev_data.pdata = dev_get_platdata(&spi->dev);
 	if (!pdev_data.pdata) {
 		dev_err(&spi->dev, "no platform data\n");
 		return -ENODEV;
 	}
-=======
-	/* TODO: add DT parsing when needed */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	pdev_data.if_ops = &spi_ops;
 

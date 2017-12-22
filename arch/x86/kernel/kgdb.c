@@ -745,13 +745,9 @@ void kgdb_arch_set_pc(struct pt_regs *regs, unsigned long ip)
 int kgdb_arch_set_breakpoint(struct kgdb_bkpt *bpt)
 {
 	int err;
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
 	char opc[BREAK_INSTR_SIZE];
 #endif /* CONFIG_DEBUG_RODATA */
-=======
-	char opc[BREAK_INSTR_SIZE];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	bpt->type = BP_BREAKPOINT;
 	err = probe_kernel_read(bpt->saved_instr, (char *)bpt->bpt_addr,
@@ -760,10 +756,7 @@ int kgdb_arch_set_breakpoint(struct kgdb_bkpt *bpt)
 		return err;
 	err = probe_kernel_write((char *)bpt->bpt_addr,
 				 arch_kgdb_ops.gdb_bpt_instr, BREAK_INSTR_SIZE);
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!err)
 		return err;
 	/*
@@ -780,20 +773,13 @@ int kgdb_arch_set_breakpoint(struct kgdb_bkpt *bpt)
 	if (memcmp(opc, arch_kgdb_ops.gdb_bpt_instr, BREAK_INSTR_SIZE))
 		return -EINVAL;
 	bpt->type = BP_POKE_BREAKPOINT;
-<<<<<<< HEAD
 #endif /* CONFIG_DEBUG_RODATA */
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return err;
 }
 
 int kgdb_arch_remove_breakpoint(struct kgdb_bkpt *bpt)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int err;
 	char opc[BREAK_INSTR_SIZE];
 
@@ -810,13 +796,8 @@ int kgdb_arch_remove_breakpoint(struct kgdb_bkpt *bpt)
 	if (err || memcmp(opc, bpt->saved_instr, BREAK_INSTR_SIZE))
 		goto knl_write;
 	return err;
-<<<<<<< HEAD
 knl_write:
 #endif /* CONFIG_DEBUG_RODATA */
-=======
-
-knl_write:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return probe_kernel_write((char *)bpt->bpt_addr,
 				  (char *)bpt->saved_instr, BREAK_INSTR_SIZE);
 }

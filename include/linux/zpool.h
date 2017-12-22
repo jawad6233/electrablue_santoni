@@ -36,11 +36,8 @@ enum zpool_mapmode {
 	ZPOOL_MM_DEFAULT = ZPOOL_MM_RW
 };
 
-<<<<<<< HEAD
 bool zpool_has_pool(char *type);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct zpool *zpool_create_pool(char *type, char *name,
 			gfp_t gfp, struct zpool_ops *ops);
 

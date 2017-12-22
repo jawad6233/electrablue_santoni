@@ -61,10 +61,7 @@ static void map_pages(struct list_head *list)
 		kasan_alloc_pages(page, 0);
 		arch_alloc_page(page, 0);
 		kernel_map_pages(page, 1, 1);
-<<<<<<< HEAD
 		kasan_alloc_pages(page, 0);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 

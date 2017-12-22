@@ -300,20 +300,12 @@ static s32 fill_update_info(char __user *user_buf,
 /********************************************************
 Function:
     Goodix tool write function.
-<<<<<<< HEAD
 nput:
-=======
-Input:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   standard proc write function param.
 Output:
     Return write length.
 ********************************************************/
-<<<<<<< HEAD
 static s32 goodix_tool_write(struct file *filp, const char __user *userbuf,
-=======
-static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 						size_t count, loff_t *ppos)
 {
 	s32 ret = 0;
@@ -326,7 +318,6 @@ static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
 		goto exit;
 	}
 
-<<<<<<< HEAD
 	dev_dbg(&gt_client->dev, "wr:0x%02x, flag:0x%02x, flag addr:0x%02x%02x, flag val:0x%02x, flag rel:0x%02x, circle:%d, times:%d, retry:%d, delay:%d, data len:%d, addr len:%d, addr:0x%02x%02x, write len: %d.",
 		cmd_head.wr, cmd_head.flag, cmd_head.flag_addr[0],
 		cmd_head.flag_addr[1], cmd_head.flag_val,
@@ -337,34 +328,12 @@ static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
 
 	if (cmd_head.data_len > (data_length - GTP_ADDR_LENGTH)) {
 		dev_err(&gt_client->dev, "data len %d > data buff %d, rejected!\n",
-=======
-	dev_dbg(&gt_client->dev,
-		"wr: 0x%02x, flag:0x%02x, flag addr:0x%02x%02x\n", cmd_head.wr,
-		cmd_head.flag, cmd_head.flag_addr[0], cmd_head.flag_addr[1]);
-	dev_dbg(&gt_client->dev,
-		"flag val:0x%02x, flag rel:0x%02x,\n", cmd_head.flag_val,
-		cmd_head.flag_relation);
-	dev_dbg(&gt_client->dev, "circle:%u, times:%u, retry:%u, delay:%u\n",
-		(s32) cmd_head.circle, (s32) cmd_head.times,
-		(s32) cmd_head.retry, (s32)cmd_head.delay);
-	dev_dbg(&gt_client->dev,
-		"data len:%u, addr len:%u, addr:0x%02x%02x, write len: %u\n",
-		(s32)cmd_head.data_len,	(s32)cmd_head.addr_len,
-		cmd_head.addr[0], cmd_head.addr[1], (s32)count);
-
-	if (cmd_head.data_len > (data_length - GTP_ADDR_LENGTH)) {
-		dev_err(&gt_client->dev, "data len %u > data buff %d, rejected!\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			cmd_head.data_len, (data_length - GTP_ADDR_LENGTH));
 		ret = -EINVAL;
 		goto exit;
 	}
 	if (cmd_head.addr_len > GTP_ADDR_LENGTH) {
-<<<<<<< HEAD
 		dev_err(&gt_client->dev, "addr len %d > data buff %d, rejected!\n",
-=======
-		dev_err(&gt_client->dev, "addr len %u > data buff %d, rejected!\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			cmd_head.addr_len, GTP_ADDR_LENGTH);
 		ret = -EINVAL;
 		goto exit;
@@ -414,11 +383,7 @@ static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
 
 		if (cmd_head.data_len > sizeof(ic_type)) {
 			dev_err(&gt_client->dev,
-<<<<<<< HEAD
 				"data len %d > data buff %d, rejected!\n",
-=======
-				"data len %u > data buff %zu, rejected!\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				cmd_head.data_len, sizeof(ic_type));
 			ret = -EINVAL;
 			goto exit;
@@ -480,11 +445,7 @@ static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
 		show_len = 0;
 		total_len = 0;
 		if (cmd_head.data_len + 1 > data_length) {
-<<<<<<< HEAD
 			dev_err(&gt_client->dev, "data len %d > data buff %d, rejected!\n",
-=======
-			dev_err(&gt_client->dev, "data len %u > data buff %d, rejected!\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			cmd_head.data_len + 1, data_length);
 			ret = -EINVAL;
 			goto exit;
@@ -516,11 +477,7 @@ Input:
 Output:
     Return read length.
 ********************************************************/
-<<<<<<< HEAD
 static s32 goodix_tool_read(struct file *file, char __user *user_buf,
-=======
-static ssize_t goodix_tool_read(struct file *file, char __user *user_buf,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					size_t count, loff_t *ppos)
 {
 	u16 data_len = 0;

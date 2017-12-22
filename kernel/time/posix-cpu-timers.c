@@ -853,17 +853,10 @@ static void check_thread_timers(struct task_struct *tsk,
 	/*
 	 * Check for the special case thread timers.
 	 */
-<<<<<<< HEAD
 	soft = ACCESS_ONCE(sig->rlim[RLIMIT_RTTIME].rlim_cur);
 	if (soft != RLIM_INFINITY) {
 		unsigned long hard =
 			ACCESS_ONCE(sig->rlim[RLIMIT_RTTIME].rlim_max);
-=======
-	soft = READ_ONCE(sig->rlim[RLIMIT_RTTIME].rlim_cur);
-	if (soft != RLIM_INFINITY) {
-		unsigned long hard =
-			READ_ONCE(sig->rlim[RLIMIT_RTTIME].rlim_max);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		if (hard != RLIM_INFINITY &&
 		    tsk->rt.timeout > DIV_ROUND_UP(hard, USEC_PER_SEC/HZ)) {
@@ -966,19 +959,11 @@ static void check_process_timers(struct task_struct *tsk,
 			 SIGPROF);
 	check_cpu_itimer(tsk, &sig->it[CPUCLOCK_VIRT], &virt_expires, utime,
 			 SIGVTALRM);
-<<<<<<< HEAD
 	soft = ACCESS_ONCE(sig->rlim[RLIMIT_CPU].rlim_cur);
 	if (soft != RLIM_INFINITY) {
 		unsigned long psecs = cputime_to_secs(ptime);
 		unsigned long hard =
 			ACCESS_ONCE(sig->rlim[RLIMIT_CPU].rlim_max);
-=======
-	soft = READ_ONCE(sig->rlim[RLIMIT_CPU].rlim_cur);
-	if (soft != RLIM_INFINITY) {
-		unsigned long psecs = cputime_to_secs(ptime);
-		unsigned long hard =
-			READ_ONCE(sig->rlim[RLIMIT_CPU].rlim_max);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cputime_t x;
 		if (psecs >= hard) {
 			/*
@@ -1350,12 +1335,8 @@ static long posix_cpu_nsleep_restart(struct restart_block *restart_block);
 static int posix_cpu_nsleep(const clockid_t which_clock, int flags,
 			    struct timespec *rqtp, struct timespec __user *rmtp)
 {
-<<<<<<< HEAD
 	struct restart_block *restart_block =
 		&current_thread_info()->restart_block;
-=======
-	struct restart_block *restart_block = &current->restart_block;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct itimerspec it;
 	int error;
 

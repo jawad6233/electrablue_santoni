@@ -159,11 +159,7 @@
 	};
 
 	rpm_etm0 {
-<<<<<<< HEAD
 		compatible = "qcom,coresight-rpm-etm";
-=======
-		compatible = "qcom,coresight-remote-etm";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		coresight-id = <7>;
 		coresight-name = "coresight-rpm-etm0";
@@ -176,11 +172,7 @@
 	};
 
 	modem_etm0 {
-<<<<<<< HEAD
 		compatible = "qcom,coresight-modem-etm";
-=======
-		compatible = "qcom,coresight-remote-etm";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		coresight-id = <8>;
 		coresight-name = "coresight-modem-etm0";

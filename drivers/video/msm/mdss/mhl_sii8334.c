@@ -374,11 +374,7 @@ static int mhl_sii_wait_for_rgnd(struct mhl_tx_ctrl *mhl_ctrl)
 	 * tx can take a while to generate intr
 	 */
 	timeout = wait_for_completion_timeout
-<<<<<<< HEAD
 		(&mhl_ctrl->rgnd_done, msecs_to_jiffies(3000));
-=======
-		(&mhl_ctrl->rgnd_done, HZ * 3);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!timeout) {
 		/*
 		 * most likely nothing plugged in USB

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -40,7 +36,6 @@
 #define DSI_STATUS_CHECK_INIT -1
 #define DSI_STATUS_CHECK_DISABLE 1
 
-<<<<<<< HEAD
 static uint32_t interval = STATUS_CHECK_INTERVAL_MS / 2;
 static int32_t dsi_status_disable = DSI_STATUS_CHECK_INIT;
 struct dsi_status_data *pstatus_data;
@@ -71,12 +66,6 @@ static void disable_status_irq(struct dsi_status_data *pdata)
 	}
 }
 
-=======
-static uint32_t interval = STATUS_CHECK_INTERVAL_MS;
-static int32_t dsi_status_disable = DSI_STATUS_CHECK_INIT;
-struct dsi_status_data *pstatus_data;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * check_dsi_ctrl_status() - Reads MFD structure and
  * calls platform specific DSI ctrl Status function.
@@ -85,10 +74,7 @@ struct dsi_status_data *pstatus_data;
 static void check_dsi_ctrl_status(struct work_struct *work)
 {
 	struct dsi_status_data *pdsi_status = NULL;
-<<<<<<< HEAD
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	pdsi_status = container_of(to_delayed_work(work),
 		struct dsi_status_data, check_status);
@@ -109,7 +95,6 @@ static void check_dsi_ctrl_status(struct work_struct *work)
 		return;
 	}
 
-<<<<<<< HEAD
 	ctrl_pdata = container_of(
 				dev_get_platdata(&pdsi_status->mfd->pdev->dev),
 				typeof(*ctrl_pdata), panel_data);
@@ -130,11 +115,6 @@ static void disable_vsync_irq(struct work_struct *work)
 	disable_status_irq(pdata);
 }
 
-=======
-	pdsi_status->mfd->mdp.check_dsi_status(work, interval);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * hw_vsync_handler() - Interrupt handler for HW VSYNC signal.
  * @irq		: irq line number
@@ -159,14 +139,7 @@ irqreturn_t hw_vsync_handler(int irq, void *data)
 	else
 		pr_err("Pstatus data is NULL\n");
 
-<<<<<<< HEAD
 	queue_work(system_highpri_wq, &pstatus_data->irq_done);
-=======
-	if (!atomic_read(&ctrl_pdata->te_irq_ready)) {
-		complete_all(&ctrl_pdata->te_irq_comp);
-		atomic_inc(&ctrl_pdata->te_irq_ready);
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return IRQ_HANDLED;
 }
@@ -228,7 +201,6 @@ static int fb_event_callback(struct notifier_block *self,
 
 		switch (*blank) {
 		case FB_BLANK_UNBLANK:
-<<<<<<< HEAD
 			enable_status_irq(pdata);
 			break;
 		case FB_BLANK_POWERDOWN:
@@ -237,17 +209,6 @@ static int fb_event_callback(struct notifier_block *self,
 		case FB_BLANK_NORMAL:
 			cancel_work_sync(&pdata->irq_done);
 			disable_status_irq(pdata);
-=======
-			schedule_delayed_work(&pdata->check_status,
-				msecs_to_jiffies(interval));
-			break;
-		case FB_BLANK_VSYNC_SUSPEND:
-		case FB_BLANK_NORMAL:
-			pr_debug("%s : ESD thread running\n", __func__);
-			break;
-		case FB_BLANK_POWERDOWN:
-		case FB_BLANK_HSYNC_SUSPEND:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			cancel_delayed_work(&pdata->check_status);
 			break;
 		default:
@@ -315,10 +276,7 @@ int __init mdss_dsi_status_init(void)
 
 	pr_info("%s: DSI status check interval:%d\n", __func__,	interval);
 
-<<<<<<< HEAD
 	INIT_WORK(&pstatus_data->irq_done, disable_vsync_irq);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	INIT_DELAYED_WORK(&pstatus_data->check_status, check_dsi_ctrl_status);
 
 	pr_debug("%s: DSI ctrl status work queue initialized\n", __func__);
@@ -329,10 +287,7 @@ int __init mdss_dsi_status_init(void)
 void __exit mdss_dsi_status_exit(void)
 {
 	fb_unregister_client(&pstatus_data->fb_notifier);
-<<<<<<< HEAD
 	cancel_work_sync(&pstatus_data->irq_done);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cancel_delayed_work_sync(&pstatus_data->check_status);
 	kfree(pstatus_data);
 	pr_debug("%s: DSI ctrl status work queue removed\n", __func__);

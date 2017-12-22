@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-# Any varying coverage in these files is non-deterministic
-# and is generally not a function of system call inputs.
-KCOV_INSTRUMENT		:= n
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-y += mutex.o semaphore.o rwsem.o mcs_spinlock.o
 

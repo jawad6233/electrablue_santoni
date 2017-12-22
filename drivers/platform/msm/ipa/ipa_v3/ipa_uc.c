@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -502,11 +498,7 @@ static int ipa3_uc_send_cmd_64b_param(u32 cmd_lo, u32 cmd_hi, u32 opcode,
 {
 	int index;
 	union IpaHwCpuCmdCompletedResponseData_t uc_rsp;
-<<<<<<< HEAD
 	unsigned long flags;
-=======
-	unsigned long flags = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int retries = 0;
 
 send_cmd_lock:
@@ -593,13 +585,7 @@ send_cmd:
 
 	if (ipa3_ctx->uc_ctx.uc_status != expected_status) {
 		if (ipa3_ctx->uc_ctx.uc_status ==
-<<<<<<< HEAD
 			IPA_HW_PROD_DISABLE_CMD_GSI_STOP_FAILURE) {
-=======
-		    IPA_HW_PROD_DISABLE_CMD_GSI_STOP_FAILURE ||
-		    ipa3_ctx->uc_ctx.uc_status ==
-		    IPA_HW_CONS_DISABLE_CMD_GSI_STOP_FAILURE) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			retries++;
 			if (retries == IPA_GSI_CHANNEL_STOP_MAX_RETRY) {
 				IPAERR("Failed after %d tries\n", retries);
@@ -608,13 +594,7 @@ send_cmd:
 				return -EFAULT;
 			}
 			IPA3_UC_UNLOCK(flags);
-<<<<<<< HEAD
 			ipa3_inject_dma_task_for_gsi();
-=======
-			if (ipa3_ctx->uc_ctx.uc_status ==
-			    IPA_HW_PROD_DISABLE_CMD_GSI_STOP_FAILURE)
-				ipa3_inject_dma_task_for_gsi();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			/* sleep for short period to flush IPA */
 			usleep_range(IPA_GSI_CHANNEL_STOP_SLEEP_MIN_USEC,
 				IPA_GSI_CHANNEL_STOP_SLEEP_MAX_USEC);
@@ -791,11 +771,7 @@ int ipa3_uc_send_cmd(u32 cmd, u32 opcode, u32 expected_status,
 void ipa3_uc_register_handlers(enum ipa3_hw_features feature,
 			      struct ipa3_uc_hdlrs *hdlrs)
 {
-<<<<<<< HEAD
 	unsigned long flags;
-=======
-	unsigned long flags = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (0 > feature || IPA_HW_FEATURE_MAX <= feature) {
 		IPAERR("Feature %u is invalid, not registering hdlrs\n",
@@ -857,18 +833,13 @@ int ipa3_uc_reset_pipe(enum ipa_client_type ipa_client)
 	       IPA_CLIENT_IS_PROD(ipa_client) ? "CONS" : "PROD", ep_idx);
 
 	ret = ipa3_uc_send_cmd(cmd.raw32b, IPA_CPU_2_HW_CMD_RESET_PIPE, 0,
-<<<<<<< HEAD
 			      false, IPA_TIMEOUT(10));
-=======
-			      false, 10*HZ);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
 
 int ipa3_uc_is_gsi_channel_empty(enum ipa_client_type ipa_client)
 {
-<<<<<<< HEAD
 	struct ipa_gsi_ep_config *gsi_ep_info;
 	union IpaHwChkChEmptyCmdData_t cmd;
 	int ret;
@@ -876,16 +847,6 @@ int ipa3_uc_is_gsi_channel_empty(enum ipa_client_type ipa_client)
 	gsi_ep_info = ipa3_get_gsi_ep_info(ipa3_get_ep_mapping(ipa_client));
 	if (!gsi_ep_info) {
 		IPAERR("Invalid IPA ep index\n");
-=======
-	const struct ipa_gsi_ep_config *gsi_ep_info;
-	union IpaHwChkChEmptyCmdData_t cmd;
-	int ret;
-
-	gsi_ep_info = ipa3_get_gsi_ep_info(ipa_client);
-	if (!gsi_ep_info) {
-		IPAERR("Failed getting GSI EP info for client=%d\n",
-		       ipa_client);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 	}
 
@@ -902,11 +863,7 @@ int ipa3_uc_is_gsi_channel_empty(enum ipa_client_type ipa_client)
 	       gsi_ep_info->ipa_gsi_chan_num);
 
 	ret = ipa3_uc_send_cmd(cmd.raw32b, IPA_CPU_2_HW_CMD_GSI_CH_EMPTY, 0,
-<<<<<<< HEAD
 			      false, IPA_TIMEOUT(10));
-=======
-			      false, 10*HZ);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -956,11 +913,7 @@ int ipa3_uc_update_hw_flags(u32 flags)
 	memset(&cmd, 0, sizeof(cmd));
 	cmd.params.newFlags = flags;
 	return ipa3_uc_send_cmd(cmd.raw32b, IPA_CPU_2_HW_CMD_UPDATE_FLAGS, 0,
-<<<<<<< HEAD
 		false, IPA_TIMEOUT(10));
-=======
-		false, HZ);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -1025,11 +978,7 @@ int ipa3_uc_memcpy(phys_addr_t dest, phys_addr_t src, int len)
 	cmd->source_addr = src;
 	cmd->source_buffer_size = len;
 	res = ipa3_uc_send_cmd((u32)mem.phys_base, IPA_CPU_2_HW_CMD_MEMCPY, 0,
-<<<<<<< HEAD
 		true, IPA_TIMEOUT(10));
-=======
-		true, 10 * HZ);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (res) {
 		IPAERR("ipa3_uc_send_cmd failed %d\n", res);
 		goto free_coherent;

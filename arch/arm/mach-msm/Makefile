@@ -1,12 +1,7 @@
 obj-$(CONFIG_USE_OF) += board-dt.o
 obj-$(CONFIG_ARCH_MDM9640) += board-9640.o
 obj-$(CONFIG_ARCH_MDM9607) += board-9607.o
-<<<<<<< HEAD
 obj-$(CONFIG_ARCH_MDMCALIFORNIUM) += board-californium.o
-=======
-obj-$(CONFIG_ARCH_MDM9650) += board-9650.o
-obj-$(CONFIG_ARCH_SDX20) += board-sdx20.o
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_ARCH_MSM8916) += board-8952.o
 obj-$(CONFIG_ARCH_MSM8917) += board-8917.o
 obj-$(CONFIG_ARCH_MSM8920) += board-8920.o

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -37,13 +33,6 @@
 #define EVENT_SYNC_BIT 24
 #define ISAR_BIT 3
 #define SPM_EN_BIT 0
-<<<<<<< HEAD
-=======
-#define PWR_STATE_IDX_BITS 20
-#define PWR_STATE_IDX_MASK 0x07
-#define WAKE_CONFIG_BITS 1
-#define WAKE_CONFIG_MASK 0x03
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct msm_spm_power_modes {
 	uint32_t mode;
@@ -885,10 +874,6 @@ static int msm_spm_dev_probe(struct platform_device *pdev)
 	for_each_child_of_node(node, n) {
 		const char *name;
 		bool bit_set;
-<<<<<<< HEAD
-=======
-		u8 field_val;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		int sync;
 
 		if (!n->name)
@@ -930,19 +915,6 @@ static int msm_spm_dev_probe(struct platform_device *pdev)
 		bit_set = of_property_read_bool(n, "qcom,spm_en");
 		modes[mode_count].ctl |= bit_set ? BIT(SPM_EN_BIT) : 0;
 
-<<<<<<< HEAD
-=======
-		ret  = of_property_read_u8(n, "qcom,pwr-state-idx", &field_val);
-		if (!ret)
-			modes[mode_count].ctl |= (field_val &
-				PWR_STATE_IDX_MASK) << PWR_STATE_IDX_BITS;
-
-		ret = of_property_read_u8(n, "qcom,wake-config", &field_val);
-		if (!ret)
-			modes[mode_count].ctl |= (field_val & WAKE_CONFIG_MASK)
-				<< WAKE_CONFIG_BITS;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = of_property_read_u32(n, "qcom,event_sync", &sync);
 		if (!ret)
 			modes[mode_count].ctl |= sync << EVENT_SYNC_BIT;

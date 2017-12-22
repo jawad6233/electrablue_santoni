@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2014, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -128,10 +124,6 @@ static ssize_t write_enabled_perftp_file_bool(struct file *file,
 	char buf[32];
 	size_t buf_size;
 
-<<<<<<< HEAD
-=======
-	buf[0] = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	buf_size = min(count, (sizeof(buf)-1));
 	if (copy_from_user(buf, user_buf, buf_size))
 		return -EFAULT;

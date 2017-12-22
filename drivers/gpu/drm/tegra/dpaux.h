@@ -57,11 +57,6 @@
 #define DPAUX_DP_AUX_CONFIG 0x45
 
 #define DPAUX_HYBRID_PADCTL 0x49
-<<<<<<< HEAD
-=======
-#define DPAUX_HYBRID_PADCTL_I2C_SDA_INPUT_RCV (1 << 15)
-#define DPAUX_HYBRID_PADCTL_I2C_SCL_INPUT_RCV (1 << 14)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define DPAUX_HYBRID_PADCTL_AUX_CMH(x) (((x) & 0x3) << 12)
 #define DPAUX_HYBRID_PADCTL_AUX_DRVZ(x) (((x) & 0x7) << 8)
 #define DPAUX_HYBRID_PADCTL_AUX_DRVI(x) (((x) & 0x3f) << 2)

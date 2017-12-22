@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,13 +11,10 @@
  * GNU General Public License for more details.
  */
 
-<<<<<<< HEAD
 &audio_codec_mtp {
 	status = "disabled";
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &pm8916_tombak_dig {
 	status = "disabled";
 };
@@ -32,15 +25,10 @@
 
 &soc {
 	sound-9335 {
-<<<<<<< HEAD
 		compatible = "qcom,msm8x16-audio-codec";
 		qcom,model = "msm8x09-tasha9326-snd-card";
 		qcom,msm-snd-card-id = <1>;
 		qcom,msm-codec-type = "external";
-=======
-		compatible = "qcom,apq8009-audio-i2s-codec";
-		qcom,model = "apq8009-tashalite-snd-card";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,msm-mbhc-hphl-swh = <0>;
 		qcom,msm-mbhc-gnd-swh = <0>;
 		qcom,msm-mclk-freq = <9600000>;
@@ -51,7 +39,6 @@
 			"MADINPUT", "MCLK",
 			"AMIC2", "MIC BIAS2",
 			"MIC BIAS2", "Headset Mic",
-<<<<<<< HEAD
 			"AMIC3", "MIC BIAS2",
 			"MIC BIAS2", "ANCRight Headset Mic",
 			"AMIC4", "MIC BIAS2",
@@ -60,14 +47,11 @@
 			"MIC BIAS3", "Handset Mic",
 			"AMIC6", "MIC BIAS4",
 			"MIC BIAS4", "Analog Mic6",
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"DMIC0", "MIC BIAS1",
 			"MIC BIAS1", "Digital Mic0",
 			"DMIC1", "MIC BIAS1",
 			"MIC BIAS1", "Digital Mic1",
 			"DMIC2", "MIC BIAS2",
-<<<<<<< HEAD
 			"MIC BIAS3", "Digital Mic2",
 			"DMIC3", "MIC BIAS2",
 			"MIC BIAS3", "Digital Mic3",
@@ -75,40 +59,26 @@
 			"MIC BIAS4", "Digital Mic4",
 			"DMIC5", "MIC BIAS4",
 			"MIC BIAS4", "Digital Mic5",
-=======
-			"MIC BIAS2", "Digital Mic2",
-			"DMIC3", "MIC BIAS2",
-			"MIC BIAS2", "Digital Mic3",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"SpkrLeft IN", "SPK1 OUT",
 			"SpkrRight IN", "SPK2 OUT";
 
 		qcom,msm-gpios =
 			"pri_i2s",
-<<<<<<< HEAD
 			"quat_i2s",
 			"us_eu_gpio";
-=======
-			"quat_i2s";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,pinctrl-names =
 			"all_off",
 			"pri_i2s_act",
 			"quat_i2s_act",
-<<<<<<< HEAD
 			"pri_i2s_quat_i2s_act",
 			"us_eu_gpio_act",
 			"pri_i2s_us_eu_gpio_act",
 			"quat_i2s_us_eu_gpio_act",
 			"pri_i2s_pri_i2s_us_eu_gpio_act";
-=======
-			"pri_i2s_quat_i2s_act";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pinctrl-names =
 			"all_off",
 			"pri_i2s_act",
 			"quat_i2s_act",
-<<<<<<< HEAD
 			"pri_i2s_quat_i2s_act",
 			"us_eu_gpio_act",
 			"pri_i2s_us_eu_gpio_act",
@@ -123,21 +93,6 @@
 		pinctrl-6 = <&pri_mi2s_sleep &quat_mi2s_active &quat_mi2s_din_active &cross_conn_det_act>;
 		pinctrl-7 = <&pri_mi2s_active &quat_mi2s_active &quat_mi2s_din_active &cross_conn_det_act>;
 		qcom,cdc-us-euro-gpios = <&msm_gpio 97 0>;
-=======
-			"pri_i2s_quat_i2s_act";
-		pinctrl-0 = <&pri_mi2s_sleep &pri_mi2s_ws_sleep
-			&pri_mi2s_dout_sleep &pri_mi2s_din_sleep
-			&quat_mi2s_sleep &quat_mi2s_din_sleep>;
-		pinctrl-1 = <&pri_mi2s_active &pri_mi2s_ws_active
-			&pri_mi2s_dout_active &pri_mi2s_din_active
-			&quat_mi2s_sleep &quat_mi2s_din_sleep>;
-		pinctrl-2 = <&pri_mi2s_sleep &pri_mi2s_ws_sleep
-			&pri_mi2s_dout_sleep &pri_mi2s_din_sleep
-			&quat_mi2s_active &quat_mi2s_din_active>;
-		pinctrl-3 = <&pri_mi2s_active &pri_mi2s_ws_active
-			&pri_mi2s_dout_active &pri_mi2s_din_active
-			&quat_mi2s_active &quat_mi2s_din_active>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		asoc-platform = <&pcm0>, <&pcm1>, <&voip>, <&voice>,
 				<&loopback>, <&compress>, <&hostless>,
@@ -173,30 +128,14 @@
 				"msm-dai-q6-dev.12292", "msm-dai-q6-dev.12293";
 		asoc-codec = <&stub_codec>;
 		asoc-codec-names = "msm-stub-codec.1";
-<<<<<<< HEAD
 		qcom,max-aux-codec = <2>;
 		qcom,aux-codec = "wsa881x.21170213", "wsa881x.21170214";
 		qcom,aux-codec-prefix = "SpkrLeft", "SpkrRight";
-=======
-		qcom,wsa-max-devs = <2>;
-		qcom,wsa-devs = <&wsa881x_211>, <&wsa881x_212>,
-				<&wsa881x_213>, <&wsa881x_214>;
-		qcom,wsa-aux-dev-prefix = "SpkrLeft", "SpkrRight",
-					"SpkrLeft", "SpkrRight";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	};
 	cpe: qcom,msm-cpe-lsm {
 		compatible = "qcom,msm-cpe-lsm";
 	};
 
-<<<<<<< HEAD
-=======
-	compress: qcom,msm-compress-dsp {
-		compatible = "qcom,msm-compress-dsp";
-		qcom,adsp-version = "MDSP 2.8";
-	};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wcd9xxx_intc: wcd9xxx-irq {
 		compatible = "qcom,wcd9xxx-irq";
 		interrupt-controller;
@@ -204,23 +143,14 @@
 		interrupt-parent = <&msm_gpio>;
 		interrupts = <64 0>;
 		interrupt-names = "cdc-int";
-<<<<<<< HEAD
-=======
-		qcom,gpio-connect = <&msm_gpio 64 0>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	};
 
 	clock_audio: audio_ext_clk {
 		compatible = "qcom,audio-ref-clk";
 		qcom,codec-mclk-clk-freq = <9600000>;
 		qcom,lpass-clock = <1>;
-<<<<<<< HEAD
 		pinctrl-names = "i2s_mclk_sleep",
 				"i2s_mclk_active";
-=======
-		reg = <0x07702004 0x4>;
-		pinctrl-names = "sleep", "active";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pinctrl-0 = <&i2s_mclk_sleep>;
 		pinctrl-1 = <&i2s_mclk_active>;
 		#clock-cells = <1>;
@@ -275,17 +205,12 @@
 			qcom,cdc-variant = "WCD9335";
 
 			clock-names = "wcd_clk";
-<<<<<<< HEAD
 			clocks = <&clock_audio clk_audio_ap_clk>;
-=======
-			clocks = <&clock_audio clk_audio_lpass_mclk>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 			swr_master {
 				compatible = "qcom,swr-wcd";
 				#address-cells = <2>;
 				#size-cells = <0>;
-<<<<<<< HEAD
 				wsa881x@21170214 {
 					compatible = "qcom,wsa881x";
 					reg = <0x00 0x21170214>;
@@ -302,30 +227,6 @@
 							"wsa_spkr_sd_sus";
 					pinctrl-0 = <&wsa_spkr_sd_act>;
 					pinctrl-1 = <&wsa_spkr_sd_sus>;
-=======
-				wsa881x_211:wsa881x@21170211 {
-					compatible = "qcom,wsa881x";
-					reg = <0x00 0x21170211>;
-					qcom,spkr-sd-n-gpio = <&msm_gpio 72 0>;
-				};
-
-				wsa881x_212:wsa881x@21170212 {
-					compatible = "qcom,wsa881x";
-					reg = <0x00 0x21170212>;
-					qcom,spkr-sd-n-gpio = <&msm_gpio 73 0>;
-				};
-
-				wsa881x_213:wsa881x@21170213 {
-					compatible = "qcom,wsa881x";
-					reg = <0x00 0x21170213>;
-					qcom,spkr-sd-n-gpio = <&msm_gpio 72 0>;
-				};
-
-				wsa881x_214:wsa881x@21170214 {
-					compatible = "qcom,wsa881x";
-					reg = <0x00 0x21170214>;
-					qcom,spkr-sd-n-gpio = <&msm_gpio 73 0>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				};
 			};
 		};

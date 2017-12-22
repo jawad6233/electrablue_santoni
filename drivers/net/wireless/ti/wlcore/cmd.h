@@ -107,10 +107,6 @@ int wl12xx_allocate_link(struct wl1271 *wl, struct wl12xx_vif *wlvif,
 void wl12xx_free_link(struct wl1271 *wl, struct wl12xx_vif *wlvif, u8 *hlid);
 int wlcore_cmd_wait_for_event_or_timeout(struct wl1271 *wl,
 					 u32 mask, bool *timeout);
-<<<<<<< HEAD
-=======
-u8 wlcore_get_native_channel_type(u8 nl_channel_type);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 enum wl1271_commands {
 	CMD_INTERROGATE	= 1, /* use this to read information elements */
@@ -178,14 +174,6 @@ enum wl1271_commands {
 	CMD_SMART_CONFIG_STOP		= 62,
 	CMD_SMART_CONFIG_SET_GROUP_KEY	= 63,
 
-<<<<<<< HEAD
-=======
-	CMD_CAC_START			= 64,
-	CMD_CAC_STOP			= 65,
-	CMD_DFS_MASTER_RESTART		= 66,
-	CMD_DFS_RADAR_DETECTION_DEBUG	= 67,
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MAX_COMMAND_ID = 0xFFFF,
 };
 

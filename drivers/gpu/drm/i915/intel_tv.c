@@ -31,10 +31,6 @@
  */
 
 #include <drm/drmP.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_atomic_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drm_crtc.h>
 #include <drm/drm_edid.h>
 #include "intel_drv.h"
@@ -912,24 +908,14 @@ intel_tv_mode_valid(struct drm_connector *connector,
 
 static void
 intel_tv_get_config(struct intel_encoder *encoder,
-<<<<<<< HEAD
 		    struct intel_crtc_config *pipe_config)
 {
 	pipe_config->adjusted_mode.crtc_clock = pipe_config->port_clock;
-=======
-		    struct intel_crtc_state *pipe_config)
-{
-	pipe_config->base.adjusted_mode.crtc_clock = pipe_config->port_clock;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static bool
 intel_tv_compute_config(struct intel_encoder *encoder,
-<<<<<<< HEAD
 			struct intel_crtc_config *pipe_config)
-=======
-			struct intel_crtc_state *pipe_config)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct intel_tv *intel_tv = enc_to_tv(encoder);
 	const struct tv_mode *tv_mode = intel_tv_mode_find(intel_tv);
@@ -937,20 +923,12 @@ intel_tv_compute_config(struct intel_encoder *encoder,
 	if (!tv_mode)
 		return false;
 
-<<<<<<< HEAD
 	pipe_config->adjusted_mode.crtc_clock = tv_mode->clock;
-=======
-	pipe_config->base.adjusted_mode.crtc_clock = tv_mode->clock;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG_KMS("forcing bpc to 8 for TV\n");
 	pipe_config->pipe_bpp = 8*3;
 
 	/* TV has it's own notion of sync and other mode flags, so clear them. */
-<<<<<<< HEAD
 	pipe_config->adjusted_mode.flags = 0;
-=======
-	pipe_config->base.adjusted_mode.flags = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/*
 	 * FIXME: We don't check whether the input mode is actually what we want
@@ -1159,7 +1137,6 @@ static void intel_tv_pre_enable(struct intel_encoder *encoder)
 
 	j = 0;
 	for (i = 0; i < 60; i++)
-<<<<<<< HEAD
 		I915_WRITE(TV_H_LUMA_0 + (i<<2), tv_mode->filter_table[j++]);
 	for (i = 0; i < 60; i++)
 		I915_WRITE(TV_H_CHROMA_0 + (i<<2), tv_mode->filter_table[j++]);
@@ -1167,15 +1144,6 @@ static void intel_tv_pre_enable(struct intel_encoder *encoder)
 		I915_WRITE(TV_V_LUMA_0 + (i<<2), tv_mode->filter_table[j++]);
 	for (i = 0; i < 43; i++)
 		I915_WRITE(TV_V_CHROMA_0 + (i<<2), tv_mode->filter_table[j++]);
-=======
-		I915_WRITE(TV_H_LUMA(i), tv_mode->filter_table[j++]);
-	for (i = 0; i < 60; i++)
-		I915_WRITE(TV_H_CHROMA(i), tv_mode->filter_table[j++]);
-	for (i = 0; i < 43; i++)
-		I915_WRITE(TV_V_LUMA(i), tv_mode->filter_table[j++]);
-	for (i = 0; i < 43; i++)
-		I915_WRITE(TV_V_CHROMA(i), tv_mode->filter_table[j++]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	I915_WRITE(TV_DAC, I915_READ(TV_DAC) & TV_DAC_SAVE);
 	I915_WRITE(TV_CTL, tv_ctl);
 }
@@ -1214,29 +1182,18 @@ intel_tv_detect_type(struct intel_tv *intel_tv,
 	struct intel_crtc *intel_crtc = to_intel_crtc(crtc);
 	struct drm_device *dev = encoder->dev;
 	struct drm_i915_private *dev_priv = dev->dev_private;
-<<<<<<< HEAD
 	unsigned long irqflags;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 tv_ctl, save_tv_ctl;
 	u32 tv_dac, save_tv_dac;
 	int type;
 
 	/* Disable TV interrupts around load detect or we'll recurse */
 	if (connector->polled & DRM_CONNECTOR_POLL_HPD) {
-<<<<<<< HEAD
 		spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
 		i915_disable_pipestat(dev_priv, 0,
 				      PIPE_HOTPLUG_INTERRUPT_STATUS |
 				      PIPE_HOTPLUG_TV_INTERRUPT_STATUS);
 		spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
-=======
-		spin_lock_irq(&dev_priv->irq_lock);
-		i915_disable_pipestat(dev_priv, 0,
-				      PIPE_HOTPLUG_INTERRUPT_STATUS |
-				      PIPE_HOTPLUG_TV_INTERRUPT_STATUS);
-		spin_unlock_irq(&dev_priv->irq_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	save_tv_dac = tv_dac = I915_READ(TV_DAC);
@@ -1309,19 +1266,11 @@ intel_tv_detect_type(struct intel_tv *intel_tv,
 
 	/* Restore interrupt config */
 	if (connector->polled & DRM_CONNECTOR_POLL_HPD) {
-<<<<<<< HEAD
 		spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
 		i915_enable_pipestat(dev_priv, 0,
 				     PIPE_HOTPLUG_INTERRUPT_STATUS |
 				     PIPE_HOTPLUG_TV_INTERRUPT_STATUS);
 		spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
-=======
-		spin_lock_irq(&dev_priv->irq_lock);
-		i915_enable_pipestat(dev_priv, 0,
-				     PIPE_HOTPLUG_INTERRUPT_STATUS |
-				     PIPE_HOTPLUG_TV_INTERRUPT_STATUS);
-		spin_unlock_irq(&dev_priv->irq_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return type;
@@ -1342,11 +1291,7 @@ static void intel_tv_find_better_format(struct drm_connector *connector)
 		return;
 
 
-<<<<<<< HEAD
 	for (i = 0; i < sizeof(tv_modes) / sizeof(*tv_modes); i++) {
-=======
-	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		tv_mode = tv_modes + i;
 
 		if ((intel_tv->type == DRM_MODE_CONNECTOR_Component) ==
@@ -1387,11 +1332,7 @@ intel_tv_detect(struct drm_connector *connector, bool force)
 
 		if (intel_get_load_detect_pipe(connector, &mode, &tmp, &ctx)) {
 			type = intel_tv_detect_type(intel_tv, connector);
-<<<<<<< HEAD
 			intel_release_load_detect_pipe(connector, &tmp);
-=======
-			intel_release_load_detect_pipe(connector, &tmp, &ctx);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			status = type < 0 ?
 				connector_status_disconnected :
 				connector_status_connected;
@@ -1568,22 +1509,11 @@ out:
 }
 
 static const struct drm_connector_funcs intel_tv_connector_funcs = {
-<<<<<<< HEAD
 	.dpms = intel_connector_dpms,
 	.detect = intel_tv_detect,
 	.destroy = intel_tv_destroy,
 	.set_property = intel_tv_set_property,
 	.fill_modes = drm_helper_probe_single_connector_modes,
-=======
-	.dpms = drm_atomic_helper_connector_dpms,
-	.detect = intel_tv_detect,
-	.destroy = intel_tv_destroy,
-	.set_property = intel_tv_set_property,
-	.atomic_get_property = intel_connector_atomic_get_property,
-	.fill_modes = drm_helper_probe_single_connector_modes,
-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static const struct drm_connector_helper_funcs intel_tv_connector_helper_funcs = {
@@ -1646,11 +1576,7 @@ intel_tv_init(struct drm_device *dev)
 	struct intel_encoder *intel_encoder;
 	struct intel_connector *intel_connector;
 	u32 tv_dac_on, tv_dac_off, save_tv_dac;
-<<<<<<< HEAD
 	char *tv_format_names[ARRAY_SIZE(tv_modes)];
-=======
-	const char *tv_format_names[ARRAY_SIZE(tv_modes)];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int i, initial_mode = 0;
 
 	if ((I915_READ(TV_CTL) & TV_FUSE_STATE_MASK) == TV_FUSE_STATE_DISABLED)
@@ -1692,11 +1618,7 @@ intel_tv_init(struct drm_device *dev)
 		return;
 	}
 
-<<<<<<< HEAD
 	intel_connector = kzalloc(sizeof(*intel_connector), GFP_KERNEL);
-=======
-	intel_connector = intel_connector_alloc();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!intel_connector) {
 		kfree(intel_tv);
 		return;
@@ -1752,11 +1674,7 @@ intel_tv_init(struct drm_device *dev)
 
 	/* Create TV properties then attach current values */
 	for (i = 0; i < ARRAY_SIZE(tv_modes); i++)
-<<<<<<< HEAD
 		tv_format_names[i] = (char *)tv_modes[i].name;
-=======
-		tv_format_names[i] = tv_modes[i].name;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_mode_create_tv_properties(dev,
 				      ARRAY_SIZE(tv_modes),
 				      tv_format_names);

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -158,7 +154,6 @@ static struct reg_default wsa881x_defaults[] = {
 	{WSA881X_SPKR_STATUS3, 0x00},
 };
 
-<<<<<<< HEAD
 /* Default register reset values for WSA881x rev 1.0 or 1.1 */
 static struct reg_default wsa881x_rev_1_x[] = {
 	{WSA881X_INTR_MASK, 0x1F},
@@ -183,8 +178,6 @@ static struct reg_default wsa881x_rev_1_x[] = {
 	{WSA881X_BONGO_RESRV_REG2, 0x00},
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Default register reset values for WSA881x rev 2.0 */
 static struct reg_default wsa881x_rev_2_0[] = {
 	{WSA881X_RESET_CTL, 0x00},
@@ -229,7 +222,6 @@ void wsa881x_regmap_defaults(struct regmap *regmap, u8 version)
 		return;
 	}
 
-<<<<<<< HEAD
 	switch (version) {
 	case WSA881X_1_X:
 		regcache_cache_only(regmap, true);
@@ -250,12 +242,6 @@ void wsa881x_regmap_defaults(struct regmap *regmap, u8 version)
 		ret = -EINVAL;
 		break;
 	}
-=======
-	regcache_cache_only(regmap, true);
-	ret = regmap_multi_reg_write(regmap, wsa881x_rev_2_0,
-				     ARRAY_SIZE(wsa881x_rev_2_0));
-	regcache_cache_only(regmap, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ret)
 		pr_debug("%s: Failed to update regmap defaults ret= %d\n",

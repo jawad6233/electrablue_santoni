@@ -115,7 +115,6 @@ int xhci_halt(struct xhci_hcd *xhci)
 			STS_HALT, STS_HALT, XHCI_MAX_HALT_USEC);
 	if (!ret) {
 		xhci->xhc_state |= XHCI_STATE_HALTED;
-<<<<<<< HEAD
 		xhci->cmd_ring_state = CMD_RING_STATE_STOPPED;
 
 		if (timer_pending(&xhci->cmd_timer)) {
@@ -127,22 +126,6 @@ int xhci_halt(struct xhci_hcd *xhci)
 	} else
 		xhci_warn(xhci, "Host not halted after %u microseconds.\n",
 				XHCI_MAX_HALT_USEC);
-=======
-	} else {
-		xhci_warn(xhci, "Host not halted after %u microseconds.\n",
-				XHCI_MAX_HALT_USEC);
-	}
-
-	xhci->cmd_ring_state = CMD_RING_STATE_STOPPED;
-
-	if (timer_pending(&xhci->cmd_timer)) {
-		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-				"Cleanup command queue");
-		del_timer(&xhci->cmd_timer);
-		xhci_cleanup_command_queue(xhci);
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -1168,13 +1151,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
 		/* Resume root hubs only when have pending events. */
 		status = readl(&xhci->op_regs->status);
 		if (status & STS_EINT) {
-<<<<<<< HEAD
 			usb_hcd_resume_root_hub(xhci->shared_hcd);
 			usb_hcd_resume_root_hub(hcd);
-=======
-			usb_hcd_resume_root_hub(hcd);
-			usb_hcd_resume_root_hub(xhci->shared_hcd);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 
@@ -1189,17 +1167,10 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
 
 	/* Re-enable port polling. */
 	xhci_dbg(xhci, "%s: starting port polling.\n", __func__);
-<<<<<<< HEAD
 	set_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
 	usb_hcd_poll_rh_status(xhci->shared_hcd);
 	set_bit(HCD_FLAG_POLL_RH, &hcd->flags);
 	usb_hcd_poll_rh_status(hcd);
-=======
-	set_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-	usb_hcd_poll_rh_status(hcd);
-	set_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
-	usb_hcd_poll_rh_status(xhci->shared_hcd);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return retval;
 }
@@ -1635,22 +1606,6 @@ int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
 		xhci_urb_free_priv(xhci, urb_priv);
 		return ret;
 	}
-<<<<<<< HEAD
-=======
-	if ((xhci->xhc_state & XHCI_STATE_DYING) ||
-			(xhci->xhc_state & XHCI_STATE_HALTED)) {
-		xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-				"Ep 0x%x: URB %pK to be canceled on "
-				"non-responsive xHCI host.",
-				urb->ep->desc.bEndpointAddress, urb);
-		/* Let the stop endpoint command watchdog timer (which set this
-		 * state) finish cleaning up the endpoint TD lists.  We must
-		 * have caught it in the middle of dropping a lock and giving
-		 * back an URB.
-		 */
-		goto done;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ep_index = xhci_get_endpoint_index(&urb->ep->desc);
 	ep = &xhci->devs[urb->dev->slot_id]->eps[ep_index];
@@ -4997,7 +4952,6 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
 		goto error;
 	xhci_dbg(xhci, "Reset complete\n");
 
-<<<<<<< HEAD
 	/*
 	 * On some xHCI controllers (e.g. R-Car SoCs), the AC64 bit (bit 0)
 	 * of HCCPARAMS1 is set to 1. However, the xHCs don't support 64-bit
@@ -5008,8 +4962,6 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
 	if (xhci->quirks & XHCI_NO_64BIT_SUPPORT)
 		xhci->hcc_params &= ~BIT(0);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Set dma_mask and coherent_dma_mask to 64-bits,
 	 * if xHC supports 64-bit addressing */
 	if (HCC_64BIT_ADDR(xhci->hcc_params) &&
@@ -5025,7 +4977,6 @@ error:
 }
 EXPORT_SYMBOL_GPL(xhci_gen_setup);
 
-<<<<<<< HEAD
 dma_addr_t xhci_get_sec_event_ring_dma_addr(struct usb_hcd *hcd,
 	unsigned intr_num)
 {
@@ -5081,8 +5032,6 @@ dma_addr_t xhci_get_xfer_ring_dma_addr(struct usb_hcd *hcd,
 	return 0;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static const struct hc_driver xhci_hc_driver = {
 	.description =		"xhci-hcd",
 	.product_desc =		"xHCI Host Controller",
@@ -5142,14 +5091,11 @@ static const struct hc_driver xhci_hc_driver = {
 	.enable_usb3_lpm_timeout =	xhci_enable_usb3_lpm_timeout,
 	.disable_usb3_lpm_timeout =	xhci_disable_usb3_lpm_timeout,
 	.find_raw_port_number =	xhci_find_raw_port_number,
-<<<<<<< HEAD
 	.sec_event_ring_setup =		xhci_sec_event_ring_setup,
 	.sec_event_ring_cleanup =	xhci_sec_event_ring_cleanup,
 	.get_sec_event_ring_dma_addr =	xhci_get_sec_event_ring_dma_addr,
 	.get_xfer_ring_dma_addr =	xhci_get_xfer_ring_dma_addr,
 	.get_dcba_dma_addr =		xhci_get_dcba_dma_addr,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 void xhci_init_driver(struct hc_driver *drv, int (*setup_fn)(struct usb_hcd *))

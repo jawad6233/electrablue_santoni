@@ -516,7 +516,6 @@ ENTRY(phys_base)
 	/* This must match the first entry in level2_kernel_pgt */
 	.quad   0x0000000000000000
 
-<<<<<<< HEAD
 #ifdef CONFIG_KASAN
 #define FILL(VAL, COUNT)				\
 	.rept (COUNT) ;					\
@@ -534,15 +533,12 @@ NEXT_PAGE(kasan_zero_pud)
 #endif
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "../../x86/xen/xen-head.S"
 	
 	__PAGE_ALIGNED_BSS
 NEXT_PAGE(empty_zero_page)
 	.skip PAGE_SIZE
 
-<<<<<<< HEAD
 #ifdef CONFIG_KASAN
 /*
  * This page used as early shadow. We don't use empty_zero_page
@@ -555,5 +551,3 @@ NEXT_PAGE(empty_zero_page)
 NEXT_PAGE(kasan_zero_page)
 	.skip PAGE_SIZE
 #endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

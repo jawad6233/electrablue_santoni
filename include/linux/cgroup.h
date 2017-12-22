@@ -924,10 +924,7 @@ int cgroup_attach_task_to_root(struct task_struct *tsk, int wait);
 int subsys_cgroup_allow_attach(struct cgroup_subsys_state *css,
 			       struct cgroup_taskset *tset);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else /* !CONFIG_CGROUPS */
 
 static inline int cgroup_init_early(void) { return 0; }

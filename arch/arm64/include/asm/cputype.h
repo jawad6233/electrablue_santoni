@@ -36,15 +36,12 @@
 #define MMFR0_16KGRAN_SHFT	20
 #define MMFR0_EL1_16KGRAN_MASK	(MMFR0_16KGRAN_SIZE << MMFR0_16KGRAN_SHFT)
 
-<<<<<<< HEAD
 #define read_cpuid(reg) ({						\
 	u64 __val;							\
 	asm("mrs	%0, " #reg : "=r" (__val));			\
 	__val;								\
 })
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define MIDR_REVISION_MASK	0xf
 #define MIDR_REVISION(midr)	((midr) & MIDR_REVISION_MASK)
 #define MIDR_PARTNUM_SHIFT	4
@@ -83,7 +80,6 @@
 
 #define APM_CPU_PART_POTENZA	0x000
 
-<<<<<<< HEAD
 #define ID_AA64MMFR0_BIGENDEL0_SHIFT	16
 #define ID_AA64MMFR0_BIGENDEL0_MASK	(0xf << ID_AA64MMFR0_BIGENDEL0_SHIFT)
 #define ID_AA64MMFR0_BIGENDEL0(mmfr0)	\
@@ -95,18 +91,6 @@
 
 #ifndef __ASSEMBLY__
 
-=======
-#ifndef __ASSEMBLY__
-
-#include <asm/sysreg.h>
-
-#define read_cpuid(reg) ({						\
-	u64 __val;							\
-	asm("mrs_s	%0, " __stringify(reg) : "=r" (__val));		\
-	__val;								\
-})
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * The CPU ID never changes at run time, so we might as well tell the
  * compiler that it's constant.  Use this function to read the CPU ID
@@ -114,20 +98,12 @@
  */
 static inline u32 __attribute_const__ read_cpuid_id(void)
 {
-<<<<<<< HEAD
 	return read_cpuid(MIDR_EL1);
-=======
-	return read_cpuid(SYS_MIDR_EL1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline u64 __attribute_const__ read_cpuid_mpidr(void)
 {
-<<<<<<< HEAD
 	return read_cpuid(MPIDR_EL1);
-=======
-	return read_cpuid(SYS_MPIDR_EL1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline unsigned int __attribute_const__ read_cpuid_implementor(void)
@@ -142,7 +118,6 @@ static inline unsigned int __attribute_const__ read_cpuid_part_number(void)
 
 static inline u32 __attribute_const__ read_cpuid_cachetype(void)
 {
-<<<<<<< HEAD
 	return read_cpuid(CTR_EL0);
 }
 
@@ -150,9 +125,6 @@ static inline bool id_aa64mmfr0_mixed_endian_el0(u64 mmfr0)
 {
 	return (ID_AA64MMFR0_BIGEND(mmfr0) == 0x1) ||
 		(ID_AA64MMFR0_BIGENDEL0(mmfr0) == 0x1);
-=======
-	return read_cpuid(SYS_CTR_EL0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 #endif /* __ASSEMBLY__ */
 

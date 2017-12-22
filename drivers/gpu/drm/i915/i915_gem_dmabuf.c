@@ -230,16 +230,6 @@ struct dma_buf *i915_gem_prime_export(struct drm_device *dev,
 				      struct drm_gem_object *gem_obj, int flags)
 {
 	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
-<<<<<<< HEAD
-=======
-	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-
-	exp_info.ops = &i915_dmabuf_ops;
-	exp_info.size = gem_obj->size;
-	exp_info.flags = flags;
-	exp_info.priv = gem_obj;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (obj->ops->dmabuf_export) {
 		int ret = obj->ops->dmabuf_export(obj);
@@ -247,12 +237,8 @@ struct dma_buf *i915_gem_prime_export(struct drm_device *dev,
 			return ERR_PTR(ret);
 	}
 
-<<<<<<< HEAD
 	return dma_buf_export(gem_obj, &i915_dmabuf_ops, gem_obj->size, flags,
 			      NULL);
-=======
-	return dma_buf_export(&exp_info);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
@@ -264,10 +250,7 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
 		return PTR_ERR(sg);
 
 	obj->pages = sg;
-<<<<<<< HEAD
 	obj->has_dma_mapping = true;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -275,10 +258,7 @@ static void i915_gem_object_put_pages_dmabuf(struct drm_i915_gem_object *obj)
 {
 	dma_buf_unmap_attachment(obj->base.import_attach,
 				 obj->pages, DMA_BIDIRECTIONAL);
-<<<<<<< HEAD
 	obj->has_dma_mapping = false;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static const struct drm_i915_gem_object_ops i915_gem_object_dmabuf_ops = {

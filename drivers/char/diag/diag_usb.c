@@ -14,10 +14,6 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/device.h>
-<<<<<<< HEAD
-=======
-#include <linux/kernel.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/err.h>
 #include <linux/sched.h>
 #include <linux/ratelimit.h>
@@ -222,12 +218,7 @@ static void usb_disconnect(struct diag_usb_info *ch)
 	if (!ch)
 		return;
 
-<<<<<<< HEAD
 	if (!atomic_read(&ch->connected) && driver->usb_connected)
-=======
-	if (!atomic_read(&ch->connected) &&
-		driver->usb_connected && diag_mask_param())
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		diag_clear_masks(NULL);
 
 	if (ch && ch->ops && ch->ops->close)

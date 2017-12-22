@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -109,10 +105,6 @@ static int hdmi_tx_set_mhl_hpd(struct platform_device *pdev, uint8_t on);
 static int hdmi_tx_sysfs_enable_hpd(struct hdmi_tx_ctrl *hdmi_ctrl, int on);
 static irqreturn_t hdmi_tx_isr(int irq, void *data);
 static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl);
-<<<<<<< HEAD
-=======
-static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int hdmi_tx_enable_power(struct hdmi_tx_ctrl *hdmi_ctrl,
 	enum hdmi_tx_power_module_type module, int enable);
 static int hdmi_tx_setup_tmds_clk_rate(struct hdmi_tx_ctrl *hdmi_ctrl);
@@ -678,12 +670,6 @@ static int hdmi_tx_update_pixel_clk(struct hdmi_tx_ctrl *hdmi_ctrl)
 
 	power_data->clk_config->rate = pinfo->clk_rate;
 
-<<<<<<< HEAD
-=======
-	if (pinfo->out_format == MDP_Y_CBCR_H2V2)
-		power_data->clk_config->rate /= 2;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DEV_DBG("%s: rate %ld\n", __func__, power_data->clk_config->rate);
 
 	msm_dss_clk_set_rate(power_data->clk_config, power_data->num_clk);
@@ -2958,12 +2944,7 @@ static int hdmi_tx_power_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 
 	hdmi_ctrl->panel_power_on = false;
 
-<<<<<<< HEAD
 	if (hdmi_ctrl->hpd_off_pending || hdmi_ctrl->panel_suspend)
-=======
-	if (hdmi_ctrl->hpd_off_pending || hdmi_ctrl->panel_suspend ||
-		!hdmi_ctrl->pdata.pluggable)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		hdmi_tx_hpd_off(hdmi_ctrl);
 
 	if (hdmi_ctrl->hdmi_tx_hpd_done)
@@ -2982,12 +2963,6 @@ static int hdmi_tx_power_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 	void *pdata = hdmi_tx_get_fd(HDMI_TX_FEAT_PANEL);
 	void *edata = hdmi_tx_get_fd(HDMI_TX_FEAT_EDID);
 
-<<<<<<< HEAD
-=======
-	if (!hdmi_ctrl->pdata.pluggable)
-		hdmi_tx_hpd_on(hdmi_ctrl);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = hdmi_tx_check_clk_state(hdmi_ctrl, HDMI_TX_HPD_PM);
 	if (ret) {
 		DEV_ERR("%s: clocks not on\n", __func__);
@@ -3080,14 +3055,8 @@ static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 	/* Turn off HPD interrupts */
 	DSS_REG_W(io, HDMI_HPD_INT_CTRL, 0);
 
-<<<<<<< HEAD
 
 	if (hdmi_tx_is_cec_wakeup_en(hdmi_ctrl)) {
-=======
-	/* non pluggable display should not enable wakeup interrupt */
-	if ((hdmi_tx_is_cec_wakeup_en(hdmi_ctrl) &&
-			hdmi_ctrl->pdata.pluggable)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		hdmi_ctrl->mdss_util->enable_wake_irq(&hdmi_tx_hw);
 	} else {
 		hdmi_ctrl->mdss_util->disable_irq(&hdmi_tx_hw);
@@ -3182,10 +3151,7 @@ static int hdmi_tx_sysfs_enable_hpd(struct hdmi_tx_ctrl *hdmi_ctrl, int on)
 	DEV_DBG("%s: %d\n", __func__, on);
 	if (on) {
 		hdmi_ctrl->hpd_off_pending = false;
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		rc = hdmi_tx_hpd_on(hdmi_ctrl);
 	} else {
 		if (!hdmi_ctrl->panel_power_on)
@@ -3537,12 +3503,6 @@ static void hdmi_tx_update_fps(struct hdmi_tx_ctrl *hdmi_ctrl)
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-	DEV_DBG("%s: current fps %d, new fps %d\n", __func__,
-		pinfo->current_fps, hdmi_ctrl->dynamic_fps);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (hdmi_ctrl->dynamic_fps == pinfo->current_fps) {
 		DEV_DBG("%s: Panel is already at this FPS: %d\n",
 			__func__, hdmi_ctrl->dynamic_fps);
@@ -3737,18 +3697,10 @@ static int hdmi_tx_evt_handle_panel_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 
 static int hdmi_tx_evt_handle_suspend(struct hdmi_tx_ctrl *hdmi_ctrl)
 {
-<<<<<<< HEAD
 	if (!hdmi_ctrl->hpd_feature_on)
 		goto end;
 
 	if (!hdmi_ctrl->hpd_state && !hdmi_ctrl->panel_power_on)
-=======
-	if ((!hdmi_ctrl->hpd_feature_on) || (hdmi_ctrl->panel_suspend == true))
-		goto end;
-
-	if ((!hdmi_ctrl->hpd_state && !hdmi_ctrl->panel_power_on) ||
-			(hdmi_ctrl->hpd_state && !hdmi_ctrl->pdata.pluggable))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		hdmi_tx_hpd_off(hdmi_ctrl);
 
 	hdmi_ctrl->panel_suspend = true;
@@ -3793,11 +3745,7 @@ end:
 static int hdmi_tx_evt_handle_close(struct hdmi_tx_ctrl *hdmi_ctrl)
 {
 	if (hdmi_ctrl->hpd_feature_on && hdmi_ctrl->hpd_initialized &&
-<<<<<<< HEAD
 	    !hdmi_ctrl->hpd_state)
-=======
-		!hdmi_ctrl->hpd_state)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		hdmi_tx_hpd_polarity_setup(hdmi_ctrl, HPD_CONNECT_POLARITY);
 
 	return 0;
@@ -3820,10 +3768,6 @@ static int hdmi_tx_event_handler(struct mdss_panel_data *panel_data,
 	/* UPDATE FPS is called from atomic context */
 	if (event == MDSS_EVENT_PANEL_UPDATE_FPS) {
 		hdmi_ctrl->dynamic_fps = (u32) (unsigned long)arg;
-<<<<<<< HEAD
-=======
-		DEV_DBG("%s: fps %d\n", __func__, hdmi_ctrl->dynamic_fps);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		queue_work(hdmi_ctrl->workq, &hdmi_ctrl->fps_work);
 		return rc;
 	}
@@ -4198,11 +4142,7 @@ static int hdmi_tx_get_dt_vreg_data(struct device *dev,
 				__func__, hdmi_tx_pm_name(module_type), rc);
 			goto error;
 		}
-<<<<<<< HEAD
 		mp->vreg_config[j].enable_load = val_array[i];
-=======
-		mp->vreg_config[j].load[DSS_REG_MODE_ENABLE] = val_array[i];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		memset(val_array, 0, sizeof(u32) * dt_vreg_total);
 		rc = of_property_read_u32_array(of_node,
@@ -4213,24 +4153,15 @@ static int hdmi_tx_get_dt_vreg_data(struct device *dev,
 				__func__, hdmi_tx_pm_name(module_type), rc);
 			goto error;
 		}
-<<<<<<< HEAD
 		mp->vreg_config[j].disable_load = val_array[i];
-=======
-		mp->vreg_config[j].load[DSS_REG_MODE_DISABLE] = val_array[i];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		DEV_DBG("%s: %s min=%d, max=%d, enable=%d disable=%d\n",
 			__func__,
 			mp->vreg_config[j].vreg_name,
 			mp->vreg_config[j].min_voltage,
 			mp->vreg_config[j].max_voltage,
-<<<<<<< HEAD
 			mp->vreg_config[j].enable_load,
 			mp->vreg_config[j].disable_load);
-=======
-			mp->vreg_config[j].load[DSS_REG_MODE_ENABLE],
-			mp->vreg_config[j].load[DSS_REG_MODE_DISABLE]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		ndx_mask >>= 1;
 		j++;

@@ -406,15 +406,12 @@
 #define FTDI_4N_GALAXY_DE_3_PID	0xF3C2
 
 /*
-<<<<<<< HEAD
  * Ivium Technologies product IDs
  */
 #define FTDI_PALMSENS_PID	0xf440
 #define FTDI_IVIUM_XSTAT_PID	0xf441
 
 /*
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Linx Technologies product ids
  */
 #define LINX_SDMUSBQSS_PID	0xF448	/* Linx SDM-USB-QS-S */
@@ -620,14 +617,9 @@
 /*
  * Infineon Technologies
  */
-<<<<<<< HEAD
 #define INFINEON_VID		        0x058b
 #define INFINEON_TRIBOARD_TC1798_PID	0x0028 /* DAS JTAG TriBoard TC1798 V1.0 */
 #define INFINEON_TRIBOARD_TC2X7_PID	0x0043 /* DAS JTAG TriBoard TC2X7 V1.0 */
-=======
-#define INFINEON_VID		0x058b
-#define INFINEON_TRIBOARD_PID	0x0028 /* DAS JTAG TriBoard TC1798 V1.0 */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * Acton Research Corp.
@@ -679,15 +671,12 @@
 #define INTREPID_NEOVI_PID	0x0701
 
 /*
-<<<<<<< HEAD
  * WICED USB UART
  */
 #define WICED_VID		0x0A5C
 #define WICED_USB20706V2_PID	0x6422
 
 /*
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Definitions for ID TECH (www.idt-net.com) devices
  */
 #define IDTECH_VID		0x0ACD	/* ID TECH Vendor ID */
@@ -869,7 +858,6 @@
 #define	FIC_VID			0x1457
 #define	FIC_NEO1973_DEBUG_PID	0x5118
 
-<<<<<<< HEAD
 /*
  * Actel / Microsemi
  */
@@ -881,11 +869,6 @@
 #define OLIMEX_ARM_USB_OCD_PID		0x0003
 #define OLIMEX_ARM_USB_TINY_PID	0x0004
 #define OLIMEX_ARM_USB_TINY_H_PID	0x002a
-=======
-/* Olimex */
-#define OLIMEX_VID			0x15BA
-#define OLIMEX_ARM_USB_OCD_PID		0x0003
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define OLIMEX_ARM_USB_OCD_H_PID	0x002b
 
 /*
@@ -901,7 +884,6 @@
 #define NOVITUS_BONO_E_PID		0x6010
 
 /*
-<<<<<<< HEAD
  * ICPDAS I-756*U devices
  */
 #define ICPDAS_VID			0x1b5c
@@ -910,8 +892,6 @@
 #define ICPDAS_I7563U_PID		0x0105
 
 /*
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * RT Systems programming cables for various ham radios
  */
 #define RTSYSTEMS_VID		0x2100	/* Vendor ID */

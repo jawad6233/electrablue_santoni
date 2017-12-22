@@ -275,12 +275,9 @@
 #include <net/tcp.h>
 #include <net/xfrm.h>
 #include <net/ip.h>
-<<<<<<< HEAD
 #include <net/ip6_route.h>
 #include <net/ipv6.h>
 #include <net/transp_v6.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <net/sock.h>
 
 #include <asm/uaccess.h>
@@ -3219,7 +3216,6 @@ void __init tcp_init(void)
 	BUG_ON(tcp_register_congestion_control(&tcp_reno) != 0);
 	tcp_tasklet_init();
 }
-<<<<<<< HEAD
 
 static int tcp_is_local(struct net *net, __be32 addr) {
 	struct rtable *rt;
@@ -3353,5 +3349,3 @@ restart:
 	return 0;
 }
 EXPORT_SYMBOL_GPL(tcp_nuke_addr);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

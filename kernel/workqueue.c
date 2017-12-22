@@ -1453,10 +1453,6 @@ static void __queue_delayed_work(int cpu, struct workqueue_struct *wq,
 	struct timer_list *timer = &dwork->timer;
 	struct work_struct *work = &dwork->work;
 
-<<<<<<< HEAD
-=======
-	WARN_ON_ONCE(!wq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	WARN_ON_ONCE(timer->function != delayed_work_timer_fn ||
 		     timer->data != (unsigned long)dwork);
 	WARN_ON_ONCE(timer_pending(timer));
@@ -1473,11 +1469,6 @@ static void __queue_delayed_work(int cpu, struct workqueue_struct *wq,
 		return;
 	}
 
-<<<<<<< HEAD
-=======
-	timer_stats_timer_set_start_info(&dwork->timer);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dwork->wq = wq;
 	dwork->cpu = cpu;
 	timer->expires = jiffies + delay;
@@ -1735,13 +1726,9 @@ static struct worker *create_worker(struct worker_pool *pool)
 		goto fail;
 
 	set_user_nice(worker->task, pool->attrs->nice);
-<<<<<<< HEAD
 
 	/* prevent userland from meddling with cpumask of workqueue workers */
 	worker->task->flags |= PF_NO_SETAFFINITY;
-=======
-	kthread_bind_mask(worker->task, pool->attrs->cpumask);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* successful, attach the worker to the pool */
 	worker_attach_to_pool(worker, pool);
@@ -4163,11 +4150,7 @@ struct workqueue_struct *__alloc_workqueue_key(const char *fmt,
 		}
 
 		wq->rescuer = rescuer;
-<<<<<<< HEAD
 		rescuer->task->flags |= PF_NO_SETAFFINITY;
-=======
-		kthread_bind_mask(rescuer->task, cpu_possible_mask);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wake_up_process(rescuer->task);
 	}
 

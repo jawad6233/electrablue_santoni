@@ -23,16 +23,10 @@
 #include <asm/assembler.h>
 #include <asm/cpufeature.h>
 #include <asm/alternative.h>
-<<<<<<< HEAD
 
 #include "proc-macros.S"
 
  /*
-=======
-#include <asm/uaccess.h>
-
-/*
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *     flush_dcache_louis()
  *
  *     Flush the D-cache up to the Level of Unification Inner Shareable
@@ -139,11 +133,6 @@ ENTRY(flush_cache_all)
 	ret	x12
 ENDPROC(flush_cache_all)
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  *	flush_icache_range(start,end)
  *
@@ -168,10 +157,6 @@ ENTRY(flush_icache_range)
  *	- end     - virtual end address of region
  */
 ENTRY(__flush_cache_user_range)
-<<<<<<< HEAD
-=======
-	uaccess_ttbr0_enable x2, x3
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dcache_line_size x2, x3
 	sub	x3, x2, #1
 	bic	x4, x0, x3
@@ -193,10 +178,6 @@ USER(9f, ic	ivau, x4	)		// invalidate I line PoU
 9:						// ignore any faulting cache operation
 	dsb	ish
 	isb
-<<<<<<< HEAD
-=======
-	uaccess_ttbr0_disable x1
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret
 ENDPROC(flush_icache_range)
 ENDPROC(__flush_cache_user_range)
@@ -266,16 +247,7 @@ ENTRY(__dma_clean_range)
 	dcache_line_size x2, x3
 	sub	x3, x2, #1
 	bic	x0, x0, x3
-<<<<<<< HEAD
 1:	alternative_insn "dc cvac, x0", "dc civac, x0", ARM64_WORKAROUND_CLEAN_CACHE
-=======
-1:
-alternative_if_not ARM64_WORKAROUND_CLEAN_CACHE
-	dc	cvac, x0
-alternative_else
-	dc	civac, x0
-alternative_endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	add	x0, x0, x2
 	cmp	x0, x1
 	b.lo	1b

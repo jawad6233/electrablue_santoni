@@ -19,7 +19,6 @@
 
 #include "power.h"
 
-<<<<<<< HEAD
 
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 #include "boeffla_wl_blocker.h"
@@ -32,8 +31,6 @@ static void wakeup_source_deactivate(struct wakeup_source *ws);
 #endif
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * If set, the suspend/hibernate code will abort transitions to a sleep state
  * if wakeup events are registered during or immediately before the transition.
@@ -454,7 +451,6 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 	trace_wakeup_source_activate(ws->name, cec);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 // AP: Function to check if a wakelock is on the wakelock blocker list
 static bool check_for_block(struct wakeup_source *ws)
@@ -506,15 +502,12 @@ static bool check_for_block(struct wakeup_source *ws)
 }
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * wakeup_source_report_event - Report wakeup event using the given source.
  * @ws: Wakeup source to report the event for.
  */
 static void wakeup_source_report_event(struct wakeup_source *ws)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 	if (!check_for_block(ws))	// AP: check if wakelock is on wakelock blocker list
 	{
@@ -529,15 +522,6 @@ static void wakeup_source_report_event(struct wakeup_source *ws)
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 	}
 #endif
-=======
-	ws->event_count++;
-	/* This is racy, but the counter is approximate anyway. */
-	if (events_check_enabled)
-		ws->wakeup_count++;
-
-	if (!ws->active)
-		wakeup_source_activate(ws);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -598,10 +582,7 @@ static inline void update_prevent_sleep_time(struct wakeup_source *ws,
 					     ktime_t now) {}
 #endif
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * wakup_source_deactivate - Mark given wakeup source as inactive.
  * @ws: Wakeup source to handle.
@@ -829,14 +810,10 @@ void pm_print_active_wakeup_sources(void)
 	list_for_each_entry_rcu(ws, &wakeup_sources, entry) {
 		if (ws->active) {
 			pr_info("active wakeup source: %s\n", ws->name);
-<<<<<<< HEAD
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 			if (!check_for_block(ws))	// AP: check if wakelock is on wakelock blocker list
 #endif
 				active = 1;
-=======
-			active = 1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else if (!active &&
 			   (!last_activity_ws ||
 			    ktime_to_ns(ws->last_time) >
@@ -1023,11 +1000,7 @@ static int print_wakeup_source_stats(struct seq_file *m,
 		active_time = ktime_set(0, 0);
 	}
 
-<<<<<<< HEAD
 	ret = seq_printf(m, "%-12s\t%lu\t\t%lu\t\t%lu\t\t%lu\t\t"
-=======
-	ret = seq_printf(m, "%-32s\t%lu\t\t%lu\t\t%lu\t\t%lu\t\t"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"%lld\t\t%lld\t\t%lld\t\t%lld\t\t%lld\n",
 			ws->name, active_count, ws->event_count,
 			ws->wakeup_count, ws->expire_count,
@@ -1048,11 +1021,7 @@ static int wakeup_sources_stats_show(struct seq_file *m, void *unused)
 {
 	struct wakeup_source *ws;
 
-<<<<<<< HEAD
 	seq_puts(m, "name\t\tactive_count\tevent_count\twakeup_count\t"
-=======
-	seq_puts(m, "name\t\t\t\t\tactive_count\tevent_count\twakeup_count\t"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		"expire_count\tactive_since\ttotal_time\tmax_time\t"
 		"last_change\tprevent_suspend_time\n");
 

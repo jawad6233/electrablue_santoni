@@ -163,11 +163,7 @@ static struct shash_alg algs[] = { {
 	.base			= {
 		.cra_name		= "sha224",
 		.cra_driver_name	= "sha224-ce",
-<<<<<<< HEAD
 		.cra_priority		= 300,
-=======
-		.cra_priority		= 200,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.cra_flags		= CRYPTO_ALG_TYPE_SHASH,
 		.cra_blocksize		= SHA256_BLOCK_SIZE,
 		.cra_module		= THIS_MODULE,
@@ -184,11 +180,7 @@ static struct shash_alg algs[] = { {
 	.base			= {
 		.cra_name		= "sha256",
 		.cra_driver_name	= "sha256-ce",
-<<<<<<< HEAD
 		.cra_priority		= 300,
-=======
-		.cra_priority		= 200,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.cra_flags		= CRYPTO_ALG_TYPE_SHASH,
 		.cra_blocksize		= SHA256_BLOCK_SIZE,
 		.cra_module		= THIS_MODULE,

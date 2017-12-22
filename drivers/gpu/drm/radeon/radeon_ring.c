@@ -495,11 +495,7 @@ static int radeon_debugfs_ring_info(struct seq_file *m, void *data)
 	seq_printf(m, "%u free dwords in ring\n", ring->ring_free_dw);
 	seq_printf(m, "%u dwords in ring\n", count);
 
-<<<<<<< HEAD
 	if (!ring->ready)
-=======
-	if (!ring->ring)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 
 	/* print 8 dw before current rptr as often it's the last executed

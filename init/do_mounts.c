@@ -207,11 +207,7 @@ done:
  *	bangs.
  */
 
-<<<<<<< HEAD
 dev_t name_to_dev_t(char *name)
-=======
-dev_t name_to_dev_t(const char *name)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	char s[32];
 	char *p;
@@ -290,10 +286,6 @@ fail:
 done:
 	return res;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(name_to_dev_t);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int __init root_dev_setup(char *line)
 {

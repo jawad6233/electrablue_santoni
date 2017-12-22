@@ -41,11 +41,7 @@
 #define AXI_HALTACK			0x4
 #define AXI_IDLE			0x8
 
-<<<<<<< HEAD
 #define HALT_ACK_TIMEOUT_US		100000
-=======
-#define HALT_ACK_TIMEOUT_US		25000
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* QDSP6SS_RESET */
 #define Q6SS_STOP_CORE			BIT(0)
@@ -397,11 +393,7 @@ static int __pil_q6v55_reset(struct pil_desc *pil)
 	mb();
 	udelay(1);
 
-<<<<<<< HEAD
 	if (drv->qdsp6v62_1_2) {
-=======
-	if (drv->qdsp6v62_1_2 || drv->qdsp6v62_1_5 || drv->qdsp6v62_1_4) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		for (i = BHS_CHECK_MAX_LOOPS; i > 0; i--) {
 			if (readl_relaxed(drv->reg_base + QDSP6V62SS_BHS_STATUS)
 			    & QDSP6v55_BHS_EN_REST_ACK)
@@ -501,12 +493,7 @@ static int __pil_q6v55_reset(struct pil_desc *pil)
 			 */
 			udelay(1);
 		}
-<<<<<<< HEAD
 	} else if (drv->qdsp6v61_1_1 || drv->qdsp6v62_1_2) {
-=======
-	} else if (drv->qdsp6v61_1_1 || drv->qdsp6v62_1_2 ||
-			drv->qdsp6v62_1_4 || drv->qdsp6v62_1_5) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/* Deassert QDSP6 compiler memory clamp */
 		val = readl_relaxed(drv->reg_base + QDSP6SS_PWR_CTL);
 		val &= ~QDSP6v55_CLAMP_QMC_MEM;
@@ -519,17 +506,7 @@ static int __pil_q6v55_reset(struct pil_desc *pil)
 		/* Turn on L1, L2, ETB and JU memories 1 at a time */
 		val = readl_relaxed(drv->reg_base +
 				QDSP6V6SS_MEM_PWR_CTL);
-<<<<<<< HEAD
 		for (i = 28; i >= 0; i--) {
-=======
-
-		if (drv->qdsp6v62_1_4 || drv->qdsp6v62_1_5)
-			i = 29;
-		else
-			i = 28;
-
-		for ( ; i >= 0; i--) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			val |= BIT(i);
 			writel_relaxed(val, drv->reg_base +
 					QDSP6V6SS_MEM_PWR_CTL);
@@ -692,15 +669,6 @@ struct q6v5_data *pil_q6v5_init(struct platform_device *pdev)
 	drv->qdsp6v62_1_2 = of_property_read_bool(pdev->dev.of_node,
 						"qcom,qdsp6v62-1-2");
 
-<<<<<<< HEAD
-=======
-	drv->qdsp6v62_1_4 = of_property_read_bool(pdev->dev.of_node,
-						"qcom,qdsp6v62-1-4");
-
-	drv->qdsp6v62_1_5 = of_property_read_bool(pdev->dev.of_node,
-						"qcom,qdsp6v62-1-5");
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drv->non_elf_image = of_property_read_bool(pdev->dev.of_node,
 						"qcom,mba-image-is-not-elf");
 

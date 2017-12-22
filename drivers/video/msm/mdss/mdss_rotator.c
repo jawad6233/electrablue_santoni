@@ -373,18 +373,6 @@ static bool mdss_rotator_is_work_pending(struct mdss_rot_mgr *mgr,
 	return false;
 }
 
-<<<<<<< HEAD
-=======
-static void mdss_rotator_install_fence_fd(struct mdss_rot_entry_container *req)
-{
-	int i = 0;
-
-	for (i = 0; i < req->count; i++)
-		sync_fence_install(req->entries[i].output_fence,
-				req->entries[i].output_fence_fd);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int mdss_rotator_create_fence(struct mdss_rot_entry *entry)
 {
 	int ret = 0, fd;
@@ -423,10 +411,7 @@ static int mdss_rotator_create_fence(struct mdss_rot_entry *entry)
 		goto get_fd_err;
 	}
 
-<<<<<<< HEAD
 	sync_fence_install(fence, fd);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rot_timeline->next_value++;
 	mutex_unlock(&rot_timeline->lock);
 
@@ -1133,10 +1118,6 @@ static void mdss_rotator_release_from_work_distribution(
 		bool free_perf = false;
 		u32 wb_idx = entry->queue->hw->wb_id;
 
-<<<<<<< HEAD
-=======
-		mutex_lock(&mgr->lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mutex_lock(&entry->perf->work_dis_lock);
 		if (entry->perf->work_distribution[wb_idx])
 			entry->perf->work_distribution[wb_idx]--;
@@ -1160,10 +1141,6 @@ static void mdss_rotator_release_from_work_distribution(
 			mdss_rotator_clk_ctrl(mgr, false);
 			entry->perf = NULL;
 		}
-<<<<<<< HEAD
-=======
-		mutex_unlock(&mgr->lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -1212,25 +1189,13 @@ static int mdss_rotator_config_dnsc_factor(struct mdss_rot_mgr *mgr,
 		}
 		entry->dnsc_factor_w = src_w / dst_w;
 		bit = fls(entry->dnsc_factor_w);
-<<<<<<< HEAD
 		if ((entry->dnsc_factor_w & ~BIT(bit - 1)) || (bit > 5)) {
-=======
-		/*
-		 * New Chipsets supports downscale upto 1/64
-		 * change the Bit check from 5 to 7 to support 1/64 down scale
-		 */
-		if ((entry->dnsc_factor_w & ~BIT(bit - 1)) || (bit > 7)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ret = -EINVAL;
 			goto dnsc_err;
 		}
 		entry->dnsc_factor_h = src_h / dst_h;
 		bit = fls(entry->dnsc_factor_h);
-<<<<<<< HEAD
 		if ((entry->dnsc_factor_h & ~BIT(bit - 1)) || (bit > 5)) {
-=======
-		if ((entry->dnsc_factor_h & ~BIT(bit - 1)) || (bit > 7)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ret = -EINVAL;
 			goto dnsc_err;
 		}
@@ -2072,10 +2037,7 @@ static int mdss_rotator_close_session(struct mdss_rot_mgr *mgr,
 	list_del_init(&perf->list);
 	mutex_unlock(&perf->work_dis_lock);
 	mutex_unlock(&private->perf_lock);
-<<<<<<< HEAD
 	mutex_unlock(&mgr->lock);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (offload_release_work)
 		goto done;
@@ -2088,10 +2050,6 @@ static int mdss_rotator_close_session(struct mdss_rot_mgr *mgr,
 done:
 	pr_debug("Closed session id:%u", id);
 	ATRACE_END(__func__);
-<<<<<<< HEAD
-=======
-	mutex_unlock(&mgr->lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -2290,10 +2248,6 @@ static int mdss_rotator_handle_request(struct mdss_rot_mgr *mgr,
 		goto handle_request_err1;
 	}
 
-<<<<<<< HEAD
-=======
-	mdss_rotator_install_fence_fd(req);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mdss_rotator_queue_request(mgr, private, req);
 
 	mutex_unlock(&mgr->lock);
@@ -2454,10 +2408,6 @@ static int mdss_rotator_handle_request32(struct mdss_rot_mgr *mgr,
 		goto handle_request32_err1;
 	}
 
-<<<<<<< HEAD
-=======
-	mdss_rotator_install_fence_fd(req);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mdss_rotator_queue_request(mgr, private, req);
 
 	mutex_unlock(&mgr->lock);
@@ -2473,34 +2423,6 @@ handle_request32_err:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-static unsigned int __do_compat_ioctl_rot(unsigned int cmd32)
-{
-	unsigned int cmd;
-
-	switch (cmd32) {
-	case MDSS_ROTATION_REQUEST32:
-		cmd = MDSS_ROTATION_REQUEST;
-		break;
-	case MDSS_ROTATION_OPEN32:
-		cmd = MDSS_ROTATION_OPEN;
-		break;
-	case MDSS_ROTATION_CLOSE32:
-		cmd = MDSS_ROTATION_CLOSE;
-		break;
-	case MDSS_ROTATION_CONFIG32:
-		cmd = MDSS_ROTATION_CONFIG;
-		break;
-	default:
-		cmd = cmd32;
-		break;
-	}
-
-	return cmd;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static long mdss_rotator_compat_ioctl(struct file *file, unsigned int cmd,
 	unsigned long arg)
 {
@@ -2523,11 +2445,6 @@ static long mdss_rotator_compat_ioctl(struct file *file, unsigned int cmd,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-	cmd = __do_compat_ioctl_rot(cmd);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	switch (cmd) {
 	case MDSS_ROTATION_REQUEST:
 		ATRACE_BEGIN("rotator_request32");
@@ -2781,13 +2698,8 @@ static int mdss_rotator_get_dt_vreg_data(struct device *dev,
 			mp->vreg_config[i].vreg_name,
 			mp->vreg_config[i].min_voltage,
 			mp->vreg_config[i].max_voltage,
-<<<<<<< HEAD
 			mp->vreg_config[i].enable_load,
 			mp->vreg_config[i].disable_load);
-=======
-			mp->vreg_config[i].load[DSS_REG_MODE_ENABLE],
-			mp->vreg_config[i].load[DSS_REG_MODE_DISABLE]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return rc;
 

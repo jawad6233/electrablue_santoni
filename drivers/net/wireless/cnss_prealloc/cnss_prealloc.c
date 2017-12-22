@@ -20,10 +20,6 @@
 #include <linux/skbuff.h>
 #endif
 #include <linux/debugfs.h>
-<<<<<<< HEAD
-=======
-#include <net/cnss_prealloc.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static DEFINE_SPINLOCK(alloc_lock);
 
@@ -238,10 +234,7 @@ void *wcnss_prealloc_get(unsigned int size)
 
 	pr_err("wcnss: %s: prealloc not available for size: %d\n",
 			__func__, size);
-<<<<<<< HEAD
 	WARN_ON(1);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return NULL;
 }
@@ -317,26 +310,15 @@ EXPORT_SYMBOL(wcnss_skb_prealloc_put);
 #ifdef CONFIG_SLUB_DEBUG
 void wcnss_prealloc_check_memory_leak(void)
 {
-<<<<<<< HEAD
 	int i, j = 0;
-=======
-	int i;
-	bool leak_detected = false;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (i = 0; i < ARRAY_SIZE(wcnss_allocs); i++) {
 		if (!wcnss_allocs[i].occupied)
 			continue;
 
-<<<<<<< HEAD
 		if (j == 0) {
 			pr_err("wcnss_prealloc: Memory leak detected\n");
 			j++;
-=======
-		if (!leak_detected) {
-			pr_err("wcnss_prealloc: Memory leak detected\n");
-			leak_detected = true;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		pr_err("Size: %u, addr: %pK, backtrace:\n",
@@ -347,58 +329,6 @@ void wcnss_prealloc_check_memory_leak(void)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_WCNSS_SKB_PRE_ALLOC) && defined(CONFIG_SLUB_DEBUG)
-/* Check memory leak for socket buffer pre-alloc memeory pool */
-void wcnss_skb_prealloc_check_memory_leak(void)
-{
-	int i;
-	bool leak_detected = false;
-
-	for (i = 0; i < ARRAY_SIZE(wcnss_skb_allocs); i++) {
-		if (!wcnss_skb_allocs[i].occupied)
-			continue;
-
-		if (!leak_detected) {
-			pr_err("wcnss_skb_prealloc: Memory leak detected\n");
-			leak_detected = true;
-		}
-
-		pr_err(
-			"Size: %u, addr: %pK, backtrace:\n",
-			wcnss_skb_allocs[i].size, wcnss_skb_allocs[i].ptr);
-		print_stack_trace(&wcnss_skb_allocs[i].trace, 1);
-	}
-}
-#else
-void wcnss_skb_prealloc_check_memory_leak(void) {}
-#endif
-
-#ifdef CONFIG_WCNSS_SKB_PRE_ALLOC
-/* Reset socket buffer pre-allock memory pool */
-int wcnss_skb_pre_alloc_reset(void)
-{
-	int i, n = 0;
-
-	for (i = 0; i < ARRAY_SIZE(wcnss_skb_allocs); i++) {
-		if (!wcnss_skb_allocs[i].occupied)
-			continue;
-
-		wcnss_skb_allocs[i].occupied = 0;
-		n++;
-	}
-
-	return n;
-}
-#else
-int wcnss_skb_pre_alloc_reset(void)
-{
-	return 0;
-}
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int wcnss_pre_alloc_reset(void)
 {
 	int i, n = 0;

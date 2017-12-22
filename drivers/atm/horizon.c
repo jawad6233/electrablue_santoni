@@ -2828,11 +2828,7 @@ out:
 	return err;
 
 out_free_irq:
-<<<<<<< HEAD
 	free_irq(dev->irq, dev);
-=======
-	free_irq(irq, dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out_free:
 	kfree(dev);
 out_release:

@@ -199,10 +199,6 @@ extern unsigned int mmc_align_data_size(struct mmc_card *, unsigned int);
 
 extern int __mmc_claim_host(struct mmc_host *host, atomic_t *abort);
 extern void mmc_release_host(struct mmc_host *host);
-<<<<<<< HEAD
-=======
-extern int mmc_try_claim_host(struct mmc_host *host, unsigned int delay);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern void mmc_get_card(struct mmc_card *card);
 extern void mmc_put_card(struct mmc_card *card);

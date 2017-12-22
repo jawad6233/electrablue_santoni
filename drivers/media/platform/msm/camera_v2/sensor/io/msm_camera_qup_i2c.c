@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011, 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011, 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -86,24 +82,14 @@ int32_t msm_camera_qup_i2c_read(struct msm_camera_i2c_client *client,
 		return rc;
 
 	if (client->addr_type > UINT_MAX - data_type) {
-<<<<<<< HEAD
 			pr_err("%s: integer overflow prevented\n", __func__);
 			return rc;
-=======
-		S_I2C_DBG("%s: integer overflow prevented\n", __func__);
-		return rc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	buf = kzalloc(client->addr_type+data_type, GFP_KERNEL);
 	if (!buf) {
-<<<<<<< HEAD
 			pr_err("%s:%d no memory\n", __func__, __LINE__);
 			return -ENOMEM;
-=======
-		S_I2C_DBG("%s:%d no memory\n", __func__, __LINE__);
-		return -ENOMEM;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (client->addr_type == MSM_CAMERA_I2C_BYTE_ADDR) {
@@ -144,7 +130,6 @@ int32_t msm_camera_qup_i2c_read_seq(struct msm_camera_i2c_client *client,
 		return rc;
 
 	if (num_byte > I2C_REG_DATA_MAX) {
-<<<<<<< HEAD
 			pr_err("%s: Error num_byte:0x%x exceeds 8K max supported:0x%x\n",
 					__func__, num_byte, I2C_REG_DATA_MAX);
 			return rc;
@@ -152,26 +137,12 @@ int32_t msm_camera_qup_i2c_read_seq(struct msm_camera_i2c_client *client,
 	if (client->addr_type > UINT_MAX - num_byte) {
 			pr_err("%s: integer overflow prevented\n", __func__);
 			return rc;
-=======
-		S_I2C_DBG("%s: Error num_byte:0x%x exceeds 8K max supported:0x%x\n",
-				__func__, num_byte, I2C_REG_DATA_MAX);
-		return rc;
-	}
-	if (client->addr_type > UINT_MAX - num_byte) {
-		S_I2C_DBG("%s: integer overflow prevented\n", __func__);
-		return rc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	buf = kzalloc(client->addr_type+num_byte, GFP_KERNEL);
 	if (!buf) {
-<<<<<<< HEAD
 			pr_err("%s:%d no memory\n", __func__, __LINE__);
 			return -ENOMEM;
-=======
-		S_I2C_DBG("%s:%d no memory\n", __func__, __LINE__);
-		return -ENOMEM;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (client->addr_type == MSM_CAMERA_I2C_BYTE_ADDR) {
@@ -298,10 +269,6 @@ int32_t msm_camera_qup_i2c_write_table(struct msm_camera_i2c_client *client,
 	int32_t rc = -EFAULT;
 	struct msm_camera_i2c_reg_array *reg_setting;
 	uint16_t client_addr_type;
-<<<<<<< HEAD
-=======
-	int retry = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!client || !write_setting)
 		return rc;
@@ -319,28 +286,11 @@ int32_t msm_camera_qup_i2c_write_table(struct msm_camera_i2c_client *client,
 	for (i = 0; i < write_setting->size; i++) {
 		CDBG("%s addr 0x%x data 0x%x\n", __func__,
 			reg_setting->reg_addr, reg_setting->reg_data);
-<<<<<<< HEAD
 
 		rc = msm_camera_qup_i2c_write(client, reg_setting->reg_addr,
 			reg_setting->reg_data, write_setting->data_type);
 		if (rc < 0)
 			break;
-=======
-		do {
-			rc = msm_camera_qup_i2c_write(client,
-				reg_setting->reg_addr, reg_setting->reg_data,
-				write_setting->data_type);
-			if (rc >= 0)
-				break;
-		} while (retry++ < 2);
-
-		if (rc < 0) {
-			pr_err("FAILED: %s addr 0x%x data 0x%x\n", __func__,
-				reg_setting->reg_addr, reg_setting->reg_data);
-			break;
-		}
-		retry = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		reg_setting++;
 	}
 	if (write_setting->delay > 20)

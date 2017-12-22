@@ -3358,12 +3358,8 @@ retry:
 		else if (stats.least_loaded_cpu >= 0)
 			target = stats.least_loaded_cpu;
 	} else if (stats.best_cpu >= 0) {
-<<<<<<< HEAD
 		if (stats.best_sibling_cpu >= 0 &&
 				stats.best_cpu != task_cpu(p) &&
-=======
-		if (stats.best_cpu != task_cpu(p) &&
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				stats.min_cost == stats.best_sibling_cpu_cost)
 			stats.best_cpu = stats.best_sibling_cpu;
 
@@ -4679,7 +4675,6 @@ static inline void inc_cfs_rq_hmp_stats(struct cfs_rq *cfs_rq,
 static inline void dec_cfs_rq_hmp_stats(struct cfs_rq *cfs_rq,
 	 struct task_struct *p, int change_cra) { }
 
-<<<<<<< HEAD
 static inline void inc_throttled_cfs_rq_hmp_stats(struct hmp_sched_stats *stats,
 			 struct cfs_rq *cfs_rq)
 {
@@ -4689,10 +4684,6 @@ static inline void dec_throttled_cfs_rq_hmp_stats(struct hmp_sched_stats *stats,
 			 struct cfs_rq *cfs_rq)
 {
 }
-=======
-#define dec_throttled_cfs_rq_hmp_stats(...)
-#define inc_throttled_cfs_rq_hmp_stats(...)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* CONFIG_SCHED_HMP */
 
@@ -4772,7 +4763,6 @@ static void check_spread(struct cfs_rq *cfs_rq, struct sched_entity *se)
 #endif
 }
 
-<<<<<<< HEAD
 static unsigned int Larch_power = 0;
 
 void relay_ap(unsigned int ap)
@@ -4780,8 +4770,6 @@ void relay_ap(unsigned int ap)
 	Larch_power = ap;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void
 place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
 {
@@ -5328,10 +5316,6 @@ static inline int cfs_rq_throttled(struct cfs_rq *cfs_rq)
 	return cfs_bandwidth_used() && cfs_rq->throttled;
 }
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_SCHED_HMP
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Check if task is part of a hierarchy where some cfs_rq does not have any
  * runtime left.
@@ -5358,10 +5342,6 @@ static int task_will_be_throttled(struct task_struct *p)
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* check whether cfs_rq, or any parent, is throttled */
 static inline int throttled_hierarchy(struct cfs_rq *cfs_rq)
@@ -5478,11 +5458,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
 	struct sched_entity *se;
 	int enqueue = 1;
 	long task_delta;
-<<<<<<< HEAD
 	struct cfs_rq *tcfs_rq = cfs_rq;
-=======
-	struct cfs_rq *tcfs_rq __maybe_unused = cfs_rq;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	se = cfs_rq->tg->se[cpu_of(rq)];
 
@@ -7992,10 +7968,7 @@ static void update_cpu_capacity(struct sched_domain *sd, int cpu)
 	unsigned long capacity = SCHED_CAPACITY_SCALE;
 	struct sched_group *sdg = sd->groups;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (sched_feat(ARCH_CAPACITY))
 		capacity *= arch_scale_cpu_capacity(sd, cpu);
 	else
@@ -8005,10 +7978,7 @@ static void update_cpu_capacity(struct sched_domain *sd, int cpu)
 
 	sdg->sgc->capacity_orig = capacity;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (sched_feat(ARCH_CAPACITY))
 		capacity *= arch_scale_freq_capacity(sd, cpu);
 	else

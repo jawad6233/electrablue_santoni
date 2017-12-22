@@ -38,11 +38,6 @@ render_state_get_rodata(struct drm_device *dev, const int gen)
 		return &gen7_null_state;
 	case 8:
 		return &gen8_null_state;
-<<<<<<< HEAD
-=======
-	case 9:
-		return &gen9_null_state;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return NULL;
@@ -76,27 +71,6 @@ free_gem:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-/*
- * Macro to add commands to auxiliary batch.
- * This macro only checks for page overflow before inserting the commands,
- * this is sufficient as the null state generator makes the final batch
- * with two passes to build command and state separately. At this point
- * the size of both are known and it compacts them by relocating the state
- * right after the commands taking care of aligment so we should sufficient
- * space below them for adding new commands.
- */
-#define OUT_BATCH(batch, i, val)				\
-	do {							\
-		if (WARN_ON((i) >= PAGE_SIZE / sizeof(u32))) {	\
-			ret = -ENOSPC;				\
-			goto err_out;				\
-		}						\
-		(batch)[(i)++] = (val);				\
-	} while(0)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int render_state_setup(struct render_state *so)
 {
 	const struct intel_renderstate_rodata *rodata = so->rodata;
@@ -120,15 +94,8 @@ static int render_state_setup(struct render_state *so)
 			s = lower_32_bits(r);
 			if (so->gen >= 8) {
 				if (i + 1 >= rodata->batch_items ||
-<<<<<<< HEAD
 				    rodata->batch[i + 1] != 0)
 					return -EINVAL;
-=======
-				    rodata->batch[i + 1] != 0) {
-					ret = -EINVAL;
-					goto err_out;
-				}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 				d[i++] = s;
 				s = upper_32_bits(r);
@@ -139,24 +106,6 @@ static int render_state_setup(struct render_state *so)
 
 		d[i++] = s;
 	}
-<<<<<<< HEAD
-=======
-
-	while (i % CACHELINE_DWORDS)
-		OUT_BATCH(d, i, MI_NOOP);
-
-	so->aux_batch_offset = i * sizeof(u32);
-
-	OUT_BATCH(d, i, MI_BATCH_BUFFER_END);
-	so->aux_batch_size = (i * sizeof(u32)) - so->aux_batch_offset;
-
-	/*
-	 * Since we are sending length, we need to strictly conform to
-	 * all requirements. For Gen2 this must be a multiple of 8.
-	 */
-	so->aux_batch_size = ALIGN(so->aux_batch_size, 8);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kunmap(page);
 
 	ret = i915_gem_object_set_to_gtt_domain(so->obj, false);
@@ -169,19 +118,8 @@ static int render_state_setup(struct render_state *so)
 	}
 
 	return 0;
-<<<<<<< HEAD
 }
 
-=======
-
-err_out:
-	kunmap(page);
-	return ret;
-}
-
-#undef OUT_BATCH
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void i915_gem_render_state_fini(struct render_state *so)
 {
 	i915_gem_object_ggtt_unpin(so->obj);
@@ -212,27 +150,18 @@ int i915_gem_render_state_prepare(struct intel_engine_cs *ring,
 	return 0;
 }
 
-<<<<<<< HEAD
 int i915_gem_render_state_init(struct intel_engine_cs *ring)
-=======
-int i915_gem_render_state_init(struct drm_i915_gem_request *req)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct render_state so;
 	int ret;
 
-<<<<<<< HEAD
 	ret = i915_gem_render_state_prepare(ring, &so);
-=======
-	ret = i915_gem_render_state_prepare(req->ring, &so);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 
 	if (so.rodata == NULL)
 		return 0;
 
-<<<<<<< HEAD
 	ret = ring->dispatch_execbuffer(ring,
 					so.ggtt_offset,
 					so.rodata->batch_items * 4,
@@ -244,26 +173,6 @@ int i915_gem_render_state_init(struct drm_i915_gem_request *req)
 
 	ret = __i915_add_request(ring, NULL, so.obj, NULL);
 	/* __i915_add_request moves object to inactive if it fails */
-=======
-	ret = req->ring->dispatch_execbuffer(req, so.ggtt_offset,
-					     so.rodata->batch_items * 4,
-					     I915_DISPATCH_SECURE);
-	if (ret)
-		goto out;
-
-	if (so.aux_batch_size > 8) {
-		ret = req->ring->dispatch_execbuffer(req,
-						     (so.ggtt_offset +
-						      so.aux_batch_offset),
-						     so.aux_batch_size,
-						     I915_DISPATCH_SECURE);
-		if (ret)
-			goto out;
-	}
-
-	i915_vma_move_to_active(i915_gem_obj_to_ggtt(so.obj), req);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out:
 	i915_gem_render_state_fini(&so);
 	return ret;

@@ -1,10 +1,6 @@
 /* ehci-msm-hsic.c - HSUSB Host Controller Driver Implementation
  *
-<<<<<<< HEAD
  * Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Partly derived from ehci-fsl.c and ehci-hcd.c
  * Copyright (c) 2000-2004 by David Brownell
@@ -1512,11 +1508,7 @@ static struct hc_driver msm_hsic_driver = {
 	 * generic hardware linkage
 	 */
 	.irq			= msm_hsic_irq,
-<<<<<<< HEAD
 	.flags			= HCD_USB2 | HCD_MEMORY | HCD_RT_OLD_ENUM | HCD_BH,
-=======
-	.flags			= HCD_USB2 | HCD_MEMORY | HCD_BH,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	.reset			= ehci_hsic_reset,
 	.start			= ehci_run,

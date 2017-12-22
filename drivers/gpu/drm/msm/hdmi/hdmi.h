@@ -37,15 +37,9 @@ struct hdmi_audio {
 	int rate;
 };
 
-<<<<<<< HEAD
 struct hdmi {
 	struct kref refcount;
 
-=======
-struct hdmi_hdcp_ctrl;
-
-struct hdmi {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_device *dev;
 	struct platform_device *pdev;
 
@@ -59,21 +53,11 @@ struct hdmi {
 	unsigned long int pixclock;
 
 	void __iomem *mmio;
-<<<<<<< HEAD
 
 	struct regulator *hpd_regs[2];
 	struct regulator *pwr_regs[2];
 	struct clk *hpd_clks[3];
 	struct clk *pwr_clks[2];
-=======
-	void __iomem *qfprom_mmio;
-	phys_addr_t mmio_phy_addr;
-
-	struct regulator **hpd_regs;
-	struct regulator **pwr_regs;
-	struct clk **hpd_clks;
-	struct clk **pwr_clks;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	struct hdmi_phy *phy;
 	struct i2c_adapter *i2c;
@@ -86,31 +70,12 @@ struct hdmi {
 	bool hdmi_mode;               /* are we in hdmi mode? */
 
 	int irq;
-<<<<<<< HEAD
-=======
-	struct workqueue_struct *workq;
-
-	struct hdmi_hdcp_ctrl *hdcp_ctrl;
-
-	/*
-	* spinlock to protect registers shared by different execution
-	* REG_HDMI_CTRL
-	* REG_HDMI_DDC_ARBITRATION
-	* REG_HDMI_HDCP_INT_CTRL
-	* REG_HDMI_HPD_CTRL
-	*/
-	spinlock_t reg_lock;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* platform config data (ie. from DT, or pdata) */
 struct hdmi_platform_config {
 	struct hdmi_phy *(*phy_init)(struct hdmi *hdmi);
 	const char *mmio_name;
-<<<<<<< HEAD
-=======
-	const char *qfprom_mmio_name;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* regulators that need to be on for hpd: */
 	const char **hpd_reg_names;
@@ -132,7 +97,6 @@ struct hdmi_platform_config {
 	/* gpio's: */
 	int ddc_clk_gpio, ddc_data_gpio, hpd_gpio, mux_en_gpio, mux_sel_gpio;
 	int mux_lpm_gpio;
-<<<<<<< HEAD
 
 	/* older devices had their own irq, mdp5+ it is shared w/ mdp: */
 	bool shared_irq;
@@ -140,11 +104,6 @@ struct hdmi_platform_config {
 
 void hdmi_set_mode(struct hdmi *hdmi, bool power_on);
 void hdmi_destroy(struct kref *kref);
-=======
-};
-
-void hdmi_set_mode(struct hdmi *hdmi, bool power_on);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static inline void hdmi_write(struct hdmi *hdmi, u32 reg, u32 data)
 {
@@ -156,7 +115,6 @@ static inline u32 hdmi_read(struct hdmi *hdmi, u32 reg)
 	return msm_readl(hdmi->mmio + reg);
 }
 
-<<<<<<< HEAD
 static inline struct hdmi * hdmi_reference(struct hdmi *hdmi)
 {
 	kref_get(&hdmi->refcount);
@@ -166,11 +124,6 @@ static inline struct hdmi * hdmi_reference(struct hdmi *hdmi)
 static inline void hdmi_unreference(struct hdmi *hdmi)
 {
 	kref_put(&hdmi->refcount, hdmi_destroy);
-=======
-static inline u32 hdmi_qfprom_read(struct hdmi *hdmi, u32 reg)
-{
-	return msm_readl(hdmi->qfprom_mmio + reg);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*
@@ -181,10 +134,7 @@ static inline u32 hdmi_qfprom_read(struct hdmi *hdmi, u32 reg)
 
 struct hdmi_phy_funcs {
 	void (*destroy)(struct hdmi_phy *phy);
-<<<<<<< HEAD
 	void (*reset)(struct hdmi_phy *phy);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void (*powerup)(struct hdmi_phy *phy, unsigned long int pixclock);
 	void (*powerdown)(struct hdmi_phy *phy);
 };
@@ -213,10 +163,6 @@ void hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate);
  */
 
 struct drm_bridge *hdmi_bridge_init(struct hdmi *hdmi);
-<<<<<<< HEAD
-=======
-void hdmi_bridge_destroy(struct drm_bridge *bridge);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * hdmi connector:
@@ -233,16 +179,4 @@ void hdmi_i2c_irq(struct i2c_adapter *i2c);
 void hdmi_i2c_destroy(struct i2c_adapter *i2c);
 struct i2c_adapter *hdmi_i2c_init(struct hdmi *hdmi);
 
-<<<<<<< HEAD
-=======
-/*
- * hdcp
- */
-struct hdmi_hdcp_ctrl *hdmi_hdcp_ctrl_init(struct hdmi *hdmi);
-void hdmi_hdcp_ctrl_destroy(struct hdmi *hdmi);
-void hdmi_hdcp_ctrl_on(struct hdmi_hdcp_ctrl *hdcp_ctrl);
-void hdmi_hdcp_ctrl_off(struct hdmi_hdcp_ctrl *hdcp_ctrl);
-void hdmi_hdcp_ctrl_irq(struct hdmi_hdcp_ctrl *hdcp_ctrl);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* __HDMI_CONNECTOR_H__ */

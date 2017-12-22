@@ -5955,15 +5955,12 @@ static int mem_cgroup_can_attach(struct cgroup_subsys_state *css,
 	return ret;
 }
 
-<<<<<<< HEAD
 static int mem_cgroup_allow_attach(struct cgroup_subsys_state *css,
 				   struct cgroup_taskset *tset)
 {
 	return subsys_cgroup_allow_attach(css, tset);
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void mem_cgroup_cancel_attach(struct cgroup_subsys_state *css,
 				     struct cgroup_taskset *tset)
 {
@@ -6132,14 +6129,11 @@ static int mem_cgroup_can_attach(struct cgroup_subsys_state *css,
 {
 	return 0;
 }
-<<<<<<< HEAD
 static int mem_cgroup_allow_attach(struct cgroup_subsys_state *css,
 				   struct cgroup_taskset *tset)
 {
 	return 0;
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void mem_cgroup_cancel_attach(struct cgroup_subsys_state *css,
 				     struct cgroup_taskset *tset)
 {
@@ -6175,10 +6169,7 @@ struct cgroup_subsys memory_cgrp_subsys = {
 	.can_attach = mem_cgroup_can_attach,
 	.cancel_attach = mem_cgroup_cancel_attach,
 	.attach = mem_cgroup_move_task,
-<<<<<<< HEAD
 	.allow_attach = mem_cgroup_allow_attach,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.bind = mem_cgroup_bind,
 	.legacy_cftypes = mem_cgroup_files,
 	.early_init = 0,

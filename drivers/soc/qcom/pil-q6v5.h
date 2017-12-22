@@ -63,11 +63,6 @@ struct q6v5_data {
 	bool qdsp6v56_1_10;
 	bool qdsp6v61_1_1;
 	bool qdsp6v62_1_2;
-<<<<<<< HEAD
-=======
-	bool qdsp6v62_1_4;
-	bool qdsp6v62_1_5;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bool non_elf_image;
 	bool restart_reg_sec;
 	bool override_acc;

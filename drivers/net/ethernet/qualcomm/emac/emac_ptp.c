@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -46,15 +42,9 @@ struct emac_ptp_frac_ns_adj {
 };
 
 static const struct emac_tstamp_hw_delay emac_ptp_hw_delay[] = {
-<<<<<<< HEAD
 	{ PHY_INTERFACE_MODE_SGMII, 1000, 16, 60 },
 	{ PHY_INTERFACE_MODE_SGMII, 100, 280, 100 },
 	{ PHY_INTERFACE_MODE_SGMII, 10, 2400, 400 },
-=======
-	{ PHY_INTERFACE_MODE_SGMII, SPEED_1000, 16, 60 },
-	{ PHY_INTERFACE_MODE_SGMII, SPEED_100, 280, 100 },
-	{ PHY_INTERFACE_MODE_SGMII, SPEED_10, 2400, 400 },
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ 0 }
 };
 
@@ -62,11 +52,7 @@ static inline u32 get_rtc_ref_clkrate(struct emac_hw *hw)
 {
 	struct emac_adapter *adpt = emac_hw_get_adap(hw);
 
-<<<<<<< HEAD
 	return clk_get_rate(adpt->clk[EMAC_CLK_125M].clk);
-=======
-	return clk_get_rate(adpt->clk[EMAC_CLK_HIGH_SPEED].clk);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline bool is_valid_frac_ns_adj(s32 val)
@@ -133,7 +119,6 @@ static const struct emac_tstamp_hw_delay *emac_get_ptp_hw_delay(u32 link_speed,
 								int phy_mode)
 {
 	const struct emac_tstamp_hw_delay *info = emac_ptp_hw_delay;
-<<<<<<< HEAD
 	u32 speed;
 
 	switch (link_speed) {
@@ -155,11 +140,6 @@ static const struct emac_tstamp_hw_delay *emac_get_ptp_hw_delay(u32 link_speed,
 
 	for (info = emac_ptp_hw_delay; info->phy_mode; info++) {
 		if (info->phy_mode == phy_mode && info->speed == speed)
-=======
-
-	for (info = emac_ptp_hw_delay; info->phy_mode; info++) {
-		if (info->phy_mode == phy_mode && info->speed == link_speed)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return info;
 	}
 
@@ -173,11 +153,7 @@ static int emac_hw_adjust_tstamp_offset(struct emac_hw *hw,
 	const struct emac_tstamp_hw_delay *delay_info;
 	struct emac_phy *phy = &emac_hw_get_adap(hw)->phy;
 
-<<<<<<< HEAD
 	delay_info = emac_get_ptp_hw_delay(link_speed, phy->phy_mode);
-=======
-	delay_info = emac_get_ptp_hw_delay(link_speed, phy->phy_interface);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (clk_mode == emac_ptp_clk_mode_oc_one_step) {
 		u32 latency = (delay_info) ? delay_info->tx : 0;
@@ -432,11 +408,7 @@ int emac_ptp_config(struct emac_hw *hw)
 	ret = emac_hw_1588_core_enable(hw,
 				       hw->ptp_mode,
 				       hw->ptp_clk_mode,
-<<<<<<< HEAD
 				       EMAC_LINK_SPEED_1GB_FULL,
-=======
-				       SPEED_1000,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				       hw->frac_ns_adj);
 	if (ret)
 		goto unlock_out;
@@ -477,11 +449,7 @@ int emac_ptp_set_linkspeed(struct emac_hw *hw, u32 link_speed)
 
 	spin_lock_irqsave(&hw->ptp_lock, flag);
 	emac_reg_update32(hw, EMAC_1588, EMAC_P1588_CTRL_REG, ETH_MODE_SW,
-<<<<<<< HEAD
 			  (link_speed == EMAC_LINK_SPEED_1GB_FULL) ? 0 :
-=======
-			  (link_speed == SPEED_1000) ? 0 :
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			  ETH_MODE_SW);
 	wmb(); /* ensure ETH_MODE_SW is set before we proceed */
 	emac_hw_adjust_tstamp_offset(hw, hw->ptp_clk_mode, link_speed);
@@ -771,13 +739,8 @@ static ssize_t emac_ptp_sysfs_mode_set(struct device *dev,
 				       const char *buf, size_t count)
 {
 	struct emac_adapter *adpt = netdev_priv(to_net_dev(dev));
-<<<<<<< HEAD
 	struct emac_phy *phy = &adpt->phy;
 	struct emac_hw *hw = &adpt->hw;
-=======
-	struct emac_hw *hw = &adpt->hw;
-	struct phy_device *phydev = adpt->phydev;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	enum emac_ptp_mode mode;
 
 	if (!strcmp(buf, "master"))
@@ -796,11 +759,7 @@ static ssize_t emac_ptp_sysfs_mode_set(struct device *dev,
 
 		emac_hw_1588_core_disable(hw);
 		emac_hw_1588_core_enable(hw, mode, hw->ptp_clk_mode,
-<<<<<<< HEAD
 					 phy->link_speed, hw->frac_ns_adj);
-=======
-					 phydev->speed, hw->frac_ns_adj);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (rx_tstamp_enable)
 			emac_hw_config_rx_tstamp(hw, true);
 		if (tx_tstamp_enable)
@@ -885,7 +844,6 @@ static void emac_ptp_sysfs_create(struct net_device *netdev)
 	}
 }
 
-<<<<<<< HEAD
 static void emac_ptp_sysfs_remove(struct net_device *netdev)
 {
 	struct device_attribute *devattr;
@@ -894,8 +852,6 @@ static void emac_ptp_sysfs_remove(struct net_device *netdev)
 		device_remove_file(&netdev->dev, devattr);
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void emac_ptp_of_get_property(struct emac_adapter *adpt)
 {
 	struct emac_hw *hw = &adpt->hw;
@@ -958,9 +914,6 @@ void emac_ptp_remove(struct net_device *netdev)
 	struct emac_adapter *adpt = netdev_priv(netdev);
 	struct emac_hw *hw = &adpt->hw;
 
-<<<<<<< HEAD
 	emac_ptp_sysfs_remove(netdev);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(hw->frac_ns_adj_tbl);
 }

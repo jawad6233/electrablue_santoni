@@ -117,14 +117,6 @@ static inline int task_has_dl_policy(struct task_struct *p)
 	return dl_policy(p->policy);
 }
 
-<<<<<<< HEAD
-=======
-static inline bool dl_time_before(u64 a, u64 b)
-{
-	return (s64)(a - b) < 0;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Tells if entity @a should preempt entity @b.
  */
@@ -645,7 +637,6 @@ struct rq {
 #endif
 	int skip_clock_update;
 
-<<<<<<< HEAD
 #ifdef CONFIG_CPU_QUIET
 	/* time-based average load */
 	u64 nr_last_stamp;
@@ -653,8 +644,6 @@ struct rq {
 	seqcount_t ave_seqcnt;
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* capture load from *all* tasks on this cpu: */
 	struct load_weight load;
 	unsigned long nr_load_updates;
@@ -1869,11 +1858,7 @@ extern void update_idle_cpu_load(struct rq *this_rq);
 
 extern void init_task_runnable_average(struct task_struct *p);
 
-<<<<<<< HEAD
 static inline void __add_nr_running(struct rq *rq, unsigned count)
-=======
-static inline void add_nr_running(struct rq *rq, unsigned count)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	unsigned prev_nr = rq->nr_running;
 
@@ -1902,18 +1887,13 @@ static inline void add_nr_running(struct rq *rq, unsigned count)
 	}
 }
 
-<<<<<<< HEAD
 
 static inline void __sub_nr_running(struct rq *rq, unsigned count)
-=======
-static inline void sub_nr_running(struct rq *rq, unsigned count)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	sched_update_nr_prod(cpu_of(rq), count, false);
 	rq->nr_running -= count;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_CPU_QUIET
 #define NR_AVE_SCALE(x)		((x) << FSHIFT)
 static inline u64 do_nr_running_integral(struct rq *rq)
@@ -1951,8 +1931,6 @@ static inline void sub_nr_running(struct rq *rq, unsigned count)
 #define sub_nr_running __sub_nr_running
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void rq_last_tick_reset(struct rq *rq)
 {
 #ifdef CONFIG_NO_HZ_FULL

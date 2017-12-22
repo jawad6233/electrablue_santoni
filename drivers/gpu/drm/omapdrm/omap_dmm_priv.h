@@ -148,22 +148,11 @@ struct refill_engine {
 
 	bool async;
 
-<<<<<<< HEAD
 	wait_queue_head_t wait_for_refill;
-=======
-	struct completion compl;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	struct list_head idle_node;
 };
 
-<<<<<<< HEAD
-=======
-struct dmm_platform_data {
-	uint32_t cpu_cache_flags;
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct dmm {
 	struct device *dev;
 	void __iomem *base;
@@ -194,11 +183,6 @@ struct dmm {
 
 	/* allocation list and lock */
 	struct list_head alloc_head;
-<<<<<<< HEAD
-=======
-
-	const struct dmm_platform_data *plat_data;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #endif

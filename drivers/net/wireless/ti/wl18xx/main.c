@@ -648,11 +648,7 @@ static const struct wl18xx_clk_cfg wl18xx_clk_table[NUM_CLOCK_CONFIGS] = {
 };
 
 /* TODO: maybe move to a new header file? */
-<<<<<<< HEAD
 #define WL18XX_FW_NAME "ti-connectivity/wl18xx-fw-3.bin"
-=======
-#define WL18XX_FW_NAME "ti-connectivity/wl18xx-fw-4.bin"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int wl18xx_identify_chip(struct wl1271 *wl)
 {
@@ -987,10 +983,6 @@ static int wl18xx_boot(struct wl1271 *wl)
 
 	wl->event_mask = BSS_LOSS_EVENT_ID |
 		SCAN_COMPLETE_EVENT_ID |
-<<<<<<< HEAD
-=======
-		RADAR_DETECTED_EVENT_ID |
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		RSSI_SNR_TRIGGER_0_EVENT_ID |
 		PERIODIC_SCAN_COMPLETE_EVENT_ID |
 		PERIODIC_SCAN_REPORT_EVENT_ID |
@@ -1351,16 +1343,9 @@ out:
 }
 
 #define WL18XX_CONF_FILE_NAME "ti-connectivity/wl18xx-conf.bin"
-<<<<<<< HEAD
 static int wl18xx_conf_init(struct wl1271 *wl, struct device *dev)
 {
 	struct wl18xx_priv *priv = wl->priv;
-=======
-
-static int wl18xx_load_conf_file(struct device *dev, struct wlcore_conf *conf,
-				 struct wl18xx_priv_conf *priv_conf)
-{
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct wlcore_conf_file *conf_file;
 	const struct firmware *fw;
 	int ret;
@@ -1369,22 +1354,14 @@ static int wl18xx_load_conf_file(struct device *dev, struct wlcore_conf *conf,
 	if (ret < 0) {
 		wl1271_error("could not get configuration binary %s: %d",
 			     WL18XX_CONF_FILE_NAME, ret);
-<<<<<<< HEAD
 		goto out_fallback;
-=======
-		return ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (fw->size != WL18XX_CONF_SIZE) {
 		wl1271_error("configuration binary file size is wrong, expected %zu got %zu",
 			     WL18XX_CONF_SIZE, fw->size);
 		ret = -EINVAL;
-<<<<<<< HEAD
 		goto out;
-=======
-		goto out_release;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	conf_file = (struct wlcore_conf_file *) fw->data;
@@ -1394,11 +1371,7 @@ static int wl18xx_load_conf_file(struct device *dev, struct wlcore_conf *conf,
 			     "expected 0x%0x got 0x%0x", WL18XX_CONF_MAGIC,
 			     conf_file->header.magic);
 		ret = -EINVAL;
-<<<<<<< HEAD
 		goto out;
-=======
-		goto out_release;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (conf_file->header.version != cpu_to_le32(WL18XX_CONF_VERSION)) {
@@ -1406,7 +1379,6 @@ static int wl18xx_load_conf_file(struct device *dev, struct wlcore_conf *conf,
 			     "expected 0x%08x got 0x%08x",
 			     WL18XX_CONF_VERSION, conf_file->header.version);
 		ret = -EINVAL;
-<<<<<<< HEAD
 		goto out;
 	}
 
@@ -1429,34 +1401,6 @@ out_fallback:
 out:
 	release_firmware(fw);
 	return ret;
-=======
-		goto out_release;
-	}
-
-	memcpy(conf, &conf_file->core, sizeof(*conf));
-	memcpy(priv_conf, &conf_file->priv, sizeof(*priv_conf));
-
-out_release:
-	release_firmware(fw);
-	return ret;
-}
-
-static int wl18xx_conf_init(struct wl1271 *wl, struct device *dev)
-{
-	struct wl18xx_priv *priv = wl->priv;
-
-	if (wl18xx_load_conf_file(dev, &wl->conf, &priv->conf) < 0) {
-		wl1271_warning("falling back to default config");
-
-		/* apply driver default configuration */
-		memcpy(&wl->conf, &wl18xx_conf, sizeof(wl->conf));
-		/* apply default private configuration */
-		memcpy(&priv->conf, &wl18xx_default_priv_conf,
-		       sizeof(priv->conf));
-	}
-
-	return 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int wl18xx_plt_init(struct wl1271 *wl)
@@ -1759,10 +1703,6 @@ static struct wlcore_ops wl18xx_ops = {
 	.smart_config_start = wl18xx_cmd_smart_config_start,
 	.smart_config_stop  = wl18xx_cmd_smart_config_stop,
 	.smart_config_set_group_key = wl18xx_cmd_smart_config_set_group_key,
-<<<<<<< HEAD
-=======
-	.set_cac	= wl18xx_cmd_set_cac,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /* HT cap appropriate for wide channels in 2Ghz */
@@ -1825,11 +1765,7 @@ static struct ieee80211_sta_ht_cap wl18xx_mimo_ht_cap_2ghz = {
 
 static const struct ieee80211_iface_limit wl18xx_iface_limits[] = {
 	{
-<<<<<<< HEAD
 		.max = 3,
-=======
-		.max = 2,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.types = BIT(NL80211_IFTYPE_STATION),
 	},
 	{
@@ -1838,13 +1774,6 @@ static const struct ieee80211_iface_limit wl18xx_iface_limits[] = {
 			 BIT(NL80211_IFTYPE_P2P_GO) |
 			 BIT(NL80211_IFTYPE_P2P_CLIENT),
 	},
-<<<<<<< HEAD
-=======
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_DEVICE),
-	},
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static const struct ieee80211_iface_limit wl18xx_iface_ap_limits[] = {
@@ -1852,51 +1781,6 @@ static const struct ieee80211_iface_limit wl18xx_iface_ap_limits[] = {
 		.max = 2,
 		.types = BIT(NL80211_IFTYPE_AP),
 	},
-<<<<<<< HEAD
-=======
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_DEVICE),
-	},
-};
-
-static const struct ieee80211_iface_limit wl18xx_iface_ap_cl_limits[] = {
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_STATION),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_AP),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_CLIENT),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_DEVICE),
-	},
-};
-
-static const struct ieee80211_iface_limit wl18xx_iface_ap_go_limits[] = {
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_STATION),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_AP),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_GO),
-	},
-	{
-		.max = 1,
-		.types = BIT(NL80211_IFTYPE_P2P_DEVICE),
-	},
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static const struct ieee80211_iface_combination

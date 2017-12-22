@@ -16,18 +16,9 @@
 #include "cirrus_drv.h"
 
 int cirrus_modeset = -1;
-<<<<<<< HEAD
 
 MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
 module_param_named(modeset, cirrus_modeset, int, 0400);
-=======
-int cirrus_bpp = 24;
-
-MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
-module_param_named(modeset, cirrus_modeset, int, 0400);
-MODULE_PARM_DESC(bpp, "Max bits-per-pixel (default:24)");
-module_param_named(bpp, cirrus_bpp, int, 0400);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * This is the generic driver code. This binds the driver to the drm core,
@@ -98,11 +89,7 @@ static int cirrus_pm_suspend(struct device *dev)
 
 	if (cdev->mode_info.gfbdev) {
 		console_lock();
-<<<<<<< HEAD
 		fb_set_suspend(cdev->mode_info.gfbdev->helper.fbdev, 1);
-=======
-		drm_fb_helper_set_suspend(&cdev->mode_info.gfbdev->helper, 1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		console_unlock();
 	}
 
@@ -119,11 +106,7 @@ static int cirrus_pm_resume(struct device *dev)
 
 	if (cdev->mode_info.gfbdev) {
 		console_lock();
-<<<<<<< HEAD
 		fb_set_suspend(cdev->mode_info.gfbdev->helper.fbdev, 0);
-=======
-		drm_fb_helper_set_suspend(&cdev->mode_info.gfbdev->helper, 0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		console_unlock();
 	}
 

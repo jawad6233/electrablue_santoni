@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -65,13 +61,6 @@
 #include "wlan_qct_wda.h"
 #include "vos_utils.h"
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-#include "lim_mbb.h"
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void limHandleSmeJoinResult(tpAniSirGlobal, tSirResultCodes, tANI_U16,tpPESession);
 static void limHandleSmeReaasocResult(tpAniSirGlobal, tSirResultCodes, tANI_U16, tpPESession);
 void limProcessMlmScanCnf(tpAniSirGlobal, tANI_U32 *);
@@ -968,11 +957,7 @@ limProcessMlmReassocCnf(tpAniSirGlobal pMac, tANI_U32 *pMsgBuf)
      */
     if (pMac->ft.ftPEContext.pFTPreAuthReq)
     {
-<<<<<<< HEAD
         limLog(pMac, LOG1, "%s: Freeing pFTPreAuthReq= %p", __func__,
-=======
-        limLog(pMac, LOG1, "%s: Freeing pFTPreAuthReq= %pK", __func__,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                pMac->ft.ftPEContext.pFTPreAuthReq);
         if (pMac->ft.ftPEContext.pFTPreAuthReq->pbssDescription)
         {
@@ -1083,20 +1068,8 @@ limProcessMlmReassocInd(tpAniSirGlobal pMac, tANI_U32 *pMsgBuf)
     }
     sirStoreU16N((tANI_U8 *) &pSirSmeReassocInd->messageType,
                  eWNI_SME_REASSOC_IND);
-<<<<<<< HEAD
     limReassocIndSerDes(pMac, (tpLimMlmReassocInd) pMsgBuf,
                         (tANI_U8 *) &(pSirSmeReassocInd->length), psessionEntry);
-=======
-    if (limReassocIndSerDes(pMac, (tpLimMlmReassocInd) pMsgBuf,
-                        (tANI_U8 *) &(pSirSmeReassocInd->length),
-                         psessionEntry, sizeof(tSirSmeReassocInd))
-                        != eSIR_SUCCESS)
-    {
-        limLog(pMac, LOGE,FL(" Received SME message with invalid rem length"));
-        vos_mem_free(pSirSmeReassocInd);
-        return;
-    }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     // Required for indicating the frames to upper layer
     pSirSmeReassocInd->assocReqLength = ((tpLimMlmReassocInd) pMsgBuf)->assocReqLength;
@@ -1168,19 +1141,8 @@ limProcessMlmAuthInd(tpAniSirGlobal pMac, tANI_U32 *pMsgBuf)
         return;
     }
     limCopyU16((tANI_U8 *) &pSirSmeAuthInd->messageType, eWNI_SME_AUTH_IND);
-<<<<<<< HEAD
     limAuthIndSerDes(pMac, (tpLimMlmAuthInd) pMsgBuf,
                         (tANI_U8 *) &(pSirSmeAuthInd->length));
-=======
-    if (limAuthIndSerDes(pMac, (tpLimMlmAuthInd) pMsgBuf,
-                        (tANI_U8 *) &(pSirSmeAuthInd->length),
-                         sizeof(tSirSmeAuthInd)) != eSIR_SUCCESS)
-    {
-        limLog(pMac, LOGE,FL(" Received SME message with invalid rem length"));
-        vos_mem_free(pSirSmeAuthInd);
-        return;
-    }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     msgQ.type = eWNI_SME_AUTH_IND;
     msgQ.bodyptr = pSirSmeAuthInd;
     msgQ.bodyval = 0;
@@ -2006,15 +1968,6 @@ void limProcessMlmAddStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPESession 
         limProcessBtAmpApMlmAddStaRsp(pMac, limMsgQ,psessionEntry);
         return;
     }
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
-            lim_process_sta_mlm_add_sta_rsp_mbb(pMac, limMsgQ, psessionEntry);
-            return;
-        }
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     limProcessStaMlmAddStaRsp(pMac, limMsgQ,psessionEntry);
 }
 void limProcessStaMlmAddStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ ,tpPESession psessionEntry)
@@ -2192,16 +2145,6 @@ void limProcessStaMlmDelBssRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPESessi
     tpDphHashNode pStaDs =              dphGetHashEntry(pMac, DPH_STA_HASH_INDEX_PEER, &psessionEntry->dph.dphHashTable);
     tSirResultCodes statusCode =        eSIR_SME_SUCCESS;
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
-            lim_process_sta_mlm_del_bss_rsp_mbb(pMac, limMsgQ, psessionEntry);
-            return;
-        }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if (NULL == pDelBssParams)
     {
         limLog( pMac, LOGE, FL( "Invalid body pointer in message"));
@@ -2475,16 +2418,6 @@ void limProcessStaMlmDelStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPESessi
     tpDeleteStaParams pDelStaParams = (tpDeleteStaParams) limMsgQ->bodyptr;
     tpDphHashNode     pStaDs        = NULL;
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-    if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
-        lim_process_sta_mlm_del_sta_rsp_mbb(pMac, limMsgQ, psessionEntry);
-        return;
-    }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if(NULL == pDelStaParams )
     {
         limLog( pMac, LOGE, FL( "Encountered NULL Pointer" ));
@@ -3484,22 +3417,9 @@ void limProcessMlmAddBssRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ )
             else
             limProcessApMlmAddBssRsp( pMac,limMsgQ);
         }
-<<<<<<< HEAD
         else
             /* Called while processing assoc response */
             limProcessStaMlmAddBssRsp( pMac, limMsgQ,psessionEntry);
-=======
-        else {
-#ifdef WLAN_FEATURE_LFR_MBB
-        if (pMac->ft.ftSmeContext.is_preauth_lfr_mbb) {
-            lim_process_sta_mlm_add_bss_rsp_mbb(pMac, limMsgQ, psessionEntry);
-            return;
-        }
-#endif
-            /* Called while processing assoc response */
-            limProcessStaMlmAddBssRsp( pMac, limMsgQ,psessionEntry);
-        }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     if(limIsInMCC(pMac))
@@ -4176,11 +4096,7 @@ void limProcessSwitchChannelRsp(tpAniSirGlobal pMac,  void *body)
     channelChangeReasonCode = psessionEntry->channelChangeReasonCode;
     // initialize it back to invalid id
     psessionEntry->channelChangeReasonCode = 0xBAD;
-<<<<<<< HEAD
     limLog(pMac, LOG1, FL("channelChangeReasonCode %d"),channelChangeReasonCode);
-=======
-    limLog(pMac, LOGE, FL("channelChangeReasonCode %d status %d"),channelChangeReasonCode, pChnlParams->status);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     switch(channelChangeReasonCode)
     {
         case LIM_SWITCH_CHANNEL_REASSOC:
@@ -4221,13 +4137,6 @@ void limProcessSwitchChannelRsp(tpAniSirGlobal pMac,  void *body)
                 pMac->lim.gpchangeChannelCallback(pMac, status, pMac->lim.gpchangeChannelData, psessionEntry);
             }
             break;
-<<<<<<< HEAD
-=======
-        case LIM_SWITCH_CHANNEL_SAP_ECSA:
-            lim_send_sme_ap_channel_switch_resp(pMac,
-                                                psessionEntry, pChnlParams);
-            break;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         default:
             break;
     }

@@ -35,20 +35,12 @@
 #include <drm/mga_drm.h>
 #include "mga_drv.h"
 
-<<<<<<< HEAD
 u32 mga_get_vblank_counter(struct drm_device *dev, int crtc)
-=======
-u32 mga_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	const drm_mga_private_t *const dev_priv =
 		(drm_mga_private_t *) dev->dev_private;
 
-<<<<<<< HEAD
 	if (crtc != 0)
-=======
-	if (pipe != 0)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 
 	return atomic_read(&dev_priv->vbl_received);
@@ -96,7 +88,6 @@ irqreturn_t mga_driver_irq_handler(int irq, void *arg)
 	return IRQ_NONE;
 }
 
-<<<<<<< HEAD
 int mga_enable_vblank(struct drm_device *dev, int crtc)
 {
 	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
@@ -104,15 +95,6 @@ int mga_enable_vblank(struct drm_device *dev, int crtc)
 	if (crtc != 0) {
 		DRM_ERROR("tried to enable vblank on non-existent crtc %d\n",
 			  crtc);
-=======
-int mga_enable_vblank(struct drm_device *dev, unsigned int pipe)
-{
-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
-
-	if (pipe != 0) {
-		DRM_ERROR("tried to enable vblank on non-existent crtc %u\n",
-			  pipe);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 	}
 
@@ -121,19 +103,11 @@ int mga_enable_vblank(struct drm_device *dev, unsigned int pipe)
 }
 
 
-<<<<<<< HEAD
 void mga_disable_vblank(struct drm_device *dev, int crtc)
 {
 	if (crtc != 0) {
 		DRM_ERROR("tried to disable vblank on non-existent crtc %d\n",
 			  crtc);
-=======
-void mga_disable_vblank(struct drm_device *dev, unsigned int pipe)
-{
-	if (pipe != 0) {
-		DRM_ERROR("tried to disable vblank on non-existent crtc %u\n",
-			  pipe);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Do *NOT* disable the vertical refresh interrupt.  MGA doesn't have

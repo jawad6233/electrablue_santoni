@@ -330,11 +330,7 @@ void drm_rect_rotate(struct drm_rect *r,
 		}
 	}
 
-<<<<<<< HEAD
 	switch (rotation & 0xf) {
-=======
-	switch (rotation & DRM_ROTATE_MASK) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case BIT(DRM_ROTATE_0):
 		break;
 	case BIT(DRM_ROTATE_90):
@@ -394,11 +390,7 @@ void drm_rect_rotate_inv(struct drm_rect *r,
 {
 	struct drm_rect tmp;
 
-<<<<<<< HEAD
 	switch (rotation & 0xf) {
-=======
-	switch (rotation & DRM_ROTATE_MASK) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case BIT(DRM_ROTATE_0):
 		break;
 	case BIT(DRM_ROTATE_90):

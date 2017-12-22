@@ -388,13 +388,10 @@ extern unsigned long simple_strtoul(const char *,char **,unsigned int);
 extern long simple_strtol(const char *,char **,unsigned int);
 extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
 extern long long simple_strtoll(const char *,char **,unsigned int);
-<<<<<<< HEAD
 #define strict_strtoul	kstrtoul
 #define strict_strtol	kstrtol
 #define strict_strtoull	kstrtoull
 #define strict_strtoll	kstrtoll
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern int num_to_str(char *buf, int size, unsigned long long num);
 
@@ -833,11 +830,8 @@ static inline void ftrace_dump(enum ftrace_dump_mode oops_dump_mode) { }
 	 /* Other writable?  Generally considered a bad idea. */	\
 	 BUILD_BUG_ON_ZERO((perms) & 2) +				\
 	 (perms))
-<<<<<<< HEAD
 
 /* To identify board information in panic logs, set this */
 extern char *mach_panic_string;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

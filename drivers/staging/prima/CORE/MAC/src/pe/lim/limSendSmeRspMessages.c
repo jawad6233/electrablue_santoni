@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -58,11 +54,7 @@
 #include "limSendSmeRspMessages.h"
 #include "limIbssPeerMgmt.h"
 #include "limSessionUtils.h"
-<<<<<<< HEAD
 
-=======
-#include "lim_mbb.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * limSendSmeRsp()
@@ -168,32 +160,6 @@ limSendSmeRsp(tpAniSirGlobal pMac, tANI_U16 msgType,
     limSysProcessMmhMsgApi(pMac, &mmhMsg,  ePROT);
 } /*** end limSendSmeRsp() ***/
 
-<<<<<<< HEAD
-=======
-/**
- * lim_add_bss_info() - copy data from session entry to join rsp
- * @session_entry: PE Session Info
- * @sme_join_rsp: Join response buffer to be filled up
- *
- * Return: None
- */
-void lim_add_bss_info(tpDphHashNode sta_ds,
-                      tpSirSmeJoinRsp sme_join_rsp)
-{
-    struct parsed_ies *parsed_ies = &sta_ds->parsed_ies;
-
-    if (parsed_ies->hs20vendor_ie.present)
-        sme_join_rsp->hs20vendor_ie = parsed_ies->hs20vendor_ie;
-    if (parsed_ies->vht_caps.present)
-        sme_join_rsp->vht_caps = parsed_ies->vht_caps;
-    if (parsed_ies->ht_caps.present)
-        sme_join_rsp->ht_caps = parsed_ies->ht_caps;
-    if (parsed_ies->ht_operation.present)
-        sme_join_rsp->ht_operation = parsed_ies->ht_operation;
-    if (parsed_ies->vht_operation.present)
-        sme_join_rsp->vht_operation = parsed_ies->vht_operation;
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * limSendSmeJoinReassocRspAfterResume()
@@ -416,10 +382,6 @@ limSendSmeJoinReassocRsp(tpAniSirGlobal pMac, tANI_U16 msgType,
                 pSirSmeJoinRsp->bcastSig   = pStaDs->ucBcastSig;
                 pSirSmeJoinRsp->maxRateFlags =
                                 limGetMaxRateFlags(pStaDs, psessionEntry);
-<<<<<<< HEAD
-=======
-                lim_add_bss_info(pStaDs, pSirSmeJoinRsp);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                 PELOGE(limLog(pMac, LOG1, FL("maxRateFlags: %x"),
                                               pSirSmeJoinRsp->maxRateFlags);)
             }
@@ -2853,15 +2815,10 @@ void limHandleDeleteBssRsp(tpAniSirGlobal pMac,tpSirMsgQ MsgQ)
     {
          limProcessSmeDelBssRsp(pMac, MsgQ->bodyval,psessionEntry);
     }
-<<<<<<< HEAD
            
     else
          limProcessMlmDelBssRsp(pMac,MsgQ,psessionEntry);
     
-=======
-    else
-         limProcessMlmDelBssRsp(pMac,MsgQ,psessionEntry);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #ifdef WLAN_FEATURE_VOWIFI_11R

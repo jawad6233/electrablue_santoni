@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015, 2016 The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2016-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -62,10 +58,7 @@ enum ipa_uc_offload_state {
 	IPA_UC_OFFLOAD_STATE_INVALID,
 	IPA_UC_OFFLOAD_STATE_INITIALIZED,
 	IPA_UC_OFFLOAD_STATE_UP,
-<<<<<<< HEAD
 	IPA_UC_OFFLOAD_STATE_DOWN,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct ipa_uc_offload_ctx {
@@ -81,13 +74,6 @@ struct ipa_uc_offload_ctx {
 
 static struct ipa_uc_offload_ctx *ipa_uc_offload_ctx[IPA_UC_MAX_PROT_SIZE];
 
-<<<<<<< HEAD
-=======
-static int ipa_uc_ntn_cons_release(void);
-static int ipa_uc_ntn_cons_request(void);
-static void ipa_uc_offload_rm_notify(void *, enum ipa_rm_event, unsigned long);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int ipa_commit_partial_hdr(
 	struct ipa_ioc_add_hdr *hdr,
 	const char *netdev_name,
@@ -129,47 +115,16 @@ static int ipa_uc_offload_ntn_reg_intf(
 	struct ipa_uc_offload_out_params *outp,
 	struct ipa_uc_offload_ctx *ntn_ctx)
 {
-<<<<<<< HEAD
 	struct ipa_ioc_add_hdr *hdr;
-=======
-	struct ipa_ioc_add_hdr *hdr = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct ipa_tx_intf tx;
 	struct ipa_rx_intf rx;
 	struct ipa_ioc_tx_intf_prop tx_prop[2];
 	struct ipa_ioc_rx_intf_prop rx_prop[2];
-<<<<<<< HEAD
-=======
-	struct ipa_rm_create_params param;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 len;
 	int ret = 0;
 
 	IPA_UC_OFFLOAD_DBG("register interface for netdev %s\n",
 					 inp->netdev_name);
-<<<<<<< HEAD
-=======
-	memset(&param, 0, sizeof(param));
-	param.name = IPA_RM_RESOURCE_ETHERNET_PROD;
-	param.reg_params.user_data = ntn_ctx;
-	param.reg_params.notify_cb = ipa_uc_offload_rm_notify;
-	param.floor_voltage = IPA_VOLTAGE_SVS;
-	ret = ipa_rm_create_resource(&param);
-	if (ret) {
-		IPA_UC_OFFLOAD_ERR("fail to create ETHERNET_PROD resource\n");
-		return -EFAULT;
-	}
-
-	memset(&param, 0, sizeof(param));
-	param.name = IPA_RM_RESOURCE_ETHERNET_CONS;
-	param.request_resource = ipa_uc_ntn_cons_request;
-	param.release_resource = ipa_uc_ntn_cons_release;
-	ret = ipa_rm_create_resource(&param);
-	if (ret) {
-		IPA_UC_OFFLOAD_ERR("fail to create ETHERNET_CONS resource\n");
-		goto fail_create_rm_cons;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	memcpy(ntn_ctx->netdev_name, inp->netdev_name, IPA_RESOURCE_NAME_MAX);
 	ntn_ctx->hdr_len = inp->hdr_info[0].hdr_len;
@@ -181,12 +136,7 @@ static int ipa_uc_offload_ntn_reg_intf(
 	hdr = kzalloc(len, GFP_KERNEL);
 	if (hdr == NULL) {
 		IPA_UC_OFFLOAD_ERR("fail to alloc %d bytes\n", len);
-<<<<<<< HEAD
 		return -ENOMEM;
-=======
-		ret = -ENOMEM;
-		goto fail_alloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (ipa_commit_partial_hdr(hdr, ntn_ctx->netdev_name, inp->hdr_info)) {
@@ -201,21 +151,13 @@ static int ipa_uc_offload_ntn_reg_intf(
 
 	memset(tx_prop, 0, sizeof(tx_prop));
 	tx_prop[0].ip = IPA_IP_v4;
-<<<<<<< HEAD
 	tx_prop[0].dst_pipe = IPA_CLIENT_ODU_TETH_CONS;
-=======
-	tx_prop[0].dst_pipe = IPA_CLIENT_ETHERNET_CONS;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tx_prop[0].hdr_l2_type = inp->hdr_info[0].hdr_type;
 	memcpy(tx_prop[0].hdr_name, hdr->hdr[IPA_IP_v4].name,
 		sizeof(tx_prop[0].hdr_name));
 
 	tx_prop[1].ip = IPA_IP_v6;
-<<<<<<< HEAD
 	tx_prop[1].dst_pipe = IPA_CLIENT_ODU_TETH_CONS;
-=======
-	tx_prop[1].dst_pipe = IPA_CLIENT_ETHERNET_CONS;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tx_prop[1].hdr_l2_type = inp->hdr_info[1].hdr_type;
 	memcpy(tx_prop[1].hdr_name, hdr->hdr[IPA_IP_v6].name,
 		sizeof(tx_prop[1].hdr_name));
@@ -226,11 +168,7 @@ static int ipa_uc_offload_ntn_reg_intf(
 
 	memset(rx_prop, 0, sizeof(rx_prop));
 	rx_prop[0].ip = IPA_IP_v4;
-<<<<<<< HEAD
 	rx_prop[0].src_pipe = IPA_CLIENT_ODU_PROD;
-=======
-	rx_prop[0].src_pipe = IPA_CLIENT_ETHERNET_PROD;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rx_prop[0].hdr_l2_type = inp->hdr_info[0].hdr_type;
 	if (inp->is_meta_data_valid) {
 		rx_prop[0].attrib.attrib_mask |= IPA_FLT_META_DATA;
@@ -239,11 +177,7 @@ static int ipa_uc_offload_ntn_reg_intf(
 	}
 
 	rx_prop[1].ip = IPA_IP_v6;
-<<<<<<< HEAD
 	rx_prop[1].src_pipe = IPA_CLIENT_ODU_PROD;
-=======
-	rx_prop[1].src_pipe = IPA_CLIENT_ETHERNET_PROD;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rx_prop[1].hdr_l2_type = inp->hdr_info[1].hdr_type;
 	if (inp->is_meta_data_valid) {
 		rx_prop[1].attrib.attrib_mask |= IPA_FLT_META_DATA;
@@ -263,20 +197,8 @@ static int ipa_uc_offload_ntn_reg_intf(
 	init_completion(&ntn_ctx->ntn_completion);
 	ntn_ctx->state = IPA_UC_OFFLOAD_STATE_INITIALIZED;
 
-<<<<<<< HEAD
 fail:
 	kfree(hdr);
-=======
-	kfree(hdr);
-	return ret;
-
-fail:
-	kfree(hdr);
-fail_alloc:
-	ipa_rm_delete_resource(IPA_RM_RESOURCE_ETHERNET_CONS);
-fail_create_rm_cons:
-	ipa_rm_delete_resource(IPA_RM_RESOURCE_ETHERNET_PROD);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -379,16 +301,9 @@ int ipa_uc_ntn_conn_pipes(struct ipa_ntn_conn_in_params *inp,
 			struct ipa_ntn_conn_out_params *outp,
 			struct ipa_uc_offload_ctx *ntn_ctx)
 {
-<<<<<<< HEAD
 	struct ipa_rm_create_params param;
 	int result = 0;
 
-=======
-	int result = 0;
-	enum ipa_uc_offload_state prev_state;
-
-	prev_state = ntn_ctx->state;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (inp->dl.ring_base_pa % IPA_NTN_DMA_POOL_ALIGNMENT ||
 		inp->dl.buff_pool_base_pa % IPA_NTN_DMA_POOL_ALIGNMENT) {
 		IPA_UC_OFFLOAD_ERR("alignment failure on TX\n");
@@ -400,7 +315,6 @@ int ipa_uc_ntn_conn_pipes(struct ipa_ntn_conn_in_params *inp,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	memset(&param, 0, sizeof(param));
 	param.name = IPA_RM_RESOURCE_ODU_ADAPT_PROD;
 	param.reg_params.user_data = ntn_ctx;
@@ -442,20 +356,6 @@ int ipa_uc_ntn_conn_pipes(struct ipa_ntn_conn_in_params *inp,
 		if (wait_for_completion_timeout(&ntn_ctx->ntn_completion,
 			msecs_to_jiffies(10000)) == 0) {
 			IPA_UC_OFFLOAD_ERR("ODU PROD resource req time out\n");
-=======
-	result = ipa_rm_add_dependency(IPA_RM_RESOURCE_ETHERNET_PROD,
-		IPA_RM_RESOURCE_APPS_CONS);
-	if (result) {
-		IPA_UC_OFFLOAD_ERR("fail to add rm dependency: %d\n", result);
-		return result;
-	}
-
-	result = ipa_rm_request_resource(IPA_RM_RESOURCE_ETHERNET_PROD);
-	if (result == -EINPROGRESS) {
-		if (wait_for_completion_timeout(&ntn_ctx->ntn_completion,
-			10*HZ) == 0) {
-			IPA_UC_OFFLOAD_ERR("ETH_PROD resource req time out\n");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			result = -EFAULT;
 			goto fail;
 		}
@@ -465,7 +365,6 @@ int ipa_uc_ntn_conn_pipes(struct ipa_ntn_conn_in_params *inp,
 		goto fail;
 	}
 
-<<<<<<< HEAD
 	return 0;
 
 fail:
@@ -473,24 +372,6 @@ fail:
 fail_create_rm_cons:
 	ipa_rm_delete_resource(IPA_RM_RESOURCE_ODU_ADAPT_PROD);
 
-=======
-	ntn_ctx->state = IPA_UC_OFFLOAD_STATE_UP;
-	result = ipa_setup_uc_ntn_pipes(inp, ntn_ctx->notify,
-		ntn_ctx->priv, ntn_ctx->hdr_len, outp);
-	if (result) {
-		IPA_UC_OFFLOAD_ERR("fail to setup uc offload pipes: %d\n",
-				result);
-		ntn_ctx->state = prev_state;
-		result = -EFAULT;
-		goto fail;
-	}
-
-	return 0;
-
-fail:
-	ipa_rm_delete_dependency(IPA_RM_RESOURCE_ETHERNET_PROD,
-		IPA_RM_RESOURCE_APPS_CONS);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return result;
 }
 
@@ -552,17 +433,10 @@ int ipa_set_perf_profile(struct ipa_perf_profile *profile)
 	rm_profile.max_supported_bandwidth_mbps =
 		profile->max_supported_bw_mbps;
 
-<<<<<<< HEAD
 	if (profile->client == IPA_CLIENT_ODU_PROD) {
 		resource_name = IPA_RM_RESOURCE_ODU_ADAPT_PROD;
 	} else if (profile->client == IPA_CLIENT_ODU_TETH_CONS) {
 		resource_name = IPA_RM_RESOURCE_ODU_ADAPT_CONS;
-=======
-	if (profile->client == IPA_CLIENT_ETHERNET_PROD) {
-		resource_name = IPA_RM_RESOURCE_ETHERNET_PROD;
-	} else if (profile->client == IPA_CLIENT_ETHERNET_CONS) {
-		resource_name = IPA_RM_RESOURCE_ETHERNET_CONS;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		IPA_UC_OFFLOAD_ERR("not supported\n");
 		return -EINVAL;
@@ -580,7 +454,6 @@ EXPORT_SYMBOL(ipa_set_perf_profile);
 static int ipa_uc_ntn_disconn_pipes(struct ipa_uc_offload_ctx *ntn_ctx)
 {
 	int ipa_ep_idx_ul, ipa_ep_idx_dl;
-<<<<<<< HEAD
 
 	ntn_ctx->state = IPA_UC_OFFLOAD_STATE_DOWN;
 	if (ipa_rm_delete_dependency(IPA_RM_RESOURCE_ODU_ADAPT_PROD,
@@ -607,36 +480,6 @@ static int ipa_uc_ntn_disconn_pipes(struct ipa_uc_offload_ctx *ntn_ctx)
 	}
 
 	return 0;
-=======
-	int ret = 0;
-
-	ntn_ctx->state = IPA_UC_OFFLOAD_STATE_INITIALIZED;
-
-	ret = ipa_rm_release_resource(IPA_RM_RESOURCE_ETHERNET_PROD);
-	if (ret) {
-		IPA_UC_OFFLOAD_ERR("fail to release ETHERNET_PROD res: %d\n",
-						  ret);
-		return -EFAULT;
-	}
-
-	ret = ipa_rm_delete_dependency(IPA_RM_RESOURCE_ETHERNET_PROD,
-		IPA_RM_RESOURCE_APPS_CONS);
-	if (ret) {
-		IPA_UC_OFFLOAD_ERR("fail to del dep ETH_PROD->APPS, %d\n", ret);
-		return -EFAULT;
-	}
-
-	ipa_ep_idx_ul = ipa_get_ep_mapping(IPA_CLIENT_ETHERNET_PROD);
-	ipa_ep_idx_dl = ipa_get_ep_mapping(IPA_CLIENT_ETHERNET_CONS);
-	ret = ipa_tear_down_uc_offload_pipes(ipa_ep_idx_ul, ipa_ep_idx_dl);
-	if (ret) {
-		IPA_UC_OFFLOAD_ERR("fail to tear down ntn offload pipes, %d\n",
-						 ret);
-		return -EFAULT;
-	}
-
-	return ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int ipa_uc_offload_disconn_pipes(u32 clnt_hdl)
@@ -681,19 +524,6 @@ static int ipa_uc_ntn_cleanup(struct ipa_uc_offload_ctx *ntn_ctx)
 	int len, result = 0;
 	struct ipa_ioc_del_hdr *hdr;
 
-<<<<<<< HEAD
-=======
-	if (ipa_rm_delete_resource(IPA_RM_RESOURCE_ETHERNET_PROD)) {
-		IPA_UC_OFFLOAD_ERR("fail to delete ETHERNET_PROD resource\n");
-		return -EFAULT;
-	}
-
-	if (ipa_rm_delete_resource(IPA_RM_RESOURCE_ETHERNET_CONS)) {
-		IPA_UC_OFFLOAD_ERR("fail to delete ETHERNET_CONS resource\n");
-		return -EFAULT;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	len = sizeof(struct ipa_ioc_del_hdr) + 2 * sizeof(struct ipa_hdr_del);
 	hdr = kzalloc(len, GFP_KERNEL);
 	if (hdr == NULL) {
@@ -740,11 +570,7 @@ int ipa_uc_offload_cleanup(u32 clnt_hdl)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (offload_ctx->state != IPA_UC_OFFLOAD_STATE_DOWN) {
-=======
-	if (offload_ctx->state != IPA_UC_OFFLOAD_STATE_INITIALIZED) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPA_UC_OFFLOAD_ERR("Invalid State %d\n", offload_ctx->state);
 		return -EINVAL;
 	}
@@ -769,44 +595,3 @@ int ipa_uc_offload_cleanup(u32 clnt_hdl)
 	return ret;
 }
 EXPORT_SYMBOL(ipa_uc_offload_cleanup);
-<<<<<<< HEAD
-=======
-
-/**
- * ipa_uc_offload_uc_rdyCB() - To register uC ready CB if uC not
- * ready
- * @inout:	[in/out] input/output parameters
- * from/to client
- *
- * Returns:	0 on success, negative on failure
- *
- */
-int ipa_uc_offload_reg_rdyCB(struct ipa_uc_ready_params *inp)
-{
-	int ret = 0;
-
-	if (!inp) {
-		IPA_UC_OFFLOAD_ERR("Invalid input\n");
-		return -EINVAL;
-	}
-
-	if (inp->proto == IPA_UC_NTN)
-		ret = ipa_ntn_uc_reg_rdyCB(inp->notify, inp->priv);
-
-	if (ret == -EEXIST) {
-		inp->is_uC_ready = true;
-		ret = 0;
-	} else
-		inp->is_uC_ready = false;
-
-	return ret;
-}
-EXPORT_SYMBOL(ipa_uc_offload_reg_rdyCB);
-
-void ipa_uc_offload_dereg_rdyCB(enum ipa_uc_offload_proto proto)
-{
-	if (proto == IPA_UC_NTN)
-		ipa_ntn_uc_dereg_rdyCB();
-}
-EXPORT_SYMBOL(ipa_uc_offload_dereg_rdyCB);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

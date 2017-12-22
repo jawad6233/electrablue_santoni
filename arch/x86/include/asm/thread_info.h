@@ -58,10 +58,7 @@ struct thread_info {
 	__u32			cpu;		/* current CPU */
 	int			saved_preempt_count;
 	mm_segment_t		addr_limit;
-<<<<<<< HEAD
 	struct restart_block    restart_block;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void __user		*sysenter_return;
 	unsigned int		sig_on_uaccess_error:1;
 	unsigned int		uaccess_err:1;	/* uaccess failed */
@@ -75,12 +72,9 @@ struct thread_info {
 	.cpu		= 0,			\
 	.saved_preempt_count = INIT_PREEMPT_COUNT,	\
 	.addr_limit	= KERNEL_DS,		\
-<<<<<<< HEAD
 	.restart_block = {			\
 		.fn = do_no_restart_syscall,	\
 	},					\
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #define init_thread_info	(init_thread_union.thread_info)
@@ -203,53 +197,6 @@ static inline struct thread_info *current_thread_info(void)
 	return ti;
 }
 
-<<<<<<< HEAD
-=======
-/*
- * Walks up the stack frames to make sure that the specified object is
- * entirely contained by a single stack frame.
- *
- * Returns:
- *		 1 if within a frame
- *		-1 if placed across a frame boundary (or outside stack)
- *		 0 unable to determine (no frame pointers, etc)
- */
-static inline int arch_within_stack_frames(const void * const stack,
-					   const void * const stackend,
-					   const void *obj, unsigned long len)
-{
-#if defined(CONFIG_FRAME_POINTER)
-	const void *frame = NULL;
-	const void *oldframe;
-
-	oldframe = __builtin_frame_address(1);
-	if (oldframe)
-		frame = __builtin_frame_address(2);
-	/*
-	 * low ----------------------------------------------> high
-	 * [saved bp][saved ip][args][local vars][saved bp][saved ip]
-	 *                     ^----------------^
-	 *               allow copies only within here
-	 */
-	while (stack <= frame && frame < stackend) {
-		/*
-		 * If obj + len extends past the last frame, this
-		 * check won't pass and the next frame will be 0,
-		 * causing us to bail out and correctly report
-		 * the copy as invalid.
-		 */
-		if (obj + len <= frame)
-			return obj >= oldframe + 2 * sizeof(void *) ? 1 : -1;
-		oldframe = frame;
-		frame = *(const void * const *)frame;
-	}
-	return -1;
-#else
-	return 0;
-#endif
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #else /* !__ASSEMBLY__ */
 
 /* how to get the thread information struct from ASM */

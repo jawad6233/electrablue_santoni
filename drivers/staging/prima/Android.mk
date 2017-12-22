@@ -10,11 +10,7 @@ WLAN_SELECT := CONFIG_PRIMA_WLAN=m
 endif
 
 # Build/Package options for 8916, 8974, 8226, 8610, 8909, 8952, 8937, 8953 targets
-<<<<<<< HEAD
 ifneq (,$(filter msm8916 msm8974 msm8226 msm8610 msm8909 msm8952 msm8937 msm8953 msm8953,$(TARGET_BOARD_PLATFORM)))
-=======
-ifneq (,$(filter msm8916 msm8974 msm8226 msm8610 msm8952 msm8909 titanium,$(TARGET_BOARD_PLATFORM)))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 WLAN_CHIPSET := pronto
 WLAN_SELECT := CONFIG_PRONTO_WLAN=m
 endif
@@ -24,27 +20,8 @@ ifneq ($(WLAN_CHIPSET),)
 
 LOCAL_PATH := $(call my-dir)
 
-<<<<<<< HEAD
 # This makefile is only for DLKM
 ifneq ($(findstring vendor,$(LOCAL_PATH)),)
-=======
-ifeq ($(TARGET_SUPPORTS_WEARABLES),true)
-ifneq ($(findstring device,$(LOCAL_PATH)),)
-    WLAN_DLKM := 1
-else
-    WLAN_DLKM := 0
-endif # findstring device
-else
-ifneq ($(findstring vendor,$(LOCAL_PATH)),)
-    WLAN_DLKM := 1
-else
-    WLAN_DLKM := 0
-endif # findstring vendor
-endif # TARGET_SUPPORTS_WEARABLES
-
-# This makefile is only for DLKM
-ifeq ($(WLAN_DLKM),1)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 # Determine if we are Proprietary or Open Source
 ifneq ($(findstring opensource,$(LOCAL_PATH)),)
@@ -56,30 +33,13 @@ endif
 ifeq ($(WLAN_PROPRIETARY),1)
     WLAN_BLD_DIR := vendor/qcom/proprietary/wlan
 else
-<<<<<<< HEAD
     WLAN_BLD_DIR := vendor/qcom/opensource/wlan
-=======
-ifneq ($(TARGET_SUPPORTS_WEARABLES),true)
-    WLAN_BLD_DIR := vendor/qcom/opensource/wlan
-else
-    WLAN_BLD_DIR := device/qcom/msm8909w/opensource/wlan
-endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endif
 
 # DLKM_DIR was moved for JELLY_BEAN (PLATFORM_SDK 16)
 ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 16 ))" )))
-<<<<<<< HEAD
        DLKM_DIR := $(TOP)/device/qcom/common/dlkm
 else
-=======
-ifneq ($(TARGET_SUPPORTS_WEARABLES),true)
-       DLKM_DIR := $(TOP)/device/qcom/common/dlkm
-else
-       DLKM_DIR := $(BOARD_DLKM_DIR)
-endif
-else
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
        DLKM_DIR := build/dlkm
 endif
 
@@ -151,35 +111,15 @@ LOCAL_MODULE              := $(WLAN_CHIPSET)_wlan.ko
 LOCAL_MODULE_KBUILD_NAME  := wlan.ko
 LOCAL_MODULE_TAGS         := debug
 LOCAL_MODULE_DEBUG_ENABLE := true
-<<<<<<< HEAD
 LOCAL_MODULE_PATH         := $(TARGET_OUT)/lib/modules/$(WLAN_CHIPSET)
-=======
-ifeq ($(PRODUCT_VENDOR_MOVE_ENABLED), true)
-LOCAL_MODULE_PATH         := $(TARGET_OUT_VENDOR)/lib/modules/$(WLAN_CHIPSET)
-else
-LOCAL_MODULE_PATH         := $(TARGET_OUT)/lib/modules/$(WLAN_CHIPSET)
-endif # PRODUCT_VENDOR_MOVE_ENABLED
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 include $(DLKM_DIR)/AndroidKernelModule.mk
 ###########################################################
 
 #Create symbolic link
-<<<<<<< HEAD
 $(shell mkdir -p $(TARGET_OUT)/lib/modules; \
         ln -sf /system/lib/modules/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko \
                $(TARGET_OUT)/lib/modules/wlan.ko)
 
-=======
-ifeq ($(PRODUCT_VENDOR_MOVE_ENABLED), true)
-$(shell mkdir -p $(TARGET_OUT_VENDOR)/lib/modules; \
-        ln -sf /$(TARGET_COPY_OUT_VENDOR)/lib/modules/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko \
-               $(TARGET_OUT_VENDOR)/lib/modules/wlan.ko)
-else
-$(shell mkdir -p $(TARGET_OUT)/lib/modules; \
-        ln -sf /system/lib/modules/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko \
-               $(TARGET_OUT)/lib/modules/wlan.ko)
-endif # PRODUCT_VENDOR_MOVE_ENABLED
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endif # DLKM check
 
 endif # supported target check

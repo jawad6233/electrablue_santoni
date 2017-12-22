@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -344,11 +340,7 @@ struct hfi_buffer_info {
 	(HFI_PROPERTY_PARAM_VENC_COMMON_START + 0x014)
 #define  HFI_PROPERTY_PARAM_VENC_H264_PPS_ID               \
 	(HFI_PROPERTY_PARAM_VENC_COMMON_START + 0x015)
-<<<<<<< HEAD
 #define HFI_PROPERTY_PARAM_VENC_H264_GENERATE_AUDNAL	\
-=======
-#define HFI_PROPERTY_PARAM_VENC_GENERATE_AUDNAL	\
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	(HFI_PROPERTY_PARAM_VENC_COMMON_START + 0x016)
 #define HFI_PROPERTY_PARAM_VENC_ASPECT_RATIO			\
 	(HFI_PROPERTY_PARAM_VENC_COMMON_START + 0x017)

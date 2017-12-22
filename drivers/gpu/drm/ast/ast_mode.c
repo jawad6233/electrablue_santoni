@@ -31,10 +31,6 @@
 #include <drm/drmP.h>
 #include <drm/drm_crtc.h>
 #include <drm/drm_crtc_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_plane_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "ast_drv.h"
 
 #include "ast_tables.h"
@@ -550,11 +546,6 @@ static int ast_crtc_do_set_base(struct drm_crtc *crtc,
 		ret = ttm_bo_kmap(&bo->bo, 0, bo->bo.num_pages, &bo->kmap);
 		if (ret)
 			DRM_ERROR("failed to kmap fbcon\n");
-<<<<<<< HEAD
-=======
-		else
-			ast_fbdev_set_base(ast, gpu_addr);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	ast_bo_unreserve(bo);
 

@@ -267,11 +267,6 @@ static int input_get_disposition(struct input_dev *dev,
 	case EV_SYN:
 		switch (code) {
 		case SYN_CONFIG:
-<<<<<<< HEAD
-=======
-		case SYN_TIME_SEC:
-		case SYN_TIME_NSEC:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			disposition = INPUT_PASS_TO_ALL;
 			break;
 

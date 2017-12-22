@@ -11,11 +11,8 @@
 extern pgd_t early_level4_pgt[PTRS_PER_PGD];
 extern struct range pfn_mapped[E820_X_MAX];
 
-<<<<<<< HEAD
 extern unsigned char kasan_zero_page[PAGE_SIZE];
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int __init map_range(struct range *range)
 {
 	unsigned long start;
@@ -39,11 +36,7 @@ static void __init clear_pgds(unsigned long start,
 		pgd_clear(pgd_offset_k(start));
 }
 
-<<<<<<< HEAD
 void __init kasan_map_early_shadow(pgd_t *pgd)
-=======
-static void __init kasan_map_early_shadow(pgd_t *pgd)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int i;
 	unsigned long start = KASAN_SHADOW_START;
@@ -56,7 +49,6 @@ static void __init kasan_map_early_shadow(pgd_t *pgd)
 	}
 }
 
-<<<<<<< HEAD
 static int __init zero_pte_populate(pmd_t *pmd, unsigned long addr,
 				unsigned long end)
 {
@@ -157,8 +149,6 @@ static void __init populate_zero_shadow(const void *start, const void *end)
 }
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_KASAN_INLINE
 static int kasan_die_handler(struct notifier_block *self,
 			     unsigned long val,
@@ -176,29 +166,6 @@ static struct notifier_block kasan_die_notifier = {
 };
 #endif
 
-<<<<<<< HEAD
-=======
-void __init kasan_early_init(void)
-{
-	int i;
-	pteval_t pte_val = __pa_nodebug(kasan_zero_page) | __PAGE_KERNEL;
-	pmdval_t pmd_val = __pa_nodebug(kasan_zero_pte) | _KERNPG_TABLE;
-	pudval_t pud_val = __pa_nodebug(kasan_zero_pmd) | _KERNPG_TABLE;
-
-	for (i = 0; i < PTRS_PER_PTE; i++)
-		kasan_zero_pte[i] = __pte(pte_val);
-
-	for (i = 0; i < PTRS_PER_PMD; i++)
-		kasan_zero_pmd[i] = __pmd(pmd_val);
-
-	for (i = 0; i < PTRS_PER_PUD; i++)
-		kasan_zero_pud[i] = __pud(pud_val);
-
-	kasan_map_early_shadow(early_level4_pgt);
-	kasan_map_early_shadow(init_level4_pgt);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void __init kasan_init(void)
 {
 	int i;

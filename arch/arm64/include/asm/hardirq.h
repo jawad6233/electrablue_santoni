@@ -24,13 +24,9 @@
 
 typedef struct {
 	unsigned int __softirq_pending;
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	unsigned int ipi_irqs[NR_IPI];
 #endif
-=======
-	unsigned int ipi_irqs[NR_IPI];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } ____cacheline_aligned irq_cpustat_t;
 
 #include <linux/irq_cpustat.h>	/* Standard mappings for irq_cpustat_t above */
@@ -38,15 +34,10 @@ typedef struct {
 #define __inc_irq_stat(cpu, member)	__IRQ_STAT(cpu, member)++
 #define __get_irq_stat(cpu, member)	__IRQ_STAT(cpu, member)
 
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 u64 smp_irq_stat_cpu(unsigned int cpu);
 #define arch_irq_stat_cpu	smp_irq_stat_cpu
 #endif
-=======
-u64 smp_irq_stat_cpu(unsigned int cpu);
-#define arch_irq_stat_cpu	smp_irq_stat_cpu
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define __ARCH_IRQ_EXIT_IRQS_DISABLED	1
 

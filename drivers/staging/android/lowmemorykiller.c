@@ -60,14 +60,6 @@
 #define CREATE_TRACE_POINTS
 #include "trace/lowmemorykiller.h"
 
-<<<<<<< HEAD
-=======
-/* to enable lowmemorykiller */
-static int enable_lmk = 1;
-module_param_named(enable_lmk, enable_lmk, int,
-	S_IRUGO | S_IWUSR);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static uint32_t lowmem_debug_level = 1;
 static short lowmem_adj[6] = {
 	0,
@@ -96,12 +88,6 @@ static unsigned long lowmem_deathpending_timeout;
 static unsigned long lowmem_count(struct shrinker *s,
 				  struct shrink_control *sc)
 {
-<<<<<<< HEAD
-=======
-	if (!enable_lmk)
-		return 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return global_page_state(NR_ACTIVE_ANON) +
 		global_page_state(NR_ACTIVE_FILE) +
 		global_page_state(NR_INACTIVE_ANON) +
@@ -421,10 +407,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		global_page_state(NR_FILE_PAGES) + zcache_pages())
 		other_file = global_page_state(NR_FILE_PAGES) + zcache_pages() -
 						global_page_state(NR_SHMEM) -
-<<<<<<< HEAD
-=======
-						global_page_state(NR_UNEVICTABLE) -
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 						total_swapcache_pages();
 	else
 		other_file = 0;

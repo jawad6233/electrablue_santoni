@@ -42,11 +42,7 @@
 #include <linux/irqchip/arm-gic.h>
 #include <linux/syscore_ops.h>
 #include <linux/msm_rtb.h>
-<<<<<<< HEAD
 
-=======
-#include <linux/wakeup_reason.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/cputype.h>
 #include <asm/irq.h>
 #include <asm/exception.h>
@@ -294,10 +290,6 @@ static void gic_show_resume_irq(struct gic_chip_data *gic)
 
 		pr_warning("%s: %d triggered %s\n", __func__,
 					i + gic->irq_offset, name);
-<<<<<<< HEAD
-=======
-		log_base_wakeup_reason(i + gic->irq_offset);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -477,20 +469,12 @@ static void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 	} while (1);
 }
 
-<<<<<<< HEAD
 static void gic_handle_cascade_irq(unsigned int irq, struct irq_desc *desc)
-=======
-static bool gic_handle_cascade_irq(unsigned int irq, struct irq_desc *desc)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct gic_chip_data *chip_data = irq_get_handler_data(irq);
 	struct irq_chip *chip = irq_get_chip(irq);
 	unsigned int cascade_irq, gic_irq;
 	unsigned long status;
-<<<<<<< HEAD
-=======
-	int handled = false;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	chained_irq_enter(chip, desc);
 
@@ -506,19 +490,10 @@ static bool gic_handle_cascade_irq(unsigned int irq, struct irq_desc *desc)
 	if (unlikely(gic_irq < 32 || gic_irq > 1020))
 		handle_bad_irq(cascade_irq, desc);
 	else
-<<<<<<< HEAD
 		generic_handle_irq(cascade_irq);
 
  out:
 	chained_irq_exit(chip, desc);
-=======
-		handled = generic_handle_irq(cascade_irq);
-
-
- out:
-	chained_irq_exit(chip, desc);
-	return handled == true;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static struct irq_chip gic_chip = {

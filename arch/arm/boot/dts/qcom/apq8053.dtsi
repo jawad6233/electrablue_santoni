@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -32,33 +28,9 @@
 		reg-names = "vidc", "efuse";
 		qcom,venus-uplift-freq = <540000000>;
 		qcom,speedbin-version = <0x7 0x8>;
-<<<<<<< HEAD
-=======
-		qcom,never-unload-fw;
-	};
-};
-
-&pm8953_vadc {
-	/delete-node/ chan@36;
-	/delete-node/ chan@11;
-	/delete-node/ chan@13;
-};
-
-&pm8953_adc_tm {
-	/delete-node/ chan@36;
-	chan@7  {
-		qcom,btm-channel-number = <0x48>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	};
 };
 
 &ipa_hw {
 	status = "disabled";
 };
-<<<<<<< HEAD
-=======
-
-&secure_mem {
-	status = "disabled";
-};
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

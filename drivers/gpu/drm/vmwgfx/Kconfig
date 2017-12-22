@@ -1,10 +1,6 @@
 config DRM_VMWGFX
 	tristate "DRM driver for VMware Virtual GPU"
-<<<<<<< HEAD
 	depends on DRM && PCI
-=======
-	depends on DRM && PCI && X86
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	select FB_DEFERRED_IO
 	select FB_CFB_FILLRECT
 	select FB_CFB_COPYAREA

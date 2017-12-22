@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -205,11 +201,7 @@ enum hal_property {
 	HAL_PARAM_VENC_H264_ENTROPY_CABAC_MODEL,
 	HAL_CONFIG_VENC_MAX_BITRATE,
 	HAL_PARAM_VENC_H264_VUI_TIMING_INFO,
-<<<<<<< HEAD
 	HAL_PARAM_VENC_H264_GENERATE_AUDNAL,
-=======
-	HAL_PARAM_VENC_GENERATE_AUDNAL,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	HAL_PARAM_VENC_MAX_NUM_B_FRAMES,
 	HAL_PARAM_BUFFER_ALLOC_MODE,
 	HAL_PARAM_VDEC_FRAME_ASSEMBLY,
@@ -1359,10 +1351,6 @@ struct msm_vidc_cb_cmd_done {
 		struct vidc_hal_session_init_done session_init_done;
 		struct hal_buffer_info buffer_info;
 		union hal_get_property property;
-<<<<<<< HEAD
-=======
-		enum hal_flush flush_type;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} data;
 };
 

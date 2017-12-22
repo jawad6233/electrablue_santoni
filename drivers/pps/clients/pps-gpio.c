@@ -44,10 +44,6 @@ struct pps_gpio_device_data {
 	bool assert_falling_edge;
 	bool capture_clear;
 	unsigned int gpio_pin;
-<<<<<<< HEAD
-=======
-	bool use_system_time_ts;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /*
@@ -60,22 +56,11 @@ static irqreturn_t pps_gpio_irq_handler(int irq, void *data)
 	struct pps_event_time ts;
 	int rising_edge;
 
-<<<<<<< HEAD
 	/* Get the time stamp first */
 	get_monotonic_boottime(&ts.ts_real);
 
 	info = data;
 
-=======
-	info = data;
-
-	/* Get the time stamp first */
-	if (!info->use_system_time_ts)
-		get_monotonic_boottime(&ts.ts_real);
-	else
-		pps_get_ts(&ts);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rising_edge = gpio_get_value(info->gpio_pin);
 	if ((rising_edge && !info->assert_falling_edge) ||
 			(!rising_edge && info->assert_falling_edge))
@@ -134,12 +119,6 @@ static int pps_gpio_probe(struct platform_device *pdev)
 
 		if (of_get_property(np, "assert-falling-edge", NULL))
 			data->assert_falling_edge = true;
-<<<<<<< HEAD
-=======
-
-		if (of_get_property(np, "use-system-time-ts", NULL))
-			data->use_system_time_ts = true;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* GPIO setup */

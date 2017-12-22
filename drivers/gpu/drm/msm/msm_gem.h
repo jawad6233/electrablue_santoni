@@ -21,32 +21,11 @@
 #include <linux/reservation.h>
 #include "msm_drv.h"
 
-<<<<<<< HEAD
 struct msm_gem_object {
 	struct drm_gem_object base;
 
 	uint32_t flags;
 
-=======
-/* Additional internal-use only BO flags: */
-#define MSM_BO_STOLEN        0x10000000    /* try to use stolen/splash memory */
-
-struct msm_gem_buf {
-	dma_addr_t dma_addr;
-	struct dma_attrs dma_attrs;
-};
-
-struct msm_gem_object {
-	struct drm_gem_object base;
-	struct msm_gem_buf *buf;
-	uint32_t flags;
-
-
-	/* global timestamp */
-	uint32_t read_timestamp;
-	uint32_t write_timestamp;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* And object is either:
 	 *  inactive - on priv->inactive_list
 	 *  active   - on one one of the gpu's active_list..  well, at
@@ -57,10 +36,7 @@ struct msm_gem_object {
 	 */
 	struct list_head mm_list;
 	struct msm_gpu *gpu;     /* non-null if active */
-<<<<<<< HEAD
 	uint32_t read_fence, write_fence;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Transiently in the process of submit ioctl, objects associated
 	 * with the submit are on submit->bo_list.. this only lasts for
@@ -70,7 +46,6 @@ struct msm_gem_object {
 	struct list_head submit_entry;
 
 	struct page **pages;
-<<<<<<< HEAD
 	struct sg_table *sgt;
 	void *vaddr;
 
@@ -78,26 +53,13 @@ struct msm_gem_object {
 		// XXX
 		uint32_t iova;
 	} domain[NUM_DOMAINS];
-=======
-	void *vaddr;
-
-	struct {
-		struct sg_table *sgt;
-		dma_addr_t iova;
-	} domain[NUM_DOMAINS];
-	struct sg_table *import_sgt;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* normally (resv == &_resv) except for imported bo's */
 	struct reservation_object *resv;
 	struct reservation_object _resv;
 
 	/* For physically contiguous buffers.  Used when we don't have
-<<<<<<< HEAD
 	 * an IOMMU.
-=======
-	 * an IOMMU.  Also used for stolen/splashscreen buffer.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 */
 	struct drm_mm_node *vram_node;
 };
@@ -108,62 +70,22 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
 	return msm_obj->gpu != NULL;
 }
 
-<<<<<<< HEAD
 #define MAX_CMDS 4
-=======
-static inline uint32_t msm_gem_fence(struct msm_gem_object *msm_obj,
-		uint32_t op)
-{
-	uint32_t fence = 0;
-	struct drm_device *dev = msm_obj->base.dev;
-
-	mutex_lock(&dev->struct_mutex);
-	if (op & MSM_PREP_READ)
-		fence = msm_obj->write_timestamp;
-	if (op & MSM_PREP_WRITE)
-		fence = max(fence, msm_obj->read_timestamp);
-	mutex_unlock(&dev->struct_mutex);
-
-	return fence;
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
  * associated with the cmdstream submission for synchronization (and
  * make it easier to unwind when things go wrong, etc).  This only
  * lasts for the duration of the submit-ioctl.
  */
-<<<<<<< HEAD
 struct msm_gem_submit {
 	struct drm_device *dev;
 	struct msm_gpu *gpu;
-=======
-
-struct msm_submit_cmd {
-	uint32_t type;
-	uint32_t size;  /* in dwords */
-	uint32_t iova;
-	uint32_t idx;   /* cmdstream buffer idx in bos[] */
-};
-
-struct msm_submit_bos {
-	uint32_t flags;
-	struct msm_gem_object *obj;
-	uint32_t iova;
-};
-
-struct msm_gem_submit {
-	struct drm_device *dev;
-	struct msm_gpu *gpu;
-	struct list_head node;   /* node in gpu submit_list */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct list_head bo_list;
 	struct ww_acquire_ctx ticket;
 	uint32_t fence;
 	bool valid;
 	unsigned int nr_cmds;
 	unsigned int nr_bos;
-<<<<<<< HEAD
 	struct {
 		uint32_t type;
 		uint32_t size;  /* in dwords */
@@ -175,10 +97,6 @@ struct msm_gem_submit {
 		struct msm_gem_object *obj;
 		uint32_t iova;
 	} bos[0];
-=======
-	struct msm_submit_cmd *cmd;
-	struct msm_submit_bos *bos;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #endif /* __MSM_GEM_H__ */

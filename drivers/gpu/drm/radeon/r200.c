@@ -146,11 +146,7 @@ int r200_packet0_check(struct radeon_cs_parser *p,
 		       struct radeon_cs_packet *pkt,
 		       unsigned idx, unsigned reg)
 {
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct r100_cs_track *track;
 	volatile uint32_t *ib;
 	uint32_t tmp;

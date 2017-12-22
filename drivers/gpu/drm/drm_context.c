@@ -53,13 +53,6 @@ struct drm_ctx_list {
  */
 void drm_legacy_ctxbitmap_free(struct drm_device * dev, int ctx_handle)
 {
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&dev->struct_mutex);
 	idr_remove(&dev->ctx_idr, ctx_handle);
 	mutex_unlock(&dev->struct_mutex);
@@ -92,20 +85,10 @@ static int drm_legacy_ctxbitmap_next(struct drm_device * dev)
  *
  * Initialise the drm_device::ctx_idr
  */
-<<<<<<< HEAD
 int drm_legacy_ctxbitmap_init(struct drm_device * dev)
 {
 	idr_init(&dev->ctx_idr);
 	return 0;
-=======
-void drm_legacy_ctxbitmap_init(struct drm_device * dev)
-{
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return;
-
-	idr_init(&dev->ctx_idr);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -118,13 +101,6 @@ void drm_legacy_ctxbitmap_init(struct drm_device * dev)
  */
 void drm_legacy_ctxbitmap_cleanup(struct drm_device * dev)
 {
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&dev->struct_mutex);
 	idr_destroy(&dev->ctx_idr);
 	mutex_unlock(&dev->struct_mutex);
@@ -143,13 +119,6 @@ void drm_legacy_ctxbitmap_flush(struct drm_device *dev, struct drm_file *file)
 {
 	struct drm_ctx_list *pos, *tmp;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&dev->ctxlist_mutex);
 
 	list_for_each_entry_safe(pos, tmp, &dev->ctxlist, head) {
@@ -192,13 +161,6 @@ int drm_legacy_getsareactx(struct drm_device *dev, void *data,
 	struct drm_local_map *map;
 	struct drm_map_list *_entry;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&dev->struct_mutex);
 
 	map = idr_find(&dev->ctx_idr, request->ctx_id);
@@ -243,13 +205,6 @@ int drm_legacy_setsareactx(struct drm_device *dev, void *data,
 	struct drm_local_map *map = NULL;
 	struct drm_map_list *r_list = NULL;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&dev->struct_mutex);
 	list_for_each_entry(r_list, &dev->maplist, head) {
 		if (r_list->map
@@ -350,13 +305,6 @@ int drm_legacy_resctx(struct drm_device *dev, void *data,
 	struct drm_ctx ctx;
 	int i;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (res->count >= DRM_RESERVED_CONTEXTS) {
 		memset(&ctx, 0, sizeof(ctx));
 		for (i = 0; i < DRM_RESERVED_CONTEXTS; i++) {
@@ -387,13 +335,6 @@ int drm_legacy_addctx(struct drm_device *dev, void *data,
 	struct drm_ctx_list *ctx_entry;
 	struct drm_ctx *ctx = data;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ctx->handle = drm_legacy_ctxbitmap_next(dev);
 	if (ctx->handle == DRM_KERNEL_CONTEXT) {
 		/* Skip kernel's context and get a new one. */
@@ -437,13 +378,6 @@ int drm_legacy_getctx(struct drm_device *dev, void *data,
 {
 	struct drm_ctx *ctx = data;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* This is 0, because we don't handle any context flags */
 	ctx->flags = 0;
 
@@ -466,13 +400,6 @@ int drm_legacy_switchctx(struct drm_device *dev, void *data,
 {
 	struct drm_ctx *ctx = data;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG("%d\n", ctx->handle);
 	return drm_context_switch(dev, dev->last_context, ctx->handle);
 }
@@ -493,13 +420,6 @@ int drm_legacy_newctx(struct drm_device *dev, void *data,
 {
 	struct drm_ctx *ctx = data;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG("%d\n", ctx->handle);
 	drm_context_switch_complete(dev, file_priv, ctx->handle);
 
@@ -522,13 +442,6 @@ int drm_legacy_rmctx(struct drm_device *dev, void *data,
 {
 	struct drm_ctx *ctx = data;
 
-<<<<<<< HEAD
-=======
-	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
-	    drm_core_check_feature(dev, DRIVER_MODESET))
-		return -EINVAL;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	DRM_DEBUG("%d\n", ctx->handle);
 	if (ctx->handle != DRM_KERNEL_CONTEXT) {
 		if (dev->driver->context_dtor)

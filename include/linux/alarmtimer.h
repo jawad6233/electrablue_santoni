@@ -51,10 +51,7 @@ void alarm_restart(struct alarm *alarm);
 int alarm_try_to_cancel(struct alarm *alarm);
 int alarm_cancel(struct alarm *alarm);
 void set_power_on_alarm(void);
-<<<<<<< HEAD
 void power_on_alarm_init(void);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum alarmtimer_type clock2alarm(clockid_t clockid);
 
 u64 alarm_forward(struct alarm *alarm, ktime_t now, ktime_t interval);

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1332,11 +1328,7 @@ static int msm_dsi_read_status(struct mdss_dsi_ctrl_pdata *ctrl)
 	memset(&cmdreq, 0, sizeof(cmdreq));
 	cmdreq.cmds = ctrl->status_cmds.cmds;
 	cmdreq.cmds_cnt = ctrl->status_cmds.cmd_cnt;
-<<<<<<< HEAD
 	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL | CMD_REQ_RX;
-=======
-	cmdreq.flags = CMD_REQ_COMMIT | CMD_REQ_RX;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cmdreq.rlen = 1;
 	cmdreq.cb = NULL;
 	cmdreq.rbuf = ctrl->status_buf.data;

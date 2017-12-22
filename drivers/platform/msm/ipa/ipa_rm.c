@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -32,10 +28,6 @@ static const char *resource_name_to_str[IPA_RM_RESOURCE_MAX] = {
 	__stringify(IPA_RM_RESOURCE_WLAN_PROD),
 	__stringify(IPA_RM_RESOURCE_ODU_ADAPT_PROD),
 	__stringify(IPA_RM_RESOURCE_MHI_PROD),
-<<<<<<< HEAD
-=======
-	__stringify(IPA_RM_RESOURCE_ETHERNET_PROD),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	__stringify(IPA_RM_RESOURCE_Q6_CONS),
 	__stringify(IPA_RM_RESOURCE_USB_CONS),
 	__stringify(IPA_RM_RESOURCE_USB_DPL_CONS),
@@ -44,10 +36,6 @@ static const char *resource_name_to_str[IPA_RM_RESOURCE_MAX] = {
 	__stringify(IPA_RM_RESOURCE_APPS_CONS),
 	__stringify(IPA_RM_RESOURCE_ODU_ADAPT_CONS),
 	__stringify(IPA_RM_RESOURCE_MHI_CONS),
-<<<<<<< HEAD
-=======
-	__stringify(IPA_RM_RESOURCE_ETHERNET_CONS),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct ipa_rm_profile_vote_type {
@@ -279,30 +267,17 @@ static int _ipa_rm_add_dependency_sync(enum ipa_rm_resource_name resource_name,
 		time = wait_for_completion_timeout(
 				&((struct ipa_rm_resource_cons *)consumer)->
 				request_consumer_in_progress,
-<<<<<<< HEAD
 				msecs_to_jiffies(1000));
-=======
-				HZ * 5);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		result = 0;
 		if (!time) {
 			IPA_RM_ERR("TIMEOUT waiting for %s GRANT event.",
 					ipa_rm_resource_str(depends_on_name));
 			result = -ETIME;
-<<<<<<< HEAD
 		}
 		IPA_RM_DBG("%s waited for %s GRANT %lu time.\n",
 				ipa_rm_resource_str(resource_name),
 				ipa_rm_resource_str(depends_on_name),
 				time);
-=======
-		} else {
-			IPA_RM_DBG("%s waited for %s GRANT %lu time.\n",
-				ipa_rm_resource_str(resource_name),
-				ipa_rm_resource_str(depends_on_name),
-				time);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	IPA_RM_DBG("EXIT with %d\n", result);
 
@@ -844,12 +819,7 @@ static void ipa_rm_wq_resume_handler(struct work_struct *work)
 	}
 	ipa_rm_resource_consumer_request_work(
 			(struct ipa_rm_resource_cons *)resource,
-<<<<<<< HEAD
 			ipa_rm_work->prev_state, ipa_rm_work->needed_bw, true);
-=======
-			ipa_rm_work->prev_state, ipa_rm_work->needed_bw, true,
-			ipa_rm_work->inc_usage_count);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock_irqrestore(&ipa_rm_ctx->ipa_rm_lock, flags);
 bail:
 	kfree(ipa_rm_work);
@@ -945,12 +915,7 @@ int ipa_rm_wq_send_suspend_cmd(enum ipa_rm_resource_name resource_name,
 
 int ipa_rm_wq_send_resume_cmd(enum ipa_rm_resource_name resource_name,
 		enum ipa_rm_resource_state prev_state,
-<<<<<<< HEAD
 		u32 needed_bw)
-=======
-		u32 needed_bw,
-		bool inc_usage_count)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int result = -ENOMEM;
 	struct ipa_rm_wq_suspend_resume_work_type *work = kzalloc(sizeof(*work),
@@ -960,10 +925,6 @@ int ipa_rm_wq_send_resume_cmd(enum ipa_rm_resource_name resource_name,
 		work->resource_name = resource_name;
 		work->prev_state = prev_state;
 		work->needed_bw = needed_bw;
-<<<<<<< HEAD
-=======
-		work->inc_usage_count = inc_usage_count;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		result = queue_work(ipa_rm_ctx->ipa_rm_wq,
 				(struct work_struct *)work);
 	} else {

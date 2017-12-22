@@ -619,21 +619,12 @@ void ipahal_cp_hdr_to_hw_buff(void *base, u32 offset, u8 *hdr, u32 hdr_len);
  * @phys_base: memory location in DDR
  * @hdr_base_addr: base address in table
  * @offset_entry: offset from hdr_base_addr in table
-<<<<<<< HEAD
-=======
- * @l2tp_params: l2tp parameters
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 void ipahal_cp_proc_ctx_to_hw_buff(enum ipa_hdr_proc_type type,
 		void *base, u32 offset, u32 hdr_len,
 		bool is_hdr_proc_ctx, dma_addr_t phys_base,
 		u32 hdr_base_addr,
-<<<<<<< HEAD
 		struct ipa_hdr_offset_entry *offset_entry);
-=======
-		struct ipa_hdr_offset_entry *offset_entry,
-		struct ipa_l2tp_hdr_proc_ctx_params l2tp_params);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * ipahal_get_proc_ctx_needed_len() - calculates the needed length for addition

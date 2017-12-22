@@ -486,21 +486,10 @@ enum vdec_interlaced_format {
 	VDEC_InterlaceInterleaveFrameBottomFieldFirst = 0x4
 };
 
-<<<<<<< HEAD
 enum vdec_output_fromat {
 	VDEC_YUV_FORMAT_NV12 = 0x1,
 	VDEC_YUV_FORMAT_TILE_4x2 = 0x2,
 	VDEC_YUV_FORMAT_NV12_UBWC = 0x3
-=======
-#define VDEC_YUV_FORMAT_NV12_TP10_UBWC \
-	VDEC_YUV_FORMAT_NV12_TP10_UBWC
-
-enum vdec_output_fromat {
-	VDEC_YUV_FORMAT_NV12 = 0x1,
-	VDEC_YUV_FORMAT_TILE_4x2 = 0x2,
-	VDEC_YUV_FORMAT_NV12_UBWC = 0x3,
-	VDEC_YUV_FORMAT_NV12_TP10_UBWC = 0x4
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 enum vdec_output_order {

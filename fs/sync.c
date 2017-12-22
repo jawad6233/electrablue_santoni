@@ -7,10 +7,7 @@
 #include <linux/fs.h>
 #include <linux/slab.h>
 #include <linux/export.h>
-<<<<<<< HEAD
 #include <linux/module.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/namei.h>
 #include <linux/sched.h>
 #include <linux/writeback.h>
@@ -21,12 +18,9 @@
 #include <linux/backing-dev.h>
 #include "internal.h"
 
-<<<<<<< HEAD
 bool fsync_enabled = true;
 module_param(fsync_enabled, bool, 0755);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \
 			SYNC_FILE_RANGE_WAIT_AFTER)
 
@@ -162,12 +156,9 @@ SYSCALL_DEFINE1(syncfs, int, fd)
 	struct super_block *sb;
 	int ret;
 
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!f.file)
 		return -EBADF;
 	sb = f.file->f_dentry->d_sb;
@@ -193,12 +184,9 @@ SYSCALL_DEFINE1(syncfs, int, fd)
  */
 int vfs_fsync_range(struct file *file, loff_t start, loff_t end, int datasync)
 {
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!file->f_op->fsync)
 		return -EINVAL;
 	return file->f_op->fsync(file, start, end, datasync);
@@ -215,12 +203,9 @@ EXPORT_SYMBOL(vfs_fsync_range);
  */
 int vfs_fsync(struct file *file, int datasync)
 {
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 		
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return vfs_fsync_range(file, 0, LLONG_MAX, datasync);
 }
 EXPORT_SYMBOL(vfs_fsync);
@@ -229,43 +214,30 @@ static int do_fsync(unsigned int fd, int datasync)
 {
 	struct fd f = fdget(fd);
 	int ret = -EBADF;
-<<<<<<< HEAD
 	
 	if (!fsync_enabled)
 		return 0;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (f.file) {
 		ret = vfs_fsync(f.file, datasync);
 		fdput(f);
-<<<<<<< HEAD
-=======
-		inc_syscfs(current);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return ret;
 }
 
 SYSCALL_DEFINE1(fsync, unsigned int, fd)
 {
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return do_fsync(fd, 0);
 }
 
 SYSCALL_DEFINE1(fdatasync, unsigned int, fd)
 {
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 		
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return do_fsync(fd, 1);
 }
 
@@ -325,12 +297,9 @@ SYSCALL_DEFINE4(sync_file_range, int, fd, loff_t, offset, loff_t, nbytes,
 	loff_t endbyte;			/* inclusive */
 	umode_t i_mode;
 
-<<<<<<< HEAD
 	if (!fsync_enabled)
 		return 0;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = -EINVAL;
 	if (flags & ~VALID_FLAGS)
 		goto out;

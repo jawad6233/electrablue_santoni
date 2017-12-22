@@ -475,67 +475,32 @@ static int vfe_set_common_data(struct platform_device *pdev)
 
 static int vfe_probe(struct platform_device *pdev)
 {
-<<<<<<< HEAD
-=======
-	struct vfe_parent_device *vfe_parent_dev;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int rc = 0;
 	struct device_node *node;
 	struct platform_device *new_dev = NULL;
 	uint32_t i = 0;
 	char name[10] = "\0";
-<<<<<<< HEAD
 	uint32_t num_hw_sd;
 
-=======
-
-	vfe_parent_dev = kzalloc(sizeof(struct vfe_parent_device),
-		GFP_KERNEL);
-	if (!vfe_parent_dev) {
-		rc = -ENOMEM;
-		goto end;
-	}
-
-	vfe_parent_dev->common_sd = kzalloc(
-		sizeof(struct msm_vfe_common_subdev), GFP_KERNEL);
-	if (!vfe_parent_dev->common_sd) {
-		rc = -ENOMEM;
-		goto probe_fail1;
-	}
-
-	vfe_parent_dev->common_sd->common_data = &vfe_common_data;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	memset(&vfe_common_data, 0, sizeof(vfe_common_data));
 	spin_lock_init(&vfe_common_data.common_dev_data_lock);
 	spin_lock_init(&vfe_common_data.common_dev_axi_lock);
 
-<<<<<<< HEAD
 	of_property_read_u32(pdev->dev.of_node, "num_child", &num_hw_sd);
 
 	for (i = 0; i < num_hw_sd; i++) {
-=======
-	of_property_read_u32(pdev->dev.of_node,
-		"num_child", &vfe_parent_dev->num_hw_sd);
-
-	for (i = 0; i < vfe_parent_dev->num_hw_sd; i++) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		node = NULL;
 		snprintf(name, sizeof(name), "qcom,vfe%d", i);
 		node = of_find_node_by_name(NULL, name);
 		if (!node) {
 			pr_err("%s: Error! Cannot find node in dtsi %s\n",
 				__func__, name);
-<<<<<<< HEAD
 			goto end;
-=======
-			goto probe_fail2;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 		new_dev = of_find_device_by_node(node);
 		if (!new_dev) {
 			pr_err("%s: Failed to find device on bus %s\n",
 				__func__, node->name);
-<<<<<<< HEAD
 			goto end;
 		}
 		new_dev->dev.platform_data = &vfe_common_data;
@@ -544,27 +509,6 @@ static int vfe_probe(struct platform_device *pdev)
 			goto end;
 	}
 
-=======
-			goto probe_fail2;
-		}
-		vfe_parent_dev->child_list[i] = new_dev;
-		new_dev->dev.platform_data =
-			(void *)vfe_parent_dev->common_sd->common_data;
-		rc = vfe_set_common_data(new_dev);
-		if (rc < 0)
-			goto probe_fail2;
-	}
-
-	vfe_parent_dev->num_sd = vfe_parent_dev->num_hw_sd;
-	vfe_parent_dev->pdev = pdev;
-
-	return rc;
-
-probe_fail2:
-	kfree(vfe_parent_dev->common_sd);
-probe_fail1:
-	kfree(vfe_parent_dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 end:
 	return rc;
 }

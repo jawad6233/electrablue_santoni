@@ -1480,10 +1480,7 @@ unsigned int ata_sff_qc_issue(struct ata_queued_cmd *qc)
 		break;
 
 	default:
-<<<<<<< HEAD
 		WARN_ON_ONCE(1);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return AC_ERR_SYSTEM;
 	}
 

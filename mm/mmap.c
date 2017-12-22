@@ -2665,10 +2665,6 @@ int do_munmap(struct mm_struct *mm, unsigned long start, size_t len)
 
 	return 0;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(do_munmap);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int vm_munmap(unsigned long start, size_t len)
 {

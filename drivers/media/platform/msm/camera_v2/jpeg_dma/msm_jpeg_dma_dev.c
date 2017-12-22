@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,11 +17,8 @@
 #include <linux/ion.h>
 #include <linux/msm_ion.h>
 #include <linux/delay.h>
-<<<<<<< HEAD
 #include <linux/uaccess.h>
 #include <linux/compat.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <media/v4l2-ioctl.h>
 #include <media/v4l2-event.h>
 #include <media/videobuf2-core.h>
@@ -79,7 +72,6 @@ static struct msm_jpegdma_format formats[] = {
 		.planes[1] = JPEGDMA_PLANE_TYPE_CBCR,
 	},
 	{
-<<<<<<< HEAD
 		.name = "YVU 4:2:0 planar, YCrCb",
 		.fourcc = V4L2_PIX_FMT_YVU420,
 		.depth = 12,
@@ -93,13 +85,10 @@ static struct msm_jpegdma_format formats[] = {
 		.planes[2] = JPEGDMA_PLANE_TYPE_CB,
 	},
 	{
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.name = "YUV 4:2:0 planar, YCbCr",
 		.fourcc = V4L2_PIX_FMT_YUV420,
 		.depth = 12,
 		.num_planes = 3,
-<<<<<<< HEAD
 		.colplane_h = 1,
 		.colplane_v = 4,
 		.h_align = 2,
@@ -107,15 +96,6 @@ static struct msm_jpegdma_format formats[] = {
 		.planes[0] = JPEGDMA_PLANE_TYPE_Y,
 		.planes[1] = JPEGDMA_PLANE_TYPE_CB,
 		.planes[2] = JPEGDMA_PLANE_TYPE_CR,
-=======
-		.colplane_h = 2,
-		.colplane_v = 2,
-		.h_align = 2,
-		.v_align = 2,
-		.planes[0] = JPEGDMA_PLANE_TYPE_Y,
-		.planes[1] = JPEGDMA_PLANE_TYPE_CR,
-		.planes[2] = JPEGDMA_PLANE_TYPE_CB,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	},
 };
 
@@ -147,7 +127,6 @@ static inline void msm_jpegdma_schedule_next_config(struct jpegdma_ctx *ctx)
 }
 
 /*
-<<<<<<< HEAD
  * msm_jpegdma_cast_long_to_buff_ptr - Cast long to buffer pointer.
  * @vaddr: vaddr as long
  * @buff_ptr_head: buffer pointer head
@@ -163,8 +142,6 @@ static inline void msm_jpegdma_cast_long_to_buff_ptr(unsigned long vaddr,
 }
 
 /*
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * msm_jpegdma_get_format_idx - Get jpeg dma format lookup index.
  * @ctx: Pointer to dma ctx.
  * @f: v4l2 format.
@@ -249,12 +226,8 @@ static void msm_jpegdma_align_format(struct v4l2_format *f, int format_idx)
 	if (formats[format_idx].num_planes > 1)
 		for (i = 1; i < formats[format_idx].num_planes; i++)
 			size_image += (f->fmt.pix.bytesperline *
-<<<<<<< HEAD
 				(f->fmt.pix.height /
 				formats[format_idx].colplane_v));
-=======
-			  (f->fmt.pix.height / formats[format_idx].colplane_v));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	f->fmt.pix.sizeimage = size_image;
 	f->fmt.pix.field = V4L2_FIELD_NONE;
@@ -308,12 +281,9 @@ static int msm_jpegdma_update_hw_config(struct jpegdma_ctx *ctx)
 		size.fps = ctx->timeperframe.denominator /
 			ctx->timeperframe.numerator;
 
-<<<<<<< HEAD
 		size.in_offset = ctx->in_offset;
 		size.out_offset = ctx->out_offset;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		size.format = formats[ctx->format_idx];
 
 		msm_jpegdma_fill_size_from_ctx(ctx, &size);
@@ -426,13 +396,9 @@ static void msm_jpegdma_stop_streaming(struct vb2_queue *q)
 		dev_err(ctx->jdma_device->dev, "Ctx wait timeout\n");
 		ret = -ETIME;
 	}
-<<<<<<< HEAD
 
 	if (ctx->jdma_device->ref_count > 0)
 		msm_jpegdma_hw_put(ctx->jdma_device);
-=======
-	msm_jpegdma_hw_put(ctx->jdma_device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /* Videobuf2 queue callbacks. */
@@ -455,7 +421,6 @@ static void *msm_jpegdma_get_userptr(void *alloc_ctx,
 {
 	struct msm_jpegdma_device *dma = alloc_ctx;
 	struct msm_jpegdma_buf_handle *buf;
-<<<<<<< HEAD
 	struct msm_jpeg_dma_buff __user *up_buff;
 	struct msm_jpeg_dma_buff kp_buff;
 	int ret;
@@ -476,19 +441,11 @@ static void *msm_jpegdma_get_userptr(void *alloc_ctx,
 		return ERR_PTR(-ENOMEM);
 	}
 
-=======
-	int ret;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
 	if (!buf)
 		return ERR_PTR(-ENOMEM);
 
-<<<<<<< HEAD
 	ret = msm_jpegdma_hw_map_buffer(dma, kp_buff.fd, buf);
-=======
-	ret = msm_jpegdma_hw_map_buffer(dma, vaddr, buf);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0 || buf->size < size)
 		goto error;
 
@@ -535,11 +492,7 @@ static int msm_jpegdma_queue_init(void *priv, struct vb2_queue *src_vq,
 	src_vq->drv_priv = ctx;
 	src_vq->mem_ops = &msm_jpegdma_vb2_mem_ops;
 	src_vq->ops = &msm_jpegdma_vb2_q_ops;
-<<<<<<< HEAD
 	src_vq->buf_struct_size = sizeof(struct vb2_buffer);
-=======
-	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 
 	ret = vb2_queue_init(src_vq);
@@ -553,11 +506,7 @@ static int msm_jpegdma_queue_init(void *priv, struct vb2_queue *src_vq,
 	dst_vq->drv_priv = ctx;
 	dst_vq->mem_ops = &msm_jpegdma_vb2_mem_ops;
 	dst_vq->ops = &msm_jpegdma_vb2_q_ops;
-<<<<<<< HEAD
 	dst_vq->buf_struct_size = sizeof(struct vb2_buffer);
-=======
-	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 
 	ret = vb2_queue_init(dst_vq);
@@ -633,13 +582,9 @@ static int msm_jpegdma_release(struct file *file)
 	struct jpegdma_ctx *ctx = msm_jpegdma_ctx_from_fh(file->private_data);
 
 	/* release all the resources */
-<<<<<<< HEAD
 	if (ctx->jdma_device->ref_count > 0)
 		msm_jpegdma_hw_put(ctx->jdma_device);
 
-=======
-	msm_jpegdma_hw_put(ctx->jdma_device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	atomic_set(&ctx->active, 0);
 	complete_all(&ctx->completion);
 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
@@ -882,7 +827,6 @@ static int msm_jpegdma_qbuf(struct file *file, void *fh,
 	struct v4l2_buffer *buf)
 {
 	struct jpegdma_ctx *ctx = msm_jpegdma_ctx_from_fh(fh);
-<<<<<<< HEAD
 	struct msm_jpeg_dma_buff __user *up_buff;
 	struct msm_jpeg_dma_buff kp_buff;
 	int ret;
@@ -922,22 +866,11 @@ static int msm_jpegdma_qbuf(struct file *file, void *fh,
 
 	if (atomic_read(&ctx->active))
 		ret = msm_jpegdma_update_hw_config(ctx);
-=======
-	int ret;
-
-	mutex_lock(&ctx->lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = v4l2_m2m_qbuf(file, ctx->m2m_ctx, buf);
 	if (ret < 0)
 		dev_err(ctx->jdma_device->dev, "QBuf fail\n");
-<<<<<<< HEAD
 	mutex_unlock(&ctx->lock);
-=======
-
-	mutex_unlock(&ctx->lock);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -970,20 +903,10 @@ static int msm_jpegdma_streamon(struct file *file,
 	if (!msm_jpegdma_config_ok(ctx))
 		return -EINVAL;
 
-<<<<<<< HEAD
-=======
-	mutex_lock(&ctx->lock);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = v4l2_m2m_streamon(file, ctx->m2m_ctx, buf_type);
 	if (ret < 0)
 		dev_err(ctx->jdma_device->dev, "Stream on fail\n");
 
-<<<<<<< HEAD
-=======
-	mutex_unlock(&ctx->lock);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -1115,20 +1038,10 @@ static int msm_jpegdma_s_crop(struct file *file, void *fh,
 		return -EINVAL;
 
 	mutex_lock(&ctx->lock);
-<<<<<<< HEAD
 	ctx->crop = crop->c;
 	if (atomic_read(&ctx->active))
 		ret = msm_jpegdma_update_hw_config(ctx);
 	mutex_unlock(&ctx->lock);
-=======
-
-	ctx->crop = crop->c;
-	if (atomic_read(&ctx->active))
-		ret = msm_jpegdma_update_hw_config(ctx);
-
-	mutex_unlock(&ctx->lock);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -1171,11 +1084,7 @@ static int msm_jpegdma_s_parm(struct file *file, void *fh,
 		return -EINVAL;
 
 	if (!a->parm.output.timeperframe.numerator ||
-<<<<<<< HEAD
 		!a->parm.output.timeperframe.denominator)
-=======
-	    !a->parm.output.timeperframe.denominator)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 
 	/* Frame rate is not supported during streaming */
@@ -1309,10 +1218,7 @@ void msm_jpegdma_isr_processing_done(struct msm_jpegdma_device *dma)
 	struct jpegdma_ctx *ctx;
 
 	mutex_lock(&dma->lock);
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ctx = v4l2_m2m_get_curr_priv(dma->m2m_dev);
 	if (ctx) {
 		mutex_lock(&ctx->lock);

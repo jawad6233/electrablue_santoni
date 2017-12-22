@@ -2,7 +2,6 @@
 #include <linux/init.h>
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
-<<<<<<< HEAD
 #include <asm/setup.h>
 
 static char new_command_line[COMMAND_LINE_SIZE];
@@ -10,12 +9,6 @@ static char new_command_line[COMMAND_LINE_SIZE];
 static int cmdline_proc_show(struct seq_file *m, void *v)
 {
 	seq_printf(m, "%s\n", new_command_line);
-=======
-
-static int cmdline_proc_show(struct seq_file *m, void *v)
-{
-	seq_printf(m, "%s\n", saved_command_line);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -31,7 +24,6 @@ static const struct file_operations cmdline_proc_fops = {
 	.release	= single_release,
 };
 
-<<<<<<< HEAD
 static void remove_flag(char *cmd, const char *flag)
 {
 	char *start_addr, *end_addr;
@@ -64,10 +56,6 @@ static int __init proc_cmdline_init(void)
 	 */
 	remove_safetynet_flags(new_command_line);
 
-=======
-static int __init proc_cmdline_init(void)
-{
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	proc_create("cmdline", 0, NULL, &cmdline_proc_fops);
 	return 0;
 }

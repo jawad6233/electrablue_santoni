@@ -305,12 +305,7 @@ static void render_cap_t(struct seq_file *m, const char *header,
 static inline void task_cap(struct seq_file *m, struct task_struct *p)
 {
 	const struct cred *cred;
-<<<<<<< HEAD
 	kernel_cap_t cap_inheritable, cap_permitted, cap_effective, cap_bset;
-=======
-	kernel_cap_t cap_inheritable, cap_permitted, cap_effective,
-			cap_bset, cap_ambient;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	rcu_read_lock();
 	cred = __task_cred(p);
@@ -318,20 +313,12 @@ static inline void task_cap(struct seq_file *m, struct task_struct *p)
 	cap_permitted	= cred->cap_permitted;
 	cap_effective	= cred->cap_effective;
 	cap_bset	= cred->cap_bset;
-<<<<<<< HEAD
-=======
-	cap_ambient	= cred->cap_ambient;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rcu_read_unlock();
 
 	render_cap_t(m, "CapInh:\t", &cap_inheritable);
 	render_cap_t(m, "CapPrm:\t", &cap_permitted);
 	render_cap_t(m, "CapEff:\t", &cap_effective);
 	render_cap_t(m, "CapBnd:\t", &cap_bset);
-<<<<<<< HEAD
-=======
-	render_cap_t(m, "CapAmb:\t", &cap_ambient);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline void task_seccomp(struct seq_file *m, struct task_struct *p)

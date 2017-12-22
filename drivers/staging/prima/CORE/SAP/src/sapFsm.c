@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013, 2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2016-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -290,12 +286,7 @@ sapGotoChannelSel
 #ifdef WLAN_FEATURE_AP_HT40_24G
             if (sapContext->channel > SIR_11B_CHANNEL_END)
 #endif
-<<<<<<< HEAD
                 sme_SelectCBMode(hHal, sapPhyMode, sapContext->channel);
-=======
-                sme_SelectCBMode(hHal, sapPhyMode,
-                                 sapContext->channel, eHT_MAX_CHANNEL_WIDTH);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         }
     }
 
@@ -521,12 +512,7 @@ disable24GChannelBonding:
 selectChannelBonding:
             if (sapContext->channel > SIR_11B_CHANNEL_END)
 #endif
-<<<<<<< HEAD
                 sme_SelectCBMode(hHal, sapPhyMode, sapContext->channel);
-=======
-                sme_SelectCBMode(hHal, sapPhyMode,
-                                 sapContext->channel, eHT_MAX_CHANNEL_WIDTH);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
             /* Fill in the event structure */
             // Eventhough scan was not done, means a user set channel was chosen
@@ -974,17 +960,6 @@ sapSignalHDDevent
             vos_mem_copy((v_PVOID_t)sapApAppEvent.sapevt.sapMaxAssocExceeded.macaddr.bytes,
                     (v_PVOID_t)pCsrRoamInfo->peerMac, sizeof(v_MACADDR_t));
             break;
-<<<<<<< HEAD
-=======
-        case eSAP_CHANNEL_CHANGED_EVENT:
-            VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_INFO,
-                    "In %s, SAP event callback event = %s",
-                    __func__, "eSAP_CHANNEL_CHANGE_EVENT");
-            sapApAppEvent.sapHddEventCode = eSAP_CHANNEL_CHANGED_EVENT;
-            sapApAppEvent.sapevt.sap_chan_selected.new_chan =
-                                                sapContext->channel;
-            break;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         default:
             VOS_TRACE( VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
@@ -1002,48 +977,6 @@ sapSignalHDDevent
 
 } /* sapSignalApAppStartBssEvent */
 
-<<<<<<< HEAD
-=======
-/**
- * wlansap_channel_change_request() -Initiate the channel change req to new
- * channel
- * @sapContext - sap context on which channel change is required
- *
- * Return VOS_STATUS
- */
-static VOS_STATUS wlansap_channel_change_request(ptSapContext sapContext)
-{
-   tHalHandle hal = VOS_GET_HAL_CB(sapContext->pvosGCtx);
-   VOS_STATUS vos_status = VOS_STATUS_E_FAILURE;
-
-   if (!hal) {
-       VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
-                 "In %s, Hall is NULL", __func__);
-       return VOS_STATUS_E_INVAL;
-   }
-   VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_INFO_MED,
-             FL("sapdfs: Send channel change on sapctx[%pK]"),
-             sapContext);
-   sapContext->channel = sapContext->ecsa_info.new_channel;
-   if (sapContext->csrRoamProfile.ChannelInfo.numOfChannels == 0 ||
-       sapContext->csrRoamProfile.ChannelInfo.ChannelList == NULL) {
-       VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
-                 FL("Invalid channel list"));
-       return VOS_STATUS_E_FAULT;
-   }
-   sapContext->csrRoamProfile.ChannelInfo.ChannelList[0] = sapContext->channel;
-   vos_status = sme_roam_channel_change_req(hal, sapContext->bssid,
-                               sapContext->ecsa_info.new_channel,
-                               &sapContext->csrRoamProfile,
-                               sapContext->sessionId);
-   if (VOS_IS_STATUS_SUCCESS(vos_status))
-       sapSignalHDDevent(sapContext, NULL, eSAP_CHANNEL_CHANGED_EVENT, NULL);
-
-   return vos_status;
-}
-
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*==========================================================================
   FUNCTION    sapFsm
 
@@ -1239,21 +1172,6 @@ sapFsm
                 sapContext->sapsMachine = eSAP_DISCONNECTING;
                 vosStatus = sapGotoDisconnecting(sapContext);
             }
-<<<<<<< HEAD
-=======
-            else if (msg == eSAP_CHANNEL_SWITCH_ANNOUNCEMENT_START ) {
-                tHalHandle hHal = VOS_GET_HAL_CB(sapContext->pvosGCtx);
-                if (!hHal) {
-                     VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
-                                 "In %s, NULL hHal in state %s, msg %d",
-                                  __func__, "eSAP_STARTING", msg);
-                }
-                vosStatus = sme_roam_csa_ie_request(hHal, sapContext->bssid,
-                                        sapContext->ecsa_info.new_channel,
-                                        sapContext->csrRoamProfile.phyMode,
-                                        sapContext->sessionId);
-            }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             else
             {
                 VOS_TRACE( VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR, "In %s, in state %s, invalid event msg %d",
@@ -1319,31 +1237,14 @@ sapFsm
                                 (v_PVOID_t) eSAP_STATUS_SUCCESS);
                     }
                 }
-<<<<<<< HEAD
             }
             if (msg == eSAP_CHANNEL_SELECTION_FAILED)
-=======
-            } else if (msg == eSAP_CHANNEL_SELECTION_FAILED)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             {
                  /* Set SAP device role */
                 sapContext->sapsMachine = eSAP_CH_SELECT;
 
                 /* Perform sme_ScanRequest */
                 vosStatus = sapGotoChannelSel(sapContext, sapEvent);
-<<<<<<< HEAD
-=======
-            } else if (msg == eWNI_ECSA_TX_COMPLETED)
-            {
-                vosStatus = wlansap_channel_change_request(sapContext);
-            } else if (msg == eWNI_ECSA_CHANNEL_CHANGE_RSP)
-            {
-                VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_INFO,
-                          FL("in state %s, event msg %d result %d"),
-                          "eSAP_DISCONNECTING ", msg, sapEvent->u2);
-                if (sapEvent->u2 == eCSR_ROAM_RESULT_FAILURE)
-                    vosStatus = sapGotoDisconnecting(sapContext);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             }
             else
             {

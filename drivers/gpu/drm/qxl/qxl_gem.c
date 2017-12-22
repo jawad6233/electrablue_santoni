@@ -31,21 +31,9 @@
 void qxl_gem_object_free(struct drm_gem_object *gobj)
 {
 	struct qxl_bo *qobj = gem_to_qxl_bo(gobj);
-<<<<<<< HEAD
 
 	if (qobj)
 		qxl_bo_unref(&qobj);
-=======
-	struct qxl_device *qdev;
-	struct ttm_buffer_object *tbo;
-
-	qdev = (struct qxl_device *)gobj->dev->dev_private;
-
-	qxl_surface_evict(qdev, qobj, false);
-
-	tbo = &qobj->tbo;
-	ttm_bo_unref(&tbo);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int qxl_gem_object_create(struct qxl_device *qdev, int size,

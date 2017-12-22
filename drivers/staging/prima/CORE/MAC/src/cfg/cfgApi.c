@@ -957,20 +957,6 @@ cfgGetCapabilityInfo(tpAniSirGlobal pMac, tANI_U16 *pCap,tpPESession sessionEntr
     if(systemRole == eLIM_AP_ROLE)
     {
         val = sessionEntry->privacy;
-<<<<<<< HEAD
-=======
-#ifdef SAP_AUTH_OFFLOAD
-        /* Support SAP Authentication Offload feature,
-         * If Auth offload security Type is not disabled
-         * driver need to enable privacy bit in beacon
-         */
-        if (pMac->sap_auth_offload && pMac->sap_auth_offload_sec_type)
-        {
-            val = 1;
-        }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
     else
     {

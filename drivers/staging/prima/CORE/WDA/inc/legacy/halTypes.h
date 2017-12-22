@@ -219,15 +219,6 @@ typedef enum
 #endif
     //CMD not Queued in SME
     eHAL_STATUS_CMD_NOT_QUEUED,
-<<<<<<< HEAD
-=======
-
-#ifdef WLAN_FEATURE_LFR_MBB
-    eHAL_STATUS_MBB_DEL_BSS_FAIL,
-    eHAL_STATUS_MBB_ADD_BSS_FAIL,
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     // not a real status.  Just a way to mark the maximum in the enum.
     eHAL_STATUS_MAX
 
@@ -361,11 +352,7 @@ typedef enum
  * supported by rome/prima hardware
  */
 #define MIN_TX_PWR_CAP    8
-<<<<<<< HEAD
 #define MAX_TX_PWR_CAP    30
-=======
-#define MAX_TX_PWR_CAP    22
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Moving the miscellaneous defination required by UMAC are moved here from 
  * volansdefs.h */

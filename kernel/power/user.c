@@ -47,11 +47,7 @@ atomic_t snapshot_device_available = ATOMIC_INIT(1);
 static int snapshot_open(struct inode *inode, struct file *filp)
 {
 	struct snapshot_data *data;
-<<<<<<< HEAD
 	int error;
-=======
-	int error, nr_calls = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!hibernation_available())
 		return -EPERM;
@@ -78,15 +74,9 @@ static int snapshot_open(struct inode *inode, struct file *filp)
 			swap_type_of(swsusp_resume_device, 0, NULL) : -1;
 		data->mode = O_RDONLY;
 		data->free_bitmaps = false;
-<<<<<<< HEAD
 		error = pm_notifier_call_chain(PM_HIBERNATION_PREPARE);
 		if (error)
 			pm_notifier_call_chain(PM_POST_HIBERNATION);
-=======
-		error = __pm_notifier_call_chain(PM_HIBERNATION_PREPARE, -1, &nr_calls);
-		if (error)
-			__pm_notifier_call_chain(PM_POST_HIBERNATION, --nr_calls, NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		/*
 		 * Resuming.  We may need to wait for the image device to
@@ -96,7 +86,6 @@ static int snapshot_open(struct inode *inode, struct file *filp)
 
 		data->swap = -1;
 		data->mode = O_WRONLY;
-<<<<<<< HEAD
 		error = pm_notifier_call_chain(PM_RESTORE_PREPARE);
 		if (!error) {
 			error = create_basic_memory_bitmaps();
@@ -104,17 +93,6 @@ static int snapshot_open(struct inode *inode, struct file *filp)
 		}
 		if (error)
 			pm_notifier_call_chain(PM_POST_RESTORE);
-=======
-		error = __pm_notifier_call_chain(PM_RESTORE_PREPARE, -1, &nr_calls);
-		if (!error) {
-			error = create_basic_memory_bitmaps();
-			data->free_bitmaps = !error;
-		} else
-			nr_calls--;
-
-		if (error)
-			__pm_notifier_call_chain(PM_POST_RESTORE, nr_calls, NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	if (error)
 		atomic_inc(&snapshot_device_available);

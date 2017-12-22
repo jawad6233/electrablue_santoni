@@ -95,9 +95,5 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
 
 void check_local_cpu_errata(void)
 {
-<<<<<<< HEAD
 	check_cpu_capabilities(arm64_errata, "enabling workaround for");
-=======
-	update_cpu_capabilities(arm64_errata, "enabling workaround for");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }

@@ -1708,15 +1708,9 @@ static void __init cpu_pmu_init(struct arm_pmu *armpmu)
 
 static int __init init_hw_perf_events(void)
 {
-<<<<<<< HEAD
 	u64 dfr = read_cpuid(ID_AA64DFR0_EL1);
 
 	switch ((dfr >> 8) & 0xf) {
-=======
-	u64 dfr = read_system_reg(SYS_ID_AA64DFR0_EL1);
-
-	switch (cpuid_feature_extract_field(dfr, ID_AA64DFR0_PMUVER_SHIFT)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case 0x1:	/* PMUv3 */
 		cpu_pmu = armv8_pmuv3_pmu_init();
 		break;

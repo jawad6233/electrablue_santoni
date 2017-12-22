@@ -317,7 +317,6 @@ static int tower_open (struct inode *inode, struct file *file)
 	int subminor;
 	int retval = 0;
 	struct usb_interface *interface;
-<<<<<<< HEAD
 	struct tower_reset_reply *reset_reply;
 	int result;
 
@@ -328,11 +327,6 @@ static int tower_open (struct inode *inode, struct file *file)
 		goto exit;
 	}
 
-=======
-	struct tower_reset_reply reset_reply;
-	int result;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	nonseekable_open(inode, file);
 	subminor = iminor(inode);
 
@@ -377,13 +371,8 @@ static int tower_open (struct inode *inode, struct file *file)
 				  USB_TYPE_VENDOR | USB_DIR_IN | USB_RECIP_DEVICE,
 				  0,
 				  0,
-<<<<<<< HEAD
 				  reset_reply,
 				  sizeof(*reset_reply),
-=======
-				  &reset_reply,
-				  sizeof(reset_reply),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				  1000);
 	if (result < 0) {
 		dev_err(&dev->udev->dev,
@@ -424,10 +413,7 @@ unlock_exit:
 	mutex_unlock(&dev->lock);
 
 exit:
-<<<<<<< HEAD
 	kfree(reset_reply);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return retval;
 }
 
@@ -830,11 +816,7 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
 	struct lego_usb_tower *dev = NULL;
 	struct usb_host_interface *iface_desc;
 	struct usb_endpoint_descriptor* endpoint;
-<<<<<<< HEAD
 	struct tower_get_version_reply *get_version_reply = NULL;
-=======
-	struct tower_get_version_reply get_version_reply;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int i;
 	int retval = -ENOMEM;
 	int result;
@@ -942,7 +924,6 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
 		 "%d minor %d\n", (dev->minor - LEGO_USB_TOWER_MINOR_BASE),
 		 USB_MAJOR, dev->minor);
 
-<<<<<<< HEAD
 	get_version_reply = kmalloc(sizeof(*get_version_reply), GFP_KERNEL);
 
 	if (!get_version_reply) {
@@ -950,8 +931,6 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
 		goto error;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* get the firmware version and log it */
 	result = usb_control_msg (udev,
 				  usb_rcvctrlpipe(udev, 0),
@@ -959,20 +938,14 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
 				  USB_TYPE_VENDOR | USB_DIR_IN | USB_RECIP_DEVICE,
 				  0,
 				  0,
-<<<<<<< HEAD
 				  get_version_reply,
 				  sizeof(*get_version_reply),
-=======
-				  &get_version_reply,
-				  sizeof(get_version_reply),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				  1000);
 	if (result < 0) {
 		dev_err(idev, "LEGO USB Tower get version control request failed\n");
 		retval = result;
 		goto error;
 	}
-<<<<<<< HEAD
 	dev_info(&interface->dev,
 		 "LEGO USB Tower firmware version is %d.%d build %d\n",
 		 get_version_reply->major,
@@ -986,18 +959,6 @@ exit:
 
 error:
 	kfree(get_version_reply);
-=======
-	dev_info(&interface->dev, "LEGO USB Tower firmware version is %d.%d "
-		 "build %d\n", get_version_reply.major,
-		 get_version_reply.minor,
-		 le16_to_cpu(get_version_reply.build_no));
-
-
-exit:
-	return retval;
-
-error:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tower_delete(dev);
 	return retval;
 }

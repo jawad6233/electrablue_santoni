@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -330,10 +326,6 @@ struct ipa_test_mhi_context {
 	struct ipa_mem_buffer out_buffer;
 	u32 prod_hdl;
 	u32 cons_hdl;
-<<<<<<< HEAD
-=======
-	u32 test_prod_hdl;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static struct ipa_test_mhi_context *test_mhi_ctx;
@@ -470,22 +462,14 @@ static int ipa_test_mhi_alloc_mmio_space(void)
 	 * In test register carries the pointer of
 	 *  virtual address for the buffer of channel context array
 	 */
-<<<<<<< HEAD
 	p_mmio->crcbap = (u32)ch_ctx_array->base;
-=======
-	p_mmio->crcbap = (unsigned long)ch_ctx_array->base;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/**
 	 * Register is not accessed by HWP.
 	 * In test register carries the pointer of
 	 *  virtual address for the buffer of channel context array
 	 */
-<<<<<<< HEAD
 	p_mmio->crdb = (u32)ev_ctx_array->base;
-=======
-	p_mmio->crdb = (unsigned long)ev_ctx_array->base;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* test is running only on device. no need to translate addresses */
 	p_mmio->mhiaddr.mhicrtlbase = 0x04;
@@ -585,15 +569,8 @@ static int ipa_mhi_test_config_channel_context(
 
 	p_mmio = (struct ipa_mhi_mmio_register_set *)mmio->base;
 	p_channels =
-<<<<<<< HEAD
 		(struct ipa_mhi_channel_context_array *)((u32)p_mmio->crcbap);
 	p_events = (struct ipa_mhi_event_context_array *)((u32)p_mmio->crdb);
-=======
-		(struct ipa_mhi_channel_context_array *)
-		((unsigned long)p_mmio->crcbap);
-	p_events = (struct ipa_mhi_event_context_array *)
-		((unsigned long)p_mmio->crdb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	IPA_UT_DBG("p_mmio: %pK p_channels: %pK p_events: %pK\n",
 		p_mmio, p_channels, p_events);
@@ -795,10 +772,6 @@ fail_destroy_out_ch_ctx:
 static int ipa_test_mhi_suite_setup(void **ppriv)
 {
 	int rc = 0;
-<<<<<<< HEAD
-=======
-	struct ipa_sys_connect_params sys_in;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	IPA_UT_DBG("Start Setup\n");
 
@@ -840,28 +813,9 @@ static int ipa_test_mhi_suite_setup(void **ppriv)
 		goto fail_free_mmio_spc;
 	}
 
-<<<<<<< HEAD
 	*ppriv = test_mhi_ctx;
 	return 0;
 
-=======
-	/* connect PROD pipe for remote wakeup */
-	memset(&sys_in, 0, sizeof(struct ipa_sys_connect_params));
-	sys_in.client = IPA_CLIENT_TEST_PROD;
-	sys_in.desc_fifo_sz = IPA_SYS_DESC_FIFO_SZ;
-	sys_in.ipa_ep_cfg.mode.mode = IPA_DMA;
-	sys_in.ipa_ep_cfg.mode.dst = IPA_CLIENT_MHI_CONS;
-	if (ipa_setup_sys_pipe(&sys_in, &test_mhi_ctx->test_prod_hdl)) {
-		IPA_UT_ERR("setup sys pipe failed.\n");
-		goto fail_destroy_data_structures;
-	}
-
-	*ppriv = test_mhi_ctx;
-	return 0;
-
-fail_destroy_data_structures:
-	ipa_mhi_test_destroy_data_structures();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 fail_free_mmio_spc:
 	ipa_test_mhi_free_mmio_space();
 fail_iounmap:
@@ -882,10 +836,6 @@ static int ipa_test_mhi_suite_teardown(void *priv)
 	if (!test_mhi_ctx)
 		return  0;
 
-<<<<<<< HEAD
-=======
-	ipa_teardown_sys_pipe(test_mhi_ctx->test_prod_hdl);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ipa_mhi_test_destroy_data_structures();
 	ipa_test_mhi_free_mmio_space();
 	iounmap(test_mhi_ctx->gsi_mmio);
@@ -938,12 +888,8 @@ static int ipa_mhi_test_initialize_driver(bool skip_start_and_conn)
 	}
 
 	IPA_UT_LOG("Wait async ready event\n");
-<<<<<<< HEAD
 	if (wait_for_completion_timeout(&mhi_test_ready_comp,
 			IPA_TIMEOUT(10)) == 0) {
-=======
-	if (wait_for_completion_timeout(&mhi_test_ready_comp, 10 * HZ) == 0) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPA_UT_LOG("timeout waiting for READY event");
 		IPA_UT_TEST_FAIL_REPORT("failed waiting for state ready");
 		return -ETIME;
@@ -1369,14 +1315,8 @@ static int ipa_mhi_test_q_transfer_re(struct ipa_mem_buffer *mmio,
 
 	p_mmio = (struct ipa_mhi_mmio_register_set *)mmio->base;
 	p_channels = (struct ipa_mhi_channel_context_array *)
-<<<<<<< HEAD
 		((u32)p_mmio->crcbap);
 	p_events = (struct ipa_mhi_event_context_array *)((u32)p_mmio->crdb);
-=======
-		((unsigned long)p_mmio->crcbap);
-	p_events = (struct ipa_mhi_event_context_array *)
-		((unsigned long)p_mmio->crdb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (ieob)
 		num_of_ed_to_queue = buf_array_size;
@@ -1422,15 +1362,9 @@ static int ipa_mhi_test_q_transfer_re(struct ipa_mem_buffer *mmio,
 		(u32)p_events[event_ring_index].rbase + next_wp_ofst;
 
 	/* write value to event ring doorbell */
-<<<<<<< HEAD
 	IPA_UT_LOG("DB to event 0x%llx -> 0x%x\n",
 		p_events[event_ring_index].wp,
 		gsi_ctx->per.phys_addr + GSI_EE_n_EV_CH_k_DOORBELL_0_OFFS(
-=======
-	IPA_UT_LOG("DB to event 0x%llx: base %pa ofst 0x%x\n",
-		p_events[event_ring_index].wp,
-		&(gsi_ctx->per.phys_addr), GSI_EE_n_EV_CH_k_DOORBELL_0_OFFS(
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			event_ring_index + IPA_MHI_GSI_ER_START, 0));
 	iowrite32(p_events[event_ring_index].wp,
 		test_mhi_ctx->gsi_mmio +
@@ -1445,12 +1379,7 @@ static int ipa_mhi_test_q_transfer_re(struct ipa_mem_buffer *mmio,
 			p_channels[channel_idx].rbase);
 		(void)rp_ofst;
 		curr_re = (struct ipa_mhi_transfer_ring_element *)
-<<<<<<< HEAD
 			((u32)xfer_ring_bufs[channel_idx].base + wp_ofst);
-=======
-			((unsigned long)xfer_ring_bufs[channel_idx].base +
-			wp_ofst);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (p_channels[channel_idx].rlen & 0xFFFFFFFF00000000) {
 			IPA_UT_LOG("invalid ch rlen %llu\n",
 				p_channels[channel_idx].rlen);
@@ -1476,20 +1405,11 @@ static int ipa_mhi_test_q_transfer_re(struct ipa_mem_buffer *mmio,
 			/* last buffer */
 			curr_re->word_C.bits.chain = 0;
 			if (trigger_db) {
-<<<<<<< HEAD
 				IPA_UT_LOG("DB to channel 0x%llx -> 0x%x\n",
 					p_channels[channel_idx].wp,
 					gsi_ctx->per.phys_addr +
 					GSI_EE_n_GSI_CH_k_DOORBELL_0_OFFS(
 					channel_idx, 0));
-=======
-				IPA_UT_LOG(
-					"DB to channel 0x%llx: base %pa ofst 0x%x\n"
-					, p_channels[channel_idx].wp
-					, &(gsi_ctx->per.phys_addr)
-					, GSI_EE_n_GSI_CH_k_DOORBELL_0_OFFS(
-						channel_idx, 0));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				iowrite32(p_channels[channel_idx].wp,
 					test_mhi_ctx->gsi_mmio +
 					GSI_EE_n_GSI_CH_k_DOORBELL_0_OFFS(
@@ -1887,11 +1807,7 @@ static int ipa_mhi_test_create_aggr_open_frame(void)
 		memset(test_mhi_ctx->out_buffer.base + i, i & 0xFF, 1);
 	}
 
-<<<<<<< HEAD
 	rc = ipa_tx_dp(IPA_CLIENT_MHI_CONS, skb, NULL);
-=======
-	rc = ipa_tx_dp(IPA_CLIENT_TEST_PROD, skb, NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc) {
 		IPA_UT_LOG("ipa_tx_dp failed %d\n", rc);
 		IPA_UT_TEST_FAIL_REPORT("ipa tx dp fail");
@@ -1954,12 +1870,8 @@ static int ipa_mhi_test_suspend_aggr_open(bool force)
 	IPA_UT_LOG("AFTER suspend\n");
 
 	if (force) {
-<<<<<<< HEAD
 		if (!wait_for_completion_timeout(&mhi_test_wakeup_comp,
 				IPA_TIMEOUT(10))) {
-=======
-		if (!wait_for_completion_timeout(&mhi_test_wakeup_comp, HZ)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			IPA_UT_LOG("timeout waiting for wakeup event\n");
 			IPA_UT_TEST_FAIL_REPORT("timeout waitinf wakeup event");
 			return -ETIME;
@@ -2067,23 +1979,15 @@ static int ipa_mhi_test_suspend_host_wakeup(void)
 		memset(test_mhi_ctx->out_buffer.base + i, i & 0xFF, 1);
 	}
 
-<<<<<<< HEAD
 	rc = ipa_tx_dp(IPA_CLIENT_MHI_CONS, skb, NULL);
-=======
-	rc = ipa_tx_dp(IPA_CLIENT_TEST_PROD, skb, NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc) {
 		IPA_UT_LOG("ipa_tx_dp failed %d\n", rc);
 		IPA_UT_TEST_FAIL_REPORT("ipa tx dp fail");
 		return rc;
 	}
 
-<<<<<<< HEAD
 	if (wait_for_completion_timeout(&mhi_test_wakeup_comp,
 			IPA_TIMEOUT(10)) == 0) {
-=======
-	if (wait_for_completion_timeout(&mhi_test_wakeup_comp, HZ) == 0) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		IPA_UT_LOG("timeout waiting for wakeup event\n");
 		IPA_UT_TEST_FAIL_REPORT("timeout waiting for wakeup event");
 		return -ETIME;

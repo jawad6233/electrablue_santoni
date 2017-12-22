@@ -20,7 +20,6 @@
 #ifndef __OMAP_DRV_H__
 #define __OMAP_DRV_H__
 
-<<<<<<< HEAD
 #include <video/omapdss.h>
 #include <linux/module.h>
 #include <linux/types.h>
@@ -30,18 +29,6 @@
 #include <drm/drm_gem.h>
 #include <linux/platform_data/omap_drm.h>
 
-=======
-#include <linux/module.h>
-#include <linux/platform_data/omap_drm.h>
-#include <linux/types.h>
-#include <linux/wait.h>
-#include <video/omapdss.h>
-
-#include <drm/drmP.h>
-#include <drm/drm_crtc_helper.h>
-#include <drm/drm_gem.h>
-#include <drm/omap_drm.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
 #define VERB(fmt, ...) if (0) DRM_DEBUG(fmt, ##__VA_ARGS__) /* verbose debug */
@@ -63,7 +50,6 @@ struct omap_drm_window {
 	uint32_t src_w, src_h;
 };
 
-<<<<<<< HEAD
 /* Once GO bit is set, we can't make further updates to shadowed registers
  * until the GO bit is cleared.  So various parts in the kms code that need
  * to update shadowed registers queue up a pair of callbacks, pre_apply
@@ -79,8 +65,6 @@ struct omap_drm_apply {
 	void (*post_apply)(struct omap_drm_apply *apply);
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* For transiently registering for different DSS irqs that various parts
  * of the KMS code need during setup/configuration.  We these are not
  * necessarily the same as what drm_vblank_get/put() are requesting, and
@@ -121,39 +105,19 @@ struct omap_drm_private {
 
 	struct workqueue_struct *wq;
 
-<<<<<<< HEAD
-=======
-	/* lock for obj_list below */
-	spinlock_t list_lock;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* list of GEM objects: */
 	struct list_head obj_list;
 
 	bool has_dmm;
 
 	/* properties: */
-<<<<<<< HEAD
 	struct drm_property *rotation_prop;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_property *zorder_prop;
 
 	/* irq handling: */
 	struct list_head irq_list;    /* list of omap_drm_irq */
 	uint32_t vblank_mask;         /* irq bits set for userspace vblank */
 	struct omap_drm_irq error_handler;
-<<<<<<< HEAD
-=======
-
-	/* atomic commit */
-	struct {
-		struct list_head events;
-		wait_queue_head_t wait;
-		u32 pending;
-		spinlock_t lock;	/* Protects commit.pending */
-	} commit;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 
@@ -169,45 +133,30 @@ void omap_gem_describe_objects(struct list_head *list, struct seq_file *m);
 int omap_gem_resume(struct device *dev);
 #endif
 
-<<<<<<< HEAD
 int omap_irq_enable_vblank(struct drm_device *dev, int crtc_id);
 void omap_irq_disable_vblank(struct drm_device *dev, int crtc_id);
 irqreturn_t omap_irq_handler(int irq, void *arg);
 void omap_irq_preinstall(struct drm_device *dev);
 int omap_irq_postinstall(struct drm_device *dev);
 void omap_irq_uninstall(struct drm_device *dev);
-=======
-int omap_irq_enable_vblank(struct drm_device *dev, unsigned int pipe);
-void omap_irq_disable_vblank(struct drm_device *dev, unsigned int pipe);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void __omap_irq_register(struct drm_device *dev, struct omap_drm_irq *irq);
 void __omap_irq_unregister(struct drm_device *dev, struct omap_drm_irq *irq);
 void omap_irq_register(struct drm_device *dev, struct omap_drm_irq *irq);
 void omap_irq_unregister(struct drm_device *dev, struct omap_drm_irq *irq);
-<<<<<<< HEAD
 int omap_drm_irq_uninstall(struct drm_device *dev);
-=======
-void omap_drm_irq_uninstall(struct drm_device *dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int omap_drm_irq_install(struct drm_device *dev);
 
 struct drm_fb_helper *omap_fbdev_init(struct drm_device *dev);
 void omap_fbdev_free(struct drm_device *dev);
 
-<<<<<<< HEAD
 const struct omap_video_timings *omap_crtc_timings(struct drm_crtc *crtc);
 enum omap_channel omap_crtc_channel(struct drm_crtc *crtc);
 int omap_crtc_apply(struct drm_crtc *crtc,
 		struct omap_drm_apply *apply);
-=======
-struct omap_video_timings *omap_crtc_timings(struct drm_crtc *crtc);
-enum omap_channel omap_crtc_channel(struct drm_crtc *crtc);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void omap_crtc_pre_init(void);
 void omap_crtc_pre_uninit(void);
 struct drm_crtc *omap_crtc_init(struct drm_device *dev,
 		struct drm_plane *plane, enum omap_channel channel, int id);
-<<<<<<< HEAD
 void omap_crtc_flush(struct drm_crtc *crtc);
 
 struct drm_plane *omap_plane_init(struct drm_device *dev,
@@ -231,28 +180,14 @@ int omap_encoder_set_enabled(struct drm_encoder *encoder, bool enabled);
 int omap_encoder_update(struct drm_encoder *encoder,
 		struct omap_overlay_manager *mgr,
 		struct omap_video_timings *timings);
-=======
-int omap_crtc_wait_pending(struct drm_crtc *crtc);
-
-struct drm_plane *omap_plane_init(struct drm_device *dev,
-		int id, enum drm_plane_type type);
-void omap_plane_install_properties(struct drm_plane *plane,
-		struct drm_mode_object *obj);
-
-struct drm_encoder *omap_encoder_init(struct drm_device *dev,
-		struct omap_dss_device *dssdev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct drm_connector *omap_connector_init(struct drm_device *dev,
 		int connector_type, struct omap_dss_device *dssdev,
 		struct drm_encoder *encoder);
 struct drm_encoder *omap_connector_attached_encoder(
 		struct drm_connector *connector);
-<<<<<<< HEAD
 void omap_connector_flush(struct drm_connector *connector,
 		int x, int y, int w, int h);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 bool omap_connector_get_hdmi_mode(struct drm_connector *connector);
 
 void copy_timings_omap_to_drm(struct drm_display_mode *mode,
@@ -268,20 +203,13 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
 		struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos);
 struct drm_gem_object *omap_framebuffer_bo(struct drm_framebuffer *fb, int p);
 int omap_framebuffer_pin(struct drm_framebuffer *fb);
-<<<<<<< HEAD
 int omap_framebuffer_unpin(struct drm_framebuffer *fb);
-=======
-void omap_framebuffer_unpin(struct drm_framebuffer *fb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void omap_framebuffer_update_scanout(struct drm_framebuffer *fb,
 		struct omap_drm_window *win, struct omap_overlay_info *info);
 struct drm_connector *omap_framebuffer_get_next_connector(
 		struct drm_framebuffer *fb, struct drm_connector *from);
-<<<<<<< HEAD
 void omap_framebuffer_flush(struct drm_framebuffer *fb,
 		int x, int y, int w, int h);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void omap_gem_init(struct drm_device *dev);
 void omap_gem_deinit(struct drm_device *dev);
@@ -311,11 +239,7 @@ void omap_gem_dma_sync(struct drm_gem_object *obj,
 		enum dma_data_direction dir);
 int omap_gem_get_paddr(struct drm_gem_object *obj,
 		dma_addr_t *paddr, bool remap);
-<<<<<<< HEAD
 int omap_gem_put_paddr(struct drm_gem_object *obj);
-=======
-void omap_gem_put_paddr(struct drm_gem_object *obj);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int omap_gem_get_pages(struct drm_gem_object *obj, struct page ***pages,
 		bool remap);
 int omap_gem_put_pages(struct drm_gem_object *obj);
@@ -340,11 +264,7 @@ static inline int align_pitch(int pitch, int width, int bpp)
 	/* PVR needs alignment to 8 pixels.. right now that is the most
 	 * restrictive stride requirement..
 	 */
-<<<<<<< HEAD
 	return ALIGN(pitch, 8 * bytespp);
-=======
-	return roundup(pitch, 8 * bytespp);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /* map crtc to vblank mask */

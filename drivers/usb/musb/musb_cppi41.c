@@ -9,15 +9,9 @@
 
 #define RNDIS_REG(x) (0x80 + ((x - 1) * 4))
 
-<<<<<<< HEAD
 #define EP_MODE_AUTOREQ_NONE		0
 #define EP_MODE_AUTOREQ_ALL_NEOP	1
 #define EP_MODE_AUTOREQ_ALWAYS		3
-=======
-#define EP_MODE_AUTOREG_NONE		0
-#define EP_MODE_AUTOREG_ALL_NEOP	1
-#define EP_MODE_AUTOREG_ALWAYS		3
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define EP_MODE_DMA_TRANSPARENT		0
 #define EP_MODE_DMA_RNDIS		1
@@ -402,31 +396,19 @@ static bool cppi41_configure_channel(struct dma_channel *channel,
 
 			/* auto req */
 			cppi41_set_autoreq_mode(cppi41_channel,
-<<<<<<< HEAD
 					EP_MODE_AUTOREQ_ALL_NEOP);
-=======
-					EP_MODE_AUTOREG_ALL_NEOP);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else {
 			musb_writel(musb->ctrl_base,
 					RNDIS_REG(cppi41_channel->port_num), 0);
 			cppi41_set_dma_mode(cppi41_channel,
 					EP_MODE_DMA_TRANSPARENT);
 			cppi41_set_autoreq_mode(cppi41_channel,
-<<<<<<< HEAD
 					EP_MODE_AUTOREQ_NONE);
-=======
-					EP_MODE_AUTOREG_NONE);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	} else {
 		/* fallback mode */
 		cppi41_set_dma_mode(cppi41_channel, EP_MODE_DMA_TRANSPARENT);
-<<<<<<< HEAD
 		cppi41_set_autoreq_mode(cppi41_channel, EP_MODE_AUTOREQ_NONE);
-=======
-		cppi41_set_autoreq_mode(cppi41_channel, EP_MODE_AUTOREG_NONE);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		len = min_t(u32, packet_sz, len);
 	}
 	cppi41_channel->prog_len = len;

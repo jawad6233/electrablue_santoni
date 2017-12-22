@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1090,11 +1086,7 @@ static int mdss_mdp_get_img(struct msmfb_data *img,
 			return ret;
 		}
 	}
-<<<<<<< HEAD
 	if (!*start) {
-=======
-	if (start && !*start) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pr_err("start address is zero!\n");
 		mdss_mdp_put_img(data, rotator, dir);
 		return -ENOMEM;

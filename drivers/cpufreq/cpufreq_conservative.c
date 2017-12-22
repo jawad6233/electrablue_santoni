@@ -22,10 +22,7 @@
 #define MAX_SAMPLING_DOWN_FACTOR		(10)
 
 static DEFINE_PER_CPU(struct cs_cpu_dbs_info_s, cs_cpu_dbs_info);
-<<<<<<< HEAD
 static DEFINE_PER_CPU(struct cs_dbs_tuners *, cached_tuners);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static inline unsigned int get_freq_target(struct cs_dbs_tuners *cs_tuners,
 					   struct cpufreq_policy *policy)
@@ -321,7 +318,6 @@ static struct attribute_group cs_attr_group_gov_pol = {
 
 /************************** sysfs end ************************/
 
-<<<<<<< HEAD
 static void save_tuners(struct cpufreq_policy *policy,
 			  struct cs_dbs_tuners *tuners)
 {
@@ -338,20 +334,13 @@ static void save_tuners(struct cpufreq_policy *policy,
 }
 
 static struct cs_dbs_tuners *alloc_tuners(struct cpufreq_policy *policy)
-=======
-static int cs_init(struct dbs_data *dbs_data)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct cs_dbs_tuners *tuners;
 
 	tuners = kzalloc(sizeof(*tuners), GFP_KERNEL);
 	if (!tuners) {
 		pr_err("%s: kzalloc failed\n", __func__);
-<<<<<<< HEAD
 		return ERR_PTR(-ENOMEM);
-=======
-		return -ENOMEM;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	tuners->up_threshold = DEF_FREQUENCY_UP_THRESHOLD;
@@ -360,7 +349,6 @@ static int cs_init(struct dbs_data *dbs_data)
 	tuners->ignore_nice_load = 0;
 	tuners->freq_step = DEF_FREQUENCY_STEP;
 
-<<<<<<< HEAD
 	save_tuners(policy, tuners);
 
 	return tuners;
@@ -389,8 +377,6 @@ static int cs_init(struct dbs_data *dbs_data, struct cpufreq_policy *policy)
 			return PTR_ERR(tuners);
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dbs_data->tuners = tuners;
 	dbs_data->min_sampling_rate = MIN_SAMPLING_RATE_RATIO *
 		jiffies_to_usecs(10);
@@ -400,11 +386,7 @@ static int cs_init(struct dbs_data *dbs_data, struct cpufreq_policy *policy)
 
 static void cs_exit(struct dbs_data *dbs_data)
 {
-<<<<<<< HEAD
 	//nothing to do
-=======
-	kfree(dbs_data->tuners);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 define_get_cpu_dbs_routines(cs_cpu_dbs_info);
@@ -453,7 +435,6 @@ static int __init cpufreq_gov_dbs_init(void)
 
 static void __exit cpufreq_gov_dbs_exit(void)
 {
-<<<<<<< HEAD
 	int cpu;
 
 	cpufreq_unregister_governor(&cpufreq_gov_conservative);
@@ -461,9 +442,6 @@ static void __exit cpufreq_gov_dbs_exit(void)
 		kfree(per_cpu(cached_tuners, cpu));
 		per_cpu(cached_tuners, cpu) = NULL;
 	}
-=======
-	cpufreq_unregister_governor(&cpufreq_gov_conservative);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 MODULE_AUTHOR("Alexander Clouter <alex@digriz.org.uk>");

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013, 2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2016-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -2146,11 +2142,7 @@ dump_lim_ft_event( tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 a
                    p += log_sprintf( pMac, p, "%s: Session %02x %02x %02x\n", __func__, 
                             psessionEntry->bssId[0],
                             psessionEntry->bssId[1], psessionEntry->bssId[2]);
-<<<<<<< HEAD
                    p += log_sprintf( pMac, p, "%s: Session %02x %02x %02x %p\n", __func__, 
-=======
-                   p += log_sprintf( pMac, p, "%s: Session %02x %02x %02x %pK\n", __func__, 
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                             pftPreAuthReq->currbssId[0],
                             pftPreAuthReq->currbssId[1], 
                             pftPreAuthReq->currbssId[2], pftPreAuthReq);

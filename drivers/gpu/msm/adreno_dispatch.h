@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -95,11 +91,7 @@ struct adreno_dispatcher {
 	atomic_t fault;
 	struct plist_head pending;
 	spinlock_t plist_lock;
-<<<<<<< HEAD
 	struct work_struct work;
-=======
-	struct kthread_work work;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct kobject kobj;
 	struct completion idle_gate;
 	unsigned int disp_preempt_fair_sched;
@@ -116,10 +108,6 @@ void adreno_dispatcher_close(struct adreno_device *adreno_dev);
 int adreno_dispatcher_idle(struct adreno_device *adreno_dev);
 void adreno_dispatcher_irq_fault(struct adreno_device *adreno_dev);
 void adreno_dispatcher_stop(struct adreno_device *adreno_dev);
-<<<<<<< HEAD
-=======
-void adreno_dispatcher_stop_fault_timer(struct kgsl_device *device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int adreno_dispatcher_queue_cmd(struct adreno_device *adreno_dev,
 		struct adreno_context *drawctxt, struct kgsl_cmdbatch *cmdbatch,

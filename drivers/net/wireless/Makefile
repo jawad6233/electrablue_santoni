@@ -64,13 +64,5 @@ obj-$(CONFIG_RSI_91X)	+= rsi/
 obj-$(CONFIG_WCNSS_CORE)	+= wcnss/
 
 obj-$(CONFIG_CNSS)	+= cnss/
-<<<<<<< HEAD
 obj-$(CONFIG_WCNSS_MEM_PRE_ALLOC) += cnss_prealloc/
 obj-$(CONFIG_CNSS_CRYPTO)	+= cnss_crypto/
-=======
-obj-$(CONFIG_CNSS2)	+= cnss2/
-obj-$(CONFIG_WCNSS_MEM_PRE_ALLOC) += cnss_prealloc/
-obj-$(CONFIG_CNSS_CRYPTO)	+= cnss_crypto/
-obj-$(CONFIG_CNSS_UTILS) += cnss_utils/
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

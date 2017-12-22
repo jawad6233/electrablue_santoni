@@ -582,12 +582,7 @@ static void pil_remove_proxy_vote(struct pil_desc *pil)
 }
 
 static int pil_init_image_trusted(struct pil_desc *pil,
-<<<<<<< HEAD
 		const u8 *metadata, size_t size)
-=======
-		const u8 *metadata, size_t size,
-		 phys_addr_t addr, size_t sz)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct pil_tz_data *d = desc_to_data(pil);
 	struct pas_init_image_req {

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,10 +13,7 @@
 
 #include "msm8953-pinctrl.dtsi"
 #include "msm8953-audio-cdp.dtsi"
-<<<<<<< HEAD
 #include "msm8953-camera-sensor-cdp.dtsi"
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 &spi_3 { /* BLSP1 QUP3 */
 	spi-max-frequency = <8000000>;
@@ -150,11 +143,7 @@
 	};
 };
 
-<<<<<<< HEAD
 &pmi_haptic{
-=======
-&pmi_haptic {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	qcom,actuator-type = "lra";
 	qcom,lra-auto-res-mode="qwd";
 	qcom,lra-high-z="opt1";
@@ -206,14 +195,11 @@
 	qcom,platform-bklight-en-gpio = <&tlmm 59 0>;
 };
 
-<<<<<<< HEAD
 &labibb {
 	status = "ok";
 	qpnp,qpnp-labibb-mode = "lcd";
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &dsi_truly_1080_vid {
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 	qcom,mdss-dsi-pan-enable-dynamic-fps;
@@ -307,23 +293,17 @@
 	pinctrl-0 = <&typec_ssmux_config>;
 };
 
-<<<<<<< HEAD
 &pmi8950_charger {
 	qcom,external-typec;
 	qcom,typec-psy-name = "typec";
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &pm8953_gpios {
 	/* GPIO 2 (NFC_CLK_REQ) */
 	gpio@c100 {
 		qcom,mode = <0>;
 		qcom,output-type = <0>;
-<<<<<<< HEAD
 		qcom,pull = <0>;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,vin-sel = <2>;
 		qcom,out-strength = <3>;
 		qcom,src-sel = <0>;

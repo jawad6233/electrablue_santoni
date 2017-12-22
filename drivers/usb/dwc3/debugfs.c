@@ -1049,18 +1049,9 @@ static int dwc3_gadget_int_events_show(struct seq_file *s, void *unused)
 		seq_printf(s, "%d\t", dwc->bh_completion_time[i]);
 	seq_putc(s, '\n');
 
-<<<<<<< HEAD
 	seq_printf(s, "t_pwr evt irq : %lld\t",
 			ktime_to_us(dwc->t_pwr_evt_irq));
 
-=======
-	seq_printf(s, "t_pwr evt irq : %lld\n",
-			ktime_to_us(dwc->t_pwr_evt_irq));
-
-	seq_printf(s, "l1_remote_wakeup_cnt : %lu\n",
-		dwc->l1_remote_wakeup_cnt);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock_irqrestore(&dwc->lock, flags);
 	return 0;
 }
@@ -1169,15 +1160,8 @@ int dwc3_debugfs_init(struct dwc3 *dwc)
 
 	dwc->dwc_ipc_log_ctxt = ipc_log_context_create(NUM_LOG_PAGES,
 					dev_name(dwc->dev), 0);
-<<<<<<< HEAD
 	if (!dwc->dwc_ipc_log_ctxt)
 		dev_err(dwc->dev, "Error getting ipc_log_ctxt\n");
-=======
-	if (!dwc->dwc_ipc_log_ctxt) {
-		dev_err(dwc->dev, "Error getting ipc_log_ctxt\n");
-		goto err1;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dbg_dwc3_data[count] = dwc;
 	count++;

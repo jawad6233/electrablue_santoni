@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -16,10 +12,6 @@
 
 #include <linux/ipa_mhi.h>
 #include <linux/ipa_uc_offload.h>
-<<<<<<< HEAD
-=======
-#include <linux/ipa_wdi3.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "ipa_common_i.h"
 
 #ifndef _IPA_API_H_
@@ -326,11 +318,6 @@ struct ipa_api_controller {
 
 	int (*ipa_stop_gsi_channel)(u32 clnt_hdl);
 
-<<<<<<< HEAD
-=======
-	int (*ipa_start_gsi_channel)(u32 clnt_hdl);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct iommu_domain *(*ipa_get_smmu_domain)(void);
 
 	int (*ipa_disable_apps_wan_cons_deaggr)(uint32_t agg_size,
@@ -344,12 +331,7 @@ struct ipa_api_controller {
 	int (*ipa_create_wdi_mapping)(u32 num_buffers,
 		struct ipa_wdi_buffer_info *info);
 
-<<<<<<< HEAD
 	struct ipa_gsi_ep_config *(*ipa_get_gsi_ep_info)(int ipa_ep_idx);
-=======
-	const struct ipa_gsi_ep_config *(*ipa_get_gsi_ep_info)
-		(enum ipa_client_type client);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	int (*ipa_register_ipa_ready_cb)(void (*ipa_ready_cb)(void *user_data),
 		void *user_data);
@@ -383,31 +365,6 @@ struct ipa_api_controller {
 
 	int (*ipa_tear_down_uc_offload_pipes)(int ipa_ep_idx_ul,
 		int ipa_ep_idx_dl);
-<<<<<<< HEAD
-=======
-
-	int (*ipa_tz_unlock_reg)(struct ipa_tz_unlock_reg_info *reg_info,
-		u16 num_regs);
-
-	struct device *(*ipa_get_pdev)(void);
-
-	int (*ipa_ntn_uc_reg_rdyCB)(void (*ipauc_ready_cb)(void *user_data),
-		void *user_data);
-
-	void (*ipa_ntn_uc_dereg_rdyCB)(void);
-
-	int (*ipa_conn_wdi3_pipes)(struct ipa_wdi3_conn_in_params *in,
-		struct ipa_wdi3_conn_out_params *out);
-
-	int (*ipa_disconn_wdi3_pipes)(int ipa_ep_idx_tx,
-		int ipa_ep_idx_rx);
-
-	int (*ipa_enable_wdi3_pipes)(int ipa_ep_idx_tx,
-		int ipa_ep_idx_rx);
-
-	int (*ipa_disable_wdi3_pipes)(int ipa_ep_idx_tx,
-		int ipa_ep_idx_rx);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #ifdef CONFIG_IPA

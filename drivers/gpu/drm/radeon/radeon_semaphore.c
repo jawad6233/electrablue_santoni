@@ -34,24 +34,15 @@
 int radeon_semaphore_create(struct radeon_device *rdev,
 			    struct radeon_semaphore **semaphore)
 {
-<<<<<<< HEAD
 	uint64_t *cpu_addr;
 	int i, r;
-=======
-	int r;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	*semaphore = kmalloc(sizeof(struct radeon_semaphore), GFP_KERNEL);
 	if (*semaphore == NULL) {
 		return -ENOMEM;
 	}
-<<<<<<< HEAD
 	r = radeon_sa_bo_new(rdev, &rdev->ring_tmp_bo, &(*semaphore)->sa_bo,
 			     8 * RADEON_NUM_SYNCS, 8);
-=======
-	r = radeon_sa_bo_new(rdev, &rdev->ring_tmp_bo,
-			     &(*semaphore)->sa_bo, 8, 8);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (r) {
 		kfree(*semaphore);
 		*semaphore = NULL;
@@ -60,16 +51,12 @@ int radeon_semaphore_create(struct radeon_device *rdev,
 	(*semaphore)->waiters = 0;
 	(*semaphore)->gpu_addr = radeon_sa_bo_gpu_addr((*semaphore)->sa_bo);
 
-<<<<<<< HEAD
 	cpu_addr = radeon_sa_bo_cpu_addr((*semaphore)->sa_bo);
 	for (i = 0; i < RADEON_NUM_SYNCS; ++i)
 		cpu_addr[i] = 0;
 
 	for (i = 0; i < RADEON_NUM_RINGS; ++i)
 		(*semaphore)->sync_to[i] = NULL;
-=======
-	*((uint64_t *)radeon_sa_bo_cpu_addr((*semaphore)->sa_bo)) = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -108,7 +95,6 @@ bool radeon_semaphore_emit_wait(struct radeon_device *rdev, int ridx,
 	return false;
 }
 
-<<<<<<< HEAD
 /**
  * radeon_semaphore_sync_fence - use the semaphore to sync to a fence
  *
@@ -249,8 +235,6 @@ int radeon_semaphore_sync_rings(struct radeon_device *rdev,
 	return 0;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void radeon_semaphore_free(struct radeon_device *rdev,
 			   struct radeon_semaphore **semaphore,
 			   struct radeon_fence *fence)

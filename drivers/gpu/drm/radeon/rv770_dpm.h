@@ -278,11 +278,8 @@ void rv770_set_uvd_clock_after_set_eng_clock(struct radeon_device *rdev,
 void rv770_get_engine_memory_ss(struct radeon_device *rdev);
 
 /* smc */
-<<<<<<< HEAD
 int rv770_read_smc_soft_register(struct radeon_device *rdev,
 				 u16 reg_offset, u32 *value);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int rv770_write_smc_soft_register(struct radeon_device *rdev,
 				  u16 reg_offset, u32 value);
 

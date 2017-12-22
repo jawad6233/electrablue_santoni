@@ -31,7 +31,6 @@
 #include <drm/i915_drm.h>
 #include "i915_drv.h"
 
-<<<<<<< HEAD
 /** @file i915_gem_tiling.c
  *
  * Support for managing tiling state of buffer objects.
@@ -207,34 +206,6 @@ i915_gem_detect_bit_6_swizzle(struct drm_device *dev)
 	dev_priv->mm.bit_6_swizzle_x = swizzle_x;
 	dev_priv->mm.bit_6_swizzle_y = swizzle_y;
 }
-=======
-/**
- * DOC: buffer object tiling
- *
- * i915_gem_set_tiling() and i915_gem_get_tiling() is the userspace interface to
- * declare fence register requirements.
- *
- * In principle GEM doesn't care at all about the internal data layout of an
- * object, and hence it also doesn't care about tiling or swizzling. There's two
- * exceptions:
- *
- * - For X and Y tiling the hardware provides detilers for CPU access, so called
- *   fences. Since there's only a limited amount of them the kernel must manage
- *   these, and therefore userspace must tell the kernel the object tiling if it
- *   wants to use fences for detiling.
- * - On gen3 and gen4 platforms have a swizzling pattern for tiled objects which
- *   depends upon the physical page frame number. When swapping such objects the
- *   page frame number might change and the kernel must be able to fix this up
- *   and hence now the tiling. Note that on a subset of platforms with
- *   asymmetric memory channel population the swizzling pattern changes in an
- *   unknown way, and for those the kernel simply forbids swapping completely.
- *
- * Since neither of this applies for new tiling layouts on modern platforms like
- * W, Ys and Yf tiling GEM only allows object tiling to be set to X or Y tiled.
- * Anything else can be handled in userspace entirely without the kernel's
- * invovlement.
- */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Check pitch constriants for all chips & tiling formats */
 static bool
@@ -322,23 +293,8 @@ i915_gem_object_fence_ok(struct drm_i915_gem_object *obj, int tiling_mode)
 }
 
 /**
-<<<<<<< HEAD
  * Sets the tiling mode of an object, returning the required swizzling of
  * bit 6 of addresses in the object.
-=======
- * i915_gem_set_tiling - IOCTL handler to set tiling mode
- * @dev: DRM device
- * @data: data pointer for the ioctl
- * @file: DRM file for the ioctl call
- *
- * Sets the tiling mode of an object, returning the required swizzling of
- * bit 6 of addresses in the object.
- *
- * Called by the user via ioctl.
- *
- * Returns:
- * Zero on success, negative errno on failure.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 int
 i915_gem_set_tiling(struct drm_device *dev, void *data,
@@ -360,11 +316,7 @@ i915_gem_set_tiling(struct drm_device *dev, void *data,
 	}
 
 	mutex_lock(&dev->struct_mutex);
-<<<<<<< HEAD
 	if (i915_gem_obj_is_pinned(obj) || obj->framebuffer_references) {
-=======
-	if (obj->pin_display || obj->framebuffer_references) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = -EBUSY;
 		goto err;
 	}
@@ -417,22 +369,8 @@ i915_gem_set_tiling(struct drm_device *dev, void *data,
 			ret = i915_gem_object_ggtt_unbind(obj);
 
 		if (ret == 0) {
-<<<<<<< HEAD
 			obj->fence_dirty =
 				obj->last_fenced_seqno ||
-=======
-			if (obj->pages &&
-			    obj->madv == I915_MADV_WILLNEED &&
-			    dev_priv->quirks & QUIRK_PIN_SWIZZLED_PAGES) {
-				if (args->tiling_mode == I915_TILING_NONE)
-					i915_gem_object_unpin_pages(obj);
-				if (obj->tiling_mode == I915_TILING_NONE)
-					i915_gem_object_pin_pages(obj);
-			}
-
-			obj->fence_dirty =
-				obj->last_fenced_req ||
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				obj->fence_reg != I915_FENCE_REG_NONE;
 
 			obj->tiling_mode = args->tiling_mode;
@@ -465,21 +403,7 @@ err:
 }
 
 /**
-<<<<<<< HEAD
  * Returns the current tiling mode and required bit 6 swizzling for the object.
-=======
- * i915_gem_get_tiling - IOCTL handler to get tiling mode
- * @dev: DRM device
- * @data: data pointer for the ioctl
- * @file: DRM file for the ioctl call
- *
- * Returns the current tiling mode and required bit 6 swizzling for the object.
- *
- * Called by the user via ioctl.
- *
- * Returns:
- * Zero on success, negative errno on failure.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 int
 i915_gem_get_tiling(struct drm_device *dev, void *data,
@@ -511,13 +435,6 @@ i915_gem_get_tiling(struct drm_device *dev, void *data,
 	}
 
 	/* Hide bit 17 from the user -- see comment in i915_gem_set_tiling */
-<<<<<<< HEAD
-=======
-	if (dev_priv->quirks & QUIRK_PIN_SWIZZLED_PAGES)
-		args->phys_swizzle_mode = I915_BIT_6_SWIZZLE_UNKNOWN;
-	else
-		args->phys_swizzle_mode = args->swizzle_mode;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (args->swizzle_mode == I915_BIT_6_SWIZZLE_9_17)
 		args->swizzle_mode = I915_BIT_6_SWIZZLE_9;
 	if (args->swizzle_mode == I915_BIT_6_SWIZZLE_9_10_17)
@@ -528,7 +445,6 @@ i915_gem_get_tiling(struct drm_device *dev, void *data,
 
 	return 0;
 }
-<<<<<<< HEAD
 
 /**
  * Swap every 64 bytes of this page around, to account for it having a new
@@ -601,5 +517,3 @@ i915_gem_object_save_bit_17_swizzle(struct drm_i915_gem_object *obj)
 		i++;
 	}
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

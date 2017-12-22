@@ -549,10 +549,6 @@ static uint64_t aggregate_bus_req(struct msm_bus_node_device_type *bus_dev,
 	struct msm_bus_node_device_type *fab_dev = NULL;
 	uint32_t agg_scheme;
 	uint64_t max_ib = 0;
-<<<<<<< HEAD
-=======
-	uint64_t max_ab = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint64_t sum_ab = 0;
 
 	if (!bus_dev || !to_msm_bus_node(bus_dev->node_info->bus_device)) {
@@ -560,37 +556,14 @@ static uint64_t aggregate_bus_req(struct msm_bus_node_device_type *bus_dev,
 		goto exit_agg_bus_req;
 	}
 
-<<<<<<< HEAD
 	fab_dev = to_msm_bus_node(bus_dev->node_info->bus_device);
 	for (i = 0; i < bus_dev->num_lnodes; i++) {
 		max_ib = max(max_ib, bus_dev->lnode_list[i].lnode_ib[ctx]);
-=======
-	bus_dev->node_bw[ctx].max_ib_cl_name = NULL;
-	bus_dev->node_bw[ctx].max_ab_cl_name = NULL;
-
-	fab_dev = to_msm_bus_node(bus_dev->node_info->bus_device);
-	for (i = 0; i < bus_dev->num_lnodes; i++) {
-		if (bus_dev->lnode_list[i].lnode_ib[ctx] > max_ib)
-			bus_dev->node_bw[ctx].max_ib_cl_name =
-					bus_dev->lnode_list[i].cl_name;
-		max_ib = max(max_ib, bus_dev->lnode_list[i].lnode_ib[ctx]);
-
-		if (bus_dev->lnode_list[i].lnode_ab[ctx] > max_ab) {
-			max_ab = bus_dev->lnode_list[i].lnode_ab[ctx];
-			bus_dev->node_bw[ctx].max_ab_cl_name =
-					bus_dev->lnode_list[i].cl_name;
-		}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		sum_ab += bus_dev->lnode_list[i].lnode_ab[ctx];
 	}
 
 	bus_dev->node_bw[ctx].sum_ab = sum_ab;
 	bus_dev->node_bw[ctx].max_ib = max_ib;
-<<<<<<< HEAD
-=======
-	bus_dev->node_bw[ctx].max_ab = max_ab;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (bus_dev->node_info->agg_params.agg_scheme != AGG_SCHEME_NONE)
 		agg_scheme = bus_dev->node_info->agg_params.agg_scheme;
@@ -918,10 +891,7 @@ static void unregister_client_adhoc(uint32_t cl)
 	}
 	commit_data();
 	msm_bus_dbg_client_data(client->pdata, MSM_BUS_DBG_UNREGISTER, cl);
-<<<<<<< HEAD
 	kfree(client->src_devs);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(client->src_pnode);
 	kfree(client->src_devs);
 	kfree(client);

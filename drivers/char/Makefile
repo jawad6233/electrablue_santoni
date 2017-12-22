@@ -55,10 +55,7 @@ obj-$(CONFIG_PCMCIA)		+= pcmcia/
 obj-$(CONFIG_HANGCHECK_TIMER)	+= hangcheck-timer.o
 obj-$(CONFIG_TCG_TPM)		+= tpm/
 
-<<<<<<< HEAD
 obj-$(CONFIG_DCC_TTY)		+= dcc_tty.o
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 obj-$(CONFIG_PS3_FLASH)		+= ps3flash.o
 
 obj-$(CONFIG_JS_RTC)		+= js-rtc.o
@@ -73,9 +70,6 @@ obj-$(CONFIG_MSM_ADSPRPC)       += adsprpc_compat.o
 endif
 obj-$(CONFIG_MSM_MDSP_TS)       += smd_ts.o
 obj-$(CONFIG_MSM_RDBG)		+= rdbg.o
-<<<<<<< HEAD
 
 obj-$(CONFIG_FRANDOM)		+= frandom.o
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

@@ -596,13 +596,10 @@ config DEVPORT
 	  Say Y here if you want to support the /dev/port device. The /dev/port
 	  device is similar to /dev/mem, but for I/O ports.
 
-<<<<<<< HEAD
 config DCC_TTY
 	tristate "DCC tty driver"
 	depends on ARM
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 source "drivers/s390/char/Kconfig"
 
 config MSM_SMD_PKT
@@ -650,7 +647,6 @@ config MSM_RDBG
 	  Implements a shared memory based transport mechanism that allows
 	  for a debugger running on a host PC to communicate with a remote
 	  stub running on peripheral subsystems such as the ADSP, MODEM etc.
-<<<<<<< HEAD
 
 config FRANDOM
 	tristate "Frandom RNG driver"
@@ -666,7 +662,5 @@ config FRANDOM
 
 	  If unsure here, select N.
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 endmenu
 

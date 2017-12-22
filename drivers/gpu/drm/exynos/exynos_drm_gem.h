@@ -14,17 +14,12 @@
 
 #include <drm/drm_gem.h>
 
-<<<<<<< HEAD
 #define to_exynos_gem_obj(x)	container_of(x,\
 			struct exynos_drm_gem_obj, base)
-=======
-#define to_exynos_gem(x)	container_of(x, struct exynos_drm_gem, base)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define IS_NONCONTIG_BUFFER(f)		(f & EXYNOS_BO_NONCONTIG)
 
 /*
-<<<<<<< HEAD
  * exynos drm gem buffer structure.
  *
  * @kvaddr: kernel virtual address to allocated memory region.
@@ -52,8 +47,6 @@ struct exynos_drm_gem_buf {
 };
 
 /*
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * exynos drm buffer structure.
  *
  * @base: a gem object.
@@ -64,52 +57,25 @@ struct exynos_drm_gem_buf {
  *	by user request or at framebuffer creation.
  *	continuous memory region allocated by user request
  *	or at framebuffer creation.
-<<<<<<< HEAD
  * @size: size requested from user, in bytes and this size is aligned
  *	in page unit.
  * @vma: a pointer to vm_area.
  * @flags: indicate memory type to allocated buffer and cache attruibute.
-=======
- * @flags: indicate memory type to allocated buffer and cache attruibute.
- * @size: size requested from user, in bytes and this size is aligned
- *	in page unit.
- * @cookie: cookie returned by dma_alloc_attrs
- * @kvaddr: kernel virtual address to allocated memory region.
- * @dma_addr: bus address(accessed by dma) to allocated memory region.
- *	- this address could be physical address without IOMMU and
- *	device address with IOMMU.
- * @pages: Array of backing pages.
- * @sgt: Imported sg_table.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * P.S. this object would be transferred to user as kms_bo.handle so
  *	user can access the buffer through kms_bo.handle.
  */
-<<<<<<< HEAD
 struct exynos_drm_gem_obj {
 	struct drm_gem_object		base;
 	struct exynos_drm_gem_buf	*buffer;
 	unsigned long			size;
 	struct vm_area_struct		*vma;
 	unsigned int			flags;
-=======
-struct exynos_drm_gem {
-	struct drm_gem_object	base;
-	unsigned int		flags;
-	unsigned long		size;
-	void			*cookie;
-	void __iomem		*kvaddr;
-	dma_addr_t		dma_addr;
-	struct dma_attrs	dma_attrs;
-	struct page		**pages;
-	struct sg_table		*sgt;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct page **exynos_gem_get_pages(struct drm_gem_object *obj, gfp_t gfpmask);
 
 /* destroy a buffer with gem object */
-<<<<<<< HEAD
 void exynos_drm_gem_destroy(struct exynos_drm_gem_obj *exynos_gem_obj);
 
 /* create a private gem object and initialize it. */
@@ -120,14 +86,6 @@ struct exynos_drm_gem_obj *exynos_drm_gem_init(struct drm_device *dev,
 struct exynos_drm_gem_obj *exynos_drm_gem_create(struct drm_device *dev,
 						unsigned int flags,
 						unsigned long size);
-=======
-void exynos_drm_gem_destroy(struct exynos_drm_gem *exynos_gem);
-
-/* create a new buffer with gem object */
-struct exynos_drm_gem *exynos_drm_gem_create(struct drm_device *dev,
-					     unsigned int flags,
-					     unsigned long size);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * request gem object creation and buffer allocation as the size
@@ -169,11 +127,7 @@ unsigned long exynos_drm_gem_get_size(struct drm_device *dev,
 						struct drm_file *file_priv);
 
 /* free gem object. */
-<<<<<<< HEAD
 void exynos_drm_gem_free_object(struct drm_gem_object *gem_obj);
-=======
-void exynos_drm_gem_free_object(struct drm_gem_object *obj);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* create memory region for drm framebuffer. */
 int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
@@ -223,16 +177,4 @@ void exynos_gem_unmap_sgt_from_dma(struct drm_device *drm_dev,
 				struct sg_table *sgt,
 				enum dma_data_direction dir);
 
-<<<<<<< HEAD
-=======
-/* low-level interface prime helpers */
-struct sg_table *exynos_drm_gem_prime_get_sg_table(struct drm_gem_object *obj);
-struct drm_gem_object *
-exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
-				     struct dma_buf_attachment *attach,
-				     struct sg_table *sgt);
-void *exynos_drm_gem_prime_vmap(struct drm_gem_object *obj);
-void exynos_drm_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif

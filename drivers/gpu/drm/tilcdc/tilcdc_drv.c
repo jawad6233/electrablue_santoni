@@ -17,29 +17,16 @@
 
 /* LCDC DRM driver, based on da8xx-fb */
 
-<<<<<<< HEAD
 #include "tilcdc_drv.h"
 #include "tilcdc_regs.h"
 #include "tilcdc_tfp410.h"
 #include "tilcdc_slave.h"
 #include "tilcdc_panel.h"
-=======
-#include <linux/component.h>
-
-#include "tilcdc_drv.h"
-#include "tilcdc_regs.h"
-#include "tilcdc_tfp410.h"
-#include "tilcdc_panel.h"
-#include "tilcdc_external.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "drm_fb_helper.h"
 
 static LIST_HEAD(module_list);
-<<<<<<< HEAD
 static bool slave_probing;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 void tilcdc_module_init(struct tilcdc_module *mod, const char *name,
 		const struct tilcdc_module_ops *funcs)
@@ -55,14 +42,11 @@ void tilcdc_module_cleanup(struct tilcdc_module *mod)
 	list_del(&mod->list);
 }
 
-<<<<<<< HEAD
 void tilcdc_slave_probedefer(bool defered)
 {
 	slave_probing = defered;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static struct of_device_id tilcdc_of_match[];
 
 static struct drm_framebuffer *tilcdc_fb_create(struct drm_device *dev,
@@ -74,12 +58,8 @@ static struct drm_framebuffer *tilcdc_fb_create(struct drm_device *dev,
 static void tilcdc_fb_output_poll_changed(struct drm_device *dev)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
-<<<<<<< HEAD
 	if (priv->fbdev)
 		drm_fbdev_cma_hotplug_event(priv->fbdev);
-=======
-	drm_fbdev_cma_hotplug_event(priv->fbdev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static const struct drm_mode_config_funcs mode_config_funcs = {
@@ -101,7 +81,6 @@ static int modeset_init(struct drm_device *dev)
 		mod->funcs->modeset_init(mod, dev);
 	}
 
-<<<<<<< HEAD
 	if ((priv->num_encoders == 0) || (priv->num_connectors == 0)) {
 		/* oh nos! */
 		dev_err(dev->dev, "no encoders/connectors found\n");
@@ -109,8 +88,6 @@ static int modeset_init(struct drm_device *dev)
 		return -ENXIO;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dev->mode_config.min_width = 0;
 	dev->mode_config.min_height = 0;
 	dev->mode_config.max_width = tilcdc_crtc_max_width(priv->crtc);
@@ -145,11 +122,6 @@ static int tilcdc_unload(struct drm_device *dev)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
 
-<<<<<<< HEAD
-=======
-	tilcdc_remove_external_encoders(dev);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_fbdev_cma_fini(priv->fbdev);
 	drm_kms_helper_poll_fini(dev);
 	drm_mode_config_cleanup(dev);
@@ -200,12 +172,6 @@ static int tilcdc_load(struct drm_device *dev, unsigned long flags)
 
 	dev->dev_private = priv;
 
-<<<<<<< HEAD
-=======
-	priv->is_componentized =
-		tilcdc_get_external_components(dev->dev, NULL) > 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	priv->wq = alloc_ordered_workqueue("tilcdc", 0);
 	if (!priv->wq) {
 		ret = -ENOMEM;
@@ -268,10 +234,6 @@ static int tilcdc_load(struct drm_device *dev, unsigned long flags)
 	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
 
 	pm_runtime_enable(dev->dev);
-<<<<<<< HEAD
-=======
-	pm_runtime_irq_safe(dev->dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Determine LCD IP Version */
 	pm_runtime_get_sync(dev->dev);
@@ -299,35 +261,10 @@ static int tilcdc_load(struct drm_device *dev, unsigned long flags)
 		goto fail_cpufreq_unregister;
 	}
 
-<<<<<<< HEAD
 	ret = drm_vblank_init(dev, 1);
 	if (ret < 0) {
 		dev_err(dev->dev, "failed to initialize vblank\n");
 		goto fail_mode_config_cleanup;
-=======
-	platform_set_drvdata(pdev, dev);
-
-	if (priv->is_componentized) {
-		ret = component_bind_all(dev->dev, dev);
-		if (ret < 0)
-			goto fail_mode_config_cleanup;
-
-		ret = tilcdc_add_external_encoders(dev, &bpp);
-		if (ret < 0)
-			goto fail_component_cleanup;
-	}
-
-	if ((priv->num_encoders == 0) || (priv->num_connectors == 0)) {
-		dev_err(dev->dev, "no encoders/connectors found\n");
-		ret = -ENXIO;
-		goto fail_external_cleanup;
-	}
-
-	ret = drm_vblank_init(dev, 1);
-	if (ret < 0) {
-		dev_err(dev->dev, "failed to initialize vblank\n");
-		goto fail_external_cleanup;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	pm_runtime_get_sync(dev->dev);
@@ -338,12 +275,9 @@ static int tilcdc_load(struct drm_device *dev, unsigned long flags)
 		goto fail_vblank_cleanup;
 	}
 
-<<<<<<< HEAD
 	platform_set_drvdata(pdev, dev);
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	list_for_each_entry(mod, &module_list, list) {
 		DBG("%s: preferred_bpp: %d", mod->name, mod->preferred_bpp);
 		bpp = mod->preferred_bpp;
@@ -374,16 +308,6 @@ fail_vblank_cleanup:
 fail_mode_config_cleanup:
 	drm_mode_config_cleanup(dev);
 
-<<<<<<< HEAD
-=======
-fail_component_cleanup:
-	if (priv->is_componentized)
-		component_unbind_all(dev->dev, dev);
-
-fail_external_cleanup:
-	tilcdc_remove_external_encoders(dev);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 fail_cpufreq_unregister:
 	pm_runtime_disable(dev->dev);
 #ifdef CONFIG_CPU_FREQ
@@ -485,21 +409,13 @@ static void enable_vblank(struct drm_device *dev, bool enable)
 		tilcdc_clear(dev, reg, mask);
 }
 
-<<<<<<< HEAD
 static int tilcdc_enable_vblank(struct drm_device *dev, int crtc)
-=======
-static int tilcdc_enable_vblank(struct drm_device *dev, unsigned int pipe)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	enable_vblank(dev, true);
 	return 0;
 }
 
-<<<<<<< HEAD
 static void tilcdc_disable_vblank(struct drm_device *dev, int crtc)
-=======
-static void tilcdc_disable_vblank(struct drm_device *dev, unsigned int pipe)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	enable_vblank(dev, false);
 }
@@ -631,11 +547,7 @@ static struct drm_driver tilcdc_driver = {
 	.irq_preinstall     = tilcdc_irq_preinstall,
 	.irq_postinstall    = tilcdc_irq_postinstall,
 	.irq_uninstall      = tilcdc_irq_uninstall,
-<<<<<<< HEAD
 	.get_vblank_counter = drm_vblank_count,
-=======
-	.get_vblank_counter = drm_vblank_no_hw_counter,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.enable_vblank      = tilcdc_enable_vblank,
 	.disable_vblank     = tilcdc_disable_vblank,
 	.gem_free_object    = drm_gem_cma_free_object,
@@ -701,73 +613,24 @@ static const struct dev_pm_ops tilcdc_pm_ops = {
  * Platform driver:
  */
 
-<<<<<<< HEAD
 static int tilcdc_pdev_probe(struct platform_device *pdev)
 {
-=======
-static int tilcdc_bind(struct device *dev)
-{
-	return drm_platform_init(&tilcdc_driver, to_platform_device(dev));
-}
-
-static void tilcdc_unbind(struct device *dev)
-{
-	drm_put_dev(dev_get_drvdata(dev));
-}
-
-static const struct component_master_ops tilcdc_comp_ops = {
-	.bind = tilcdc_bind,
-	.unbind = tilcdc_unbind,
-};
-
-static int tilcdc_pdev_probe(struct platform_device *pdev)
-{
-	struct component_match *match = NULL;
-	int ret;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* bail out early if no DT data: */
 	if (!pdev->dev.of_node) {
 		dev_err(&pdev->dev, "device-tree data is missing\n");
 		return -ENXIO;
 	}
 
-<<<<<<< HEAD
 	/* defer probing if slave is in deferred probing */
 	if (slave_probing == true)
 		return -EPROBE_DEFER;
 
 	return drm_platform_init(&tilcdc_driver, pdev);
-=======
-	ret = tilcdc_get_external_components(&pdev->dev, &match);
-	if (ret < 0)
-		return ret;
-	else if (ret == 0)
-		return drm_platform_init(&tilcdc_driver, pdev);
-	else
-		return component_master_add_with_match(&pdev->dev,
-						       &tilcdc_comp_ops,
-						       match);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int tilcdc_pdev_remove(struct platform_device *pdev)
 {
-<<<<<<< HEAD
 	drm_put_dev(platform_get_drvdata(pdev));
-=======
-	struct drm_device *ddev = dev_get_drvdata(&pdev->dev);
-	struct tilcdc_drm_private *priv = ddev->dev_private;
-
-	/* Check if a subcomponent has already triggered the unloading. */
-	if (!priv)
-		return 0;
-
-	if (priv->is_componentized)
-		component_master_del(&pdev->dev, &tilcdc_comp_ops);
-	else
-		drm_put_dev(platform_get_drvdata(pdev));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -782,10 +645,7 @@ static struct platform_driver tilcdc_platform_driver = {
 	.probe      = tilcdc_pdev_probe,
 	.remove     = tilcdc_pdev_remove,
 	.driver     = {
-<<<<<<< HEAD
 		.owner  = THIS_MODULE,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.name   = "tilcdc",
 		.pm     = &tilcdc_pm_ops,
 		.of_match_table = tilcdc_of_match,
@@ -796,10 +656,7 @@ static int __init tilcdc_drm_init(void)
 {
 	DBG("init");
 	tilcdc_tfp410_init();
-<<<<<<< HEAD
 	tilcdc_slave_init();
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tilcdc_panel_init();
 	return platform_driver_register(&tilcdc_platform_driver);
 }
@@ -809,10 +666,7 @@ static void __exit tilcdc_drm_fini(void)
 	DBG("fini");
 	platform_driver_unregister(&tilcdc_platform_driver);
 	tilcdc_panel_fini();
-<<<<<<< HEAD
 	tilcdc_slave_fini();
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tilcdc_tfp410_fini();
 }
 

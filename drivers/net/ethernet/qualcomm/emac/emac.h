@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -23,10 +19,6 @@
 #include <linux/clk.h>
 #include <linux/platform_device.h>
 #include <linux/wakelock.h>
-<<<<<<< HEAD
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "emac_phy.h"
 
 /* Device IDs */
@@ -52,23 +44,6 @@
 /* mdio/mdc gpios */
 #define EMAC_GPIO_CNT		2
 
-<<<<<<< HEAD
-=======
-#define EMAC_ADPT_RESET_WAIT_TIME	20
-
-/**
- * Requested EMAC votes for BUS bandwidth
- *
- * EMAC_NO_PERF_VOTE      BUS Vote for inactive EMAC session or disconnect
- * EMAC_MAX_PERF_VOTE    Maximum BUS bandwidth vote
- *
- */
-enum emac_bus_vote {
-	EMAC_NO_PERF_VOTE = 0,
-	EMAC_MAX_PERF_VOTE
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum emac_vreg_id {
 	EMAC_VREG1,
 	EMAC_VREG2,
@@ -81,13 +56,8 @@ enum emac_vreg_id {
 enum emac_clk_id {
 	EMAC_CLK_AXI,
 	EMAC_CLK_CFG_AHB,
-<<<<<<< HEAD
 	EMAC_CLK_125M,
 	EMAC_CLK_SYS_25M,
-=======
-	EMAC_CLK_HIGH_SPEED,
-	EMAC_CLK_MDIO,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	EMAC_CLK_TX,
 	EMAC_CLK_RX,
 	EMAC_CLK_SYS,
@@ -138,15 +108,12 @@ enum emac_dma_order {
 	emac_dma_ord_out = 4
 };
 
-<<<<<<< HEAD
 enum emac_mac_speed {
 	emac_mac_speed_0 = 0,
 	emac_mac_speed_10_100 = 1,
 	emac_mac_speed_1000 = 2
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum emac_dma_req_block {
 	emac_dma_req_128 = 0,
 	emac_dma_req_256 = 1,
@@ -222,11 +189,6 @@ struct emac_hw_stats {
 	u64 tx_bcast_byte;      /* broadcast packets byte count (without FCS) */
 	u64 tx_mcast_byte;      /* multicast packets byte count (without FCS) */
 	u64 tx_col;             /* collisions */
-<<<<<<< HEAD
-=======
-
-	spinlock_t lock;	/* prevent multiple simultaneous readers */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 enum emac_hw_flags {
@@ -271,14 +233,11 @@ struct emac_hw {
 	enum emac_dma_req_block   dmaw_block;
 	enum emac_dma_order       dma_order;
 
-<<<<<<< HEAD
 	/* MAC parameter */
 	u8      mac_addr[ETH_ALEN];
 	u8      mac_perm_addr[ETH_ALEN];
 	u32     mtu;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* RSS parameter */
 	u8      rss_hstype;
 	u8      rss_base_cpu;
@@ -718,17 +677,7 @@ struct emac_tx_queue {
 
 /* driver private data structure */
 struct emac_adapter {
-<<<<<<< HEAD
 	struct net_device *netdev;
-=======
-	struct net_device		*netdev;
-	struct mii_bus			*mii_bus;
-	struct phy_device		*phydev;
-	struct emac_phy			phy;
-	struct emac_hw			hw;
-	struct emac_hw_stats		hw_stats;
-	int irq_status;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	struct emac_irq_per_dev		irq[EMAC_IRQ_CNT];
 	unsigned int			gpio[EMAC_GPIO_CNT];
@@ -754,13 +703,10 @@ struct emac_adapter {
 
 	u32 rxbuf_size;
 
-<<<<<<< HEAD
 	struct emac_phy phy;
 	struct emac_hw hw;
 	struct emac_hw_stats hw_stats;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* tx timestamping queue */
 	struct sk_buff_head         hwtxtstamp_pending_queue;
 	struct sk_buff_head         hwtxtstamp_ready_queue;
@@ -768,11 +714,7 @@ struct emac_adapter {
 	spinlock_t                  hwtxtstamp_lock; /* lock for hwtxtstamp */
 	struct emac_tx_tstamp_stats hwtxtstamp_stats;
 
-<<<<<<< HEAD
 	struct work_struct emac_task;
-=======
-	struct work_struct work_thread;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct timer_list  emac_timer;
 	unsigned long	link_jiffies;
 
@@ -788,15 +730,9 @@ struct emac_adapter {
 	int	(*gpio_on)(struct emac_adapter *adpt, bool mdio, bool ephy);
 	int	(*gpio_off)(struct emac_adapter *adpt, bool mdio, bool ephy);
 	struct wakeup_source link_wlock;
-<<<<<<< HEAD
 	bool		runtime_enable;
 	bool		is_wol_enabled;
 	spinlock_t	wol_irq_lock; /* lock for wol irq gpio enablement */
-=======
-
-	u32       bus_cl_hdl;
-	struct msm_bus_scale_pdata *bus_scale_table;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static inline struct emac_adapter *emac_hw_get_adap(struct emac_hw *hw)
@@ -817,7 +753,6 @@ struct emac_adapter *emac_irq_get_adpt(struct emac_irq_per_dev *irq)
 }
 
 /* default to trying for four seconds */
-<<<<<<< HEAD
 #define EMAC_TRY_LINK_TIMEOUT     (4 * HZ)
 
 #define EMAC_HW_CTRL_RESET_MAC         0x00000001
@@ -830,25 +765,9 @@ void emac_update_hw_stats(struct emac_adapter *adpt);
 int emac_resize_rings(struct net_device *netdev);
 int emac_up(struct emac_adapter *adpt);
 void emac_down(struct emac_adapter *adpt, u32 ctrl);
-=======
-#define EMAC_TRY_LINK_TIMEOUT     (4 * 1000)
-
-#define EMAC_HW_CTRL_RESET_MAC         0x00000001
-
-void emac_set_ethtool_ops(struct net_device *netdev);
-int emac_reinit_locked(struct emac_adapter *adpt);
-void emac_update_hw_stats(struct emac_adapter *adpt);
-int emac_resize_rings(struct net_device *netdev);
-int emac_mac_up(struct emac_adapter *adpt);
-void emac_mac_down(struct emac_adapter *adpt, u32 ctrl);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int emac_clk_set_rate(struct emac_adapter *adpt, enum emac_clk_id id,
 		      enum emac_clk_rate rate);
 void emac_task_schedule(struct emac_adapter *adpt);
 void emac_check_lsc(struct emac_adapter *adpt);
-<<<<<<< HEAD
-=======
-void emac_wol_gpio_irq(struct emac_adapter *adpt, bool enable);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* _QCOM_EMAC_H_ */

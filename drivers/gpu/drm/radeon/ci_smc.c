@@ -129,11 +129,7 @@ void ci_reset_smc(struct radeon_device *rdev)
 
 int ci_program_jump_on_start(struct radeon_device *rdev)
 {
-<<<<<<< HEAD
 	static u8 data[] = { 0xE0, 0x00, 0x80, 0x40 };
-=======
-	static const u8 data[] = { 0xE0, 0x00, 0x80, 0x40 };
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ci_copy_bytes_to_smc(rdev, 0x0, data, 4, sizeof(data)+1);
 }
@@ -188,10 +184,6 @@ PPSMC_Result ci_send_msg_to_smc(struct radeon_device *rdev, PPSMC_Msg msg)
 	return (PPSMC_Result)tmp;
 }
 
-<<<<<<< HEAD
-=======
-#if 0
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 PPSMC_Result ci_wait_for_smc_inactive(struct radeon_device *rdev)
 {
 	u32 tmp;
@@ -209,10 +201,6 @@ PPSMC_Result ci_wait_for_smc_inactive(struct radeon_device *rdev)
 
 	return PPSMC_Result_OK;
 }
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int ci_load_smc_ucode(struct radeon_device *rdev, u32 limit)
 {

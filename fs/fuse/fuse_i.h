@@ -355,12 +355,6 @@ struct fuse_req {
 	/** Inode used in the request or NULL */
 	struct inode *inode;
 
-<<<<<<< HEAD
-=======
-	/** Path used for completing d_canonical_path */
-	struct path *canonical_path;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/** AIO control block */
 	struct fuse_io_priv *io;
 

@@ -1163,15 +1163,12 @@ static int usbtmc_probe(struct usb_interface *intf,
 		}
 	}
 
-<<<<<<< HEAD
 	if (!data->bulk_out || !data->bulk_in) {
 		dev_err(&intf->dev, "bulk endpoints not found\n");
 		retcode = -ENODEV;
 		goto err_put;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	retcode = get_capabilities(data);
 	if (retcode)
 		dev_err(&intf->dev, "can't read capabilities\n");
@@ -1195,10 +1192,7 @@ static int usbtmc_probe(struct usb_interface *intf,
 error_register:
 	sysfs_remove_group(&intf->dev.kobj, &capability_attr_grp);
 	sysfs_remove_group(&intf->dev.kobj, &data_attr_grp);
-<<<<<<< HEAD
 err_put:
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kref_put(&data->kref, usbtmc_delete);
 	return retcode;
 }

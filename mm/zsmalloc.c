@@ -16,11 +16,7 @@
  * struct page(s) to form a zspage.
  *
  * Usage of struct page fields:
-<<<<<<< HEAD
  *	page->private: points to the first component (0-order) page
-=======
- *	page->first_page: points to the first component (0-order) page
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *	page->index (union with page->freelist): offset of the first object
  *		starting in this page. For the first page, this is
  *		always 0, so we use this field (aka freelist) to point
@@ -30,12 +26,7 @@
  *
  *	For _first_ page only:
  *
-<<<<<<< HEAD
  *	page->private: refers to the component page after the first page
-=======
- *	page->private (union with page->first_page): refers to the
- *		component page after the first page
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *		If the page is first_page for huge object, it stores handle.
  *		Look at size_class->huge.
  *	page->freelist: points to the first free object in zspage.
@@ -781,11 +772,7 @@ static struct page *get_first_page(struct page *page)
 	if (is_first_page(page))
 		return page;
 	else
-<<<<<<< HEAD
 		return (struct page *)page_private(page);
-=======
-		return page->first_page;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static struct page *get_next_page(struct page *page)
@@ -863,33 +850,17 @@ static unsigned long obj_idx_to_offset(struct page *page,
 
 static inline int trypin_tag(unsigned long handle)
 {
-<<<<<<< HEAD
 	return bit_spin_trylock(HANDLE_PIN_BIT, (unsigned long *)handle);
-=======
-	unsigned long *ptr = (unsigned long *)handle;
-
-	return !test_and_set_bit_lock(HANDLE_PIN_BIT, ptr);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void pin_tag(unsigned long handle)
 {
-<<<<<<< HEAD
 	bit_spin_lock(HANDLE_PIN_BIT, (unsigned long *)handle);
-=======
-	while (!trypin_tag(handle));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void unpin_tag(unsigned long handle)
 {
-<<<<<<< HEAD
 	bit_spin_unlock(HANDLE_PIN_BIT, (unsigned long *)handle);
-=======
-	unsigned long *ptr = (unsigned long *)handle;
-
-	clear_bit_unlock(HANDLE_PIN_BIT, ptr);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void reset_page(struct page *page)
@@ -982,11 +953,7 @@ static struct page *alloc_zspage(struct size_class *class, gfp_t flags)
 	 * Allocate individual pages and link them together as:
 	 * 1. first page->private = first sub-page
 	 * 2. all sub-pages are linked together using page->lru
-<<<<<<< HEAD
 	 * 3. each sub-page is linked to the first page using page->private
-=======
-	 * 3. each sub-page is linked to the first page using page->first_page
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 *
 	 * For each size class, First/Head pages are linked together using
 	 * page->lru. Also, we set PG_private to identify the first page
@@ -1011,11 +978,7 @@ static struct page *alloc_zspage(struct size_class *class, gfp_t flags)
 		if (i == 1)
 			set_page_private(first_page, (unsigned long)page);
 		if (i >= 1)
-<<<<<<< HEAD
 			set_page_private(page, (unsigned long)first_page);
-=======
-			page->first_page = first_page;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (i >= 2)
 			list_add(&page->lru, &prev_page->lru);
 		if (i == class->pages_per_zspage - 1)	/* last page */

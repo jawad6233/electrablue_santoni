@@ -486,12 +486,7 @@ static void eoi_pirq(struct irq_data *data)
 	if (!VALID_EVTCHN(evtchn))
 		return;
 
-<<<<<<< HEAD
 	if (unlikely(irqd_is_setaffinity_pending(data))) {
-=======
-	if (unlikely(irqd_is_setaffinity_pending(data)) &&
-	    likely(!irqd_irq_disabled(data))) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		int masked = test_and_set_mask(evtchn);
 
 		clear_evtchn(evtchn);
@@ -1378,12 +1373,7 @@ static void ack_dynirq(struct irq_data *data)
 	if (!VALID_EVTCHN(evtchn))
 		return;
 
-<<<<<<< HEAD
 	if (unlikely(irqd_is_setaffinity_pending(data))) {
-=======
-	if (unlikely(irqd_is_setaffinity_pending(data)) &&
-	    likely(!irqd_irq_disabled(data))) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		int masked = test_and_set_mask(evtchn);
 
 		clear_evtchn(evtchn);

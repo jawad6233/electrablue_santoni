@@ -480,11 +480,7 @@ static void configure_bark_dump(struct msm_watchdog_data *wdog_dd)
 			 * without saving registers.
 			 */
 		}
-<<<<<<< HEAD
 	} else if (IS_ENABLED(CONFIG_MSM_MEMORY_DUMP_V2)) {
-=======
-	} else {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		cpu_data = kzalloc(sizeof(struct msm_dump_data) *
 				   num_present_cpus(), GFP_KERNEL);
 		if (!cpu_data) {

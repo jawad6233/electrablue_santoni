@@ -59,15 +59,12 @@ struct suspend_stats suspend_stats;
 static DEFINE_MUTEX(dpm_list_mtx);
 static pm_message_t pm_transition;
 
-<<<<<<< HEAD
 static void dpm_drv_timeout(unsigned long data);
 struct dpm_drv_wd_data {
 	struct device *dev;
 	struct task_struct *tsk;
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int async_error;
 
 static char *pm_verb(int event)
@@ -689,13 +686,10 @@ void dpm_resume_early(pm_message_t state)
 	struct device *dev;
 	ktime_t starttime = ktime_get();
 
-<<<<<<< HEAD
 #ifdef CONFIG_BOEFFLA_WL_BLOCKER
 	pm_print_active_wakeup_sources();
 #endif
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	trace_suspend_resume(TPS("dpm_resume_early"), state.event, true);
 	mutex_lock(&dpm_list_mtx);
 	pm_transition = state;
@@ -857,7 +851,6 @@ static void async_resume(void *data, async_cookie_t cookie)
 }
 
 /**
-<<<<<<< HEAD
  *	dpm_drv_timeout - Driver suspend / resume watchdog handler
  *	@data: struct device which timed out
  *
@@ -882,8 +875,6 @@ static void dpm_drv_timeout(unsigned long data)
 }
 
 /**
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * dpm_resume - Execute "resume" callbacks for non-sysdev devices.
  * @state: PM transition of the system being carried out.
  *
@@ -1393,11 +1384,8 @@ static int __device_suspend(struct device *dev, pm_message_t state, bool async)
 	pm_callback_t callback = NULL;
 	char *info = NULL;
 	int error = 0;
-<<<<<<< HEAD
 	struct timer_list timer;
 	struct dpm_drv_wd_data data;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	char suspend_abort[MAX_SUSPEND_ABORT_LEN];
 	DECLARE_DPM_WATCHDOG_ON_STACK(wd);
 
@@ -1425,7 +1413,6 @@ static int __device_suspend(struct device *dev, pm_message_t state, bool async)
 
 	if (dev->power.syscore)
 		goto Complete;
-<<<<<<< HEAD
 	
 	data.dev = dev;
 	data.tsk = get_current();
@@ -1434,8 +1421,6 @@ static int __device_suspend(struct device *dev, pm_message_t state, bool async)
 	timer.function = dpm_drv_timeout;
 	timer.data = (unsigned long)&data;
 	add_timer(&timer);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (dev->power.direct_complete) {
 		if (pm_runtime_status_suspended(dev)) {
@@ -1516,12 +1501,9 @@ static int __device_suspend(struct device *dev, pm_message_t state, bool async)
 	device_unlock(dev);
 	dpm_watchdog_clear(&wd);
 
-<<<<<<< HEAD
 	del_timer_sync(&timer);
 	destroy_timer_on_stack(&timer);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  Complete:
 	complete_all(&dev->power.completion);
 	if (error)

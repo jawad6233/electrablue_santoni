@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2014, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -488,11 +484,7 @@ static VOS_STATUS WLANBAP_STAFetchPktCB
         return VosStatus;
     }
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO, "%s: pVosPkt(vos_pkt_t *)=%p", __func__,
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO, "%s: pVosPkt(vos_pkt_t *)=%pK", __func__,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                pVosPkt );
 
     VosStatus = WLANBAP_XlateTxDataPkt( pctx->bapHdl, pPhyCtx->PhyLinkHdl,
@@ -516,11 +508,7 @@ static VOS_STATUS WLANBAP_STAFetchPktCB
     // provide the meta-info BAP provided previously
     *tlMetaInfo = TlMetaInfo;
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: *vosDataBuff(vos_pkt_t *)=%p", __func__, *vosDataBuff );
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: *vosDataBuff(vos_pkt_t *)=%pK", __func__, *vosDataBuff );
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     return(VOS_STATUS_SUCCESS);
 } // WLANBAP_STAFetchPktCB()
@@ -631,11 +619,7 @@ static VOS_STATUS WLANBAP_STARxCB
        gpBslctx->rx_skb = skb;
 
        // This is how data and events are passed up to BlueZ
-<<<<<<< HEAD
        hci_recv_frame(gpBslctx->hdev,gpBslctx->rx_skb);
-=======
-       hci_recv_frame(gpBslctx->rx_skb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
        // now process the next packet in the chain
        pVosPacket = pNextVosPacket;
@@ -681,11 +665,7 @@ static VOS_STATUS WLANBAP_TxCompCB
     BslClientCtxType* ppctx;
     static int num_packets;
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO, "WLANBAP_TxCompCB. vosDataBuff(vos_pkt_t *)=%p", vosDataBuff );
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO, "WLANBAP_TxCompCB. vosDataBuff(vos_pkt_t *)=%pK", vosDataBuff );
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     // be aware that pHddHdl can be NULL or can point to the per association
     // BSL context from the register data plane. In either case it does not
@@ -1515,11 +1495,7 @@ static VOS_STATUS WLANBAP_EventCB
     gpBslctx->rx_skb = skb;
 
     // This is how data and events are passed up to BlueZ
-<<<<<<< HEAD
     hci_recv_frame(gpBslctx->hdev,gpBslctx->rx_skb);
-=======
-    hci_recv_frame(gpBslctx->rx_skb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     return(VOS_STATUS_SUCCESS);
 } // WLANBAP_EventCB()
@@ -3628,19 +3604,7 @@ static BOOL BslProcessACLDataTx
 } // BslProcessACLDataTx()
 
 
-<<<<<<< HEAD
 
-=======
-static inline void *hci_get_drvdata(struct hci_dev *hdev)
-{
-    return hdev->driver_data;
-}
-
-static inline void hci_set_drvdata(struct hci_dev *hdev, void *data)
-{
-    hdev->driver_data = data;
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*---------------------------------------------------------------------------
  *   Function definitions
@@ -4156,11 +4120,7 @@ static int BSL_Write(struct sk_buff *skb)
     case HCI_ACLDATA_PKT:
         // Directly execute the data write
         VOS_TRACE(VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
-<<<<<<< HEAD
                   "%s: HCI ACL data tx, skb=%p",
-=======
-                  "%s: HCI ACL data tx, skb=%pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, skb);
         // ACL data
         hdev->stat.acl_tx++;
@@ -4200,11 +4160,7 @@ static int BSL_Write(struct sk_buff *skb)
                   bslWriteFinish);
 
         VOS_TRACE(VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
-<<<<<<< HEAD
                   "%s: Scheduling work for skb %p, BT-AMP Client context %p, work %p",
-=======
-                  "%s: Scheduling work for skb %pK, BT-AMP Client context %pK, work %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                   __func__, skb, pctx, pHciContext);
 
         status = schedule_work(&pHciContext->hciInterfaceProcessing);
@@ -4268,11 +4224,7 @@ static void bslWriteFinish(struct work_struct *work)
     v_SIZE_t written = 0;
 
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_LOW,
-<<<<<<< HEAD
               "%s: Entered, context %p",
-=======
-              "%s: Entered, context %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
               __func__, pctx);
 
     // Sanity check inputs
@@ -4339,11 +4291,7 @@ static void bslWriteFinish(struct work_struct *work)
     };
 
     VOS_TRACE(VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
-<<<<<<< HEAD
               "%s: Freeing skb %p",
-=======
-              "%s: Freeing skb %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
               __func__, skb);
 
     consume_skb(skb);

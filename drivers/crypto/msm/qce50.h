@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -218,11 +214,7 @@ struct ce_sps_data {
 };
 
 struct ce_request_info {
-<<<<<<< HEAD
 	bool in_use;
-=======
-	atomic_t in_use;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bool in_prog;
 	enum qce_xfer_type_enum	xfer_type;
 	struct ce_sps_data ce_sps;

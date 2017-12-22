@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -94,21 +90,6 @@ static int diagfwd_bridge_mux_disconnect(int id, int mode)
 {
 	if (id < 0 || id >= NUM_REMOTE_DEV)
 		return -EINVAL;
-<<<<<<< HEAD
-=======
-
-	if ((mode == DIAG_USB_MODE &&
-		driver->logging_mode == DIAG_MEMORY_DEVICE_MODE) ||
-		(mode == DIAG_MEMORY_DEVICE_MODE &&
-		driver->logging_mode == DIAG_USB_MODE)) {
-		/*
-		 * Don't close the MHI channels when usb is disconnected
-		 * and a process is running in memory device mode.
-		 */
-		return 0;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (bridge_info[id].dev_ops && bridge_info[id].dev_ops->close)
 		bridge_info[id].dev_ops->close(bridge_info[id].ctxt);
 	return 0;
@@ -126,11 +107,7 @@ static int diagfwd_bridge_mux_write_done(unsigned char *buf, int len,
 
 	if (id < 0 || id >= NUM_REMOTE_DEV)
 		return -EINVAL;
-<<<<<<< HEAD
 	ch = &bridge_info[id];
-=======
-	ch = &bridge_info[buf_ctx];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ch->dev_ops && ch->dev_ops->fwd_complete)
 		ch->dev_ops->fwd_complete(ch->ctxt, buf, len, 0);
 	return 0;

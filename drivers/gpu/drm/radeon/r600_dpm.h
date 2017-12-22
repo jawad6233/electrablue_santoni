@@ -96,12 +96,6 @@
 #define R600_TEMP_RANGE_MIN (90 * 1000)
 #define R600_TEMP_RANGE_MAX (120 * 1000)
 
-<<<<<<< HEAD
-=======
-#define FDO_PWM_MODE_STATIC  1
-#define FDO_PWM_MODE_STATIC_RPM 5
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum r600_power_level {
 	R600_POWER_LEVEL_LOW = 0,
 	R600_POWER_LEVEL_MEDIUM = 1,

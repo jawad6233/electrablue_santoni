@@ -29,10 +29,6 @@
 extern const struct intel_renderstate_rodata gen6_null_state;
 extern const struct intel_renderstate_rodata gen7_null_state;
 extern const struct intel_renderstate_rodata gen8_null_state;
-<<<<<<< HEAD
-=======
-extern const struct intel_renderstate_rodata gen9_null_state;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define RO_RENDERSTATE(_g)						\
 	const struct intel_renderstate_rodata gen ## _g ## _null_state = { \

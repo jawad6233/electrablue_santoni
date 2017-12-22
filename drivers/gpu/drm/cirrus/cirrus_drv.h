@@ -210,12 +210,6 @@ int cirrus_framebuffer_init(struct drm_device *dev,
 			    struct drm_mode_fb_cmd2 *mode_cmd,
 			    struct drm_gem_object *obj);
 
-<<<<<<< HEAD
-=======
-bool cirrus_check_framebuffer(struct cirrus_device *cdev, int width, int height,
-			      int bpp, int pitch);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				/* cirrus_display.c */
 int cirrus_modeset_init(struct cirrus_device *cdev);
 void cirrus_modeset_fini(struct cirrus_device *cdev);
@@ -265,10 +259,4 @@ static inline void cirrus_bo_unreserve(struct cirrus_bo *bo)
 
 int cirrus_bo_push_sysram(struct cirrus_bo *bo);
 int cirrus_bo_pin(struct cirrus_bo *bo, u32 pl_flag, u64 *gpu_addr);
-<<<<<<< HEAD
-=======
-
-extern int cirrus_bpp;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif				/* __CIRRUS_DRV_H__ */

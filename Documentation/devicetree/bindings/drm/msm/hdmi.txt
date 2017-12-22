@@ -4,10 +4,6 @@ Required properties:
 - compatible: one of the following
    * "qcom,hdmi-tx-8660"
    * "qcom,hdmi-tx-8960"
-<<<<<<< HEAD
-=======
-   * "qcom,hdmi-tx-8996"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - reg: Physical base address and length of the controller's registers
 - reg-names: "core_physical"
 - interrupts: The interrupt signal from the hdmi block.

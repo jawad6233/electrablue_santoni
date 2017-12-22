@@ -21,10 +21,6 @@
  * No importance for order.
  */
 IPA_UT_DECLARE_SUITE(mhi);
-<<<<<<< HEAD
-=======
-IPA_UT_DECLARE_SUITE(dma);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 IPA_UT_DECLARE_SUITE(example);
 
 
@@ -35,10 +31,6 @@ IPA_UT_DECLARE_SUITE(example);
 IPA_UT_DEFINE_ALL_SUITES_START
 {
 	IPA_UT_REGISTER_SUITE(mhi),
-<<<<<<< HEAD
-=======
-	IPA_UT_REGISTER_SUITE(dma),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	IPA_UT_REGISTER_SUITE(example),
 } IPA_UT_DEFINE_ALL_SUITES_END;
 

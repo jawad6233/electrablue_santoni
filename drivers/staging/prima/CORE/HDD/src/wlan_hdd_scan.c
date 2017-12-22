@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -630,11 +626,7 @@ static eHalStatus hdd_ScanRequestCallback(tHalHandle halHandle, void *pContext,
     
     ENTER();
 
-<<<<<<< HEAD
     hddLog(LOGW,"%s called with halHandle = %p, pContext = %p, scanID = %d,"
-=======
-    hddLog(LOGW,"%s called with halHandle = %pK, pContext = %pK, scanID = %d,"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
            " returned status = %d", __func__, halHandle, pContext,
            (int) scanId, (int) status);
 
@@ -644,11 +636,7 @@ static eHalStatus hdd_ScanRequestCallback(tHalHandle halHandle, void *pContext,
        do some quick sanity before proceeding */
     if (pAdapter->dev != dev)
     {
-<<<<<<< HEAD
        hddLog(LOGW, "%s: device mismatch %p vs %p",
-=======
-       hddLog(LOGW, "%s: device mismatch %pK vs %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                __func__, pAdapter->dev, dev);
         return eHAL_STATUS_SUCCESS;
     }
@@ -1026,11 +1014,7 @@ static eHalStatus hdd_CscanRequestCallback(tHalHandle halHandle, void *pContext,
     VOS_STATUS vos_status = VOS_STATUS_SUCCESS;
     ENTER();
 
-<<<<<<< HEAD
     hddLog(LOG1,"%s called with halHandle = %p, pContext = %p, scanID = %d,"
-=======
-    hddLog(LOG1,"%s called with halHandle = %pK, pContext = %pK, scanID = %d,"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
            " returned status = %d", __func__, halHandle, pContext,
             (int) scanId, (int) status);
 

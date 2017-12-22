@@ -51,20 +51,12 @@ nouveau_display_vblank_handler(struct nvif_notify *notify)
 }
 
 int
-<<<<<<< HEAD
 nouveau_display_vblank_enable(struct drm_device *dev, int head)
-=======
-nouveau_display_vblank_enable(struct drm_device *dev, unsigned int pipe)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_crtc *crtc;
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-<<<<<<< HEAD
 		if (nv_crtc->index == head) {
-=======
-		if (nv_crtc->index == pipe) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			nvif_notify_get(&nv_crtc->vblank);
 			return 0;
 		}
@@ -73,20 +65,12 @@ nouveau_display_vblank_enable(struct drm_device *dev, unsigned int pipe)
 }
 
 void
-<<<<<<< HEAD
 nouveau_display_vblank_disable(struct drm_device *dev, int head)
-=======
-nouveau_display_vblank_disable(struct drm_device *dev, unsigned int pipe)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_crtc *crtc;
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-<<<<<<< HEAD
 		if (nv_crtc->index == head) {
-=======
-		if (nv_crtc->index == pipe) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			nvif_notify_put(&nv_crtc->vblank);
 			return;
 		}
@@ -119,10 +103,6 @@ nouveau_display_scanoutpos_head(struct drm_crtc *crtc, int *vpos, int *hpos,
 		.base.head = nouveau_crtc(crtc)->index,
 	};
 	struct nouveau_display *disp = nouveau_display(crtc->dev);
-<<<<<<< HEAD
-=======
-	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[drm_crtc_index(crtc)];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret, retry = 1;
 
 	do {
@@ -136,11 +116,7 @@ nouveau_display_scanoutpos_head(struct drm_crtc *crtc, int *vpos, int *hpos,
 			break;
 		}
 
-<<<<<<< HEAD
 		if (retry) ndelay(crtc->linedur_ns);
-=======
-		if (retry) ndelay(vblank->linedur_ns);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} while (retry--);
 
 	*hpos = args.scan.hline;
@@ -155,24 +131,13 @@ nouveau_display_scanoutpos_head(struct drm_crtc *crtc, int *vpos, int *hpos,
 }
 
 int
-<<<<<<< HEAD
 nouveau_display_scanoutpos(struct drm_device *dev, int head, unsigned int flags,
 			   int *vpos, int *hpos, ktime_t *stime, ktime_t *etime)
-=======
-nouveau_display_scanoutpos(struct drm_device *dev, unsigned int pipe,
-			   unsigned int flags, int *vpos, int *hpos,
-			   ktime_t *stime, ktime_t *etime,
-			   const struct drm_display_mode *mode)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_crtc *crtc;
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-<<<<<<< HEAD
 		if (nouveau_crtc(crtc)->index == head) {
-=======
-		if (nouveau_crtc(crtc)->index == pipe) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return nouveau_display_scanoutpos_head(crtc, vpos, hpos,
 							       stime, etime);
 		}
@@ -182,26 +147,15 @@ nouveau_display_scanoutpos(struct drm_device *dev, unsigned int pipe,
 }
 
 int
-<<<<<<< HEAD
 nouveau_display_vblstamp(struct drm_device *dev, int head, int *max_error,
 			 struct timeval *time, unsigned flags)
-=======
-nouveau_display_vblstamp(struct drm_device *dev, unsigned int pipe,
-			 int *max_error, struct timeval *time, unsigned flags)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_crtc *crtc;
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-<<<<<<< HEAD
 		if (nouveau_crtc(crtc)->index == head) {
 			return drm_calc_vbltimestamp_from_scanoutpos(dev,
 					head, max_error, time, flags, crtc,
-=======
-		if (nouveau_crtc(crtc)->index == pipe) {
-			return drm_calc_vbltimestamp_from_scanoutpos(dev,
-					pipe, max_error, time, flags,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					&crtc->hwmode);
 		}
 	}
@@ -231,11 +185,7 @@ nouveau_display_vblank_init(struct drm_device *dev)
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-<<<<<<< HEAD
 		ret = nvif_notify_init(&disp->disp, NULL,
-=======
-		ret = nvif_notify_init(&disp->disp,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				       nouveau_display_vblank_handler, false,
 				       NV04_DISP_NTFY_VBLANK,
 				       &(struct nvif_notify_head_req_v0) {
@@ -408,10 +358,6 @@ int
 nouveau_display_init(struct drm_device *dev)
 {
 	struct nouveau_display *disp = nouveau_display(dev);
-<<<<<<< HEAD
-=======
-	struct nouveau_drm *drm = nouveau_drm(dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_connector *connector;
 	int ret;
 
@@ -428,11 +374,6 @@ nouveau_display_init(struct drm_device *dev)
 		nvif_notify_get(&conn->hpd);
 	}
 
-<<<<<<< HEAD
-=======
-	/* enable flip completion events */
-	nvif_notify_get(&drm->flip);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 
@@ -440,10 +381,6 @@ void
 nouveau_display_fini(struct drm_device *dev)
 {
 	struct nouveau_display *disp = nouveau_display(dev);
-<<<<<<< HEAD
-=======
-	struct nouveau_drm *drm = nouveau_drm(dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct drm_connector *connector;
 	int head;
 
@@ -451,12 +388,6 @@ nouveau_display_fini(struct drm_device *dev)
 	for (head = 0; head < dev->mode_config.num_crtc; head++)
 		drm_vblank_off(dev, head);
 
-<<<<<<< HEAD
-=======
-	/* disable flip completion events */
-	nvif_notify_put(&drm->flip);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* disable hotplug interrupts */
 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
 		struct nouveau_connector *conn = nouveau_connector(connector);
@@ -507,10 +438,6 @@ int
 nouveau_display_create(struct drm_device *dev)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
-=======
-	struct nvkm_device *device = nvxx_device(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_display *disp;
 	int ret;
 
@@ -523,11 +450,7 @@ nouveau_display_create(struct drm_device *dev)
 	drm_mode_create_dvi_i_properties(dev);
 
 	dev->mode_config.funcs = &nouveau_mode_config_funcs;
-<<<<<<< HEAD
 	dev->mode_config.fb_base = nv_device_resource_start(nvkm_device(&drm->device), 1);
-=======
-	dev->mode_config.fb_base = device->func->resource_addr(device, 1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	dev->mode_config.min_width = 0;
 	dev->mode_config.min_height = 0;
@@ -538,19 +461,9 @@ nouveau_display_create(struct drm_device *dev)
 	if (drm->device.info.family < NV_DEVICE_INFO_V0_TESLA) {
 		dev->mode_config.max_width = 4096;
 		dev->mode_config.max_height = 4096;
-<<<<<<< HEAD
 	} else {
 		dev->mode_config.max_width = 8192;
 		dev->mode_config.max_height = 8192;
-=======
-	} else
-	if (drm->device.info.family < NV_DEVICE_INFO_V0_FERMI) {
-		dev->mode_config.max_width = 8192;
-		dev->mode_config.max_height = 8192;
-	} else {
-		dev->mode_config.max_width = 16384;
-		dev->mode_config.max_height = 16384;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	dev->mode_config.preferred_depth = 24;
@@ -566,10 +479,6 @@ nouveau_display_create(struct drm_device *dev)
 
 	if (nouveau_modeset != 2 && drm->vbios.dcb.entries) {
 		static const u16 oclass[] = {
-<<<<<<< HEAD
-=======
-			GM204_DISP,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			GM107_DISP,
 			GK110_DISP,
 			GK104_DISP,
@@ -584,14 +493,9 @@ nouveau_display_create(struct drm_device *dev)
 		int i;
 
 		for (i = 0, ret = -ENODEV; ret && i < ARRAY_SIZE(oclass); i++) {
-<<<<<<< HEAD
 			ret = nvif_object_init(nvif_object(&drm->device), NULL,
 					       NVDRM_DISPLAY, oclass[i],
 					       NULL, 0, &disp->disp);
-=======
-			ret = nvif_object_init(&drm->device.object, 0,
-					       oclass[i], NULL, 0, &disp->disp);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		if (ret == 0) {
@@ -664,17 +568,9 @@ nouveau_display_suspend(struct drm_device *dev, bool runtime)
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-<<<<<<< HEAD
 
 		nouveau_bo_unmap(nv_crtc->cursor.nvbo);
 		nouveau_bo_unpin(nv_crtc->cursor.nvbo);
-=======
-		if (nv_crtc->cursor.nvbo) {
-			if (nv_crtc->cursor.set_offset)
-				nouveau_bo_unmap(nv_crtc->cursor.nvbo);
-			nouveau_bo_unpin(nv_crtc->cursor.nvbo);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return 0;
@@ -695,28 +591,16 @@ nouveau_display_resume(struct drm_device *dev, bool runtime)
 		if (!nouveau_fb || !nouveau_fb->nvbo)
 			continue;
 
-<<<<<<< HEAD
 		ret = nouveau_bo_pin(nouveau_fb->nvbo, TTM_PL_FLAG_VRAM);
-=======
-		ret = nouveau_bo_pin(nouveau_fb->nvbo, TTM_PL_FLAG_VRAM, true);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (ret)
 			NV_ERROR(drm, "Could not pin framebuffer\n");
 	}
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-<<<<<<< HEAD
 
 		ret = nouveau_bo_pin(nv_crtc->cursor.nvbo, TTM_PL_FLAG_VRAM);
 		if (!ret)
-=======
-		if (!nv_crtc->cursor.nvbo)
-			continue;
-
-		ret = nouveau_bo_pin(nv_crtc->cursor.nvbo, TTM_PL_FLAG_VRAM, true);
-		if (!ret && nv_crtc->cursor.set_offset)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			ret = nouveau_bo_map(nv_crtc->cursor.nvbo);
 		if (ret)
 			NV_ERROR(drm, "Could not pin/map cursor.\n");
@@ -731,13 +615,10 @@ nouveau_display_resume(struct drm_device *dev, bool runtime)
 		nv_crtc->lut.depth = 0;
 	}
 
-<<<<<<< HEAD
 	/* Make sure that drm and hw vblank irqs get resumed if needed. */
 	for (head = 0; head < dev->mode_config.num_crtc; head++)
 		drm_vblank_on(dev, head);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* This should ensure we don't hit a locking problem when someone
 	 * wakes us up via a connector.  We should never go into suspend
 	 * while the display is on anyways.
@@ -747,26 +628,11 @@ nouveau_display_resume(struct drm_device *dev, bool runtime)
 
 	drm_helper_resume_force_mode(dev);
 
-<<<<<<< HEAD
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
 		u32 offset = nv_crtc->cursor.nvbo->bo.offset;
 
 		nv_crtc->cursor.set_offset(nv_crtc, offset);
-=======
-	/* Make sure that drm and hw vblank irqs get resumed if needed. */
-	for (head = 0; head < dev->mode_config.num_crtc; head++)
-		drm_vblank_on(dev, head);
-
-	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
-
-		if (!nv_crtc->cursor.nvbo)
-			continue;
-
-		if (nv_crtc->cursor.set_offset)
-			nv_crtc->cursor.set_offset(nv_crtc, nv_crtc->cursor.nvbo->bo.offset);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		nv_crtc->cursor.set_pos(nv_crtc, nv_crtc->cursor_saved_x,
 						 nv_crtc->cursor_saved_y);
 	}
@@ -837,22 +703,14 @@ nouveau_crtc_page_flip(struct drm_crtc *crtc, struct drm_framebuffer *fb,
 	chan = drm->channel;
 	if (!chan)
 		return -ENODEV;
-<<<<<<< HEAD
 	cli = (void *)nvif_client(&chan->device->base);
-=======
-	cli = (void *)chan->user.client;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	s = kzalloc(sizeof(*s), GFP_KERNEL);
 	if (!s)
 		return -ENOMEM;
 
 	if (new_bo != old_bo) {
-<<<<<<< HEAD
 		ret = nouveau_bo_pin(new_bo, TTM_PL_FLAG_VRAM);
-=======
-		ret = nouveau_bo_pin(new_bo, TTM_PL_FLAG_VRAM, true);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (ret)
 			goto fail_free;
 	}
@@ -949,10 +807,7 @@ nouveau_finish_page_flip(struct nouveau_channel *chan,
 	struct drm_device *dev = drm->dev;
 	struct nouveau_page_flip_state *s;
 	unsigned long flags;
-<<<<<<< HEAD
 	int crtcid = -1;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	spin_lock_irqsave(&dev->event_lock, flags);
 
@@ -964,7 +819,6 @@ nouveau_finish_page_flip(struct nouveau_channel *chan,
 
 	s = list_first_entry(&fctx->flip, struct nouveau_page_flip_state, head);
 	if (s->event) {
-<<<<<<< HEAD
 		/* Vblank timestamps/counts are only correct on >= NV-50 */
 		if (drm->device.info.family >= NV_DEVICE_INFO_V0_TESLA)
 			crtcid = s->crtc;
@@ -974,21 +828,6 @@ nouveau_finish_page_flip(struct nouveau_channel *chan,
 
 	/* Give up ownership of vblank for page-flipped crtc */
 	drm_vblank_put(dev, s->crtc);
-=======
-		if (drm->device.info.family < NV_DEVICE_INFO_V0_TESLA) {
-			drm_arm_vblank_event(dev, s->crtc, s->event);
-		} else {
-			drm_send_vblank_event(dev, s->crtc, s->event);
-
-			/* Give up ownership of vblank for page-flipped crtc */
-			drm_vblank_put(dev, s->crtc);
-		}
-	}
-	else {
-		/* Give up ownership of vblank for page-flipped crtc */
-		drm_vblank_put(dev, s->crtc);
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_del(&s->head);
 	if (ps)
@@ -1000,17 +839,10 @@ nouveau_finish_page_flip(struct nouveau_channel *chan,
 }
 
 int
-<<<<<<< HEAD
 nouveau_flip_complete(void *data)
 {
 	struct nouveau_channel *chan = data;
 	struct nouveau_drm *drm = chan->drm;
-=======
-nouveau_flip_complete(struct nvif_notify *notify)
-{
-	struct nouveau_drm *drm = container_of(notify, typeof(*drm), flip);
-	struct nouveau_channel *chan = drm->channel;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_page_flip_state state;
 
 	if (!nouveau_finish_page_flip(chan, &state)) {
@@ -1021,11 +853,7 @@ nouveau_flip_complete(struct nvif_notify *notify)
 		}
 	}
 
-<<<<<<< HEAD
 	return 0;
-=======
-	return NVIF_NOTIFY_KEEP;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int
@@ -1033,27 +861,13 @@ nouveau_display_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
 			    struct drm_mode_create_dumb *args)
 {
 	struct nouveau_bo *bo;
-<<<<<<< HEAD
-=======
-	uint32_t domain;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	args->pitch = roundup(args->width * (args->bpp / 8), 256);
 	args->size = args->pitch * args->height;
 	args->size = roundup(args->size, PAGE_SIZE);
 
-<<<<<<< HEAD
 	ret = nouveau_gem_new(dev, args->size, 0, NOUVEAU_GEM_DOMAIN_VRAM, 0, 0, &bo);
-=======
-	/* Use VRAM if there is any ; otherwise fallback to system memory */
-	if (nouveau_drm(dev)->device.info.ram_size != 0)
-		domain = NOUVEAU_GEM_DOMAIN_VRAM;
-	else
-		domain = NOUVEAU_GEM_DOMAIN_GART;
-
-	ret = nouveau_gem_new(dev, args->size, 0, domain, 0, 0, &bo);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 

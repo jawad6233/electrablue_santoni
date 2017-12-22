@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2011-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -1308,11 +1304,6 @@ get_eRoamCmdStatus_str(eRoamCmdStatus val)
 #endif /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
         CASE_RETURN_STR(eCSR_ROAM_UPDATE_MAX_RATE_IND);
         CASE_RETURN_STR(eCSR_ROAM_LOST_LINK_PARAMS_IND);
-<<<<<<< HEAD
-=======
-        CASE_RETURN_STR(eCSR_ROAM_ECSA_BCN_TX_IND);
-        CASE_RETURN_STR(eCSR_ROAM_ECSA_CHAN_CHANGE_RSP);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     default:
         return "unknown";
     }

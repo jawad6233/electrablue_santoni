@@ -515,11 +515,8 @@ static void async_completed(struct urb *urb)
 	if (as->status < 0 && as->bulk_addr && as->status != -ECONNRESET &&
 			as->status != -ENOENT)
 		cancel_bulk_urbs(ps, as->bulk_addr);
-<<<<<<< HEAD
 
 	wake_up(&ps->wait);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	spin_unlock(&ps->lock);
 
 	if (signr) {
@@ -527,11 +524,6 @@ static void async_completed(struct urb *urb)
 		put_pid(pid);
 		put_cred(cred);
 	}
-<<<<<<< HEAD
-=======
-
-	wake_up(&ps->wait);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void destroy_async(struct usb_dev_state *ps, struct list_head *list)
@@ -1533,7 +1525,6 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
 	as->urb->start_frame = uurb->start_frame;
 	as->urb->number_of_packets = number_of_packets;
 	as->urb->stream_id = stream_id;
-<<<<<<< HEAD
 
 	if (ep->desc.bInterval) {
 		if (uurb->type == USBDEVFS_URB_TYPE_ISO ||
@@ -1545,13 +1536,6 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
 			as->urb->interval = ep->desc.bInterval;
 	}
 
-=======
-	if (uurb->type == USBDEVFS_URB_TYPE_ISO ||
-			ps->dev->speed == USB_SPEED_HIGH)
-		as->urb->interval = 1 << min(15, ep->desc.bInterval - 1);
-	else
-		as->urb->interval = ep->desc.bInterval;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	as->urb->context = as;
 	as->urb->complete = async_completed;
 	for (totlen = u = 0; u < number_of_packets; u++) {

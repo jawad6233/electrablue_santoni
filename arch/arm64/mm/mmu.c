@@ -28,10 +28,6 @@
 #include <linux/io.h>
 #include <linux/dma-contiguous.h>
 #include <linux/cma.h>
-<<<<<<< HEAD
-=======
-#include <linux/slab.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/stop_machine.h>
 
 #include <asm/cputype.h>
@@ -46,16 +42,10 @@
 
 #include "mm.h"
 
-<<<<<<< HEAD
-=======
-u64 idmap_t0sz = TCR_T0SZ(VA_BITS);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Empty_zero_page is a special page that is used for zero-initialized data
  * and COW.
  */
-<<<<<<< HEAD
 struct page *empty_zero_page;
 EXPORT_SYMBOL(empty_zero_page);
 
@@ -81,11 +71,6 @@ static struct cachepolicy cache_policies[] __initdata = {
 	}
 };
 
-=======
-unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)] __page_aligned_bss;
-EXPORT_SYMBOL(empty_zero_page);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static bool __init dma_overlap(phys_addr_t start, phys_addr_t end);
 
 #ifdef CONFIG_STRICT_MEMORY_RWX
@@ -176,7 +161,6 @@ static inline void mem_text_address_restore(u64 addr) {};
 static inline void mem_text_writeable_spinunlock(unsigned long *flags) {};
 #endif
 
-<<<<<<< HEAD
 void mem_text_write_kernel_word(u32 *addr, u32 word)
 {
 	unsigned long flags;
@@ -243,8 +227,6 @@ static int __init early_cachepolicy(char *p)
 }
 early_param("cachepolicy", early_cachepolicy);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
 			      unsigned long size, pgprot_t vma_prot)
 {
@@ -352,19 +334,8 @@ static void alloc_init_pmd(struct mm_struct *mm, pud_t *pud,
 			 * Check for previous table entries created during
 			 * boot (__create_page_tables) and flush them.
 			 */
-<<<<<<< HEAD
 			if (!pmd_none(old_pmd))
 				flush_tlb_all();
-=======
-			if (!pmd_none(old_pmd)) {
-				flush_tlb_all();
-				if (pmd_table(old_pmd)) {
-					phys_addr_t table = __pa(pte_offset_map(&old_pmd, 0));
-					if (!WARN_ON_ONCE(slab_is_available()))
-						memblock_free(table, PAGE_SIZE);
-				}
-			}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else {
 			alloc_init_pte(pmd, addr, next, __phys_to_pfn(phys),
 				       prot, alloc);
@@ -385,11 +356,7 @@ static inline bool use_1G_block(unsigned long addr, unsigned long next,
 	return true;
 }
 
-<<<<<<< HEAD
 static void __init alloc_init_pud(struct mm_struct *mm, pgd_t *pgd,
-=======
-static void alloc_init_pud(struct mm_struct *mm, pgd_t *pgd,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				  unsigned long addr, unsigned long end,
 				  phys_addr_t phys, pgprot_t prot,
 				  void *(*alloc)(unsigned long size), bool force_pages)
@@ -426,18 +393,9 @@ static void alloc_init_pud(struct mm_struct *mm, pgd_t *pgd,
 			 * Look up the old pmd table and free it.
 			 */
 			if (!pud_none(old_pud)) {
-<<<<<<< HEAD
 				phys_addr_t table = __pa(pmd_offset(&old_pud, 0));
 				memblock_free(table, PAGE_SIZE);
 				flush_tlb_all();
-=======
-				flush_tlb_all();
-				if (pud_table(old_pud)) {
-					phys_addr_t table = __pa(pmd_offset(&old_pud, 0));
-					if (!WARN_ON_ONCE(slab_is_available()))
-						memblock_free(table, PAGE_SIZE);
-				}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			}
 		} else {
 			alloc_init_pmd(mm, pud, addr, next, phys, prot, alloc, force_pages);
@@ -569,11 +527,7 @@ void __init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
 			       pgprot_t prot)
 {
 	__create_mapping(mm, pgd_offset(mm, virt), phys, virt, size, prot,
-<<<<<<< HEAD
 				early_alloc, false);
-=======
-				late_alloc, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void create_mapping_late(phys_addr_t phys, unsigned long virt,
@@ -780,14 +734,9 @@ void __init fixup_executable(void)
 void mark_rodata_ro(void)
 {
 	create_mapping_late(__pa(_stext), (unsigned long)_stext,
-<<<<<<< HEAD
 				(unsigned long)_etext - (unsigned long)_stext,
 				PAGE_KERNEL_EXEC | PTE_RDONLY);
 
-=======
-				(unsigned long)__init_begin - (unsigned long)_stext,
-				PAGE_KERNEL_EXEC | PTE_RDONLY);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 #endif
 
@@ -804,17 +753,13 @@ void fixup_init(void)
  */
 void __init paging_init(void)
 {
-<<<<<<< HEAD
 	void *zero_page;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	map_mem();
 	dma_contiguous_remap();
 	remap_pages();
 	fixup_executable();
 
-<<<<<<< HEAD
 	/*
 	 * Finally flush the caches and tlb to ensure that we're in a
 	 * consistent state.
@@ -829,16 +774,11 @@ void __init paging_init(void)
 
 	empty_zero_page = virt_to_page(zero_page);
 
-=======
-	bootmem_init();
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * TTBR0 is only used for the identity mapping at this stage. Make it
 	 * point to zero page to avoid speculatively fetching new entries.
 	 */
 	cpu_set_reserved_ttbr0();
-<<<<<<< HEAD
 	flush_tlb_all();
 	set_kernel_text_ro();
 	flush_tlb_all();
@@ -851,12 +791,6 @@ void setup_mm_for_reboot(void)
 {
 	cpu_switch_mm(idmap_pg_dir, &init_mm);
 	flush_tlb_all();
-=======
-	local_flush_tlb_all();
-	set_kernel_text_ro();
-	local_flush_tlb_all();
-	cpu_set_default_tcr_t0sz();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /*

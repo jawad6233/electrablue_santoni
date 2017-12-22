@@ -203,10 +203,7 @@ int hdmi_audio_update(struct hdmi *hdmi)
 		audio_config |= HDMI_AUDIO_CFG_FIFO_WATERMARK(4);
 		audio_config |= HDMI_AUDIO_CFG_ENGINE_ENABLE;
 	} else {
-<<<<<<< HEAD
 		hdmi_write(hdmi, REG_HDMI_GC, HDMI_GC_MUTE);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		acr_pkt_ctrl &= ~HDMI_ACR_PKT_CTRL_CONT;
 		acr_pkt_ctrl &= ~HDMI_ACR_PKT_CTRL_SEND;
 		vbi_pkt_ctrl &= ~HDMI_VBI_PKT_CTRL_GC_ENABLE;

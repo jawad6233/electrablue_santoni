@@ -606,7 +606,6 @@ static void __init clean_rootfs(void)
 }
 #endif
 
-<<<<<<< HEAD
 static int __initdata skip_override = 0;
 
 static int __init skip_override_param(char *str)
@@ -617,8 +616,6 @@ static int __init skip_override_param(char *str)
 __setup("skip_override", skip_override_param);
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int __initdata do_skip_initramfs;
 
 static int __init skip_initramfs_param(char *str)
@@ -634,11 +631,7 @@ static int __init populate_rootfs(void)
 {
 	char *err;
 
-<<<<<<< HEAD
 	if (!skip_override && do_skip_initramfs)
-=======
-	if (do_skip_initramfs)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return default_rootfs();
 
 	err = unpack_to_rootfs(__initramfs_start, __initramfs_size);

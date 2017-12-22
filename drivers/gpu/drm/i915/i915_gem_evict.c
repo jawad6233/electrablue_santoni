@@ -50,20 +50,11 @@ mark_free(struct i915_vma *vma, struct list_head *unwind)
  * i915_gem_evict_something - Evict vmas to make room for binding a new one
  * @dev: drm_device
  * @vm: address space to evict from
-<<<<<<< HEAD
  * @size: size of the desired free space
  * @alignment: alignment constraint of the desired free space
  * @cache_level: cache_level for the desired space
  * @mappable: whether the free space must be mappable
  * @nonblocking: whether evicting active objects is allowed or not
-=======
- * @min_size: size of the desired free space
- * @alignment: alignment constraint of the desired free space
- * @cache_level: cache_level for the desired space
- * @start: start (inclusive) of the range from which to evict objects
- * @end: end (exclusive) of the range from which to evict objects
- * @flags: additional flags to control the eviction algorithm
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This function will try to evict vmas until a free space satisfying the
  * requirements is found. Callers must check first whether any such hole exists
@@ -71,13 +62,6 @@ mark_free(struct i915_vma *vma, struct list_head *unwind)
  *
  * This function is used by the object/vma binding code.
  *
-<<<<<<< HEAD
-=======
- * Since this function is only used to free up virtual address space it only
- * ignores pinned vmas, and not object where the backing storage itself is
- * pinned. Hence obj->pages_pin_count does not protect against eviction.
- *
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * To clarify: This is for freeing up virtual address space, not for freeing
  * memory in e.g. the shrinker.
  */
@@ -212,10 +196,7 @@ found:
 
 /**
  * i915_gem_evict_vm - Evict all idle vmas from a vm
-<<<<<<< HEAD
  *
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @vm: Address space to cleanse
  * @do_idle: Boolean directing whether to idle first.
  *
@@ -233,10 +214,6 @@ int i915_gem_evict_vm(struct i915_address_space *vm, bool do_idle)
 	struct i915_vma *vma, *next;
 	int ret;
 
-<<<<<<< HEAD
-=======
-	WARN_ON(!mutex_is_locked(&vm->dev->struct_mutex));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	trace_i915_gem_evict_vm(vm);
 
 	if (do_idle) {
@@ -245,11 +222,6 @@ int i915_gem_evict_vm(struct i915_address_space *vm, bool do_idle)
 			return ret;
 
 		i915_gem_retire_requests(vm->dev);
-<<<<<<< HEAD
-=======
-
-		WARN_ON(!list_empty(&vm->active_list));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	list_for_each_entry_safe(vma, next, &vm->inactive_list, mm_list)
@@ -258,7 +230,6 @@ int i915_gem_evict_vm(struct i915_address_space *vm, bool do_idle)
 
 	return 0;
 }
-<<<<<<< HEAD
 
 /**
  * i915_gem_evict_everything - Try to evict all objects
@@ -304,5 +275,3 @@ i915_gem_evict_everything(struct drm_device *dev)
 
 	return 0;
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

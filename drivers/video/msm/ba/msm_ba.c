@@ -132,10 +132,7 @@ int msm_ba_enum_input(void *instance, struct v4l2_input *input)
 {
 	struct msm_ba_input *ba_input = NULL;
 	struct msm_ba_inst *inst = instance;
-<<<<<<< HEAD
 	int status = 0;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int rc = 0;
 
 	if (!inst || !input)
@@ -155,7 +152,6 @@ int msm_ba_enum_input(void *instance, struct v4l2_input *input)
 		else
 			input->capabilities = V4L2_IN_CAP_STD;
 		dprintk(BA_DBG, "msm_ba_find_input: name %s", input->name);
-<<<<<<< HEAD
 		/* get current signal status */
 		rc = v4l2_subdev_call(
 			ba_input->sd, video, g_input_status, &status);
@@ -166,8 +162,6 @@ int msm_ba_enum_input(void *instance, struct v4l2_input *input)
 			input->status = status;
 			ba_input->signal_status = status;
 		}
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 	return rc;
 }

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -292,11 +288,7 @@ static irqreturn_t wcd9xxx_irq_thread(int irq, void *data)
 	static DEFINE_RATELIMIT_STATE(ratelimit, 5 * HZ, 1);
 	struct wcd9xxx_core_resource *wcd9xxx_res = data;
 	int num_irq_regs = wcd9xxx_res->num_irq_regs;
-<<<<<<< HEAD
 	u8 status[num_irq_regs], status1[num_irq_regs];
-=======
-	u8 status[4], status1[4] = {0}, unmask_status[4] = {0};
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (unlikely(wcd9xxx_lock_sleep(wcd9xxx_res) == false)) {
 		dev_err(wcd9xxx_res->dev, "Failed to hold suspend\n");
@@ -319,26 +311,6 @@ static irqreturn_t wcd9xxx_irq_thread(int irq, void *data)
 				"Failed to read interrupt status: %d\n", ret);
 		goto err_disable_irq;
 	}
-<<<<<<< HEAD
-=======
-	/*
-	 * If status is 0 return without clearing.
-	 * status contains: HW status - masked interrupts
-	 * status1 contains: unhandled interrupts - masked interrupts
-	 * unmasked_status contains: unhandled interrupts
-	 */
-	if (unlikely(!memcmp(status, status1, sizeof(status)))) {
-		pr_debug("%s: status is 0\n", __func__);
-		wcd9xxx_unlock_sleep(wcd9xxx_res);
-		return IRQ_HANDLED;
-	}
-
-	/*
-	 * Copy status to unmask_status before masking, otherwise SW may miss
-	 * to clear masked interrupt in corner case.
-	 */
-	memcpy(unmask_status, status, sizeof(unmask_status));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Apply masking */
 	for (i = 0; i < num_irq_regs; i++)
@@ -362,11 +334,6 @@ static irqreturn_t wcd9xxx_irq_thread(int irq, void *data)
 			wcd9xxx_irq_dispatch(wcd9xxx_res, &irqdata);
 			status1[BIT_BYTE(irqdata.intr_num)] &=
 					~BYTE_BIT_MASK(irqdata.intr_num);
-<<<<<<< HEAD
-=======
-			unmask_status[BIT_BYTE(irqdata.intr_num)] &=
-					~BYTE_BIT_MASK(irqdata.intr_num);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 

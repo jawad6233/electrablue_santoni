@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,18 +15,6 @@
 #ifndef MDSS_COMPAT_UTILS_H
 #define MDSS_COMPAT_UTILS_H
 
-<<<<<<< HEAD
-=======
-/*
- * To allow proper structure padding for 64bit/32bit target
- */
-#ifdef __LP64
-#define MDP_LAYER_COMMIT_V1_PAD 2
-#else
-#define MDP_LAYER_COMMIT_V1_PAD 3
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct mdp_buf_sync32 {
 	u32		flags;
 	u32		acq_fen_fd_cnt;
@@ -514,12 +498,7 @@ struct mdp_input_layer32 {
 	uint16_t		z_order;
 	uint32_t		transp_mask;
 	uint32_t		bg_color;
-<<<<<<< HEAD
 	enum mdss_mdp_blend_op		blend_op;
-=======
-	enum mdss_mdp_blend_op	blend_op;
-	enum mdp_color_space    color_space;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mdp_rect		src_rect;
 	struct mdp_rect		dst_rect;
 	compat_caddr_t		scale;
@@ -533,12 +512,7 @@ struct mdp_output_layer32 {
 	uint32_t			flags;
 	uint32_t			writeback_ndx;
 	struct mdp_layer_buffer		buffer;
-<<<<<<< HEAD
 	uint32_t			reserved[6];
-=======
-	enum mdp_color_space            color_space;
-	uint32_t			reserved[5];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 struct mdp_layer_commit_v1_32 {
 	uint32_t		flags;
@@ -549,14 +523,7 @@ struct mdp_layer_commit_v1_32 {
 	uint32_t		input_layer_cnt;
 	compat_caddr_t		output_layer;
 	int			retire_fence;
-<<<<<<< HEAD
 	uint32_t		reserved[6];
-=======
-	compat_caddr_t		dest_scaler;
-	uint32_t                dest_scaler_cnt;
-	compat_caddr_t		frc_info;
-	uint32_t		reserved[MDP_LAYER_COMMIT_V1_PAD];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct mdp_layer_commit32 {

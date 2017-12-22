@@ -227,11 +227,6 @@ struct msm_vfe_hardware_info vfe48_hw_info = {
 	.vfe_ops = {
 		.irq_ops = {
 			.read_irq_status = msm_vfe47_read_irq_status,
-<<<<<<< HEAD
-=======
-			.read_irq_status_and_clear =
-				msm_vfe47_read_irq_status_and_clear,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.process_camif_irq = msm_vfe47_process_input_irq,
 			.process_reset_irq = msm_vfe47_process_reset_irq,
 			.process_halt_irq = msm_vfe47_process_halt_irq,
@@ -251,11 +246,6 @@ struct msm_vfe_hardware_info vfe48_hw_info = {
 			.clear_comp_mask = msm_vfe47_axi_clear_comp_mask,
 			.cfg_wm_irq_mask = msm_vfe47_axi_cfg_wm_irq_mask,
 			.clear_wm_irq_mask = msm_vfe47_axi_clear_wm_irq_mask,
-<<<<<<< HEAD
-=======
-			.clear_irq_mask =
-				msm_vfe47_axi_clear_irq_mask,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.cfg_framedrop = msm_vfe47_cfg_framedrop,
 			.clear_framedrop = msm_vfe47_clear_framedrop,
 			.cfg_wm_reg = msm_vfe47_axi_cfg_wm_reg,

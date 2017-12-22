@@ -141,16 +141,7 @@
 /*
  * TCR flags.
  */
-<<<<<<< HEAD
 #define TCR_TxSZ(x)		(((UL(64) - (x)) << 16) | ((UL(64) - (x)) << 0))
-=======
-#define TCR_T0SZ_OFFSET		0
-#define TCR_T1SZ_OFFSET		16
-#define TCR_T0SZ(x)		((UL(64) - (x)) << TCR_T0SZ_OFFSET)
-#define TCR_T1SZ(x)		((UL(64) - (x)) << TCR_T1SZ_OFFSET)
-#define TCR_TxSZ(x)		(TCR_T0SZ(x) | TCR_T1SZ(x))
-#define TCR_TxSZ_WIDTH		6
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define TCR_IRGN_NC		((UL(0) << 8) | (UL(0) << 24))
 #define TCR_IRGN_WBWA		((UL(1) << 8) | (UL(1) << 24))
 #define TCR_IRGN_WT		((UL(2) << 8) | (UL(2) << 24))

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -207,10 +203,6 @@ static uint32_t bcl_hotplug_request, bcl_hotplug_mask, bcl_soc_hotplug_mask;
 static uint32_t bcl_frequency_mask;
 static struct work_struct bcl_hotplug_work;
 static DEFINE_MUTEX(bcl_hotplug_mutex);
-<<<<<<< HEAD
-=======
-static DEFINE_MUTEX(bcl_cpufreq_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static bool bcl_hotplug_enabled;
 static uint32_t battery_soc_val = 100;
 static uint32_t soc_low_threshold;
@@ -260,10 +252,6 @@ static void update_cpu_freq(void)
 	union device_request cpufreq_req;
 
 	trace_bcl_sw_mitigation_event("Start Frequency Mitigate");
-<<<<<<< HEAD
-=======
-	mutex_lock(&bcl_cpufreq_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cpufreq_req.freq.max_freq = UINT_MAX;
 	cpufreq_req.freq.min_freq = CPUFREQ_MIN_NO_MITIGATION;
 
@@ -288,10 +276,6 @@ static void update_cpu_freq(void)
 			pr_err("Error updating freq for CPU%d. ret:%d\n",
 				cpu, ret);
 	}
-<<<<<<< HEAD
-=======
-	mutex_unlock(&bcl_cpufreq_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	trace_bcl_sw_mitigation_event("End Frequency Mitigation");
 }
 
@@ -437,12 +421,8 @@ static void bcl_iavail_work(struct work_struct *work)
 	if (gbcl->bcl_mode == BCL_DEVICE_ENABLED) {
 		bcl_calculate_iavail_trigger();
 		/* restart the delay work for caculating imax */
-<<<<<<< HEAD
 		queue_delayed_work(system_power_efficient_wq,
 			&bcl->bcl_iavail_work,
-=======
-		schedule_delayed_work(&bcl->bcl_iavail_work,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			msecs_to_jiffies(bcl->bcl_poll_interval_msec));
 	}
 }
@@ -820,12 +800,8 @@ static void bcl_mode_set(enum bcl_device_mode mode)
 	switch (gbcl->bcl_monitor_type) {
 	case BCL_IAVAIL_MONITOR_TYPE:
 		if (mode == BCL_DEVICE_ENABLED)
-<<<<<<< HEAD
 			queue_delayed_work(system_power_efficient_wq,
 				&gbcl->bcl_iavail_work, 0);
-=======
-			schedule_delayed_work(&gbcl->bcl_iavail_work, 0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		else
 			cancel_delayed_work_sync(&(gbcl->bcl_iavail_work));
 		break;

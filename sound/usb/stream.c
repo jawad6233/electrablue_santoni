@@ -69,7 +69,6 @@ static void snd_usb_audio_stream_free(struct snd_usb_stream *stream)
 static void snd_usb_audio_pcm_free(struct snd_pcm *pcm)
 {
 	struct snd_usb_stream *stream = pcm->private_data;
-<<<<<<< HEAD
 	struct snd_usb_audio *chip;
 
 	if (stream) {
@@ -78,11 +77,6 @@ static void snd_usb_audio_pcm_free(struct snd_pcm *pcm)
 		stream->pcm = NULL;
 		snd_usb_audio_stream_free(stream);
 		mutex_unlock(&chip->dev_lock);
-=======
-	if (stream) {
-		stream->pcm = NULL;
-		snd_usb_audio_stream_free(stream);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 

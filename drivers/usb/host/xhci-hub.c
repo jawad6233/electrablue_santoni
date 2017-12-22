@@ -276,12 +276,9 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
 
 	ret = 0;
 	virt_dev = xhci->devs[slot_id];
-<<<<<<< HEAD
 	if (!virt_dev)
 		return -ENODEV;
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cmd = xhci_alloc_command(xhci, false, true, GFP_NOIO);
 	if (!cmd) {
 		xhci_dbg(xhci, "Couldn't allocate command structure.\n");
@@ -631,7 +628,6 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd,
 		if ((raw_port_status & PORT_RESET) ||
 				!(raw_port_status & PORT_PE))
 			return 0xffffffff;
-<<<<<<< HEAD
 		/* did port event handler already start resume timing? */
 		if (!bus_state->resume_done[wIndex]) {
 			/* If not, maybe we are in a host initated resume? */
@@ -656,10 +652,6 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd,
 		/* Has resume been signalled for USB_RESUME_TIME yet? */
 		} else if (time_after_eq(jiffies,
 					 bus_state->resume_done[wIndex])) {
-=======
-		if (time_after_eq(jiffies,
-					bus_state->resume_done[wIndex])) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			int time_left;
 
 			xhci_dbg(xhci, "Resume USB2 port %d\n",
@@ -668,12 +660,9 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd,
 			clear_bit(wIndex, &bus_state->resuming_ports);
 
 			set_bit(wIndex, &bus_state->rexit_ports);
-<<<<<<< HEAD
 
 			xhci_test_and_clear_bit(xhci, port_array, wIndex,
 						PORT_PLC);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			xhci_set_link_state(xhci, port_array, wIndex,
 					XDEV_U0);
 
@@ -706,20 +695,13 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd,
 		} else {
 			/*
 			 * The resume has been signaling for less than
-<<<<<<< HEAD
 			 * USB_RESUME_TIME. Report the port status as SUSPEND,
 			 * let the usbcore check port status again and clear
 			 * resume signaling later.
-=======
-			 * 20ms. Report the port status as SUSPEND,
-			 * let the usbcore check port status again
-			 * and clear resume signaling later.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			 */
 			status |= USB_PORT_STAT_SUSPEND;
 		}
 	}
-<<<<<<< HEAD
 	/*
 	 * Clear stale usb2 resume signalling variables in case port changed
 	 * state during resume signalling. For example on error
@@ -731,8 +713,6 @@ static u32 xhci_get_port_status(struct usb_hcd *hcd,
 		bus_state->resume_done[wIndex] = 0;
 		clear_bit(wIndex, &bus_state->resuming_ports);
 	}
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if ((raw_port_status & PORT_PLS_MASK) == XDEV_U0
 			&& (raw_port_status & PORT_POWER)
 			&& (bus_state->suspended_ports & (1 << wIndex))) {
@@ -1233,10 +1213,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 				if ((temp & PORT_PE) == 0)
 					goto error;
 
-<<<<<<< HEAD
 				set_bit(wIndex, &bus_state->resuming_ports);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				xhci_set_link_state(xhci, port_array, wIndex,
 							XDEV_RESUME);
 				spin_unlock_irqrestore(&xhci->lock, flags);
@@ -1244,10 +1221,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 				spin_lock_irqsave(&xhci->lock, flags);
 				xhci_set_link_state(xhci, port_array, wIndex,
 							XDEV_U0);
-<<<<<<< HEAD
 				clear_bit(wIndex, &bus_state->resuming_ports);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			}
 			bus_state->port_c_suspend |= 1 << wIndex;
 

@@ -41,13 +41,10 @@
  *	the implementation assumes non-aliasing VIPT D-cache and (aliasing)
  *	VIPT or ASID-tagged VIVT I-cache.
  *
-<<<<<<< HEAD
  *	flush_cache_all()
  *
  *		Unconditionally clean and invalidate the entire cache.
  *
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *	flush_cache_mm(mm)
  *
  *		Clean and invalidate all user space cache entries
@@ -131,16 +128,6 @@ extern void copy_to_user_page(struct vm_area_struct *, struct page *,
 #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
 extern void flush_dcache_page(struct page *);
 
-<<<<<<< HEAD
-=======
-static inline void __local_flush_icache_all(void)
-{
-	asm("ic iallu");
-	dsb(nsh);
-	isb();
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void __flush_icache_all(void)
 {
 	asm("ic	ialluis");

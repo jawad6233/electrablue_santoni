@@ -92,11 +92,7 @@ nvif_notify_func(struct nvif_notify *notify, bool keep)
 {
 	int ret = notify->func(notify);
 	if (ret == NVIF_NOTIFY_KEEP ||
-<<<<<<< HEAD
 	    !test_and_clear_bit(NVKM_NOTIFY_USER, &notify->flags)) {
-=======
-	    !test_and_clear_bit(NVIF_NOTIFY_USER, &notify->flags)) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!keep)
 			atomic_dec(&notify->putcnt);
 		else
@@ -128,11 +124,7 @@ nvif_notify(const void *header, u32 length, const void *data, u32 size)
 	}
 
 	if (!WARN_ON(notify == NULL)) {
-<<<<<<< HEAD
 		struct nvif_client *client = nvif_client(notify->object);
-=======
-		struct nvif_client *client = notify->object->client;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (!WARN_ON(notify->size != size)) {
 			atomic_inc(&notify->putcnt);
 			if (test_bit(NVIF_NOTIFY_WORK, &notify->flags)) {
@@ -164,11 +156,7 @@ nvif_notify_fini(struct nvif_notify *notify)
 	if (ret >= 0 && object) {
 		ret = nvif_object_ioctl(object, &args, sizeof(args), NULL);
 		if (ret == 0) {
-<<<<<<< HEAD
 			nvif_object_ref(NULL, &notify->object);
-=======
-			notify->object = NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			kfree((void *)notify->data);
 		}
 	}
@@ -176,15 +164,9 @@ nvif_notify_fini(struct nvif_notify *notify)
 }
 
 int
-<<<<<<< HEAD
 nvif_notify_init(struct nvif_object *object, void (*dtor)(struct nvif_notify *),
 		 int (*func)(struct nvif_notify *), bool work, u8 event,
 		 void *data, u32 size, u32 reply, struct nvif_notify *notify)
-=======
-nvif_notify_init(struct nvif_object *object, int (*func)(struct nvif_notify *),
-		 bool work, u8 event, void *data, u32 size, u32 reply,
-		 struct nvif_notify *notify)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct {
 		struct nvif_ioctl_v0 ioctl;
@@ -193,17 +175,11 @@ nvif_notify_init(struct nvif_object *object, int (*func)(struct nvif_notify *),
 	} *args;
 	int ret = -ENOMEM;
 
-<<<<<<< HEAD
 	notify->object = NULL;
 	nvif_object_ref(object, &notify->object);
 	notify->flags = 0;
 	atomic_set(&notify->putcnt, 1);
 	notify->dtor = dtor;
-=======
-	notify->object = object;
-	notify->flags = 0;
-	atomic_set(&notify->putcnt, 1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	notify->func = func;
 	notify->data = NULL;
 	notify->size = reply;
@@ -235,7 +211,6 @@ done:
 		nvif_notify_fini(notify);
 	return ret;
 }
-<<<<<<< HEAD
 
 static void
 nvif_notify_del(struct nvif_notify *notify)
@@ -271,5 +246,3 @@ nvif_notify_new(struct nvif_object *object, int (*func)(struct nvif_notify *),
 	}
 	return -ENOMEM;
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

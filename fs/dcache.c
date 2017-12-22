@@ -1340,11 +1340,7 @@ static enum d_walk_ret select_collect(void *_data, struct dentry *dentry)
 		goto out;
 
 	if (dentry->d_flags & DCACHE_SHRINK_LIST) {
-<<<<<<< HEAD
 		data->found++;
-=======
-		goto out;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else {
 		if (dentry->d_flags & DCACHE_LRU_LIST)
 			d_lru_del(dentry);
@@ -2739,19 +2735,11 @@ struct dentry *d_ancestor(struct dentry *p1, struct dentry *p2)
  * Note: If ever the locking in lock_rename() changes, then please
  * remember to update this too...
  */
-<<<<<<< HEAD
 static struct dentry *__d_unalias(struct inode *inode,
 		struct dentry *dentry, struct dentry *alias)
 {
 	struct mutex *m1 = NULL, *m2 = NULL;
 	struct dentry *ret = ERR_PTR(-EBUSY);
-=======
-static int __d_unalias(struct inode *inode,
-		struct dentry *dentry, struct dentry *alias)
-{
-	struct mutex *m1 = NULL, *m2 = NULL;
-	int ret = -EBUSY;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* If alias and dentry share a parent, then no extra locks required */
 	if (alias->d_parent == dentry->d_parent)
@@ -2766,11 +2754,7 @@ static int __d_unalias(struct inode *inode,
 	m2 = &alias->d_parent->d_inode->i_mutex;
 out_unalias:
 	__d_move(alias, dentry, false);
-<<<<<<< HEAD
 	ret = alias;
-=======
-	ret = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out_err:
 	spin_unlock(&inode->i_lock);
 	if (m2)
@@ -2805,7 +2789,6 @@ out_err:
  */
 struct dentry *d_splice_alias(struct inode *inode, struct dentry *dentry)
 {
-<<<<<<< HEAD
 	struct dentry *new = NULL;
 
 	if (IS_ERR(inode))
@@ -2930,59 +2913,6 @@ out_nolock:
 	return actual;
 }
 EXPORT_SYMBOL_GPL(d_materialise_unique);
-=======
-	if (IS_ERR(inode))
-		return ERR_CAST(inode);
-
-	BUG_ON(!d_unhashed(dentry));
-
-	if (!inode) {
-		__d_instantiate(dentry, NULL);
-		goto out;
-	}
-	spin_lock(&inode->i_lock);
-	if (S_ISDIR(inode->i_mode)) {
-		struct dentry *new = __d_find_any_alias(inode);
-		if (unlikely(new)) {
-			write_seqlock(&rename_lock);
-			if (unlikely(d_ancestor(new, dentry))) {
-				write_sequnlock(&rename_lock);
-				spin_unlock(&inode->i_lock);
-				dput(new);
-				new = ERR_PTR(-ELOOP);
-				pr_warn_ratelimited(
-					"VFS: Lookup of '%s' in %s %s"
-					" would have caused loop\n",
-					dentry->d_name.name,
-					inode->i_sb->s_type->name,
-					inode->i_sb->s_id);
-			} else if (!IS_ROOT(new)) {
-				int err = __d_unalias(inode, dentry, new);
-				write_sequnlock(&rename_lock);
-				if (err) {
-					dput(new);
-					new = ERR_PTR(err);
-				}
-			} else {
-				__d_move(new, dentry, false);
-				write_sequnlock(&rename_lock);
-				spin_unlock(&inode->i_lock);
-				security_d_instantiate(new, inode);
-			}
-			iput(inode);
-			return new;
-		}
-	}
-	/* already taking inode->i_lock, so d_add() by hand */
-	__d_instantiate(dentry, inode);
-	spin_unlock(&inode->i_lock);
-out:
-	security_d_instantiate(dentry, inode);
-	d_rehash(dentry);
-	return NULL;
-}
-EXPORT_SYMBOL(d_splice_alias);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int prepend(char **buffer, int *buflen, const char *str, int namelen)
 {
@@ -3183,10 +3113,6 @@ char *d_absolute_path(const struct path *path,
 		return ERR_PTR(error);
 	return res;
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL(d_absolute_path);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * same as __d_path but appends "(deleted)" for unlinked files.

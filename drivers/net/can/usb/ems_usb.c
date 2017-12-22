@@ -290,11 +290,6 @@ static void ems_usb_read_interrupt_callback(struct urb *urb)
 
 	case -ECONNRESET: /* unlink */
 	case -ENOENT:
-<<<<<<< HEAD
-=======
-	case -EPIPE:
-	case -EPROTO:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case -ESHUTDOWN:
 		return;
 

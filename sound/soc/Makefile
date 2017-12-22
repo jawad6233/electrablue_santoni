@@ -33,7 +33,4 @@ obj-$(CONFIG_SND_SOC)	+= spear/
 obj-$(CONFIG_SND_SOC)	+= tegra/
 obj-$(CONFIG_SND_SOC)	+= txx9/
 obj-$(CONFIG_SND_SOC)	+= ux500/
-<<<<<<< HEAD
 ccflags-y := -Os
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

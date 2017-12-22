@@ -246,10 +246,7 @@ endif
 
 header-y += l2tp.h
 header-y += libc-compat.h
-<<<<<<< HEAD
 header-y += lirc.h
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 header-y += limits.h
 header-y += llc.h
 header-y += loop.h
@@ -297,10 +294,6 @@ header-y += msm_audio_wmapro.h
 header-y += msm_audio_alac.h
 header-y += msm_audio_ape.h
 header-y += msm_audio_g711.h
-<<<<<<< HEAD
-=======
-header-y += msm_audio_g711_dec.h
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 header-y += msm-core-interface.h
 header-y += msm_dsps.h
 header-y += msm_ion.h
@@ -517,8 +510,3 @@ header-y += zorro.h
 header-y += zorro_ids.h
 header-y += android_pmem.h
 header-y += smcinvoke.h
-<<<<<<< HEAD
-=======
-header-y += bgcom_interface.h
-header-y += habmm.h
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

@@ -55,10 +55,6 @@
 #define FABIA_L_REG(pll)		(*pll->base + pll->offset + 0x4)
 #define FABIA_FRAC_REG(pll)		(*pll->base + pll->offset + 0x38)
 #define FABIA_PLL_OPMODE(pll)		(*pll->base + pll->offset + 0x2c)
-<<<<<<< HEAD
-=======
-#define FABIA_FRAC_OFF(pll)		(*pll->base + pll->fabia_frac_offset)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define FABIA_PLL_STANDBY	0x0
 #define FABIA_PLL_RUN		0x1
@@ -981,14 +977,7 @@ static int fabia_alpha_pll_set_rate(struct clk *c, unsigned long rate)
 	spin_lock_irqsave(&c->lock, flags);
 	/* Set the new L value */
 	writel_relaxed(l_val, FABIA_L_REG(pll));
-<<<<<<< HEAD
 	writel_relaxed(a_val, FABIA_FRAC_REG(pll));
-=======
-	if (pll->fabia_frac_offset)
-		writel_relaxed(a_val, FABIA_FRAC_OFF(pll));
-	else
-		writel_relaxed(a_val, FABIA_FRAC_REG(pll));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	alpha_pll_dynamic_update(pll);
 
@@ -1066,15 +1055,7 @@ static enum handoff fabia_alpha_pll_handoff(struct clk *c)
 	}
 
 	l_val = readl_relaxed(FABIA_L_REG(pll));
-<<<<<<< HEAD
 	a_val = readl_relaxed(FABIA_FRAC_REG(pll));
-=======
-
-	if (pll->fabia_frac_offset)
-		a_val = readl_relaxed(FABIA_FRAC_OFF(pll));
-	else
-		a_val = readl_relaxed(FABIA_FRAC_REG(pll));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	c->rate = compute_rate(pll, l_val, a_val);
 

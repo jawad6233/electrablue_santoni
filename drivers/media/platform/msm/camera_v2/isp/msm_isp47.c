@@ -53,15 +53,8 @@
 
 #ifdef CONFIG_MSM_CAMERA_AUTOMOTIVE
 #define UB_CFG_POLICY MSM_WM_UB_EQUAL_SLICING
-<<<<<<< HEAD
 #else
 #define UB_CFG_POLICY MSM_WM_UB_CFG_DEFAULT
-=======
-#define VFE47_NUM_WM 4
-#else
-#define UB_CFG_POLICY MSM_WM_UB_CFG_DEFAULT
-#define VFE47_NUM_WM 7
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif
 
 static uint32_t stats_base_addr[] = {
@@ -555,11 +548,7 @@ void msm_vfe47_process_error_status(struct vfe_device *vfe_dev)
 		pr_err("%s: status dsp error\n", __func__);
 }
 
-<<<<<<< HEAD
 void msm_vfe47_read_irq_status(struct vfe_device *vfe_dev,
-=======
-void msm_vfe47_read_irq_status_and_clear(struct vfe_device *vfe_dev,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t *irq_status0, uint32_t *irq_status1)
 {
 	*irq_status0 = msm_camera_io_r(vfe_dev->vfe_base + 0x6C);
@@ -584,16 +573,6 @@ void msm_vfe47_read_irq_status_and_clear(struct vfe_device *vfe_dev,
 
 }
 
-<<<<<<< HEAD
-=======
-void msm_vfe47_read_irq_status(struct vfe_device *vfe_dev,
-	uint32_t *irq_status0, uint32_t *irq_status1)
-{
-	*irq_status0 = msm_camera_io_r(vfe_dev->vfe_base + 0x6C);
-	*irq_status1 = msm_camera_io_r(vfe_dev->vfe_base + 0x70);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void msm_vfe47_process_reg_update(struct vfe_device *vfe_dev,
 	uint32_t irq_status0, uint32_t irq_status1,
 	struct msm_isp_timestamp *ts)
@@ -726,15 +705,6 @@ void msm_vfe47_reg_update(struct vfe_device *vfe_dev,
 		vfe_dev->reg_update_requested;
 	if ((vfe_dev->is_split && vfe_dev->pdev->id == ISP_VFE1) &&
 		((frame_src == VFE_PIX_0) || (frame_src == VFE_SRC_MAX))) {
-<<<<<<< HEAD
-=======
-		if (!vfe_dev->common_data->dual_vfe_res->vfe_base[ISP_VFE0]) {
-			pr_err("%s vfe_base for ISP_VFE0 is NULL\n", __func__);
-			spin_unlock_irqrestore(&vfe_dev->reg_update_lock,
-				flags);
-			return;
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		msm_camera_io_w_mb(update_mask,
 			vfe_dev->common_data->dual_vfe_res->
 			vfe_base[ISP_VFE0] + 0x4AC);
@@ -871,15 +841,6 @@ void msm_vfe47_axi_clear_wm_irq_mask(struct vfe_device *vfe_dev,
 				MSM_ISP_IRQ_DISABLE);
 }
 
-<<<<<<< HEAD
-=======
-void msm_vfe47_axi_clear_irq_mask(struct vfe_device *vfe_dev)
-{
-	msm_camera_io_w_mb(0x0, vfe_dev->vfe_base + 0x5C);
-	msm_camera_io_w_mb(0x0, vfe_dev->vfe_base + 0x60);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void msm_vfe47_cfg_framedrop(void __iomem *vfe_base,
 	struct msm_vfe_axi_stream *stream_info, uint32_t framedrop_pattern,
 	uint32_t framedrop_period)
@@ -1807,11 +1768,7 @@ void msm_vfe47_cfg_axi_ub(struct vfe_device *vfe_dev,
 {
 	struct msm_vfe_axi_shared_data *axi_data = &vfe_dev->axi_data;
 
-<<<<<<< HEAD
 	axi_data->wm_ub_cfg_policy = MSM_WM_UB_CFG_DEFAULT;
-=======
-	axi_data->wm_ub_cfg_policy = UB_CFG_POLICY;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (axi_data->wm_ub_cfg_policy == MSM_WM_UB_EQUAL_SLICING)
 		msm_vfe47_cfg_axi_ub_equal_slicing(vfe_dev);
 	else
@@ -2729,11 +2686,7 @@ void msm_vfe47_get_halt_restart_mask(uint32_t *irq0_mask,
 }
 
 static struct msm_vfe_axi_hardware_info msm_vfe47_axi_hw_info = {
-<<<<<<< HEAD
 	.num_wm = 7,
-=======
-	.num_wm = VFE47_NUM_WM,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.num_comp_mask = 3,
 	.num_rdi = 3,
 	.num_rdi_master = 3,
@@ -2763,11 +2716,6 @@ struct msm_vfe_hardware_info vfe47_hw_info = {
 	.vfe_ops = {
 		.irq_ops = {
 			.read_irq_status = msm_vfe47_read_irq_status,
-<<<<<<< HEAD
-=======
-			.read_irq_status_and_clear =
-				msm_vfe47_read_irq_status_and_clear,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.process_camif_irq = msm_vfe47_process_input_irq,
 			.process_reset_irq = msm_vfe47_process_reset_irq,
 			.process_halt_irq = msm_vfe47_process_halt_irq,
@@ -2787,11 +2735,6 @@ struct msm_vfe_hardware_info vfe47_hw_info = {
 			.clear_comp_mask = msm_vfe47_axi_clear_comp_mask,
 			.cfg_wm_irq_mask = msm_vfe47_axi_cfg_wm_irq_mask,
 			.clear_wm_irq_mask = msm_vfe47_axi_clear_wm_irq_mask,
-<<<<<<< HEAD
-=======
-			.clear_irq_mask =
-				msm_vfe47_axi_clear_irq_mask,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			.cfg_framedrop = msm_vfe47_cfg_framedrop,
 			.clear_framedrop = msm_vfe47_clear_framedrop,
 			.cfg_wm_reg = msm_vfe47_axi_cfg_wm_reg,

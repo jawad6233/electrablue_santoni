@@ -43,22 +43,13 @@ static void msm_iommu_detach(struct msm_mmu *mmu, const char **names, int cnt)
 	iommu_detach_device(iommu->domain, mmu->dev);
 }
 
-<<<<<<< HEAD
 static int msm_iommu_map(struct msm_mmu *mmu, uint32_t iova,
 		struct sg_table *sgt, unsigned len, int prot)
-=======
-static int msm_iommu_map(struct msm_mmu *mmu, dma_addr_t iova,
-		struct sg_table *sgt, int prot)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct msm_iommu *iommu = to_msm_iommu(mmu);
 	struct iommu_domain *domain = iommu->domain;
 	struct scatterlist *sg;
-<<<<<<< HEAD
 	unsigned int da = iova;
-=======
-	dma_addr_t da = iova;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int i, j;
 	int ret;
 
@@ -66,17 +57,11 @@ static int msm_iommu_map(struct msm_mmu *mmu, dma_addr_t iova,
 		return -EINVAL;
 
 	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-<<<<<<< HEAD
 		u32 pa = sg_phys(sg) - sg->offset;
 		size_t bytes = sg->length + sg->offset;
 
 		VERB("map[%d]: %08x %08x(%x)", i, iova, pa, bytes);
 
-=======
-		dma_addr_t pa = sg_phys(sg) - sg->offset;
-		size_t bytes = sg->length + sg->offset;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = iommu_map(domain, da, pa, bytes, prot);
 		if (ret)
 			goto fail;
@@ -97,22 +82,13 @@ fail:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int msm_iommu_unmap(struct msm_mmu *mmu, uint32_t iova,
 		struct sg_table *sgt, unsigned len)
-=======
-static int msm_iommu_unmap(struct msm_mmu *mmu, dma_addr_t iova,
-		struct sg_table *sgt)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct msm_iommu *iommu = to_msm_iommu(mmu);
 	struct iommu_domain *domain = iommu->domain;
 	struct scatterlist *sg;
-<<<<<<< HEAD
 	unsigned int da = iova;
-=======
-	dma_addr_t da = iova;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int i;
 
 	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
@@ -123,11 +99,8 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, dma_addr_t iova,
 		if (unmapped < bytes)
 			return unmapped;
 
-<<<<<<< HEAD
 		VERB("unmap[%d]: %08x(%x)", i, iova, bytes);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		BUG_ON(!PAGE_ALIGNED(bytes));
 
 		da += bytes;

@@ -139,11 +139,7 @@ static int xhci_plat_probe(struct platform_device *pdev)
 
 	irq = platform_get_irq(pdev, 0);
 	if (irq < 0)
-<<<<<<< HEAD
 		return irq;
-=======
-		return -ENODEV;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	if (!res)
@@ -181,12 +177,9 @@ static int xhci_plat_probe(struct platform_device *pdev)
 		ret = clk_prepare_enable(clk);
 		if (ret)
 			goto put_hcd;
-<<<<<<< HEAD
 	} else if (PTR_ERR(clk) == -EPROBE_DEFER) {
 		ret = -EPROBE_DEFER;
 		goto put_hcd;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (pdev->dev.parent)

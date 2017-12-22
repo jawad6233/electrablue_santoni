@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2014, 2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2014, 2016-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -900,11 +896,7 @@ void limSetHtCaps(tpAniSirGlobal pMac, tpPESession psessionEntry, tANI_U8 *pIeSt
 
     pIe = limGetIEPtr(pMac,pIeStartPtr, nBytes,
                                        DOT11F_EID_HTCAPS,ONE_BYTE);
-<<<<<<< HEAD
     limLog( pMac, LOG2, FL("pIe %p dot11HtCap.supportedMCSSet[0]=0x%x"),
-=======
-    limLog( pMac, LOG2, FL("pIe %pK dot11HtCap.supportedMCSSet[0]=0x%x"),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
             pIe, dot11HtCap.supportedMCSSet[0]);
     if(pIe)
     {
@@ -1118,11 +1110,7 @@ void limSendP2PActionFrame(tpAniSirGlobal pMac, tpSirMsgQ pMsg)
                 }
                 nBytes += noaLen;
                 limLog( pMac, LOGE,
-<<<<<<< HEAD
                         FL("noaLen=%d origLen=%d pP2PIe=%p"
-=======
-                        FL("noaLen=%d origLen=%d pP2PIe=%pK"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                            " nBytes=%d nBytesToCopy=%zu"),
                         noaLen,origLen, pP2PIe, nBytes,
                         ((pP2PIe + origLen + 2) - (v_U8_t *)pMbMsg->data));

@@ -19,10 +19,6 @@
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_fb_cma_helper.h>
 #include <drm/drm_gem_cma_helper.h>
-<<<<<<< HEAD
-=======
-#include <drm/drm_plane_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include <video/sh_mobile_meram.h>
 
@@ -251,11 +247,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
 	lcdc_write(sdev, LDDDSR, value);
 
 	/* Setup planes. */
-<<<<<<< HEAD
 	drm_for_each_legacy_plane(plane, &dev->mode_config.plane_list) {
-=======
-	drm_for_each_legacy_plane(plane, dev) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (plane->crtc == crtc)
 			shmob_drm_plane_setup(plane);
 	}

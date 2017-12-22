@@ -122,11 +122,7 @@ static const struct fence_ops qxl_fence_ops = {
 	.wait = qxl_fence_wait,
 };
 
-<<<<<<< HEAD
 static uint64_t
-=======
-static int
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 qxl_release_alloc(struct qxl_device *qdev, int type,
 		  struct qxl_release **ret)
 {
@@ -157,11 +153,7 @@ qxl_release_alloc(struct qxl_device *qdev, int type,
 		return handle;
 	}
 	*ret = release;
-<<<<<<< HEAD
 	QXL_INFO(qdev, "allocated release %lld\n", handle);
-=======
-	QXL_INFO(qdev, "allocated release %d\n", handle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	release->id = handle;
 	return handle;
 }
@@ -272,12 +264,7 @@ int qxl_release_reserve_list(struct qxl_release *release, bool no_intr)
 	if (list_is_singular(&release->bos))
 		return 0;
 
-<<<<<<< HEAD
 	ret = ttm_eu_reserve_buffers(&release->ticket, &release->bos, !no_intr);
-=======
-	ret = ttm_eu_reserve_buffers(&release->ticket, &release->bos,
-				     !no_intr, NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 
@@ -319,11 +306,7 @@ int qxl_alloc_surface_release_reserved(struct qxl_device *qdev,
 		idr_ret = qxl_release_alloc(qdev, QXL_RELEASE_SURFACE_CMD, release);
 		if (idr_ret < 0)
 			return idr_ret;
-<<<<<<< HEAD
 		bo = qxl_bo_ref(to_qxl_bo(entry->tv.bo));
-=======
-		bo = to_qxl_bo(entry->tv.bo);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		(*release)->release_offset = create_rel->release_offset + 64;
 
@@ -332,11 +315,8 @@ int qxl_alloc_surface_release_reserved(struct qxl_device *qdev,
 		info = qxl_release_map(qdev, *release);
 		info->id = idr_ret;
 		qxl_release_unmap(qdev, *release, info);
-<<<<<<< HEAD
 
 		qxl_bo_unref(&bo);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 	}
 
@@ -382,10 +362,6 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 		ret = qxl_release_bo_alloc(qdev, &qdev->current_release_bo[cur_idx]);
 		if (ret) {
 			mutex_unlock(&qdev->release_mutex);
-<<<<<<< HEAD
-=======
-			qxl_release_free(qdev, *release);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			return ret;
 		}
 	}
@@ -400,25 +376,13 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
 
 	mutex_unlock(&qdev->release_mutex);
 
-<<<<<<< HEAD
 	qxl_release_list_add(*release, bo);
-=======
-	ret = qxl_release_list_add(*release, bo);
-	qxl_bo_unref(&bo);
-	if (ret) {
-		qxl_release_free(qdev, *release);
-		return ret;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	info = qxl_release_map(qdev, *release);
 	info->id = idr_ret;
 	qxl_release_unmap(qdev, *release, info);
 
-<<<<<<< HEAD
 	qxl_bo_unref(&bo);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return ret;
 }
 

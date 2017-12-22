@@ -332,11 +332,7 @@ struct qxl_device {
 };
 
 /* forward declaration for QXL_INFO_IO */
-<<<<<<< HEAD
 void qxl_io_log(struct qxl_device *qdev, const char *fmt, ...);
-=======
-__printf(2,3) void qxl_io_log(struct qxl_device *qdev, const char *fmt, ...);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern const struct drm_ioctl_desc qxl_ioctls[];
 extern int qxl_max_ioctl;

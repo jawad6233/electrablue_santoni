@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -22,13 +18,10 @@
 /* msm jpeg dma control ID's */
 #define V4L2_CID_JPEG_DMA_SPEED (V4L2_CID_PRIVATE_BASE)
 
-<<<<<<< HEAD
 /* msm_jpeg_dma_buf */
 struct msm_jpeg_dma_buff {
 	int32_t fd;
 	uint32_t offset;
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* __UAPI_MSM_JPEG_DMA__ */

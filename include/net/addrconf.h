@@ -1,14 +1,8 @@
 #ifndef _ADDRCONF_H
 #define _ADDRCONF_H
 
-<<<<<<< HEAD
 #define MAX_RTR_SOLICITATIONS		3
 #define RTR_SOLICITATION_INTERVAL	(4*HZ)
-=======
-#define MAX_RTR_SOLICITATIONS		-1		/* unlimited */
-#define RTR_SOLICITATION_INTERVAL	(4*HZ)
-#define RTR_SOLICITATION_MAX_INTERVAL	(3600*HZ)	/* 1 hour */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define MIN_VALID_LIFETIME		(2*3600)	/* 2 hours */
 

@@ -76,10 +76,6 @@
 #define PTE_EXT_SHARED		(_AT(pteval_t, 3) << 8)		/* SH[1:0], inner shareable */
 #define PTE_EXT_AF		(_AT(pteval_t, 1) << 10)	/* Access Flag */
 #define PTE_EXT_NG		(_AT(pteval_t, 1) << 11)	/* nG */
-<<<<<<< HEAD
-=======
-#define PTE_EXT_PXN		(_AT(pteval_t, 1) << 53)	/* PXN */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define PTE_EXT_XN		(_AT(pteval_t, 1) << 54)	/* XN */
 
 /*

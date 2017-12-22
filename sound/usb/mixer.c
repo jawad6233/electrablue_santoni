@@ -199,13 +199,6 @@ static int snd_usb_copy_string_desc(struct mixer_build *state,
 				    int index, char *buf, int maxlen)
 {
 	int len = usb_string(state->chip->dev, index, buf, maxlen - 1);
-<<<<<<< HEAD
-=======
-
-	if (len < 0)
-		return 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	buf[len] = 0;
 	return len;
 }
@@ -923,16 +916,10 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
 	case USB_ID(0x046d, 0x0826): /* HD Webcam c525 */
 	case USB_ID(0x046d, 0x08ca): /* Logitech Quickcam Fusion */
 	case USB_ID(0x046d, 0x0991):
-<<<<<<< HEAD
 	case USB_ID(0x046d, 0x09a2): /* QuickCam Communicate Deluxe/S7500 */
 	/* Most audio usb devices lie about volume resolution.
 	 * Most Logitech webcams have res = 384.
 	 * Probably there is some logitech magic behind this number --fishor
-=======
-	/* Most audio usb devices lie about volume resolution.
-	 * Most Logitech webcams have res = 384.
-	 * Proboly there is some logitech magic behind this number --fishor
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 */
 		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
 			usb_audio_info(chip,
@@ -940,20 +927,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
 			cval->res = 384;
 		}
 		break;
-<<<<<<< HEAD
-=======
-
-	case USB_ID(0x1130, 0x1620): /* Logitech Speakers S150 */
-	/* This audio device has 2 channels and it explicitly requires the
-	 * host to send SET_CUR command on the volume control of both the
-	 * channels. 7936 = 0x1F00 is the default value.
-	 */
-		if (cval->channels == 2)
-			snd_usb_mixer_set_ctl_value(cval, UAC_SET_CUR,
-						(cval->control << 8) | 2, 7936);
-		break;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -2124,7 +2097,6 @@ static int parse_audio_selector_unit(struct mixer_build *state, int unitid,
 	if (len)
 		;
 	else if (nameid)
-<<<<<<< HEAD
 		snd_usb_copy_string_desc(state, nameid, kctl->id.name,
 					 sizeof(kctl->id.name));
 	else {
@@ -2132,16 +2104,6 @@ static int parse_audio_selector_unit(struct mixer_build *state, int unitid,
 				    kctl->id.name, sizeof(kctl->id.name), 0);
 		if (!len)
 			strlcpy(kctl->id.name, "USB", sizeof(kctl->id.name));
-=======
-		len = snd_usb_copy_string_desc(state, nameid, kctl->id.name,
-					 sizeof(kctl->id.name));
-	else
-		len = get_term_name(state, &state->oterm,
-				    kctl->id.name, sizeof(kctl->id.name), 0);
-
-	if (!len) {
-		strlcpy(kctl->id.name, "USB", sizeof(kctl->id.name));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		if (desc->bDescriptorSubtype == UAC2_CLOCK_SELECTOR)
 			append_ctl_name(kctl, " Clock Source");

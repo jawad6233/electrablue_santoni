@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -276,12 +272,7 @@ struct mhi_config {
 #define HW_CHANNEL_END			107
 #define MHI_ENV_VALUE			2
 #define MHI_MASK_ROWS_CH_EV_DB		4
-<<<<<<< HEAD
 #define TRB_MAX_DATA_SIZE		4096
-=======
-#define TRB_MAX_DATA_SIZE		8192
-#define MHI_CTRL_STATE			25
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* Possible ring element types */
 union mhi_dev_ring_element_type {
@@ -331,14 +322,7 @@ struct mhi_addr {
 	uint64_t	host_pa;
 	uintptr_t	device_pa;
 	uintptr_t	device_va;
-<<<<<<< HEAD
 	uint32_t	size;
-=======
-	size_t		size;
-	dma_addr_t	phy_addr;
-	void		*virt_addr;
-	bool		use_ipa_dma;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct mhi_interrupt_state {
@@ -363,16 +347,6 @@ enum mhi_dev_ch_operation {
 	MHI_DEV_POLL,
 };
 
-<<<<<<< HEAD
-=======
-enum mhi_ctrl_info {
-	MHI_STATE_CONFIGURED = 0,
-	MHI_STATE_CONNECTED = 1,
-	MHI_STATE_DISCONNECTED = 2,
-	MHI_STATE_INVAL,
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct mhi_dev_channel;
 
 struct mhi_dev_ring {
@@ -418,10 +392,6 @@ static inline void mhi_dev_ring_inc_index(struct mhi_dev_ring *ring,
 
 enum cb_reason {
 	MHI_DEV_TRE_AVAILABLE = 0,
-<<<<<<< HEAD
-=======
-	MHI_DEV_CTRL_UPDATE,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 struct mhi_dev_client_cb_reason {
@@ -509,10 +479,6 @@ struct mhi_dev {
 	struct mhi_dev_ch_ctx		*cmd_ctx_cache;
 	dma_addr_t			cmd_ctx_cache_dma_handle;
 	struct mhi_dev_ring		*ring;
-<<<<<<< HEAD
-=======
-	int				mhi_irq;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mhi_dev_channel		*ch;
 
 	int				ctrl_int;
@@ -549,13 +515,7 @@ struct mhi_dev {
 
 	atomic_t			write_active;
 	atomic_t			is_suspended;
-<<<<<<< HEAD
 	struct mutex			mhi_write_test;
-=======
-	atomic_t			mhi_dev_wake;
-	struct mutex			mhi_write_test;
-	u32				device_local_pa_base;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32				mhi_ep_msi_num;
 	u32				mhi_version;
 	void				*dma_cache;
@@ -573,21 +533,6 @@ struct mhi_dev {
 	 * region from device used in mhi_write()
 	 */
 	dma_addr_t			write_dma_handle;
-<<<<<<< HEAD
-=======
-
-	/* Use IPA DMA for Software channel data transfer */
-	bool				use_ipa;
-
-	/* iATU is required to map control and data region */
-	bool				config_iatu;
-
-	/* MHI state info */
-	enum mhi_ctrl_info		ctrl_info;
-
-	/*Register for interrupt*/
-	bool				mhi_int;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 enum mhi_msg_level {
@@ -662,13 +607,7 @@ enum mhi_client_channel {
 	MHI_CLIENT_CSVT_IN = 43,
 	MHI_CLIENT_SMCT_OUT = 44,
 	MHI_CLIENT_SMCT_IN = 45,
-<<<<<<< HEAD
 	MHI_MAX_SOFTWARE_CHANNELS = 46,
-=======
-	MHI_CLIENT_IP_SW_4_OUT  = 46,
-	MHI_CLIENT_IP_SW_4_IN  = 47,
-	MHI_MAX_SOFTWARE_CHANNELS = 48,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	MHI_CLIENT_TEST_OUT = 60,
 	MHI_CLIENT_TEST_IN = 61,
 	MHI_CLIENT_RESERVED_1_LOWER = 62,
@@ -817,24 +756,14 @@ int mhi_transfer_host_to_device(void *device, uint64_t src_pa, uint32_t len,
 				struct mhi_dev *mhi);
 
 /**
-<<<<<<< HEAD
  * mhi_dev_write_to_host() - memcpy equivalent API to transfer data
  *		from device to host.
-=======
- * mhi_dev_write_to_host() - Transfer data from device to host.
- *		Based on support available, either IPA DMA or memcpy is used.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @host:	Host and device address details.
  * @buf:	Data buffer that needs to be written to the host.
  * @size:	Data buffer size.
  */
-<<<<<<< HEAD
 void mhi_dev_write_to_host(struct mhi_addr *host, void *buf, size_t size,
 				struct mhi_dev *mhi);
-=======
-void mhi_dev_write_to_host(struct mhi_dev *mhi,
-				struct mhi_addr *mhi_transfer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * mhi_dev_read_from_host() - memcpy equivalent API to transfer data
@@ -843,12 +772,7 @@ void mhi_dev_write_to_host(struct mhi_dev *mhi,
  * @buf:	Data buffer that needs to be read from the host.
  * @size:	Data buffer size.
  */
-<<<<<<< HEAD
 void mhi_dev_read_from_host(struct mhi_addr *dst, dma_addr_t buf, size_t size);
-=======
-void mhi_dev_read_from_host(struct mhi_dev *mhi,
-				struct mhi_addr *mhi_transfer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * mhi_dev_read_from_host() - memcpy equivalent API to transfer data
@@ -857,10 +781,6 @@ void mhi_dev_read_from_host(struct mhi_dev *mhi,
  * @buf:	Data buffer that needs to be read from the host.
  * @size:	Data buffer size.
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void mhi_ring_set_cb(struct mhi_dev_ring *ring,
 			void (*ring_cb)(struct mhi_dev *dev,
 			union mhi_dev_ring_element_type *el, void *ctx));
@@ -1199,21 +1119,6 @@ int mhi_pcie_config_db_routing(struct mhi_dev *mhi);
  */
 int mhi_uci_init(void);
 
-<<<<<<< HEAD
 void mhi_dev_notify_a7_event(struct mhi_dev *mhi);
 
-=======
-/**
- * mhi_dev_net_interface_init() - Enable Network stack interface for MHI device
- *		which exposes the virtual network interface.
- **/
-int mhi_dev_net_interface_init(void);
-
-void mhi_dev_notify_a7_event(struct mhi_dev *mhi);
-
-int mhi_ctrl_state_info(uint32_t *info);
-
-void uci_ctrl_update(struct mhi_dev_client_cb_reason *reason);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif /* _MHI_H_ */

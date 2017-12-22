@@ -3,11 +3,7 @@
  * MSM 7k High speed uart driver
  *
  * Copyright (c) 2008 Google Inc.
-<<<<<<< HEAD
  * Copyright (c) 2007-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2007-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Modified: Nick Pelly <npelly@google.com>
  *
  * All source code in this file is licensed under the following license
@@ -48,10 +44,6 @@
 #include <linux/kernel.h>
 #include <linux/timer.h>
 #include <linux/clk.h>
-<<<<<<< HEAD
-=======
-#include <linux/delay.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/platform_device.h>
 #include <linux/pm_runtime.h>
 #include <linux/dma-mapping.h>
@@ -1245,38 +1237,16 @@ static void msm_hs_set_termios(struct uart_port *uport,
 unsigned int msm_hs_tx_empty(struct uart_port *uport)
 {
 	unsigned int data;
-<<<<<<< HEAD
-=======
-	unsigned int isr;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned int ret = 0;
 	struct msm_hs_port *msm_uport = UARTDM_TO_MSM(uport);
 
 	msm_hs_resource_vote(msm_uport);
 	data = msm_hs_read(uport, UART_DM_SR);
-<<<<<<< HEAD
 	msm_hs_resource_unvote(msm_uport);
 	MSM_HS_DBG("%s(): SR Reg Read 0x%x", __func__, data);
 
 	if (data & UARTDM_SR_TXEMT_BMSK)
 		ret = TIOCSER_TEMT;
-=======
-	isr = msm_hs_read(uport, UART_DM_ISR);
-	msm_hs_resource_unvote(msm_uport);
-	MSM_HS_INFO("%s(): SR:0x%x ISR:0x%x ", __func__, data, isr);
-
-	if (data & UARTDM_SR_TXEMT_BMSK) {
-		ret = TIOCSER_TEMT;
-	} else
-		/*
-		 * Add an extra sleep here because sometimes the framework's
-		 * delay (based on baud rate) isn't good enough.
-		 * Note that this won't happen during every port close, only
-		 * on select occassions when the userspace does back to back
-		 * write() and close().
-		 */
-		usleep_range(5000, 7000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return ret;
 }
@@ -1454,22 +1424,13 @@ static void msm_hs_submit_tx_locked(struct uart_port *uport)
 	hex_dump_ipc(msm_uport, tx->ipc_tx_ctxt, "Tx",
 			&tx_buf->buf[tx_buf->tail], (u64)src_addr, tx_count);
 	sps_pipe_handle = tx->cons.pipe_handle;
-<<<<<<< HEAD
 	/* Queue transfer request to SPS */
 	ret = sps_transfer_one(sps_pipe_handle, src_addr, tx_count,
 				msm_uport, flags);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	/* Set 1 second timeout */
 	mod_timer(&tx->tx_timeout_timer,
 		jiffies + msecs_to_jiffies(MSEC_PER_SEC));
-<<<<<<< HEAD
-=======
-	/* Queue transfer request to SPS */
-	ret = sps_transfer_one(sps_pipe_handle, src_addr, tx_count,
-				msm_uport, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	MSM_HS_DBG("%s:Enqueue Tx Cmd, ret %d\n", __func__, ret);
 }
@@ -2282,11 +2243,7 @@ void disable_wakeup_interrupt(struct msm_hs_port *msm_uport)
 		return;
 
 	if (msm_uport->wakeup.enabled) {
-<<<<<<< HEAD
 		disable_irq_nosync(msm_uport->wakeup.irq);
-=======
-		disable_irq(msm_uport->wakeup.irq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		enable_irq(uport->irq);
 		spin_lock_irqsave(&uport->lock, flags);
 		msm_uport->wakeup.enabled = false;
@@ -2645,12 +2602,8 @@ static int msm_hs_startup(struct uart_port *uport)
 	msm_hs_resource_vote(msm_uport);
 
 	if (is_use_low_power_wakeup(msm_uport)) {
-<<<<<<< HEAD
 		ret = request_threaded_irq(msm_uport->wakeup.irq, NULL,
 					msm_hs_wakeup_isr,
-=======
-		ret = request_irq(msm_uport->wakeup.irq, msm_hs_wakeup_isr,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 					"msm_hs_wakeup", msm_uport);
 		if (unlikely(ret)) {
@@ -3190,14 +3143,6 @@ static void msm_hs_pm_suspend(struct device *dev)
 	mutex_lock(&msm_uport->mtx);
 
 	client_count = atomic_read(&msm_uport->client_count);
-<<<<<<< HEAD
-=======
-	msm_uport->pm_state = MSM_HS_PM_SUSPENDED;
-	msm_hs_resource_off(msm_uport);
-	obs_manage_irq(msm_uport, false);
-	msm_hs_clk_bus_unvote(msm_uport);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* For OBS, don't use wakeup interrupt, set gpio to suspended state */
 	if (msm_uport->obs) {
 		ret = pinctrl_select_state(msm_uport->pinctrl,
@@ -3207,13 +3152,10 @@ static void msm_hs_pm_suspend(struct device *dev)
 				__func__);
 	}
 
-<<<<<<< HEAD
 	msm_uport->pm_state = MSM_HS_PM_SUSPENDED;
 	msm_hs_resource_off(msm_uport);
 	obs_manage_irq(msm_uport, false);
 	msm_hs_clk_bus_unvote(msm_uport);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!atomic_read(&msm_uport->client_req_state))
 		enable_wakeup_interrupt(msm_uport);
 	LOG_USR_MSG(msm_uport->ipc_msm_hs_pwr_ctxt,
@@ -3244,19 +3186,6 @@ static int msm_hs_pm_resume(struct device *dev)
 		goto exit_pm_resume;
 	if (!atomic_read(&msm_uport->client_req_state))
 		disable_wakeup_interrupt(msm_uport);
-<<<<<<< HEAD
-=======
-
-	/* For OBS, don't use wakeup interrupt, set gpio to active state */
-	if (msm_uport->obs) {
-		ret = pinctrl_select_state(msm_uport->pinctrl,
-				msm_uport->gpio_state_active);
-		if (ret)
-			MSM_HS_ERR("%s():Error selecting active state",
-				 __func__);
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ret = msm_hs_clk_bus_vote(msm_uport);
 	if (ret) {
 		MSM_HS_ERR("%s:Failed clock vote %d\n", __func__, ret);
@@ -3267,7 +3196,6 @@ static int msm_hs_pm_resume(struct device *dev)
 	msm_uport->pm_state = MSM_HS_PM_ACTIVE;
 	msm_hs_resource_on(msm_uport);
 
-<<<<<<< HEAD
 	/* For OBS, don't use wakeup interrupt, set gpio to active state */
 	if (msm_uport->obs) {
 		ret = pinctrl_select_state(msm_uport->pinctrl,
@@ -3277,8 +3205,6 @@ static int msm_hs_pm_resume(struct device *dev)
 				__func__);
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	LOG_USR_MSG(msm_uport->ipc_msm_hs_pwr_ctxt,
 		"%s:PM State:Active client_count %d\n", __func__, client_count);
 exit_pm_resume:
@@ -3637,10 +3563,6 @@ static int msm_hs_probe(struct platform_device *pdev)
 	}
 
 	msm_serial_debugfs_init(msm_uport, pdev->id);
-<<<<<<< HEAD
-=======
-	msm_hs_unconfig_uart_gpios(uport);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	uport->line = pdev->id;
 	if (pdata->userid && pdata->userid <= UARTDM_NR)

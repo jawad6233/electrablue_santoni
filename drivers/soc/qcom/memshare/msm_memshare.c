@@ -532,11 +532,7 @@ static int handle_alloc_generic_req(void *req_h, void *req, void *conn_h)
 	if (rc < 0)
 		pr_err("In %s, Error sending the alloc request: %d\n",
 							__func__, rc);
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(alloc_resp);
 	alloc_resp = NULL;
 	return rc;

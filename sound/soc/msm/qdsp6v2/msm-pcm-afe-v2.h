@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012,2015 The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012,2015-2016 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -37,10 +33,6 @@ struct pcm_afe_info {
 	struct afe_audio_client *audio_client;
 	wait_queue_head_t read_wait;
 	atomic_t rec_bytes_avail;
-<<<<<<< HEAD
-=======
-	bool reset_event;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 

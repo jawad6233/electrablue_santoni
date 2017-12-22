@@ -39,17 +39,12 @@
 #define UPDATE_BUSY_VAL		1000000
 
 /* Number of jiffies for a full thermal cycle */
-<<<<<<< HEAD
 #define TH_HZ			200
-=======
-#define TH_HZ			(HZ/5)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define KGSL_MAX_BUSLEVELS	20
 
 #define DEFAULT_BUS_P 25
 
-<<<<<<< HEAD
 /*
  * The effective duration of qos request in usecs. After
  * timeout, qos request is cancelled automatically.
@@ -57,8 +52,6 @@
  */
 #define KGSL_L2PC_CPU_TIMEOUT	(80 * 1000)
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Order deeply matters here because reasons. New entries go on the end */
 static const char * const clocks[] = {
 	"src_clk",
@@ -89,16 +82,7 @@ static void kgsl_pwrctrl_set_state(struct kgsl_device *device,
 static void kgsl_pwrctrl_request_state(struct kgsl_device *device,
 				unsigned int state);
 static void kgsl_pwrctrl_retention_clk(struct kgsl_device *device, int state);
-<<<<<<< HEAD
 
-=======
-static int kgsl_pwrctrl_clk_set_rate(struct clk *grp_clk, unsigned int freq,
-				const char *name);
-static void _gpu_clk_prepare_enable(struct kgsl_device *device,
-				struct clk *clk, const char *name);
-static void _bimc_clk_prepare_enable(struct kgsl_device *device,
-				struct clk *clk, const char *name);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * _record_pwrevent() - Record the history of the new event
  * @device: Pointer to the kgsl_device struct
@@ -307,12 +291,8 @@ static void kgsl_pwrctrl_set_thermal_cycle(struct kgsl_pwrctrl *pwr,
 		if (pwr->thermal_cycle == CYCLE_ENABLE) {
 			pwr->thermal_cycle = CYCLE_ACTIVE;
 			mod_timer(&pwr->thermal_timer, jiffies +
-<<<<<<< HEAD
 					(msecs_to_jiffies(TH_HZ) -
 					 pwr->thermal_timeout));
-=======
-					(TH_HZ - pwr->thermal_timeout));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			pwr->thermal_highlow = 1;
 		}
 	} else {
@@ -406,12 +386,7 @@ void kgsl_pwrctrl_pwrlevel_change(struct kgsl_device *device,
 	pwrlevel = &pwr->pwrlevels[pwr->active_pwrlevel];
 	/* Change register settings if any  BEFORE pwrlevel change*/
 	kgsl_pwrctrl_pwrlevel_change_settings(device, 0);
-<<<<<<< HEAD
 	clk_set_rate(pwr->grp_clks[0], pwrlevel->gpu_freq);
-=======
-	kgsl_pwrctrl_clk_set_rate(pwr->grp_clks[0],
-			pwrlevel->gpu_freq, clocks[0]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	trace_kgsl_pwrlevel(device,
 			pwr->active_pwrlevel, pwrlevel->gpu_freq,
 			pwr->previous_pwrlevel,
@@ -427,18 +402,9 @@ void kgsl_pwrctrl_pwrlevel_change(struct kgsl_device *device,
 	if (pwr->gpu_bimc_int_clk) {
 			if (pwr->active_pwrlevel == 0 &&
 					!pwr->gpu_bimc_interface_enabled) {
-<<<<<<< HEAD
 				clk_set_rate(pwr->gpu_bimc_int_clk,
 						pwr->gpu_bimc_int_clk_freq);
 				clk_prepare_enable(pwr->gpu_bimc_int_clk);
-=======
-				kgsl_pwrctrl_clk_set_rate(pwr->gpu_bimc_int_clk,
-						pwr->gpu_bimc_int_clk_freq,
-						"bimc_gpu_clk");
-				_bimc_clk_prepare_enable(device,
-						pwr->gpu_bimc_int_clk,
-						"bimc_gpu_clk");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				pwr->gpu_bimc_interface_enabled = 1;
 			} else if (pwr->previous_pwrlevel == 0
 					&& pwr->gpu_bimc_interface_enabled) {
@@ -505,21 +471,12 @@ EXPORT_SYMBOL(kgsl_pwrctrl_set_constraint);
 /**
  * kgsl_pwrctrl_update_l2pc() - Update existing qos request
  * @device: Pointer to the kgsl_device struct
-<<<<<<< HEAD
-=======
- * @timeout_us: the effective duration of qos request in usecs.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Updates an existing qos request to avoid L2PC on the
  * CPUs (which are selected through dtsi) on which GPU
  * thread is running. This would help for performance.
  */
-<<<<<<< HEAD
 void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device)
-=======
-void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device,
-			unsigned long timeout_us)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	int cpu;
 
@@ -533,11 +490,7 @@ void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device,
 		pm_qos_update_request_timeout(
 				&device->pwrctrl.l2pc_cpus_qos,
 				device->pwrctrl.pm_qos_cpu_mask_latency,
-<<<<<<< HEAD
 				KGSL_L2PC_CPU_TIMEOUT);
-=======
-				timeout_us);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 EXPORT_SYMBOL(kgsl_pwrctrl_update_l2pc);
@@ -743,11 +696,7 @@ static void kgsl_pwrctrl_max_clock_set(struct kgsl_device *device, int val)
 		hfreq = pwr->pwrlevels[i].gpu_freq;
 		diff =  hfreq - pwr->pwrlevels[i + 1].gpu_freq;
 		udiff = hfreq - val;
-<<<<<<< HEAD
 		pwr->thermal_timeout = (udiff * msecs_to_jiffies(TH_HZ)) / diff;
-=======
-		pwr->thermal_timeout = (udiff * TH_HZ) / diff;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pwr->thermal_cycle = CYCLE_ENABLE;
 	} else {
 		pwr->thermal_cycle = CYCLE_DISABLE;
@@ -798,15 +747,10 @@ static unsigned int kgsl_pwrctrl_max_clock_get(struct kgsl_device *device)
 		unsigned int hfreq = freq;
 		unsigned int lfreq = pwr->pwrlevels[pwr->
 				thermal_pwrlevel + 1].gpu_freq;
-<<<<<<< HEAD
 		freq = pwr->thermal_timeout *
 			(lfreq / msecs_to_jiffies(TH_HZ)) +
 			(msecs_to_jiffies(TH_HZ) - pwr->thermal_timeout) *
 			(hfreq / msecs_to_jiffies(TH_HZ));
-=======
-		freq = pwr->thermal_timeout * (lfreq / TH_HZ) +
-			(TH_HZ - pwr->thermal_timeout) * (hfreq / TH_HZ);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	return freq;
@@ -1054,11 +998,6 @@ static void __force_on(struct kgsl_device *device, int flag, int on)
 	if (on) {
 		switch (flag) {
 		case KGSL_PWRFLAGS_CLK_ON:
-<<<<<<< HEAD
-=======
-			/* make sure pwrrail is ON before enabling clocks */
-			kgsl_pwrctrl_pwrrail(device, KGSL_PWRFLAGS_ON);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			kgsl_pwrctrl_clk(device, KGSL_PWRFLAGS_ON,
 				KGSL_STATE_ACTIVE);
 			break;
@@ -1690,17 +1629,10 @@ static void kgsl_pwrctrl_retention_clk(struct kgsl_device *device, int state)
 			&pwr->power_flags)) {
 			trace_kgsl_retention_clk(device, state);
 			/* prepare the mx clk to avoid RPM transactions*/
-<<<<<<< HEAD
 			clk_set_rate(pwr->dummy_mx_clk,
 				pwr->pwrlevels
 				[pwr->active_pwrlevel].
 				gpu_freq);
-=======
-			kgsl_pwrctrl_clk_set_rate(pwr->dummy_mx_clk,
-				pwr->pwrlevels
-				[pwr->active_pwrlevel].
-				gpu_freq, "mx_clk");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			clk_prepare(pwr->dummy_mx_clk);
 			/*
 			 * Unprepare Gfx clocks to put Gfx rail to
@@ -1724,15 +1656,9 @@ static void kgsl_pwrctrl_retention_clk(struct kgsl_device *device, int state)
 
 			/* unprepare the dummy mx clk*/
 			clk_unprepare(pwr->dummy_mx_clk);
-<<<<<<< HEAD
 			clk_set_rate(pwr->dummy_mx_clk,
 				pwr->pwrlevels[pwr->num_pwrlevels - 1].
 				gpu_freq);
-=======
-			kgsl_pwrctrl_clk_set_rate(pwr->dummy_mx_clk,
-				pwr->pwrlevels[pwr->num_pwrlevels - 1].
-				gpu_freq, "mx_clk");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	}
 }
@@ -1767,15 +1693,9 @@ static void kgsl_pwrctrl_clk(struct kgsl_device *device, int state,
 						KGSL_STATE_DEEP_NAP)) {
 				for (i = KGSL_MAX_CLKS - 1; i > 0; i--)
 					clk_unprepare(pwr->grp_clks[i]);
-<<<<<<< HEAD
 				clk_set_rate(pwr->grp_clks[0],
 					pwr->pwrlevels[pwr->num_pwrlevels - 1].
 					gpu_freq);
-=======
-				kgsl_pwrctrl_clk_set_rate(pwr->grp_clks[0],
-					pwr->pwrlevels[pwr->num_pwrlevels - 1].
-					gpu_freq, clocks[0]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			}
 
 			/* Turn off the IOMMU clocks */
@@ -1784,18 +1704,10 @@ static void kgsl_pwrctrl_clk(struct kgsl_device *device, int state,
 			/* High latency clock maintenance. */
 			for (i = KGSL_MAX_CLKS - 1; i > 0; i--)
 				clk_unprepare(pwr->grp_clks[i]);
-<<<<<<< HEAD
 			if ((pwr->pwrlevels[0].gpu_freq > 0))
 				clk_set_rate(pwr->grp_clks[0],
 					pwr->pwrlevels[pwr->num_pwrlevels - 1].
 					gpu_freq);
-=======
-			if ((pwr->pwrlevels[0].gpu_freq > 0)) {
-				kgsl_pwrctrl_clk_set_rate(pwr->grp_clks[0],
-					pwr->pwrlevels[pwr->num_pwrlevels - 1].
-					gpu_freq, clocks[0]);
-			}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 	} else if (state == KGSL_PWRFLAGS_ON) {
 		if (!test_and_set_bit(KGSL_PWRFLAGS_CLK_ON,
@@ -1806,7 +1718,6 @@ static void kgsl_pwrctrl_clk(struct kgsl_device *device, int state,
 			if ((device->state != KGSL_STATE_NAP) &&
 			(device->state != KGSL_STATE_DEEP_NAP)) {
 				if (pwr->pwrlevels[0].gpu_freq > 0)
-<<<<<<< HEAD
 					clk_set_rate(pwr->grp_clks[0],
 						pwr->pwrlevels
 						[pwr->active_pwrlevel].
@@ -1818,37 +1729,14 @@ static void kgsl_pwrctrl_clk(struct kgsl_device *device, int state,
 			   this is to let GPU interrupt to come */
 			for (i = KGSL_MAX_CLKS - 1; i > 0; i--)
 				clk_enable(pwr->grp_clks[i]);
-=======
-					kgsl_pwrctrl_clk_set_rate(
-						pwr->grp_clks[0],
-						pwr->pwrlevels
-						[pwr->active_pwrlevel].
-						gpu_freq, clocks[0]);
-			}
-
-			for (i = KGSL_MAX_CLKS - 1; i > 0; i--)
-				_gpu_clk_prepare_enable(device,
-						pwr->grp_clks[i], clocks[i]);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			/* Enable the gpu-bimc-interface clocks */
 			if (pwr->gpu_bimc_int_clk) {
 				if (pwr->active_pwrlevel == 0 &&
 					!pwr->gpu_bimc_interface_enabled) {
-<<<<<<< HEAD
 					clk_set_rate(pwr->gpu_bimc_int_clk,
 						pwr->gpu_bimc_int_clk_freq);
 					clk_prepare_enable(
 						pwr->gpu_bimc_int_clk);
-=======
-					kgsl_pwrctrl_clk_set_rate(
-						pwr->gpu_bimc_int_clk,
-						pwr->gpu_bimc_int_clk_freq,
-						"bimc_gpu_clk");
-					_bimc_clk_prepare_enable(device,
-						pwr->gpu_bimc_int_clk,
-						"bimc_gpu_clk");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					pwr->gpu_bimc_interface_enabled = 1;
 				}
 			}
@@ -1932,16 +1820,7 @@ static int kgsl_pwrctrl_pwrrail(struct kgsl_device *device, int state)
 	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
 	int status = 0;
 
-<<<<<<< HEAD
 	if (test_bit(KGSL_PWRFLAGS_POWER_ON, &pwr->ctrl_flags))
-=======
-	/*
-	 * Disabling the regulator means also disabling dependent clocks.
-	 * Hence don't disable it if force clock ON is set.
-	 */
-	if (test_bit(KGSL_PWRFLAGS_POWER_ON, &pwr->ctrl_flags) ||
-		test_bit(KGSL_PWRFLAGS_CLK_ON, &pwr->ctrl_flags))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 
 	if (state == KGSL_PWRFLAGS_OFF) {
@@ -2029,11 +1908,7 @@ static void kgsl_thermal_timer(unsigned long data)
 		device->pwrctrl.thermal_highlow = 0;
 	} else {
 		mod_timer(&device->pwrctrl.thermal_timer,
-<<<<<<< HEAD
 					jiffies + (msecs_to_jiffies(TH_HZ) -
-=======
-					jiffies + (TH_HZ -
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					device->pwrctrl.thermal_timeout));
 		device->pwrctrl.thermal_highlow = 1;
 	}
@@ -2141,57 +2016,6 @@ static int _get_clocks(struct kgsl_device *device)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-/*
- * _gpu_clk_prepare_enable - Enable the specified GPU clock
- * Try once to enable it and then BUG() for debug
- */
-static void _gpu_clk_prepare_enable(struct kgsl_device *device,
-		struct clk *clk, const char *name)
-{
-	int ret;
-
-	if (device->state == KGSL_STATE_NAP ||
-		device->state == KGSL_STATE_DEEP_NAP) {
-
-		ret = clk_enable(clk);
-		if (ret)
-			goto err;
-		return;
-	}
-
-	ret = clk_prepare_enable(clk);
-	if (!ret)
-		return;
-err:
-	/* Failure is fatal so BUG() to facilitate debug */
-	KGSL_DRV_FATAL(device, "KGSL:%s enable error:%d\n", name, ret);
-}
-
-/*
- * _bimc_clk_prepare_enable - Enable the specified GPU clock
- *  Try once to enable it and then BUG() for debug
- */
-static void _bimc_clk_prepare_enable(struct kgsl_device *device,
-		struct clk *clk, const char *name)
-{
-	int ret = clk_prepare_enable(clk);
-	/* Failure is fatal so BUG() to facilitate debug */
-	if (ret)
-		KGSL_DRV_FATAL(device, "KGSL:%s enable error:%d\n", name, ret);
-}
-
-static int kgsl_pwrctrl_clk_set_rate(struct clk *grp_clk, unsigned int freq,
-		const char *name)
-{
-	int ret = clk_set_rate(grp_clk, freq);
-
-	WARN(ret, "KGSL:%s set freq %d failed:%d\n", name, freq, ret);
-	return ret;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int kgsl_pwrctrl_init(struct kgsl_device *device)
 {
 	int i, k, m, n = 0, result;
@@ -2266,22 +2090,11 @@ int kgsl_pwrctrl_init(struct kgsl_device *device)
 		pwr->pwrlevels[i].gpu_freq = freq;
 	}
 
-<<<<<<< HEAD
 	clk_set_rate(pwr->grp_clks[0],
 		pwr->pwrlevels[pwr->num_pwrlevels - 1].gpu_freq);
 
 	clk_set_rate(pwr->grp_clks[6],
 		clk_round_rate(pwr->grp_clks[6], KGSL_RBBMTIMER_CLK_FREQ));
-=======
-	kgsl_pwrctrl_clk_set_rate(pwr->grp_clks[0],
-		pwr->pwrlevels[pwr->num_pwrlevels - 1].gpu_freq, clocks[0]);
-
-	if (pwr->grp_clks[6] != NULL)
-		kgsl_pwrctrl_clk_set_rate(pwr->grp_clks[6],
-			clk_round_rate(pwr->grp_clks[6],
-			KGSL_RBBMTIMER_CLK_FREQ),
-			clocks[6]);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	result = get_regulators(device);
 	if (result)
@@ -2292,13 +2105,6 @@ int kgsl_pwrctrl_init(struct kgsl_device *device)
 	kgsl_property_read_u32(device, "qcom,l2pc-cpu-mask",
 			&pwr->l2pc_cpus_mask);
 
-<<<<<<< HEAD
-=======
-	pwr->l2pc_update_queue = of_property_read_bool(
-				device->pdev->dev.of_node,
-				"qcom,l2pc-update-queue");
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	pm_runtime_enable(&pdev->dev);
 
 	ocmem_bus_node = of_find_node_by_name(
@@ -2462,68 +2268,21 @@ void kgsl_idle_check(struct work_struct *work)
 {
 	struct kgsl_device *device = container_of(work, struct kgsl_device,
 							idle_check_ws);
-<<<<<<< HEAD
-=======
-	int ret = 0;
-	unsigned int requested_state;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	WARN_ON(device == NULL);
 	if (device == NULL)
 		return;
 
 	mutex_lock(&device->mutex);
 
-<<<<<<< HEAD
-=======
-	requested_state = device->requested_state;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (device->state == KGSL_STATE_ACTIVE
 		   || device->state ==  KGSL_STATE_NAP
 			|| device->state == KGSL_STATE_DEEP_NAP) {
 
-<<<<<<< HEAD
 		if (!atomic_read(&device->active_cnt))
 			kgsl_pwrctrl_change_state(device,
 					device->requested_state);
 
 		kgsl_pwrctrl_request_state(device, KGSL_STATE_NONE);
-=======
-		if (!atomic_read(&device->active_cnt)) {
-			spin_lock(&device->submit_lock);
-			if (device->submit_now) {
-				spin_unlock(&device->submit_lock);
-				goto done;
-			}
-			/* Don't allow GPU inline submission in SLUMBER */
-			if (requested_state == KGSL_STATE_SLUMBER)
-				device->slumber = true;
-			spin_unlock(&device->submit_lock);
-
-			ret = kgsl_pwrctrl_change_state(device,
-					device->requested_state);
-			if (ret == -EBUSY) {
-				if (requested_state == KGSL_STATE_SLUMBER) {
-					spin_lock(&device->submit_lock);
-					device->slumber = false;
-					spin_unlock(&device->submit_lock);
-				}
-				/*
-				 * If the GPU is currently busy, restore
-				 * the requested state and reschedule
-				 * idle work.
-				 */
-				kgsl_pwrctrl_request_state(device,
-					requested_state);
-				kgsl_schedule_work(&device->idle_check_ws);
-			}
-		}
-done:
-		if (!ret)
-			kgsl_pwrctrl_request_state(device, KGSL_STATE_NONE);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (device->state == KGSL_STATE_ACTIVE)
 			mod_timer(&device->idle_timer,
 					jiffies +
@@ -2789,11 +2548,6 @@ _nap(struct kgsl_device *device)
 			return -EBUSY;
 		}
 
-<<<<<<< HEAD
-=======
-		device->ftbl->stop_fault_timer(device);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		/*
 		 * Read HW busy counters before going to NAP state.
 		 * The data might be used by power scale governors
@@ -3039,16 +2793,6 @@ static void kgsl_pwrctrl_set_state(struct kgsl_device *device,
 	trace_kgsl_pwr_set_state(device, state);
 	device->state = state;
 	device->requested_state = KGSL_STATE_NONE;
-<<<<<<< HEAD
-=======
-
-	spin_lock(&device->submit_lock);
-	if (state == KGSL_STATE_SLUMBER || state == KGSL_STATE_SUSPEND)
-		device->slumber = true;
-	else
-		device->slumber = false;
-	spin_unlock(&device->submit_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void kgsl_pwrctrl_request_state(struct kgsl_device *device,
@@ -3170,11 +2914,7 @@ static int _check_active_count(struct kgsl_device *device, int count)
 int kgsl_active_count_wait(struct kgsl_device *device, int count)
 {
 	int result = 0;
-<<<<<<< HEAD
 	long wait_jiffies = msecs_to_jiffies(1000);
-=======
-	long wait_jiffies = HZ;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	BUG_ON(!mutex_is_locked(&device->mutex));
 
@@ -3278,11 +3018,7 @@ EXPORT_SYMBOL(kgsl_pwr_limits_add);
 void kgsl_pwr_limits_del(void *limit_ptr)
 {
 	struct kgsl_pwr_limit *limit = limit_ptr;
-<<<<<<< HEAD
 	if (IS_ERR(limit))
-=======
-	if (IS_ERR_OR_NULL(limit))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 
 	_update_limits(limit, KGSL_PWR_DEL_LIMIT, 0);
@@ -3303,11 +3039,7 @@ int kgsl_pwr_limits_set_freq(void *limit_ptr, unsigned int freq)
 	struct kgsl_pwr_limit *limit = limit_ptr;
 	int level;
 
-<<<<<<< HEAD
 	if (IS_ERR(limit))
-=======
-	if (IS_ERR_OR_NULL(limit))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 
 	pwr = &limit->device->pwrctrl;
@@ -3329,11 +3061,7 @@ void kgsl_pwr_limits_set_default(void *limit_ptr)
 {
 	struct kgsl_pwr_limit *limit = limit_ptr;
 
-<<<<<<< HEAD
 	if (IS_ERR(limit))
-=======
-	if (IS_ERR_OR_NULL(limit))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 
 	_update_limits(limit, KGSL_PWR_SET_LIMIT, 0);

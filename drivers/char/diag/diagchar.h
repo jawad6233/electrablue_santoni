@@ -465,10 +465,6 @@ struct diagchar_dev {
 	int ref_count;
 	int mask_clear;
 	struct mutex diag_maskclear_mutex;
-<<<<<<< HEAD
-=======
-	struct mutex diag_notifier_mutex;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mutex diagchar_mutex;
 	struct mutex diag_file_mutex;
 	wait_queue_head_t wait_q;
@@ -541,10 +537,6 @@ struct diagchar_dev {
 	unsigned char *buf_feature_mask_update;
 	uint8_t hdlc_disabled;
 	struct mutex hdlc_disable_mutex;
-<<<<<<< HEAD
-=======
-	struct mutex hdlc_recovery_mutex;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct timer_list hdlc_reset_timer;
 	struct mutex diag_hdlc_mutex;
 	unsigned char *hdlc_buf;
@@ -605,10 +597,6 @@ struct diagchar_dev {
 #endif
 	int time_sync_enabled;
 	uint8_t uses_time_api;
-<<<<<<< HEAD
-=======
-	struct platform_device *pdev;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 extern struct diagchar_dev *driver;
@@ -638,10 +626,6 @@ void diag_cmd_remove_reg(struct diag_cmd_reg_entry_t *entry, uint8_t proc);
 void diag_cmd_remove_reg_by_pid(int pid);
 void diag_cmd_remove_reg_by_proc(int proc);
 int diag_cmd_chk_polling(struct diag_cmd_reg_entry_t *entry);
-<<<<<<< HEAD
-=======
-int diag_mask_param(void);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void diag_clear_masks(struct diag_md_session_t *info);
 
 void diag_record_stats(int type, int flag);

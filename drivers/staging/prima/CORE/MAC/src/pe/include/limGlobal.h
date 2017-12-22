@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2011-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -276,14 +272,6 @@ typedef struct sLimMlmJoinReq
     tSirMacRateSet         operationalRateSet;
     tANI_U8                 sessionId;
     tSirBssDescription     bssDescription;
-<<<<<<< HEAD
-=======
-    /*
-     * WARNING: Pls make bssDescription as last variable in struct
-     * tLimMlmJoinReq as it has ieFields followed after this bss
-     * description. Adding a variable after this corrupts the ieFields
-     */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } tLimMlmJoinReq, *tpLimMlmJoinReq;
 
 typedef struct sLimMlmScanReq

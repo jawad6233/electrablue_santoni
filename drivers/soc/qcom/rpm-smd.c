@@ -81,11 +81,7 @@ static struct glink_apps_rpm_data *glink_data;
 #define DEFAULT_BUFFER_SIZE 256
 #define DEBUG_PRINT_BUFFER_SIZE 512
 #define MAX_SLEEP_BUFFER 128
-<<<<<<< HEAD
 #define GFP_FLAG(noirq) (noirq ? GFP_ATOMIC : GFP_NOFS)
-=======
-#define GFP_FLAG(noirq) (noirq ? GFP_ATOMIC : GFP_NOIO)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define INV_RSC "resource does not exist"
 #define ERR "err\0"
 #define MAX_ERR_BUFFER_SIZE 128

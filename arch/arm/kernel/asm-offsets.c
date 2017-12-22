@@ -24,10 +24,6 @@
 #include <asm/memory.h>
 #include <asm/procinfo.h>
 #include <asm/suspend.h>
-<<<<<<< HEAD
-=======
-#include <asm/vdso_datapage.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <asm/hardware/cache-l2x0.h>
 #include <linux/kbuild.h>
 
@@ -204,12 +200,5 @@ int main(void)
 #endif
   DEFINE(KVM_VTTBR,		offsetof(struct kvm, arch.vttbr));
 #endif
-<<<<<<< HEAD
-=======
-  BLANK();
-#ifdef CONFIG_VDSO
-  DEFINE(VDSO_DATA_SIZE,	sizeof(union vdso_data_store));
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   return 0; 
 }

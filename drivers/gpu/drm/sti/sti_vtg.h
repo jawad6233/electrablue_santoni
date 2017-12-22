@@ -17,13 +17,8 @@ struct notifier_block;
 struct sti_vtg *of_vtg_find(struct device_node *np);
 void sti_vtg_set_config(struct sti_vtg *vtg,
 		const struct drm_display_mode *mode);
-<<<<<<< HEAD
 int sti_vtg_register_client(struct sti_vtg *vtg,
 		struct notifier_block *nb, int crtc_id);
-=======
-int sti_vtg_register_client(struct sti_vtg *vtg, struct notifier_block *nb,
-			    struct drm_crtc *crtc);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int sti_vtg_unregister_client(struct sti_vtg *vtg,
 		struct notifier_block *nb);
 

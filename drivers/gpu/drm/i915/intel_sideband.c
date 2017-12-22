@@ -49,11 +49,7 @@ static int vlv_sideband_rw(struct drm_i915_private *dev_priv, u32 devfn,
 		(port << IOSF_PORT_SHIFT) | (be << IOSF_BYTE_ENABLES_SHIFT) |
 		(bar << IOSF_BAR_SHIFT);
 
-<<<<<<< HEAD
 	WARN_ON(!mutex_is_locked(&dev_priv->dpio_lock));
-=======
-	WARN_ON(!mutex_is_locked(&dev_priv->sb_lock));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (wait_for((I915_READ(VLV_IOSF_DOORBELL_REQ) & IOSF_SB_BUSY) == 0, 5)) {
 		DRM_DEBUG_DRIVER("IOSF sideband idle wait (%s) timed out\n",
@@ -79,32 +75,20 @@ static int vlv_sideband_rw(struct drm_i915_private *dev_priv, u32 devfn,
 	return 0;
 }
 
-<<<<<<< HEAD
 u32 vlv_punit_read(struct drm_i915_private *dev_priv, u8 addr)
-=======
-u32 vlv_punit_read(struct drm_i915_private *dev_priv, u32 addr)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	u32 val = 0;
 
 	WARN_ON(!mutex_is_locked(&dev_priv->rps.hw_lock));
 
-<<<<<<< HEAD
 	mutex_lock(&dev_priv->dpio_lock);
 	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_PUNIT,
 			SB_CRRDDA_NP, addr, &val);
 	mutex_unlock(&dev_priv->dpio_lock);
-=======
-	mutex_lock(&dev_priv->sb_lock);
-	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_PUNIT,
-			SB_CRRDDA_NP, addr, &val);
-	mutex_unlock(&dev_priv->sb_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return val;
 }
 
-<<<<<<< HEAD
 void vlv_punit_write(struct drm_i915_private *dev_priv, u8 addr, u32 val)
 {
 	WARN_ON(!mutex_is_locked(&dev_priv->rps.hw_lock));
@@ -113,16 +97,6 @@ void vlv_punit_write(struct drm_i915_private *dev_priv, u8 addr, u32 val)
 	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_PUNIT,
 			SB_CRWRDA_NP, addr, &val);
 	mutex_unlock(&dev_priv->dpio_lock);
-=======
-void vlv_punit_write(struct drm_i915_private *dev_priv, u32 addr, u32 val)
-{
-	WARN_ON(!mutex_is_locked(&dev_priv->rps.hw_lock));
-
-	mutex_lock(&dev_priv->sb_lock);
-	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_PUNIT,
-			SB_CRWRDA_NP, addr, &val);
-	mutex_unlock(&dev_priv->sb_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 u32 vlv_bunit_read(struct drm_i915_private *dev_priv, u32 reg)
@@ -147,17 +121,10 @@ u32 vlv_nc_read(struct drm_i915_private *dev_priv, u8 addr)
 
 	WARN_ON(!mutex_is_locked(&dev_priv->rps.hw_lock));
 
-<<<<<<< HEAD
 	mutex_lock(&dev_priv->dpio_lock);
 	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_NC,
 			SB_CRRDDA_NP, addr, &val);
 	mutex_unlock(&dev_priv->dpio_lock);
-=======
-	mutex_lock(&dev_priv->sb_lock);
-	vlv_sideband_rw(dev_priv, PCI_DEVFN(0, 0), IOSF_PORT_NC,
-			SB_CRRDDA_NP, addr, &val);
-	mutex_unlock(&dev_priv->sb_lock);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return val;
 }
@@ -246,11 +213,7 @@ u32 intel_sbi_read(struct drm_i915_private *dev_priv, u16 reg,
 		   enum intel_sbi_destination destination)
 {
 	u32 value = 0;
-<<<<<<< HEAD
 	WARN_ON(!mutex_is_locked(&dev_priv->dpio_lock));
-=======
-	WARN_ON(!mutex_is_locked(&dev_priv->sb_lock));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (wait_for((I915_READ(SBI_CTL_STAT) & SBI_BUSY) == 0,
 				100)) {
@@ -280,11 +243,7 @@ void intel_sbi_write(struct drm_i915_private *dev_priv, u16 reg, u32 value,
 {
 	u32 tmp;
 
-<<<<<<< HEAD
 	WARN_ON(!mutex_is_locked(&dev_priv->dpio_lock));
-=======
-	WARN_ON(!mutex_is_locked(&dev_priv->sb_lock));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (wait_for((I915_READ(SBI_CTL_STAT) & SBI_BUSY) == 0,
 				100)) {

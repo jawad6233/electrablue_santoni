@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -53,10 +49,6 @@ struct diag_mhi_info diag_mhi[NUM_MHI_DEV] = {
 		.enabled = 0,
 		.num_read = 0,
 		.mempool = POOL_TYPE_MDM,
-<<<<<<< HEAD
-=======
-		.mempool_init = 0,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.mhi_wq = NULL,
 		.read_ch = {
 			.chan = MHI_CLIENT_DIAG_IN,
@@ -76,10 +68,6 @@ struct diag_mhi_info diag_mhi[NUM_MHI_DEV] = {
 		.enabled = 0,
 		.num_read = 0,
 		.mempool = POOL_TYPE_MDM_DCI,
-<<<<<<< HEAD
-=======
-		.mempool_init = 0,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		.mhi_wq = NULL,
 		.read_ch = {
 			.chan = MHI_CLIENT_DCI_IN,
@@ -207,11 +195,7 @@ static void mhi_buf_tbl_clear(struct diag_mhi_info *mhi_info)
 	struct diag_mhi_buf_tbl_t *item = NULL;
 	struct diag_mhi_ch_t *ch = NULL;
 
-<<<<<<< HEAD
 	if (!mhi_info || !mhi_info->enabled)
-=======
-	if (!mhi_info)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 
 	/* Clear all the pending reads */
@@ -420,16 +404,8 @@ static void mhi_read_done_work_fn(struct work_struct *work)
 		 * buffers here and do not forward them to the mux layer.
 		 */
 		if ((atomic_read(&(mhi_info->read_ch.opened)))) {
-<<<<<<< HEAD
 			diag_remote_dev_read_done(mhi_info->dev_id, buf,
 						  result.bytes_xferd);
-=======
-			err = diag_remote_dev_read_done(mhi_info->dev_id, buf,
-						  result.bytes_xferd);
-			if (err)
-				mhi_buf_tbl_remove(mhi_info, TYPE_MHI_READ_CH,
-					buf, result.bytes_xferd);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		} else {
 			mhi_buf_tbl_remove(mhi_info, TYPE_MHI_READ_CH, buf,
 					   result.bytes_xferd);
@@ -684,30 +660,8 @@ static int diag_mhi_register_ch(int id, struct diag_mhi_ch_t *ch)
 	atomic_set(&(ch->opened), 0);
 	ctxt = SET_CH_CTXT(id, ch->type);
 	ch->client_info.mhi_client_cb = mhi_notifier;
-<<<<<<< HEAD
 	return mhi_register_channel(&ch->hdl, ch->chan, 0, &ch->client_info,
 				    (void *)(uintptr_t)ctxt);
-=======
-	ch->client_info.chan = ch->chan;
-	ch->client_info.dev = &driver->pdev->dev;
-	ch->client_info.node_name = "qcom,mhi";
-	ch->client_info.user_data = (void *)(uintptr_t)ctxt;
-	return mhi_register_channel(&ch->hdl, &ch->client_info);
-}
-
-static void diag_mhi_dev_exit(int dev)
-{
-	struct diag_mhi_info *mhi_info = NULL;
-
-	mhi_info = &diag_mhi[dev];
-	if (!mhi_info)
-		return;
-	if (mhi_info->mhi_wq)
-		destroy_workqueue(mhi_info->mhi_wq);
-	mhi_close(mhi_info->id);
-	if (mhi_info->mempool_init)
-		diagmem_exit(driver, mhi_info->mempool);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int diag_mhi_init()
@@ -727,10 +681,6 @@ int diag_mhi_init()
 		strlcpy(wq_name, "diag_mhi_", DIAG_MHI_STRING_SZ);
 		strlcat(wq_name, mhi_info->name, sizeof(mhi_info->name));
 		diagmem_init(driver, mhi_info->mempool);
-<<<<<<< HEAD
-=======
-		mhi_info->mempool_init = 1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		mhi_info->mhi_wq = create_singlethread_workqueue(wq_name);
 		if (!mhi_info->mhi_wq)
 			goto fail;
@@ -758,18 +708,13 @@ int diag_mhi_init()
 
 	return 0;
 fail:
-<<<<<<< HEAD
 	diag_mhi_exit();
-=======
-	diag_mhi_dev_exit(i);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return -ENOMEM;
 }
 
 void diag_mhi_exit()
 {
 	int i;
-<<<<<<< HEAD
 	struct diag_mhi_info *mhi_info = NULL;
 
 	for (i = 0; i < NUM_MHI_DEV; i++) {
@@ -778,11 +723,6 @@ void diag_mhi_exit()
 			destroy_workqueue(mhi_info->mhi_wq);
 		mhi_close(mhi_info->id);
 		diagmem_exit(driver, mhi_info->mempool);
-=======
-
-	for (i = 0; i < NUM_MHI_DEV; i++) {
-		diag_mhi_dev_exit(i);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 

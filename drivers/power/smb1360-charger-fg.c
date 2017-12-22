@@ -963,11 +963,7 @@ static int smb1360_alloc_otp_backup_register(struct smb1360_chip *chip,
 	rc = pool->start_now;
 	inv_pos = pool->reg_end - pool->start_now + 1;
 	for (i = 0; i < size; i = i + 2) {
-<<<<<<< HEAD
 		inv_pos -= i;
-=======
-		inv_pos -= (i ?  2 : 0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pool->alg_bitmap |= usage << (inv_pos - 2);
 	}
 	pr_debug("Allocation success, start = 0x%x, size = %d, alg_bitmap = 0x%x\n",
@@ -4906,7 +4902,6 @@ static int smb1360_probe(struct i2c_client *client,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
 	/* probe the device to check if its actually connected */
 	rc = smb1360_read(chip, CFG_BATT_CHG_REG, &reg);
 	if (rc) {
@@ -4914,8 +4909,6 @@ static int smb1360_probe(struct i2c_client *client,
 		return -ENODEV;
 	}
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	chip->resume_completed = true;
 	chip->client = client;
 	chip->dev = &client->dev;
@@ -4934,16 +4927,6 @@ static int smb1360_probe(struct i2c_client *client,
 	init_completion(&chip->fg_mem_access_granted);
 	smb1360_wakeup_src_init(chip);
 
-<<<<<<< HEAD
-=======
-	/* probe the device to check if its actually connected */
-	rc = smb1360_read(chip, CFG_BATT_CHG_REG, &reg);
-	if (rc) {
-		pr_err("Failed to detect SMB1360, device may be absent\n");
-		goto destroy_mutex;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	rc = read_revision(chip, &chip->revision);
 	if (rc)
 		dev_err(chip->dev, "Couldn't read revision rc = %d\n", rc);

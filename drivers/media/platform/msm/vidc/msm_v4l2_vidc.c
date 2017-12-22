@@ -20,10 +20,7 @@
 #include <linux/of_platform.h>
 #include <linux/platform_device.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
 #include <linux/pm_qos.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/types.h>
 #include <linux/version.h>
 #include <linux/io.h>
@@ -493,25 +490,12 @@ static int msm_vidc_probe_vidc_device(struct platform_device *pdev)
 	struct device *dev;
 	int nr = BASE_DEVICE_NUMBER;
 
-<<<<<<< HEAD
 	core = kzalloc(sizeof(*core), GFP_KERNEL);
 	if (!core || !vidc_driver) {
 		dprintk(VIDC_ERR,
 			"Failed to allocate memory for device core\n");
 		rc = -ENOMEM;
 		goto err_no_mem;
-=======
-	if (!vidc_driver) {
-		dprintk(VIDC_ERR, "Invalid vidc driver\n");
-		return -EINVAL;
-	}
-
-	core = kzalloc(sizeof(*core), GFP_KERNEL);
-	if (!core) {
-		dprintk(VIDC_ERR,
-			"Failed to allocate memory for device core\n");
-		return -ENOMEM;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	dev_set_drvdata(&pdev->dev, core);
@@ -659,10 +643,7 @@ err_v4l2_register:
 err_core_init:
 	dev_set_drvdata(&pdev->dev, NULL);
 	kfree(core);
-<<<<<<< HEAD
 err_no_mem:
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return rc;
 }
 

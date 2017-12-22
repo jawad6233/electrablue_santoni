@@ -758,37 +758,6 @@ void hrtimers_resume(void)
 	clock_was_set_delayed();
 }
 
-<<<<<<< HEAD
-=======
-static inline void timer_stats_hrtimer_set_start_info(struct hrtimer *timer)
-{
-#ifdef CONFIG_TIMER_STATS
-	if (timer->start_site)
-		return;
-	timer->start_site = __builtin_return_address(0);
-	memcpy(timer->start_comm, current->comm, TASK_COMM_LEN);
-	timer->start_pid = current->pid;
-#endif
-}
-
-static inline void timer_stats_hrtimer_clear_start_info(struct hrtimer *timer)
-{
-#ifdef CONFIG_TIMER_STATS
-	timer->start_site = NULL;
-#endif
-}
-
-static inline void timer_stats_account_hrtimer(struct hrtimer *timer)
-{
-#ifdef CONFIG_TIMER_STATS
-	if (likely(!timer_stats_active))
-		return;
-	timer_stats_update_stats(timer, timer->start_pid, timer->start_site,
-				 timer->function, timer->start_comm, 0);
-#endif
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Counterpart to lock_hrtimer_base above:
  */
@@ -922,10 +891,6 @@ remove_hrtimer(struct hrtimer *timer, struct hrtimer_clock_base *base)
 		 * rare case and less expensive than a smp call.
 		 */
 		debug_deactivate(timer);
-<<<<<<< HEAD
-=======
-		timer_stats_hrtimer_clear_start_info(timer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		reprogram = base->cpu_base == this_cpu_ptr(&hrtimer_bases);
 		/*
 		 * We must preserve the CALLBACK state flag here,
@@ -971,11 +936,6 @@ int __hrtimer_start_range_ns(struct hrtimer *timer, ktime_t tim,
 	/* Switch the timer base, if necessary: */
 	new_base = switch_hrtimer_base(timer, base, mode & HRTIMER_MODE_PINNED);
 
-<<<<<<< HEAD
-=======
-	timer_stats_hrtimer_set_start_info(timer);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	leftmost = enqueue_hrtimer(timer, new_base);
 
 	if (!leftmost) {
@@ -1163,15 +1123,6 @@ static void __hrtimer_init(struct hrtimer *timer, clockid_t clock_id,
 	base = hrtimer_clockid_to_base(clock_id);
 	timer->base = &cpu_base->clock_base[base];
 	timerqueue_init(&timer->node);
-<<<<<<< HEAD
-=======
-
-#ifdef CONFIG_TIMER_STATS
-	timer->start_site = NULL;
-	timer->start_pid = -1;
-	memset(timer->start_comm, 0, TASK_COMM_LEN);
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -1219,10 +1170,6 @@ static void __run_hrtimer(struct hrtimer *timer, ktime_t *now)
 
 	debug_deactivate(timer);
 	__remove_hrtimer(timer, base, HRTIMER_STATE_CALLBACK, 0);
-<<<<<<< HEAD
-=======
-	timer_stats_account_hrtimer(timer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fn = timer->function;
 
 	/*
@@ -1600,11 +1547,7 @@ long hrtimer_nanosleep(struct timespec *rqtp, struct timespec __user *rmtp,
 			goto out;
 	}
 
-<<<<<<< HEAD
 	restart = &current_thread_info()->restart_block;
-=======
-	restart = &current->restart_block;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	restart->fn = hrtimer_nanosleep_restart;
 	restart->nanosleep.clockid = t.timer.base->clockid;
 	restart->nanosleep.rmtp = rmtp;

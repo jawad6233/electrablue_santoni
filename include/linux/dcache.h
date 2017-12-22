@@ -160,13 +160,8 @@ struct dentry_operations {
 	char *(*d_dname)(struct dentry *, char *, int);
 	struct vfsmount *(*d_automount)(struct path *);
 	int (*d_manage)(struct dentry *, bool);
-<<<<<<< HEAD
 	struct inode *(*d_select_inode)(struct dentry *, unsigned);
 	void (*d_canonical_path)(const struct dentry *, struct path *);
-=======
-	void (*d_canonical_path)(const struct path *, struct path *);
-	struct inode *(*d_select_inode)(struct dentry *, unsigned);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } ____cacheline_aligned;
 
 /*
@@ -231,11 +226,6 @@ struct dentry_operations {
 #define DCACHE_MAY_FREE			0x00800000
 #define DCACHE_OP_SELECT_INODE		0x02000000 /* Unioned entry: dcache op selects inode */
 
-<<<<<<< HEAD
-=======
-#define DCACHE_ENCRYPTED_WITH_KEY	0x04000000 /* dir is encrypted with a valid key */
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern seqlock_t rename_lock;
 
 /*
@@ -243,11 +233,7 @@ extern seqlock_t rename_lock;
  */
 extern void d_instantiate(struct dentry *, struct inode *);
 extern struct dentry * d_instantiate_unique(struct dentry *, struct inode *);
-<<<<<<< HEAD
 extern struct dentry * d_materialise_unique(struct dentry *, struct inode *);
-=======
-#define d_materialise_unique(d, i) d_splice_alias(i, d)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int d_instantiate_no_diralias(struct dentry *, struct inode *);
 extern void __d_drop(struct dentry *dentry);
 extern void d_drop(struct dentry *dentry);

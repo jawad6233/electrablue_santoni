@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -358,7 +354,6 @@ static ssize_t mpq_sdmx_log_level_write(struct file *fp,
 	int level;
 	struct mpq_demux *mpq_demux = fp->private_data;
 
-<<<<<<< HEAD
 	if (count >= 16)
 		return -EINVAL;
 
@@ -366,19 +361,6 @@ static ssize_t mpq_sdmx_log_level_write(struct file *fp,
 		count);
 	if (ret_count < 0)
 		return ret_count;
-=======
-	if (count == 0 || count >= 16)
-		return -EINVAL;
-
-	memset(user_str, '\0', sizeof(user_str));
-
-	ret_count = simple_write_to_buffer(user_str, 15, position, user_buffer,
-		count);
-	if (ret_count < 0)
-		return ret_count;
-	else if (ret_count == 0)
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = kstrtoint(user_str, 0, &level);
 	if (ret)
@@ -1819,15 +1801,7 @@ int mpq_dmx_terminate_feed(struct dvb_demux_feed *feed)
 		}
 
 		mpq_sdmx_close_session(mpq_demux);
-<<<<<<< HEAD
 		mpq_demux->num_secure_feeds--;
-=======
-		if (mpq_demux->num_secure_feeds > 0)
-			mpq_demux->num_secure_feeds--;
-		else
-			MPQ_DVB_DBG_PRINT("%s: Invalid secure feed count= %u\n",
-				 __func__, mpq_demux->num_secure_feeds);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (dvb_dmx_is_video_feed(feed)) {
@@ -1844,15 +1818,7 @@ int mpq_dmx_terminate_feed(struct dvb_demux_feed *feed)
 	}
 
 	mpq_sdmx_terminate_metadata_buffer(mpq_feed);
-<<<<<<< HEAD
 	mpq_demux->num_active_feeds--;
-=======
-	if (mpq_demux->num_active_feeds > 0)
-		mpq_demux->num_active_feeds--;
-	else
-		MPQ_DVB_DBG_PRINT("%s: Invalid num_active_feeds count = %u\n",
-				  __func__, mpq_demux->num_active_feeds);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_unlock(&mpq_demux->mutex);
 

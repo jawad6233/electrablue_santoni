@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -53,12 +49,6 @@
 #include "limSerDesUtils.h"
 #include "limSendMessages.h"
 #include "schApi.h"
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-#include "lim_mbb.h"
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 
 /**
@@ -94,10 +84,7 @@ limProcessDisassocFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if (limIsGroupAddr(pHdr->sa))
     {
         // Received Disassoc frame from a BC/MC address
@@ -118,19 +105,6 @@ limProcessDisassocFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession
         return;
     }
 
-<<<<<<< HEAD
-=======
-    if (LIM_IS_STA_ROLE(psessionEntry) &&
-       ((eLIM_SME_WT_DISASSOC_STATE == psessionEntry->limSmeState) ||
-        (eLIM_SME_WT_DEAUTH_STATE == psessionEntry->limSmeState))) {
-            PELOGE(limLog(pMac, LOG1,
-                   FL("recevied disaasoc frame in %d limsmestate... droping this"),
-                       psessionEntry->limSmeState);)
-            return;
-    }
-
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef WLAN_FEATURE_11W
     /* PMF: If this session is a PMF session, then ensure that this frame was protected */
     if(psessionEntry->limRmfEnabled  && (WDA_GET_RX_DPU_FEEDBACK(pRxPacketInfo) & DPU_FEEDBACK_UNPROTECTED_ERROR))
@@ -186,16 +160,6 @@ limProcessDisassocFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession
         return;
     }
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_LFR_MBB
-    if (lim_is_mbb_reassoc_in_progress(pMac, psessionEntry)) {
-        limLog(pMac, LOGE, FL("Ignore Disassoc frame as LFR MBB in progress"));
-        return;
-    }
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     /** If we are in the Wait for ReAssoc Rsp state */
     if (limIsReassocInProgress(pMac,psessionEntry)) {
         /** If we had received the DisAssoc from,

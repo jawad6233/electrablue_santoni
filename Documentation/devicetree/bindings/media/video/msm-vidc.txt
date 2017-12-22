@@ -10,11 +10,6 @@ Required properties:
   of macroblocks per second. The load is a reflection of hardware capability
   rather than a performance guarantee. Performance is guaranteed only up to
   advertised capability of the chipset.
-<<<<<<< HEAD
-=======
-- qcom,venus-uplift-freq: Frequency which needs to be considered when respective
-  efuse bits are identified.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - qcom,firmware-name : firmware file name to be downloaded.
 
 Optional properties:
@@ -24,11 +19,6 @@ Optional properties:
     in efuse register.
 - qcom,capability-version : mask and shift of the capability version bits
     in efuse register.
-<<<<<<< HEAD
-=======
-- qcom,speedbin-version : mask and shift of speedbin version bits.
-    in efuse register.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 - qcom,load-freq-tbl : load (in macroblocks/sec) and corresponding vcodec
   clock required along with codec's config, which is a bitmap that describes
   what the clock is used for. The bitmaps are as follows:
@@ -200,11 +190,6 @@ Example:
 	qcom,vidc@fdc00000 {
 		compatible = "qcom,msm-vidc";
 		reg = <0xfdc00000 0xff000>;
-<<<<<<< HEAD
-=======
-		qcom,venus-uplift-freq = <540000000>;
-		qcom,speedbin-version = <0x7 0x8>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		interrupts = <0 44 0>;
 		venus-supply = <&gdsc>;
 		venus-core0-supply = <&gdsc1>;

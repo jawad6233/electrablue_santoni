@@ -35,7 +35,6 @@
 #include <drm/i915_drm.h>
 #include "i915_drv.h"
 
-<<<<<<< HEAD
 typedef struct _drm_i915_batchbuffer32 {
 	int start;		/* agp offset */
 	int used;		/* nr bytes in use */
@@ -132,26 +131,11 @@ typedef struct drm_i915_getparam32 {
 	int param;
 	u32 value;
 } drm_i915_getparam32_t;
-=======
-struct drm_i915_getparam32 {
-	s32 param;
-	/*
-	 * We screwed up the generic ioctl struct here and used a variable-sized
-	 * pointer. Use u32 in the compat struct to match the 32bit pointer
-	 * userspace expects.
-	 */
-	u32 value;
-};
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int compat_i915_getparam(struct file *file, unsigned int cmd,
 				unsigned long arg)
 {
-<<<<<<< HEAD
 	drm_i915_getparam32_t req32;
-=======
-	struct drm_i915_getparam32 req32;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_i915_getparam_t __user *request;
 
 	if (copy_from_user(&req32, (void __user *)arg, sizeof(req32)))
@@ -168,7 +152,6 @@ static int compat_i915_getparam(struct file *file, unsigned int cmd,
 			 (unsigned long)request);
 }
 
-<<<<<<< HEAD
 typedef struct drm_i915_mem_alloc32 {
 	int region;
 	int alignment;
@@ -207,12 +190,6 @@ static drm_ioctl_compat_t *i915_compat_ioctls[] = {
 };
 
 #ifdef CONFIG_COMPAT
-=======
-static drm_ioctl_compat_t *i915_compat_ioctls[] = {
-	[DRM_I915_GETPARAM] = compat_i915_getparam,
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * Called whenever a 32-bit process running under a 64-bit kernel
  * performs an ioctl on /dev/dri/card<n>.
@@ -228,11 +205,7 @@ long i915_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	drm_ioctl_compat_t *fn = NULL;
 	int ret;
 
-<<<<<<< HEAD
 	if (nr < DRM_COMMAND_BASE)
-=======
-	if (nr < DRM_COMMAND_BASE || nr >= DRM_COMMAND_END)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return drm_compat_ioctl(filp, cmd, arg);
 
 	if (nr < DRM_COMMAND_BASE + ARRAY_SIZE(i915_compat_ioctls))
@@ -245,7 +218,4 @@ long i915_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 	return ret;
 }
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

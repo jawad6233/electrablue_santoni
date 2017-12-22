@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2013, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -869,20 +865,12 @@ WLAN_BAPPhysicalLinkCreate
     /* Validate params */ 
     if ((pBapHCIPhysLinkCreate == NULL) || (NULL == btampContext))
     {
-<<<<<<< HEAD
       VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_ERROR, "%s: btampHandle value: %p, pBapHCIPhysLinkCreate is %p",
-=======
-      VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_ERROR, "%s: btampHandle value: %pK, pBapHCIPhysLinkCreate is %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                  __func__,  btampHandle, pBapHCIPhysLinkCreate); 
       return VOS_STATUS_E_FAULT;
     }
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %p", __func__,  btampHandle);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %pK", __func__,  btampHandle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     if(DISCONNECTED != instanceVar->stateVar)
     {
@@ -908,11 +896,7 @@ WLAN_BAPPhysicalLinkCreate
                 &btampContext, /* Handle to return per assoc btampContext value in  */ 
                 BT_INITIATOR); /* BT_INITIATOR */ 
 
-<<<<<<< HEAD
         VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %p", __func__,  btampContext);
-=======
-        VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %pK", __func__,  btampContext);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         /* Handle event */ 
         vosStatus = btampFsm(btampContext, &bapEvent, &status);
@@ -984,20 +968,12 @@ WLAN_BAPPhysicalLinkAccept
     /* Validate params */ 
     if ((pBapHCIPhysLinkAccept == NULL) || (NULL == btampContext))
     {
-<<<<<<< HEAD
       VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_ERROR, "%s: btampHandle value: %p, pBapHCIPhysLinkAccept is %p",
-=======
-      VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_ERROR, "%s: btampHandle value: %pK, pBapHCIPhysLinkAccept is %pK",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                  __func__,  btampHandle, pBapHCIPhysLinkAccept); 
       return VOS_STATUS_E_FAULT;
     }
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %p", __func__,  btampHandle);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %pK", __func__,  btampHandle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     instanceVar = &(btampContext->bapPhysLinkMachine);
     if(DISCONNECTED != instanceVar->stateVar)
@@ -1024,11 +1000,7 @@ WLAN_BAPPhysicalLinkAccept
                 &btampContext, /* Handle to return per assoc btampContext value in  */ 
                 BT_RESPONDER); /* BT_RESPONDER */ 
 
-<<<<<<< HEAD
         VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %p", __func__,  btampContext);
-=======
-        VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %pK", __func__,  btampContext);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
         /* Handle event */ 
         vosStatus = btampFsm(btampContext, &bapEvent, &status);
@@ -1098,11 +1070,7 @@ WLAN_BAPPhysicalLinkDisconnect
       return VOS_STATUS_E_FAULT;
     }
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %p", __func__,  btampHandle);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %pK", __func__,  btampHandle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     /* Validate the Physical link handle */
     if (pBapHCIPhysLinkDisconnect->phy_link_handle != btampContext->phy_link_handle) 
@@ -1121,11 +1089,7 @@ WLAN_BAPPhysicalLinkDisconnect
     bapEvent.event = eWLAN_BAP_HCI_PHYSICAL_LINK_DISCONNECT;
     bapEvent.params = pBapHCIPhysLinkDisconnect;
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %p", __func__,  btampContext);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampContext value: %pK", __func__,  btampContext);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     /* Handle event */ 
     vosStatus = btampFsm(btampContext, &bapEvent, &status);
@@ -1211,11 +1175,7 @@ WLAN_BAPLogicalLinkCreate
     }
 
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %p", __func__,  btampHandle);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %pK", __func__,  btampHandle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     /* Validate the BAP state to accept the logical link request
        Logical Link create/accept requests are allowed only in
@@ -1405,11 +1365,7 @@ WLAN_BAPLogicalLinkAccept
     }
 
 
-<<<<<<< HEAD
     VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %p", __func__,  btampHandle);
-=======
-    VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH, "%s: btampHandle value: %pK", __func__,  btampHandle);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
     /* Validate the BAP state to accept the logical link request
        Logical Link create/accept requests are allowed only in
@@ -1617,11 +1573,7 @@ WLAN_BAPLogicalLinkDisconnect
 #ifdef BAP_DEBUG
   /* Trace the tBtampCtx being passed in. */
   VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_INFO_HIGH,
-<<<<<<< HEAD
             "WLAN BAP Context Monitor: btampContext value = %p in %s:%d", btampContext, __func__, __LINE__ );
-=======
-            "WLAN BAP Context Monitor: btampContext value = %pK in %s:%d", btampContext, __func__, __LINE__ );
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #endif //BAP_DEBUG
 
     bapHCIEvent.bapHCIEventCode = BTAMP_TLV_HCI_COMMAND_STATUS_EVENT;

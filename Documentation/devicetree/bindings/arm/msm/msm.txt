@@ -110,16 +110,8 @@ SoCs:
 - MDM9640
   compatible = "qcom,mdm9640"
 
-<<<<<<< HEAD
 - MDMCALIFORNIUM
   compatible = "qcom,mdmcalifornium"
-=======
-- MDM9650
-  compatible = "qcom,mdm9650"
-
-- SDX20
-  compatible = "qcom,sdx20"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 - VPIPA
   compatible = "qcom,msmvpipa"
@@ -165,15 +157,7 @@ Generic board variants:
 - RUMI device:
   compatible = "qcom,rumi"
 
-<<<<<<< HEAD
 
-=======
-- IPC device:
-  compatible = "qcom,ipc"
-
-- TTP device:
-  compatible = "qcom,ttp"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 Boards (SoC type + board variant):
 
@@ -205,10 +189,6 @@ compatible = "qcom,apq8017-cdp"
 compatible = "qcom,apq8017-mtp"
 compatible = "qcom,apq8053-cdp"
 compatible = "qcom,apq8053-mtp"
-<<<<<<< HEAD
-=======
-compatible = "qcom,apq8053-ipc"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 compatible = "qcom,mdm9630-cdp"
 compatible = "qcom,mdm9630-mtp"
 compatible = "qcom,mdm9630-sim"
@@ -312,10 +292,6 @@ compatible = "qcom,msm8953-rumi"
 compatible = "qcom,msm8953-sim"
 compatible = "qcom,msm8953-cdp"
 compatible = "qcom,msm8953-mtp"
-<<<<<<< HEAD
-=======
-compatible = "qcom,msm8953-ipc"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 compatible = "qcom,msm8953-qrd"
 compatible = "qcom,msm8953-qrd-sku3"
 compatible = "qcom,sdm450-cdp"
@@ -329,20 +305,9 @@ compatible = "qcom,msmvpipa-sim"
 compatible = "qcom,mdm9607-rumi"
 compatible = "qcom,mdm9607-cdp"
 compatible = "qcom,mdm9607-mtp"
-<<<<<<< HEAD
 compatible = "qcom,mdmcalifornium-rumi"
 compatible = "qcom,mdmcalifornium-sim"
 compatible = "qcom,mdmcalifornium-cdp"
 compatible = "qcom,mdmcalifornium-mtp"
-=======
-compatible = "qcom,mdm9607-ttp"
-compatible = "qcom,mdm9650-rumi"
-compatible = "qcom,mdm9650-sim"
-compatible = "qcom,mdm9650-cdp"
-compatible = "qcom,mdm9650-mtp"
-compatible = "qcom,mdm9650-ttp"
-compatible = "qcom,sdx20-mtp"
-compatible = "qcom,sdx20-cdp"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 compatible = "qcom,apq8009-cdp"
 compatible = "qcom,apq8009-mtp"

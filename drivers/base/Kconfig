@@ -220,7 +220,6 @@ config GENERIC_CPU_DEVICES
 	bool
 	default n
 
-<<<<<<< HEAD
 config HAVE_CPU_AUTOPROBE
 	def_bool ARCH_HAS_CPU_AUTOPROBE
 
@@ -228,10 +227,6 @@ config GENERIC_CPU_AUTOPROBE
 	bool
 	depends on !ARCH_HAS_CPU_AUTOPROBE
 	select HAVE_CPU_AUTOPROBE
-=======
-config GENERIC_CPU_AUTOPROBE
-	bool
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 config SOC_BUS
 	bool

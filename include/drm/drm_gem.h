@@ -142,22 +142,13 @@ drm_gem_object_reference(struct drm_gem_object *obj)
 static inline void
 drm_gem_object_unreference(struct drm_gem_object *obj)
 {
-<<<<<<< HEAD
 	if (obj != NULL)
 		kref_put(&obj->refcount, drm_gem_object_free);
-=======
-	if (obj != NULL) {
-		WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
-
-		kref_put(&obj->refcount, drm_gem_object_free);
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline void
 drm_gem_object_unreference_unlocked(struct drm_gem_object *obj)
 {
-<<<<<<< HEAD
 	if (obj && !atomic_add_unless(&obj->refcount.refcount, -1, 1)) {
 		struct drm_device *dev = obj->dev;
 
@@ -166,18 +157,6 @@ drm_gem_object_unreference_unlocked(struct drm_gem_object *obj)
 			drm_gem_object_free(&obj->refcount);
 		mutex_unlock(&dev->struct_mutex);
 	}
-=======
-	struct drm_device *dev;
-
-	if (!obj)
-		return;
-
-	dev = obj->dev;
-	if (kref_put_mutex(&obj->refcount, drm_gem_object_free, &dev->struct_mutex))
-		mutex_unlock(&dev->struct_mutex);
-	else
-		might_lock(&dev->struct_mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int drm_gem_handle_create(struct drm_file *file_priv,

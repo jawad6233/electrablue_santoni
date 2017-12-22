@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2015, 2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -81,16 +77,7 @@ enum
     eLIM_PERIODIC_JOIN_PROBE_REQ_TIMER,
     eLIM_INSERT_SINGLESHOT_NOA_TIMER,
     eLIM_CONVERT_ACTIVE_CHANNEL_TO_PASSIVE,
-<<<<<<< HEAD
     eLIM_AUTH_RETRY_TIMER
-=======
-    eLIM_AUTH_RETRY_TIMER,
-    eLIM_AP_ECSA_TIMER,
-#ifdef WLAN_FEATURE_LFR_MBB
-    eLIM_PREAUTH_MBB_RSP_TIMER,
-    eLIM_REASSOC_MBB_RSP_TIMER
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 #define LIM_DISASSOC_DEAUTH_ACK_TIMEOUT         500

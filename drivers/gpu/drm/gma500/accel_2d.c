@@ -276,20 +276,12 @@ static void psbfb_copyarea_accel(struct fb_info *info,
 		break;
 	default:
 		/* software fallback */
-<<<<<<< HEAD
 		cfb_copyarea(info, a);
-=======
-		drm_fb_helper_cfb_copyarea(info, a);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 	}
 
 	if (!gma_power_begin(dev, false)) {
-<<<<<<< HEAD
 		cfb_copyarea(info, a);
-=======
-		drm_fb_helper_cfb_copyarea(info, a);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 	}
 	psb_accel_2d_copy(dev_priv,
@@ -316,11 +308,7 @@ void psbfb_copyarea(struct fb_info *info,
 	/* Avoid the 8 pixel erratum */
 	if (region->width == 8 || region->height == 8 ||
 		(info->flags & FBINFO_HWACCEL_DISABLED))
-<<<<<<< HEAD
 		return cfb_copyarea(info, region);
-=======
-		return drm_fb_helper_cfb_copyarea(info, region);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	psbfb_copyarea_accel(info, region);
 }

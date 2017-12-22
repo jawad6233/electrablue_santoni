@@ -974,11 +974,8 @@ static int dummy_udc_probe(struct platform_device *pdev)
 	int		rc;
 
 	dum = *((void **)dev_get_platdata(&pdev->dev));
-<<<<<<< HEAD
 	/* Clear usb_gadget region for new registration to udc-core */
 	memzero_explicit(&dum->gadget, sizeof(struct usb_gadget));
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dum->gadget.name = gadget_name;
 	dum->gadget.ops = &dummy_ops;
 	if (mod_data.is_super_speed)
@@ -1952,11 +1949,7 @@ ss_hub_descriptor(struct usb_hub_descriptor *desc)
 	desc->wHubCharacteristics = cpu_to_le16(0x0001);
 	desc->bNbrPorts = 1;
 	desc->u.ss.bHubHdrDecLat = 0x04; /* Worst case: 0.4 micro sec*/
-<<<<<<< HEAD
 	desc->u.ss.DeviceRemovable = 0;
-=======
-	desc->u.ss.DeviceRemovable = 0xffff;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline void hub_descriptor(struct usb_hub_descriptor *desc)
@@ -1966,13 +1959,8 @@ static inline void hub_descriptor(struct usb_hub_descriptor *desc)
 	desc->bDescLength = 9;
 	desc->wHubCharacteristics = cpu_to_le16(0x0001);
 	desc->bNbrPorts = 1;
-<<<<<<< HEAD
 	desc->u.hs.DeviceRemovable[0] = 0;
 	desc->u.hs.DeviceRemovable[1] = 0xff;	/* PortPwrCtrlMask */
-=======
-	desc->u.hs.DeviceRemovable[0] = 0xff;
-	desc->u.hs.DeviceRemovable[1] = 0xff;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int dummy_hub_control(

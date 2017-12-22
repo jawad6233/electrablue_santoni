@@ -326,7 +326,6 @@ config SUSPEND_TIME
 	  keeps statistics on the time spent in suspend in
 	  /sys/kernel/debug/suspend_time
 
-<<<<<<< HEAD
 config QUICK_WAKEUP
 	bool "Quick wakeup"
 	depends on SUSPEND
@@ -339,8 +338,3 @@ config	BOEFFLA_WL_BLOCKER
 		bool "Boeffla generic wakelock blocker driver"
 		depends on PM
 		default N
-=======
-config DEDUCE_WAKEUP_REASONS
-	bool
-	default n
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

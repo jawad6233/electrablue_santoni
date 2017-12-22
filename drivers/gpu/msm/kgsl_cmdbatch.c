@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -61,10 +57,6 @@ void kgsl_dump_syncpoints(struct kgsl_device *device,
 {
 	struct kgsl_cmdbatch_sync_event *event;
 	unsigned int i;
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	for (i = 0; i < cmdbatch->numsyncs; i++) {
 		event = &cmdbatch->synclist[i];
@@ -87,22 +79,12 @@ void kgsl_dump_syncpoints(struct kgsl_device *device,
 			break;
 		}
 		case KGSL_CMD_SYNCPOINT_TYPE_FENCE:
-<<<<<<< HEAD
-=======
-			spin_lock_irqsave(&event->handle_lock, flags);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (event->handle)
 				dev_err(device->dev, "  fence: [%pK] %s\n",
 					event->handle->fence,
 					event->handle->name);
 			else
 				dev_err(device->dev, "  fence: invalid\n");
-<<<<<<< HEAD
-=======
-
-			spin_unlock_irqrestore(&event->handle_lock, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	}
@@ -114,10 +96,6 @@ static void _kgsl_cmdbatch_timer(unsigned long data)
 	struct kgsl_cmdbatch *cmdbatch = (struct kgsl_cmdbatch *) data;
 	struct kgsl_cmdbatch_sync_event *event;
 	unsigned int i;
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (cmdbatch == NULL || cmdbatch->context == NULL)
 		return;
@@ -146,22 +124,12 @@ static void _kgsl_cmdbatch_timer(unsigned long data)
 				i, event->context->id, event->timestamp);
 			break;
 		case KGSL_CMD_SYNCPOINT_TYPE_FENCE:
-<<<<<<< HEAD
-=======
-			spin_lock_irqsave(&event->handle_lock, flags);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (event->handle != NULL) {
 				dev_err(device->dev, "       [%d] FENCE %s\n",
 				i, event->handle->fence ?
 					event->handle->fence->name : "NULL");
 				kgsl_sync_fence_log(event->handle->fence);
 			}
-<<<<<<< HEAD
-=======
-
-			spin_unlock_irqrestore(&event->handle_lock, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	}
@@ -253,11 +221,7 @@ static inline void _free_memobj_list(struct list_head *list)
 void kgsl_cmdbatch_destroy(struct kgsl_cmdbatch *cmdbatch)
 {
 	unsigned int i;
-<<<<<<< HEAD
 	unsigned long pending;
-=======
-	unsigned long pending, flags;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (IS_ERR_OR_NULL(cmdbatch))
 		return;
@@ -291,22 +255,8 @@ void kgsl_cmdbatch_destroy(struct kgsl_cmdbatch *cmdbatch)
 				kgsl_cmdbatch_sync_func, event);
 			break;
 		case KGSL_CMD_SYNCPOINT_TYPE_FENCE:
-<<<<<<< HEAD
 			if (kgsl_sync_fence_async_cancel(event->handle))
 				kgsl_cmdbatch_put(cmdbatch);
-=======
-			spin_lock_irqsave(&event->handle_lock, flags);
-
-			if (kgsl_sync_fence_async_cancel(event->handle)) {
-				event->handle = NULL;
-				spin_unlock_irqrestore(
-						&event->handle_lock, flags);
-				kgsl_cmdbatch_put(cmdbatch);
-			} else {
-				spin_unlock_irqrestore(
-						&event->handle_lock, flags);
-			}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 	}
@@ -343,32 +293,12 @@ EXPORT_SYMBOL(kgsl_cmdbatch_destroy);
  */
 static void kgsl_cmdbatch_sync_fence_func(void *priv)
 {
-<<<<<<< HEAD
 	struct kgsl_cmdbatch_sync_event *event = priv;
 
 	trace_syncpoint_fence_expire(event->cmdbatch,
 		event->handle ? event->handle->name : "unknown");
 
 	kgsl_cmdbatch_sync_expire(event->device, event);
-=======
-	unsigned long flags;
-	struct kgsl_cmdbatch_sync_event *event = priv;
-
-	kgsl_cmdbatch_sync_expire(event->device, event);
-
-	trace_syncpoint_fence_expire(event->cmdbatch,
-		event->handle ? event->handle->name : "unknown");
-
-	spin_lock_irqsave(&event->handle_lock, flags);
-
-	/*
-	 * Setting the event->handle to NULL here make sure that
-	 * other function does not dereference a invalid pointer.
-	 */
-	event->handle = NULL;
-
-	spin_unlock_irqrestore(&event->handle_lock, flags);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	kgsl_cmdbatch_put(event->cmdbatch);
 }
@@ -385,18 +315,7 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 {
 	struct kgsl_cmd_syncpoint_fence *sync = priv;
 	struct kgsl_cmdbatch_sync_event *event;
-<<<<<<< HEAD
 	unsigned int id;
-=======
-	struct sync_fence *fence = NULL;
-	unsigned int id;
-	unsigned long flags;
-	int ret = 0;
-
-	fence = sync_fence_fdget(sync->fd);
-	if (fence == NULL)
-		return -EINVAL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	kref_get(&cmdbatch->refcount);
 
@@ -410,23 +329,12 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 	event->device = device;
 	event->context = NULL;
 
-<<<<<<< HEAD
 	set_bit(event->id, &cmdbatch->pending);
 
-=======
-	spin_lock_init(&event->handle_lock);
-	set_bit(event->id, &cmdbatch->pending);
-
-	trace_syncpoint_fence(cmdbatch, fence->name);
-
-	spin_lock_irqsave(&event->handle_lock, flags);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	event->handle = kgsl_sync_fence_async_wait(sync->fd,
 		kgsl_cmdbatch_sync_fence_func, event);
 
 	if (IS_ERR_OR_NULL(event->handle)) {
-<<<<<<< HEAD
 		int ret = PTR_ERR(event->handle);
 
 		clear_bit(event->id, &cmdbatch->pending);
@@ -447,29 +355,6 @@ static int kgsl_cmdbatch_add_sync_fence(struct kgsl_device *device,
 	trace_syncpoint_fence(cmdbatch, event->handle->name);
 
 	return 0;
-=======
-		ret = PTR_ERR(event->handle);
-
-		event->handle = NULL;
-		spin_unlock_irqrestore(&event->handle_lock, flags);
-
-		clear_bit(event->id, &cmdbatch->pending);
-		kgsl_cmdbatch_put(cmdbatch);
-
-		/*
-		* Print a syncpoint_fence_expire trace if
-		* fence is already signaled or there is
-		* a failure in registering the fence waiter.
-		*/
-		trace_syncpoint_fence_expire(cmdbatch, (ret < 0) ?
-				"error" : fence->name);
-	} else {
-		spin_unlock_irqrestore(&event->handle_lock, flags);
-	}
-
-	sync_fence_put(fence);
-	return ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /* kgsl_cmdbatch_add_sync_timestamp() - Add a new sync point for a cmdbatch

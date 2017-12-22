@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, 2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,10 +24,6 @@
 struct esoc_desc {
 	const char *name;
 	const char *link;
-<<<<<<< HEAD
-=======
-	const char *link_info;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	void *priv;
 };
 

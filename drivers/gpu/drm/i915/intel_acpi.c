@@ -5,10 +5,7 @@
  */
 #include <linux/pci.h>
 #include <linux/acpi.h>
-<<<<<<< HEAD
 #include <linux/vga_switcheroo.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drmP.h>
 #include "i915_drv.h"
 
@@ -149,11 +146,7 @@ static bool intel_dsm_detect(void)
 
 	if (vga_count == 2 && has_dsm) {
 		acpi_get_name(intel_dsm_priv.dhandle, ACPI_FULL_PATHNAME, &buffer);
-<<<<<<< HEAD
 		DRM_DEBUG_DRIVER("VGA switcheroo: detected DSM switching method %s handle\n",
-=======
-		DRM_DEBUG_DRIVER("vga_switcheroo: detected DSM switching method %s handle\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				 acpi_method_name);
 		return true;
 	}

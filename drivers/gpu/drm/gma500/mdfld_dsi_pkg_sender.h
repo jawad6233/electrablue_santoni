@@ -62,7 +62,6 @@ struct mdfld_dsi_pkg_sender {
 	u32 mipi_cmd_len_reg;
 };
 
-<<<<<<< HEAD
 /* DCS definitions */
 #define DCS_SOFT_RESET			0x01
 #define DCS_ENTER_SLEEP_MODE		0x10
@@ -75,8 +74,6 @@ struct mdfld_dsi_pkg_sender {
 #define DCS_SET_TEAR_OFF		0x34
 #define DCS_SET_TEAR_ON			0x35
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern int mdfld_dsi_pkg_sender_init(struct mdfld_dsi_connector *dsi_connector,
 					int pipe);
 extern void mdfld_dsi_pkg_sender_destroy(struct mdfld_dsi_pkg_sender *sender);

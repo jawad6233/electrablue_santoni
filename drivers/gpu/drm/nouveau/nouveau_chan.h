@@ -16,11 +16,7 @@ struct nouveau_channel {
 
 	struct {
 		struct nouveau_bo *buffer;
-<<<<<<< HEAD
 		struct nouveau_vma vma;
-=======
-		struct nvkm_vma vma;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		struct nvif_object ctxdma;
 	} push;
 
@@ -41,21 +37,13 @@ struct nouveau_channel {
 	u32 user_get;
 	u32 user_put;
 
-<<<<<<< HEAD
 	struct nvif_object *object;
-=======
-	struct nvif_object user;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 
 int  nouveau_channel_new(struct nouveau_drm *, struct nvif_device *,
-<<<<<<< HEAD
 			 u32 handle, u32 arg0, u32 arg1,
 			 struct nouveau_channel **);
-=======
-			 u32 arg0, u32 arg1, struct nouveau_channel **);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 void nouveau_channel_del(struct nouveau_channel **);
 int  nouveau_channel_idle(struct nouveau_channel *);
 

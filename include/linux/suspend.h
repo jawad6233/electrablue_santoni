@@ -201,24 +201,6 @@ struct platform_freeze_ops {
  */
 extern void suspend_set_ops(const struct platform_suspend_ops *ops);
 extern int suspend_valid_only_mem(suspend_state_t state);
-<<<<<<< HEAD
-=======
-
-/* Suspend-to-idle state machnine. */
-enum freeze_state {
-	FREEZE_STATE_NONE,      /* Not suspended/suspending. */
-	FREEZE_STATE_ENTER,     /* Enter suspend-to-idle. */
-	FREEZE_STATE_WAKE,      /* Wake up from suspend-to-idle. */
-};
-
-extern enum freeze_state __read_mostly suspend_freeze_state;
-
-static inline bool idle_should_freeze(void)
-{
-	return unlikely(suspend_freeze_state == FREEZE_STATE_ENTER);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 extern void freeze_set_ops(const struct platform_freeze_ops *ops);
 extern void freeze_wake(void);
 
@@ -246,10 +228,6 @@ extern int pm_suspend(suspend_state_t state);
 
 static inline void suspend_set_ops(const struct platform_suspend_ops *ops) {}
 static inline int pm_suspend(suspend_state_t state) { return -ENOSYS; }
-<<<<<<< HEAD
-=======
-static inline bool idle_should_freeze(void) { return false; }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static inline void freeze_set_ops(const struct platform_freeze_ops *ops) {}
 static inline void freeze_wake(void) {}
 #endif /* !CONFIG_SUSPEND */

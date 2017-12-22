@@ -907,30 +907,6 @@ static irqreturn_t ft5x06_ts_interrupt(int irq, void *dev_id)
 		if (!num_touches && !status && !id)
 			break;
 
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_FOCALTECH_5336)
-		//Fixes nav-keys 
-		if (y == 2000) {
-			y = 1344;
-			
-			switch (x) {
-			case 180:
-				x = 150;
-				break;
-			case 540:
-				x = 360;
-				break;
-			case 900:
-				x = 580;
-				break;
-			default:
-				break;
-			}
-		}
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		input_mt_slot(ip_dev, id);
 		if (status == FT_TOUCH_DOWN || status == FT_TOUCH_CONTACT) {
 			input_mt_report_slot_state(ip_dev, MT_TOOL_FINGER, 1);
@@ -1960,11 +1936,7 @@ static int ft5x06_debug_data_get(void *_data, u64 *val)
 {
 	struct ft5x06_ts_data *data = _data;
 	int rc;
-<<<<<<< HEAD
 	u8 reg;
-=======
-	u8 reg = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	mutex_lock(&data->input_dev->mutex);
 
@@ -2094,20 +2066,12 @@ static int ft5x06_get_dt_coords(struct device *dev, char *name,
 		return rc;
 	}
 
-<<<<<<< HEAD
 	if (!strcmp(name, "ftech,panel-coords")) {
-=======
-	if (!strcmp(name, "focaltech,panel-coords")) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pdata->panel_minx = coords[0];
 		pdata->panel_miny = coords[1];
 		pdata->panel_maxx = coords[2];
 		pdata->panel_maxy = coords[3];
-<<<<<<< HEAD
 	} else if (!strcmp(name, "ftech,display-coords")) {
-=======
-	} else if (!strcmp(name, "focaltech,display-coords")) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pdata->x_min = coords[0];
 		pdata->y_min = coords[1];
 		pdata->x_max = coords[2];
@@ -2130,163 +2094,98 @@ static int ft5x06_parse_dt(struct device *dev,
 	u32 button_map[MAX_BUTTONS];
 
 	pdata->name = "focaltech";
-<<<<<<< HEAD
 	rc = of_property_read_string(np, "ftech,name", &pdata->name);
-=======
-	rc = of_property_read_string(np, "focaltech,name", &pdata->name);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read name\n");
 		return rc;
 	}
 
-<<<<<<< HEAD
 	rc = ft5x06_get_dt_coords(dev, "ftech,panel-coords", pdata);
 	if (rc && (rc != -EINVAL))
 		return rc;
 
 	rc = ft5x06_get_dt_coords(dev, "ftech,display-coords", pdata);
-=======
-	rc = ft5x06_get_dt_coords(dev, "focaltech,panel-coords", pdata);
-	if (rc && (rc != -EINVAL))
-		return rc;
-
-	rc = ft5x06_get_dt_coords(dev, "focaltech,display-coords", pdata);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc)
 		return rc;
 
 	pdata->i2c_pull_up = of_property_read_bool(np,
-<<<<<<< HEAD
 						"ftech,i2c-pull-up");
 
 	pdata->no_force_update = of_property_read_bool(np,
 						"ftech,no-force-update");
 	/* reset, irq gpio info */
 	pdata->reset_gpio = of_get_named_gpio_flags(np, "ftech,reset-gpio",
-=======
-						"focaltech,i2c-pull-up");
-
-	pdata->no_force_update = of_property_read_bool(np,
-						"focaltech,no-force-update");
-	/* reset, irq gpio info */
-	pdata->reset_gpio = of_get_named_gpio_flags(np, "focaltech,reset-gpio",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				0, &pdata->reset_gpio_flags);
 	if (pdata->reset_gpio < 0)
 		return pdata->reset_gpio;
 
-<<<<<<< HEAD
 	pdata->irq_gpio = of_get_named_gpio_flags(np, "ftech,irq-gpio",
-=======
-	pdata->irq_gpio = of_get_named_gpio_flags(np, "focaltech,irq-gpio",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				0, &pdata->irq_gpio_flags);
 	if (pdata->irq_gpio < 0)
 		return pdata->irq_gpio;
 
 	pdata->fw_name = "ft_fw.bin";
-<<<<<<< HEAD
 	rc = of_property_read_string(np, "ftech,fw-name", &pdata->fw_name);
-=======
-	rc = of_property_read_string(np, "focaltech,fw-name", &pdata->fw_name);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw name\n");
 		return rc;
 	}
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,group-id", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,group-id", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!rc)
 		pdata->group_id = temp_val;
 	else
 		return rc;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,hard-reset-delay-ms",
-=======
-	rc = of_property_read_u32(np, "focaltech,hard-reset-delay-ms",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 							&temp_val);
 	if (!rc)
 		pdata->hard_rst_dly = temp_val;
 	else
 		return rc;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,soft-reset-delay-ms",
-=======
-	rc = of_property_read_u32(np, "focaltech,soft-reset-delay-ms",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 							&temp_val);
 	if (!rc)
 		pdata->soft_rst_dly = temp_val;
 	else
 		return rc;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,num-max-touches", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,num-max-touches", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!rc)
 		pdata->num_max_touches = temp_val;
 	else
 		return rc;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-delay-aa-ms", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-delay-aa-ms", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw delay aa\n");
 		return rc;
 	} else if (rc != -EINVAL)
 		pdata->info.delay_aa =  temp_val;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-delay-55-ms", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-delay-55-ms", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw delay 55\n");
 		return rc;
 	} else if (rc != -EINVAL)
 		pdata->info.delay_55 =  temp_val;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-upgrade-id1", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-upgrade-id1", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw upgrade id1\n");
 		return rc;
 	} else if (rc != -EINVAL)
 		pdata->info.upgrade_id_1 =  temp_val;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-upgrade-id2", &temp_val);
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-upgrade-id2", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw upgrade id2\n");
 		return rc;
 	} else if (rc != -EINVAL)
 		pdata->info.upgrade_id_2 =  temp_val;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-delay-readid-ms",
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-delay-readid-ms",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 							&temp_val);
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw delay read id\n");
@@ -2294,11 +2193,7 @@ static int ft5x06_parse_dt(struct device *dev,
 	} else if (rc != -EINVAL)
 		pdata->info.delay_readid =  temp_val;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(np, "ftech,fw-delay-era-flsh-ms",
-=======
-	rc = of_property_read_u32(np, "focaltech,fw-delay-era-flsh-ms",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 							&temp_val);
 	if (rc && (rc != -EINVAL)) {
 		dev_err(dev, "Unable to read fw delay erase flash\n");
@@ -2307,7 +2202,6 @@ static int ft5x06_parse_dt(struct device *dev,
 		pdata->info.delay_erase_flash =  temp_val;
 
 	pdata->info.auto_cal = of_property_read_bool(np,
-<<<<<<< HEAD
 					"ftech,fw-auto-cal");
 
 	pdata->fw_vkey_support = of_property_read_bool(np,
@@ -2323,44 +2217,19 @@ static int ft5x06_parse_dt(struct device *dev,
 					"ftech,resume-in-workqueue");
 
 	rc = of_property_read_u32(np, "ftech,family-id", &temp_val);
-=======
-					"focaltech,fw-auto-cal");
-
-	pdata->fw_vkey_support = of_property_read_bool(np,
-						"focaltech,fw-vkey-support");
-
-	pdata->ignore_id_check = of_property_read_bool(np,
-						"focaltech,ignore-id-check");
-
-	pdata->gesture_support = of_property_read_bool(np,
-						"focaltech,gesture-support");
-
-	pdata->resume_in_workqueue = of_property_read_bool(np,
-					"focaltech,resume-in-workqueue");
-
-	rc = of_property_read_u32(np, "focaltech,family-id", &temp_val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!rc)
 		pdata->family_id = temp_val;
 	else
 		return rc;
 
-<<<<<<< HEAD
 	prop = of_find_property(np, "ftech,button-map", NULL);
-=======
-	prop = of_find_property(np, "focaltech,button-map", NULL);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (prop) {
 		num_buttons = prop->length / sizeof(temp_val);
 		if (num_buttons > MAX_BUTTONS)
 			return -EINVAL;
 
 		rc = of_property_read_u32_array(np,
-<<<<<<< HEAD
 			"ftech,button-map", button_map,
-=======
-			"focaltech,button-map", button_map,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			num_buttons);
 		if (rc) {
 			dev_err(dev, "Unable to read key codes\n");
@@ -2386,11 +2255,7 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 	struct ft5x06_ts_data *data;
 	struct input_dev *input_dev;
 	struct dentry *temp;
-<<<<<<< HEAD
 	u8 reg_value;
-=======
-	u8 reg_value = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u8 reg_addr;
 	int err, len, retval, attr_count;
 
@@ -2448,14 +2313,8 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 	data->input_dev = input_dev;
 	data->client = client;
 	data->pdata = pdata;
-<<<<<<< HEAD
 
 	input_dev->name = "ft5x06_ts";
-=======
-	
-	
-	input_dev->name="ft5x06_ts";
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	input_dev->id.bustype = BUS_I2C;
 	input_dev->dev.parent = &client->dev;
 
@@ -2535,31 +2394,12 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 
 	/* check the controller id */
 	reg_addr = FT_REG_ID;
-<<<<<<< HEAD
 	err = ft5x06_i2c_read(client, &reg_addr, 1, &reg_value, 1);
 	if (err < 0) {
 		dev_err(&client->dev, "version read failed");
 		goto free_gpio;
 	}
 
-=======
-
-	do { //Search for the correct register.
- 		err = ft5x06_i2c_read(client, &reg_addr, 1, &reg_value, 1);
- 		if (err < 0) {
- 			dev_err(&client->dev, "version read failed");
- 			//goto free_reset_gpio;
- 		}
- 		if(reg_value!=0x14){
- 		 	client->addr = client->addr + 0x1;
- 		}else{
- 			dev_info(&client->dev, "Touchpanel Register found: 0x%x\n",client->addr);
- 			break;
- 		}
-#if defined(CONFIG_FOCALTECH_5336) //We can support more than one TP	
- 	}while(reg_value!=0x14);//We expect it to be 0x14 for FT5336	
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dev_info(&client->dev, "Device ID = 0x%x\n", reg_value);
 
 	if ((pdata->family_id != reg_value) && (!pdata->ignore_id_check)) {
@@ -2904,12 +2744,8 @@ MODULE_DEVICE_TABLE(i2c, ft5x06_ts_id);
 
 #ifdef CONFIG_OF
 static struct of_device_id ft5x06_match_table[] = {
-<<<<<<< HEAD
 	/*{ .compatible = "focaltech,5x06",},*/
         { .compatible = "focaltech,5336",},
-=======
-	{ .compatible = "focaltech,5x06",},
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ },
 };
 #else

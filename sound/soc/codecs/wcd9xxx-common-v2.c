@@ -198,14 +198,6 @@ void wcd_clsh_imped_config(struct snd_soc_codec *codec, int imped, bool reset)
 		pr_debug("%s, impedance not in range = %d\n", __func__, imped);
 		return;
 	}
-<<<<<<< HEAD
-=======
-	if (index >= ARRAY_SIZE(imped_table)) {
-		pr_debug("%s, impedance index not in range = %d\n", __func__,
-			index);
-		return;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < MAX_IMPED_PARAMS; i++)
 		snd_soc_update_bits(codec, imped_table[index][i].reg,
 				imped_table[index][i].mask,

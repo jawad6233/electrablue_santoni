@@ -18,11 +18,7 @@ obj-$(CONFIG_CRYPTO_GHASH_ARM64_CE) += ghash-ce.o
 ghash-ce-y := ghash-ce-glue.o ghash-ce-core.o
 
 obj-$(CONFIG_CRYPTO_AES_ARM64_CE) += aes-ce-cipher.o
-<<<<<<< HEAD
 CFLAGS_aes-ce-cipher.o += -mcpu=cortex-a53+crypto
-=======
-CFLAGS_aes-ce-cipher.o += -march=armv8-a+crypto
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 obj-$(CONFIG_CRYPTO_AES_ARM64_CE_CCM) += aes-ce-ccm.o
 aes-ce-ccm-y := aes-ce-ccm-glue.o aes-ce-ccm-core.o
@@ -33,21 +29,14 @@ aes-ce-blk-y := aes-glue-ce.o aes-ce.o
 obj-$(CONFIG_CRYPTO_AES_ARM64_NEON_BLK) += aes-neon-blk.o
 aes-neon-blk-y := aes-glue-neon.o aes-neon.o
 
-<<<<<<< HEAD
 AFLAGS_aes-ce.o		:= -DINTERLEAVE=4
-=======
-AFLAGS_aes-ce.o		:= -DINTERLEAVE=2 -DINTERLEAVE_INLINE
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 AFLAGS_aes-neon.o	:= -DINTERLEAVE=4
 
 CFLAGS_aes-glue-ce.o	:= -DUSE_V8_CRYPTO_EXTENSIONS
 
-<<<<<<< HEAD
 obj-$(CONFIG_CRYPTO_CRC32_ARM64) += crc32-arm64.o
 
 CFLAGS_crc32-arm64.o	:= -mcpu=generic+crc
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 $(obj)/aes-glue-%.o: $(src)/aes-glue.c FORCE
 	$(call if_changed_rule,cc_o_c)

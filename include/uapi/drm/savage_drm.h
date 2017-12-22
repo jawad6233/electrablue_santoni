@@ -26,11 +26,6 @@
 #ifndef __SAVAGE_DRM_H__
 #define __SAVAGE_DRM_H__
 
-<<<<<<< HEAD
-=======
-#include <drm/drm.h>
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifndef __SAVAGE_SAREA_DEFINES__
 #define __SAVAGE_SAREA_DEFINES__
 

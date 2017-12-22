@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -453,12 +449,7 @@ int kgsl_devfreq_target(struct device *dev, unsigned long *freq, u32 flags)
 	struct kgsl_device *device = dev_get_drvdata(dev);
 	struct kgsl_pwrctrl *pwr;
 	struct kgsl_pwrlevel *pwr_level;
-<<<<<<< HEAD
 	int level, i;
-=======
-	int level;
-	unsigned int i;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned long cur_freq;
 
 	if (device == NULL)
@@ -486,16 +477,7 @@ int kgsl_devfreq_target(struct device *dev, unsigned long *freq, u32 flags)
 	/* If the governor recommends a new frequency, update it here */
 	if (*freq != cur_freq) {
 		level = pwr->max_pwrlevel;
-<<<<<<< HEAD
 		for (i = pwr->min_pwrlevel; i >= pwr->max_pwrlevel; i--)
-=======
-		/*
-		 * Array index of pwrlevels[] should be within the permitted
-		 * power levels, i.e., from max_pwrlevel to min_pwrlevel.
-		 */
-		for (i = pwr->min_pwrlevel; (i >= pwr->max_pwrlevel
-					&& i <= pwr->min_pwrlevel); i--)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			if (*freq <= pwr->pwrlevels[i].gpu_freq) {
 				if (pwr->thermal_cycle == CYCLE_ACTIVE)
 					level = _thermal_adjust(pwr, i);
@@ -530,11 +512,7 @@ int kgsl_devfreq_get_dev_status(struct device *dev,
 	struct kgsl_device *device = dev_get_drvdata(dev);
 	struct kgsl_pwrctrl *pwrctrl;
 	struct kgsl_pwrscale *pwrscale;
-<<<<<<< HEAD
 	ktime_t tmp;
-=======
-	ktime_t tmp1, tmp2;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (device == NULL)
 		return -ENODEV;
@@ -545,11 +523,6 @@ int kgsl_devfreq_get_dev_status(struct device *dev,
 	pwrctrl = &device->pwrctrl;
 
 	mutex_lock(&device->mutex);
-<<<<<<< HEAD
-=======
-
-	tmp1 = ktime_get();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * If the GPU clock is on grab the latest power counter
 	 * values.  Otherwise the most recent ACTIVE values will
@@ -557,15 +530,9 @@ int kgsl_devfreq_get_dev_status(struct device *dev,
 	 */
 	kgsl_pwrscale_update_stats(device);
 
-<<<<<<< HEAD
 	tmp = ktime_get();
 	stat->total_time = ktime_us_delta(tmp, pwrscale->time);
 	pwrscale->time = tmp;
-=======
-	tmp2 = ktime_get();
-	stat->total_time = ktime_us_delta(tmp2, pwrscale->time);
-	pwrscale->time = tmp1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	stat->busy_time = pwrscale->accum_stats.busy_time;
 

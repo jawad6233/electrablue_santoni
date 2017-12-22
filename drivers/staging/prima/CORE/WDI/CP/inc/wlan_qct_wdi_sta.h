@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2014, 2016 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -75,7 +71,6 @@ when        who    what, where, why
 #define WDI_STA_INVALID_IDX 0xFF
 
 /*----------------------------------------------------------------------------
-<<<<<<< HEAD
   WDI_AddStaParams
   -------------------------------------------------------------------------*/
 typedef struct 
@@ -115,8 +110,6 @@ typedef struct
 }WDI_AddStaParams; 
 
 /*----------------------------------------------------------------------------
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   WDI_StaStruct
   -------------------------------------------------------------------------*/
 typedef struct
@@ -213,7 +206,6 @@ WDI_STATableClose
   WDI_ControlBlockType*  pWDICtx
 );
 
-<<<<<<< HEAD
 
 /**
  @brief WDI_STATableAddSta - Function to Add Station
@@ -249,8 +241,6 @@ WDI_STATableDelSta
     wpt_uint8              ucSTAIdx
 );
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  @brief WDI_STATableBSSDelSta - Function to Delete Stations in this BSS
 
@@ -366,7 +356,6 @@ WDI_STATableSetStaType
 
 
 /**
-<<<<<<< HEAD
  @brief WDI_STATableFindStaidByAddr - Given a station mac address, search
         for the corresponding station index from the Station Table.
  
@@ -386,8 +375,6 @@ WDI_STATableFindStaidByAddr
 );
 
 /**
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  @brief WDI_STATableGetStaAddr - get station address
  
  @param  pWDICtx:  WDI Context pointer

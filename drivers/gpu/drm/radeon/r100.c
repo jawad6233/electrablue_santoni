@@ -806,11 +806,7 @@ int r100_irq_process(struct radeon_device *rdev)
 		status = r100_irq_ack(rdev);
 	}
 	if (queue_hotplug)
-<<<<<<< HEAD
 		schedule_work(&rdev->hotplug_work);
-=======
-		schedule_delayed_work(&rdev->hotplug_work, 0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rdev->msi_enabled) {
 		switch (rdev->family) {
 		case CHIP_RS400:
@@ -1268,11 +1264,7 @@ int r100_reloc_pitch_offset(struct radeon_cs_parser *p,
 	int r;
 	u32 tile_flags = 0;
 	u32 tmp;
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 value;
 
 	r = radeon_cs_packet_next_reloc(p, &reloc, 0);
@@ -1311,11 +1303,7 @@ int r100_packet3_load_vbpntr(struct radeon_cs_parser *p,
 			     int idx)
 {
 	unsigned c, i;
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct r100_cs_track *track;
 	int r = 0;
 	volatile uint32_t *ib;
@@ -1564,11 +1552,7 @@ static int r100_packet0_check(struct radeon_cs_parser *p,
 			      struct radeon_cs_packet *pkt,
 			      unsigned idx, unsigned reg)
 {
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct r100_cs_track *track;
 	volatile uint32_t *ib;
 	uint32_t tmp;
@@ -1927,11 +1911,7 @@ int r100_cs_track_check_pkt3_indx_buffer(struct radeon_cs_parser *p,
 static int r100_packet3_check(struct radeon_cs_parser *p,
 			      struct radeon_cs_packet *pkt)
 {
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct r100_cs_track *track;
 	unsigned idx;
 	volatile uint32_t *ib;
@@ -2091,11 +2071,7 @@ int r100_cs_parse(struct radeon_cs_parser *p)
 		}
 		if (r)
 			return r;
-<<<<<<< HEAD
 	} while (p->idx < p->chunks[p->chunk_ib_idx].length_dw);
-=======
-	} while (p->idx < p->chunk_ib->length_dw);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return 0;
 }
 
@@ -3241,12 +3217,6 @@ void r100_bandwidth_update(struct radeon_device *rdev)
 	uint32_t pixel_bytes1 = 0;
 	uint32_t pixel_bytes2 = 0;
 
-<<<<<<< HEAD
-=======
-	/* Guess line buffer size to be 8192 pixels */
-	u32 lb_size = 8192;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!rdev->mode_info.mode_config_initialized)
 		return;
 
@@ -3661,16 +3631,6 @@ void r100_bandwidth_update(struct radeon_device *rdev)
 		DRM_DEBUG_KMS("GRPH2_BUFFER_CNTL from to %x\n",
 			  (unsigned int)RREG32(RADEON_GRPH2_BUFFER_CNTL));
 	}
-<<<<<<< HEAD
-=======
-
-	/* Save number of lines the linebuffer leads before the scanout */
-	if (mode1)
-	    rdev->mode_info.crtcs[0]->lb_vblank_lead_lines = DIV_ROUND_UP(lb_size, mode1->crtc_hdisplay);
-
-	if (mode2)
-	    rdev->mode_info.crtcs[1]->lb_vblank_lead_lines = DIV_ROUND_UP(lb_size, mode2->crtc_hdisplay);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int r100_ring_test(struct radeon_device *rdev, struct radeon_ring *ring)
@@ -4130,31 +4090,6 @@ int r100_init(struct radeon_device *rdev)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-uint32_t r100_mm_rreg_slow(struct radeon_device *rdev, uint32_t reg)
-{
-	unsigned long flags;
-	uint32_t ret;
-
-	spin_lock_irqsave(&rdev->mmio_idx_lock, flags);
-	writel(reg, ((void __iomem *)rdev->rmmio) + RADEON_MM_INDEX);
-	ret = readl(((void __iomem *)rdev->rmmio) + RADEON_MM_DATA);
-	spin_unlock_irqrestore(&rdev->mmio_idx_lock, flags);
-	return ret;
-}
-
-void r100_mm_wreg_slow(struct radeon_device *rdev, uint32_t reg, uint32_t v)
-{
-	unsigned long flags;
-
-	spin_lock_irqsave(&rdev->mmio_idx_lock, flags);
-	writel(reg, ((void __iomem *)rdev->rmmio) + RADEON_MM_INDEX);
-	writel(v, ((void __iomem *)rdev->rmmio) + RADEON_MM_DATA);
-	spin_unlock_irqrestore(&rdev->mmio_idx_lock, flags);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 u32 r100_io_rreg(struct radeon_device *rdev, u32 reg)
 {
 	if (reg < rdev->rio_mem_size)

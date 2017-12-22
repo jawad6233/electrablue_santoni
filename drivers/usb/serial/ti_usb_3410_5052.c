@@ -1343,20 +1343,10 @@ static int ti_command_out_sync(struct ti_device *tdev, __u8 command,
 		(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT),
 		value, moduleid, data, size, 1000);
 
-<<<<<<< HEAD
 	if (status < 0)
 		return status;
 
 	return 0;
-=======
-	if (status == size)
-		status = 0;
-
-	if (status > 0)
-		status = -ECOMM;
-
-	return status;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 
@@ -1372,12 +1362,7 @@ static int ti_command_in_sync(struct ti_device *tdev, __u8 command,
 
 	if (status == size)
 		status = 0;
-<<<<<<< HEAD
 	else if (status >= 0)
-=======
-
-	if (status > 0)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		status = -ECOMM;
 
 	return status;

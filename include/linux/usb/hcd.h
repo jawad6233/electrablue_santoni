@@ -169,10 +169,7 @@ struct usb_hcd {
 	 * bandwidth_mutex should be dropped after a successful control message
 	 * to the device, or resetting the bandwidth after a failed attempt.
 	 */
-<<<<<<< HEAD
 	struct mutex		*address0_mutex;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mutex		*bandwidth_mutex;
 	struct usb_hcd		*shared_hcd;
 	struct usb_hcd		*primary_hcd;
@@ -391,7 +388,6 @@ struct hc_driver {
 	void	(*dump_regs)(struct usb_hcd *);
 	void	(*set_autosuspend_delay)(struct usb_device *);
 	void	(*reset_sof_bug_handler)(struct usb_hcd *hcd, u32 val);
-<<<<<<< HEAD
 
 	int (*sec_event_ring_setup)(struct usb_hcd *hcd, unsigned intr_num);
 	int (*sec_event_ring_cleanup)(struct usb_hcd *hcd, unsigned intr_num);
@@ -401,8 +397,6 @@ struct hc_driver {
 			struct usb_device *udev, struct usb_host_endpoint *ep);
 	dma_addr_t (*get_dcba_dma_addr)(struct usb_hcd *hcd,
 			struct usb_device *udev);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 static inline int hcd_giveback_urb_in_bh(struct usb_hcd *hcd)
@@ -441,7 +435,6 @@ extern int usb_hcd_alloc_bandwidth(struct usb_device *udev,
 		struct usb_host_interface *old_alt,
 		struct usb_host_interface *new_alt);
 extern int usb_hcd_get_frame_number(struct usb_device *udev);
-<<<<<<< HEAD
 extern int usb_hcd_sec_event_ring_setup(struct usb_device *udev,
 	unsigned intr_num);
 extern int usb_hcd_sec_event_ring_cleanup(struct usb_device *udev,
@@ -453,8 +446,6 @@ extern dma_addr_t usb_hcd_get_dcba_dma_addr(struct usb_device *udev);
 extern dma_addr_t
 usb_hcd_get_xfer_ring_dma_addr(struct usb_device *udev,
 	struct usb_host_endpoint *ep);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern struct usb_hcd *usb_create_hcd(const struct hc_driver *driver,
 		struct device *dev, const char *bus_name);
@@ -580,15 +571,9 @@ extern void usb_ep0_reinit(struct usb_device *);
 	((USB_DIR_IN|USB_TYPE_STANDARD|USB_RECIP_INTERFACE)<<8)
 
 #define EndpointRequest \
-<<<<<<< HEAD
 	((USB_DIR_IN|USB_TYPE_STANDARD|USB_RECIP_ENDPOINT)<<8)
 #define EndpointOutRequest \
 	((USB_DIR_OUT|USB_TYPE_STANDARD|USB_RECIP_ENDPOINT)<<8)
-=======
-	((USB_DIR_IN|USB_TYPE_STANDARD|USB_RECIP_INTERFACE)<<8)
-#define EndpointOutRequest \
-	((USB_DIR_OUT|USB_TYPE_STANDARD|USB_RECIP_INTERFACE)<<8)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* class requests from the USB 2.0 hub spec, table 11-15 */
 /* GetBusState and SetHubDescriptor are optional, omitted */

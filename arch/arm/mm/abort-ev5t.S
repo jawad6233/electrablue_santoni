@@ -21,15 +21,8 @@ ENTRY(v5t_early_abort)
 	mrc	p15, 0, r0, c6, c0, 0		@ get FAR
 	do_thumb_abort fsr=r1, pc=r4, psr=r5, tmp=r3
 	ldreq	r3, [r4]			@ read aborted ARM instruction
-<<<<<<< HEAD
 	bic	r1, r1, #1 << 11		@ clear bits 11 of FSR
 	do_ldrd_abort tmp=ip, insn=r3
-=======
-	uaccess_disable ip			@ disable user access
-	bic	r1, r1, #1 << 11		@ clear bits 11 of FSR
-	teq_ldrd tmp=ip, insn=r3		@ insn was LDRD?
-	beq	do_DataAbort			@ yes
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	tst	r3, #1 << 20			@ check write
 	orreq	r1, r1, #1 << 11
 	b	do_DataAbort

@@ -17,26 +17,16 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-<<<<<<< HEAD
-=======
-#include <linux/list.h>
-
-#include <drm/drm_crtc.h>
-#include <drm/drm_crtc_helper.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <drm/drm_edid.h>
 
 #include "omap_drv.h"
 
-<<<<<<< HEAD
 #include "drm_crtc.h"
 #include "drm_crtc_helper.h"
 
 #include <linux/list.h>
 
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * encoder funcs
  */
@@ -64,11 +54,8 @@ static void omap_encoder_destroy(struct drm_encoder *encoder)
 {
 	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
 
-<<<<<<< HEAD
 	omap_encoder_set_enabled(encoder, false);
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drm_encoder_cleanup(encoder);
 	kfree(omap_encoder);
 }
@@ -77,7 +64,6 @@ static const struct drm_encoder_funcs omap_encoder_funcs = {
 	.destroy = omap_encoder_destroy,
 };
 
-<<<<<<< HEAD
 /*
  * The CRTC drm_crtc_helper_set_mode() doesn't really give us the right
  * order.. the easiest way to work around this for now is to make all
@@ -101,8 +87,6 @@ static bool omap_encoder_mode_fixup(struct drm_encoder *encoder,
 	return true;
 }
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void omap_encoder_mode_set(struct drm_encoder *encoder,
 				struct drm_display_mode *mode,
 				struct drm_display_mode *adjusted_mode)
@@ -134,7 +118,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
 	}
 }
 
-<<<<<<< HEAD
 static void omap_encoder_prepare(struct drm_encoder *encoder)
 {
 }
@@ -157,15 +140,11 @@ static const struct drm_encoder_helper_funcs omap_encoder_helper_funcs = {
  */
 
 int omap_encoder_set_enabled(struct drm_encoder *encoder, bool enabled)
-=======
-static void omap_encoder_disable(struct drm_encoder *encoder)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
 	struct omap_dss_device *dssdev = omap_encoder->dssdev;
 	struct omap_dss_driver *dssdrv = dssdev->driver;
 
-<<<<<<< HEAD
 	if (enabled) {
 		return dssdrv->enable(dssdev);
 	} else {
@@ -177,14 +156,6 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
 int omap_encoder_update(struct drm_encoder *encoder,
 		struct omap_overlay_manager *mgr,
 		struct omap_video_timings *timings)
-=======
-	dssdrv->disable(dssdev);
-}
-
-static int omap_encoder_update(struct drm_encoder *encoder,
-			       enum omap_channel channel,
-			       struct omap_video_timings *timings)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct drm_device *dev = encoder->dev;
 	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
@@ -192,11 +163,7 @@ static int omap_encoder_update(struct drm_encoder *encoder,
 	struct omap_dss_driver *dssdrv = dssdev->driver;
 	int ret;
 
-<<<<<<< HEAD
 	dssdev->src->manager = mgr;
-=======
-	dssdev->src->manager = omap_dss_get_overlay_manager(channel);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (dssdrv->check_timings) {
 		ret = dssdrv->check_timings(dssdev, timings);
@@ -222,35 +189,6 @@ static int omap_encoder_update(struct drm_encoder *encoder,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-static void omap_encoder_enable(struct drm_encoder *encoder)
-{
-	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
-	struct omap_dss_device *dssdev = omap_encoder->dssdev;
-	struct omap_dss_driver *dssdrv = dssdev->driver;
-
-	omap_encoder_update(encoder, omap_crtc_channel(encoder->crtc),
-			    omap_crtc_timings(encoder->crtc));
-
-	dssdrv->enable(dssdev);
-}
-
-static int omap_encoder_atomic_check(struct drm_encoder *encoder,
-				     struct drm_crtc_state *crtc_state,
-				     struct drm_connector_state *conn_state)
-{
-	return 0;
-}
-
-static const struct drm_encoder_helper_funcs omap_encoder_helper_funcs = {
-	.mode_set = omap_encoder_mode_set,
-	.disable = omap_encoder_disable,
-	.enable = omap_encoder_enable,
-	.atomic_check = omap_encoder_atomic_check,
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* initialize encoder */
 struct drm_encoder *omap_encoder_init(struct drm_device *dev,
 		struct omap_dss_device *dssdev)

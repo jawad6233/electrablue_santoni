@@ -33,10 +33,6 @@
 #include <linux/pm.h>
 #include <linux/jiffies.h>
 
-<<<<<<< HEAD
-=======
-#define CREATE_TRACE_POINTS
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <trace/events/mmc.h>
 
 #include <linux/mmc/card.h>
@@ -54,14 +50,6 @@
 #include "sd_ops.h"
 #include "sdio_ops.h"
 
-<<<<<<< HEAD
-=======
-EXPORT_TRACEPOINT_SYMBOL_GPL(mmc_blk_erase_start);
-EXPORT_TRACEPOINT_SYMBOL_GPL(mmc_blk_erase_end);
-EXPORT_TRACEPOINT_SYMBOL_GPL(mmc_blk_rw_start);
-EXPORT_TRACEPOINT_SYMBOL_GPL(mmc_blk_rw_end);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* If the device is not responding */
 #define MMC_CORE_TIMEOUT_MS	(10 * 60 * 1000) /* 10 minute timeout */
 
@@ -79,13 +67,8 @@ static const unsigned freqs[] = { 400000, 300000, 200000, 100000 };
  * performance cost, and for other reasons may not always be desired.
  * So we allow it it to be disabled.
  */
-<<<<<<< HEAD
 bool use_spi_crc = 0;
 module_param(use_spi_crc, bool, 0644);
-=======
-bool use_spi_crc = 1;
-module_param(use_spi_crc, bool, 0);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /*
  * Internal function. Schedule delayed work in the MMC work queue.
@@ -481,13 +464,6 @@ static int mmc_devfreq_set_target(struct device *dev,
 	struct mmc_devfeq_clk_scaling *clk_scaling;
 	int err = 0;
 	int abort;
-<<<<<<< HEAD
-=======
-	unsigned long pflags = current->flags;
-
-	/* Ensure scaling would happen even in memory pressure conditions */
-	current->flags |= PF_MEMALLOC;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!(host && freq)) {
 		pr_err("%s: unexpected host/freq parameter\n", __func__);
@@ -546,10 +522,6 @@ static int mmc_devfreq_set_target(struct device *dev,
 	mmc_host_clk_release(host);
 	mmc_release_host(host);
 out:
-<<<<<<< HEAD
-=======
-	tsk_restore_flags(current, pflags, PF_MEMALLOC);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return err;
 }
 
@@ -811,22 +783,10 @@ int mmc_resume_clk_scaling(struct mmc_host *host)
 	if (!mmc_can_scale_clk(host))
 		return 0;
 
-<<<<<<< HEAD
 	if (!host->clk_scaling.devfreq) {
 		pr_err("%s: %s: no devfreq is assosiated with this device\n",
 			mmc_hostname(host), __func__);
 		return -EPERM;
-=======
-	/*
-	 * If clock scaling is already exited when resume is called, like
-	 * during mmc shutdown, it is not an error and should not fail the
-	 * API calling this.
-	 */
-	if (!host->clk_scaling.devfreq) {
-		pr_warn("%s: %s: no devfreq is assosiated with this device\n",
-			mmc_hostname(host), __func__);
-		return 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	atomic_set(&host->clk_scaling.devfreq_abort, 0);
@@ -985,24 +945,6 @@ void mmc_request_done(struct mmc_host *host, struct mmc_request *mrq)
 
 EXPORT_SYMBOL(mmc_request_done);
 
-<<<<<<< HEAD
-=======
-static void __mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
-{
-	int err;
-
-	/* Assumes host controller has been runtime resumed by mmc_claim_host */
-	err = mmc_retune(host);
-	if (err) {
-		mrq->cmd->error = err;
-		mmc_request_done(host, mrq);
-		return;
-	}
-
-	host->ops->request(host, mrq);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void
 mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 {
@@ -1010,10 +952,6 @@ mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 	unsigned int i, sz;
 	struct scatterlist *sg;
 #endif
-<<<<<<< HEAD
-=======
-	mmc_retune_hold(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (mrq->sbc) {
 		pr_debug("<%s: starting CMD%u arg %08x flags %08x>\n",
@@ -1078,11 +1016,7 @@ mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 		mmc_clk_scaling_start_busy(host, true);
 	}
 
-<<<<<<< HEAD
 	host->ops->request(host, mrq);
-=======
-	__mmc_start_request(host, mrq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void mmc_start_cmdq_request(struct mmc_host *host,
@@ -1403,38 +1337,22 @@ static int mmc_wait_for_data_req_done(struct mmc_host *host,
 							    host->areq);
 				break; /* return err */
 			} else {
-<<<<<<< HEAD
-=======
-				mmc_retune_recheck(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				pr_info("%s: req failed (CMD%u): %d, retrying...\n",
 					mmc_hostname(host),
 					cmd->opcode, cmd->error);
 				cmd->retries--;
 				cmd->error = 0;
-<<<<<<< HEAD
 				host->ops->request(host, mrq);
-=======
-				__mmc_start_request(host, mrq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				continue; /* wait for done/new event again */
 			}
 		} else if (context_info->is_new_req) {
 			context_info->is_new_req = false;
-<<<<<<< HEAD
 			if (!next_req) {
 				err = MMC_BLK_NEW_REQUEST;
 				break; /* return err */
 			}
 		}
 	}
-=======
-			if (!next_req)
-				return MMC_BLK_NEW_REQUEST;
-		}
-	}
-	mmc_retune_release(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return err;
 }
 
@@ -1469,24 +1387,12 @@ static void mmc_wait_for_req_done(struct mmc_host *host,
 		    mmc_card_removed(host->card))
 			break;
 
-<<<<<<< HEAD
-=======
-		mmc_retune_recheck(host);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pr_debug("%s: req failed (CMD%u): %d, retrying...\n",
 			 mmc_hostname(host), cmd->opcode, cmd->error);
 		cmd->retries--;
 		cmd->error = 0;
-<<<<<<< HEAD
 		host->ops->request(host, mrq);
 	}
-=======
-		__mmc_start_request(host, mrq);
-	}
-
-	mmc_retune_release(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -1677,10 +1583,7 @@ struct mmc_async_req *mmc_start_req(struct mmc_host *host,
 				    struct mmc_async_req *areq, int *error)
 {
 	int err = 0;
-<<<<<<< HEAD
 	int start_err = 0;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct mmc_async_req *data = host->areq;
 
 	/* Prepare a new request */
@@ -1712,11 +1615,7 @@ struct mmc_async_req *mmc_start_req(struct mmc_host *host,
 		trace_mmc_blk_rw_start(areq->mrq->cmd->opcode,
 				       areq->mrq->cmd->arg,
 				       areq->mrq->data);
-<<<<<<< HEAD
 		start_err = __mmc_start_data_req(host, areq->mrq);
-=======
-		__mmc_start_data_req(host, areq->mrq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	if (host->areq)
@@ -2107,41 +2006,6 @@ int __mmc_claim_host(struct mmc_host *host, atomic_t *abort)
 EXPORT_SYMBOL(__mmc_claim_host);
 
 /**
-<<<<<<< HEAD
-=======
- *     mmc_try_claim_host - try exclusively to claim a host
- *        and keep trying for given time, with a gap of 10ms
- *     @host: mmc host to claim
- *     @dealy_ms: delay in ms
- *
- *     Returns %1 if the host is claimed, %0 otherwise.
- */
-int mmc_try_claim_host(struct mmc_host *host, unsigned int delay_ms)
-{
-	int claimed_host = 0;
-	unsigned long flags;
-	int retry_cnt = delay_ms/10;
-
-	do {
-		spin_lock_irqsave(&host->lock, flags);
-		if (!host->claimed || host->claimer == current) {
-			host->claimed = 1;
-			host->claimer = current;
-			host->claim_cnt += 1;
-			claimed_host = 1;
-		}
-		spin_unlock_irqrestore(&host->lock, flags);
-		if (!claimed_host)
-			mmc_delay(10);
-	} while (!claimed_host && retry_cnt--);
-	if (host->ops->enable && claimed_host && host->claim_cnt == 1)
-		host->ops->enable(host);
-	return claimed_host;
-}
-EXPORT_SYMBOL(mmc_try_claim_host);
-
-/**
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *	mmc_release_host - release a host
  *	@host: mmc host to release
  *
@@ -2299,17 +2163,6 @@ void mmc_ungate_clock(struct mmc_host *host)
 		WARN_ON(host->ios.clock);
 		/* This call will also set host->clk_gated to false */
 		__mmc_set_clock(host, host->clk_old);
-<<<<<<< HEAD
-=======
-		/*
-		 * We have seen that host controller's clock tuning circuit may
-		 * go out of sync if controller clocks are gated.
-		 * To workaround this issue, we are triggering retuning of the
-		 * tuning circuit after ungating the controller clocks.
-		 */
-		if (host->sdr104_wa)
-			mmc_retune_needed(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 }
 
@@ -2332,35 +2185,6 @@ void mmc_set_ungated(struct mmc_host *host)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-int mmc_execute_tuning(struct mmc_card *card)
-{
-	struct mmc_host *host = card->host;
-	u32 opcode;
-	int err;
-
-	if (!host->ops->execute_tuning)
-		return 0;
-
-	if (mmc_card_mmc(card))
-		opcode = MMC_SEND_TUNING_BLOCK_HS200;
-	else
-		opcode = MMC_SEND_TUNING_BLOCK;
-
-	mmc_host_clk_hold(host);
-	err = host->ops->execute_tuning(host, opcode);
-	mmc_host_clk_release(host);
-
-	if (err)
-		pr_err("%s: tuning execution failed\n", mmc_hostname(host));
-	else
-		mmc_retune_enable(host);
-
-	return err;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Change the bus mode (open drain/push-pull) of a host.
  */
@@ -2500,37 +2324,6 @@ EXPORT_SYMBOL(mmc_of_parse_voltage);
 
 #endif /* CONFIG_OF */
 
-<<<<<<< HEAD
-=======
-static int mmc_of_get_func_num(struct device_node *node)
-{
-	u32 reg;
-	int ret;
-
-	ret = of_property_read_u32(node, "reg", &reg);
-	if (ret < 0)
-		return ret;
-
-	return reg;
-}
-
-struct device_node *mmc_of_find_child_device(struct mmc_host *host,
-		unsigned func_num)
-{
-	struct device_node *node;
-
-	if (!host->parent || !host->parent->of_node)
-		return NULL;
-
-	for_each_child_of_node(host->parent->of_node, node) {
-		if (mmc_of_get_func_num(node) == func_num)
-			return node;
-	}
-
-	return NULL;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef CONFIG_REGULATOR
 
 /**
@@ -2862,10 +2655,6 @@ void mmc_power_up(struct mmc_host *host, u32 ocr)
 		return;
 
 	mmc_host_clk_hold(host);
-<<<<<<< HEAD
-=======
-	mmc_retune_disable(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	host->ios.vdd = fls(ocr) - 1;
 	if (mmc_host_is_spi(host))
@@ -2913,10 +2702,6 @@ void mmc_power_off(struct mmc_host *host)
 		return;
 
 	mmc_host_clk_hold(host);
-<<<<<<< HEAD
-=======
-	mmc_retune_disable(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	host->ios.clock = 0;
 	host->ios.vdd = 0;
@@ -3797,10 +3582,6 @@ static int mmc_do_hw_reset(struct mmc_host *host, int check)
 		return -EOPNOTSUPP;
 
 	mmc_host_clk_hold(host);
-<<<<<<< HEAD
-=======
-	mmc_retune_disable(host);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mmc_set_clock(host, host->f_init);
 
 	if (mmc_card_mmc(card) && host->ops->hw_reset)

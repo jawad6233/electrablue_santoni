@@ -203,11 +203,6 @@ struct input_keymap_entry {
 #define SYN_CONFIG		1
 #define SYN_MT_REPORT		2
 #define SYN_DROPPED		3
-<<<<<<< HEAD
-=======
-#define SYN_TIME_SEC		4
-#define SYN_TIME_NSEC		5
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define SYN_MAX			0xf
 #define SYN_CNT			(SYN_MAX+1)
 
@@ -486,19 +481,12 @@ struct input_keymap_entry {
 
 #define KEY_MICMUTE		248	/* Mute / unmute the microphone */
 
-<<<<<<< HEAD
-=======
-					/* Xiaomi's media button config */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define KEY_NEXTSONG_NEW        250
 #define KEY_PREVIOUSSONG_NEW    251
 
 /* Code 255 is reserved for special needs of AT keyboard driver */
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define BTN_MISC		0x100
 #define BTN_0			0x100
 #define BTN_1			0x101

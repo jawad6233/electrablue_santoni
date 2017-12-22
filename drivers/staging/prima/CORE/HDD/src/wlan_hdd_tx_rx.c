@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -150,17 +146,10 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter);
 //Utility function to dump an sk_buff
 static void dump_sk_buff(struct sk_buff * skb)
 {
-<<<<<<< HEAD
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: head = %p", __func__, skb->head);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data = %p", __func__, skb->data);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: tail = %p", __func__, skb->tail);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: end = %p", __func__, skb->end);
-=======
-  VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: head = %pK", __func__, skb->head);
-  VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data = %pK", __func__, skb->data);
-  VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: tail = %pK", __func__, skb->tail);
-  VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: end = %pK", __func__, skb->end);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: len = %d", __func__, skb->len);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data_len = %d", __func__, skb->data_len);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: mac_len = %d", __func__, skb->mac_len);
@@ -851,17 +840,11 @@ int __hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
 
    if (arp_pkt)
    {
-<<<<<<< HEAD
       if (pHddCtx->track_arp_ip && vos_check_arp_req_target_ip(skb, false)) {
          ++pAdapter->hdd_stats.hddArpStats.tx_arp_req_count;
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                    "%s :ARP packet received form net_dev", __func__);
       }
-=======
-       ++pAdapter->hdd_stats.hddArpStats.txCount;
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                 "%s :ARP packet received form net_dev", __func__);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    }
 
    //Get TL Q index corresponding to Qdisc queue index/AC.
@@ -950,27 +933,6 @@ int __hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
          return NETDEV_TX_OK;
       }
    }
-<<<<<<< HEAD
-=======
-
-   if (pHddCtx->bad_sta[STAId]) {
-      hdd_list_node_t *anchor = NULL;
-      skb_list_node_t *pktNode = NULL;
-      struct sk_buff *fskb = NULL;
-
-      if (pAdapter->wmm_tx_queue[qid].count >=
-          pAdapter->wmm_tx_queue[qid].max_size / 2) {
-         hdd_list_remove_front(&pAdapter->wmm_tx_queue[qid],
-                               &anchor);
-         pktNode = list_entry(anchor, skb_list_node_t, anchor);
-         fskb = pktNode->skb;
-         kfree_skb(fskb);
-         ++pAdapter->stats.tx_dropped;
-         ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
-      }
-   }
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    //If we have already reached the max queue size, disable the TX queue
    if ( pAdapter->wmm_tx_queue[qid].count == pAdapter->wmm_tx_queue[qid].max_size)
    {
@@ -1724,11 +1686,7 @@ VOS_STATUS hdd_tx_complete_cbk( v_VOID_t *vosContext,
    if (pAdapter == NULL || WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
                     "%s: Invalid adapter %p", __func__, pAdapter);
-=======
-                    "%s: Invalid adapter %pK", __func__, pAdapter);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    }
    else
    {
@@ -2052,11 +2010,7 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    if ((NULL == pAdapter) || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic))
    {
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
               FL("invalid adapter:%p for staId:%u"), pAdapter, *pStaId);
-=======
-              FL("invalid adapter:%pK for staId:%u"), pAdapter, *pStaId);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       VOS_ASSERT(0);
       return VOS_STATUS_E_FAILURE;
    }
@@ -2448,11 +2402,7 @@ VOS_STATUS hdd_tx_low_resource_cbk( vos_pkt_t *pVosPacket,
    if (NULL == pAdapter || WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                  FL("Invalid adapter %p"), pAdapter);
-=======
-                 FL("Invalid adapter %pK"), pAdapter);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       return VOS_STATUS_E_FAILURE;
    }
 
@@ -2604,11 +2554,7 @@ VOS_STATUS  hdd_rx_packet_monitor_cbk(v_VOID_t *vosContext,vos_pkt_t *pVosPacket
    if ((NULL == pAdapter)  || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic) )
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                  FL("Invalid adapter %p for MONITOR MODE"), pAdapter);
-=======
-                 FL("Invalid adapter %pK for MONITOR MODE"), pAdapter);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       vos_pkt_return_packet( pVosPacket );
       return VOS_STATUS_E_FAILURE;
    }
@@ -2730,14 +2676,9 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
    struct sk_buff *skb = NULL;
    vos_pkt_t* pVosPacket;
    vos_pkt_t* pNextVosPacket;
-<<<<<<< HEAD
    v_U8_t proto_type;
    v_BOOL_t arp_pkt;
    bool track_arp_resp = false;
-=======
-   v_U8_t proto_type = 0;
-   v_BOOL_t arp_pkt;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
    //Sanity check on inputs
    if ( ( NULL == vosContext ) || 
@@ -2761,11 +2702,7 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
    if ((NULL == pAdapter)  || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic) )
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                  FL("Invalid adapter %p for staId %u"), pAdapter, staId);
-=======
-                 FL("Invalid adapter %pK for staId %u"), pAdapter, staId);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       return VOS_STATUS_E_FAILURE;
    }
 
@@ -2874,18 +2811,12 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
 
       if (arp_pkt)
       {
-<<<<<<< HEAD
          if (pHddCtx->track_arp_ip && vos_check_arp_rsp_src_ip(skb, false)) {
             ++pAdapter->hdd_stats.hddArpStats.rx_arp_rsp_count;
             track_arp_resp = true;
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                      "%s :STA RX ARP received",__func__);
          }
-=======
-         ++pAdapter->hdd_stats.hddArpStats.rxCount;
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                   "%s :STA RX ARP received",__func__);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       }
 
       if (pHddCtx->rx_wow_dump) {
@@ -2914,11 +2845,7 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
 
       if (arp_pkt)
       {
-<<<<<<< HEAD
          pAdapter->dad |= hdd_is_duplicate_ip_arp(skb);
-=======
-         pAdapter->dad = hdd_is_duplicate_ip_arp(skb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
          if(pAdapter->dad)
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    "%s :Duplicate IP detected",__func__);
@@ -2942,17 +2869,11 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
 
         if (arp_pkt)
         {
-<<<<<<< HEAD
            if (track_arp_resp) {
               ++pAdapter->hdd_stats.hddArpStats.rxDelivered;
               VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                         "STA RX ARP packet Delivered to net stack");
            }
-=======
-           ++pAdapter->hdd_stats.hddArpStats.rxDelivered;
-           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                     "STA RX ARP packet Delivered to net stack");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         }
 
          ++pAdapter->hdd_stats.hddTxRxStats.rxDelivered;
@@ -3124,77 +3045,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
     return;
 }
 
-<<<<<<< HEAD
-=======
-/**
- * hdd_rx_fwd_eapol() - forward cached eapol frames
- * @vosContext : pointer to vos global context
- * @pVosPacket: pointer to vos packet
- *
- * Return: None
- *
- */
-void hdd_rx_fwd_eapol(v_VOID_t *vosContext, vos_pkt_t *pVosPacket)
-{
-   hdd_context_t *pHddCtx = NULL;
-   hdd_adapter_t * pAdapter;
-   hdd_adapter_list_node_t *pAdapterNode = NULL, *pNext = NULL;
-   struct sk_buff *skb = NULL;
-   uint8_t proto_type;
-   uint8_t status;
-
-   if ((NULL == vosContext) || (NULL == pVosPacket))
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-                        "%s: Null global context", __func__);
-      return;
-   }
-
-   pHddCtx = (hdd_context_t *)vos_get_context(VOS_MODULE_ID_HDD, vosContext);
-   if (NULL == pHddCtx)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-                           "%s: HDD adapter context is Null", __func__);
-      return;
-   }
-
-   status = hdd_get_front_adapter ( pHddCtx, &pAdapterNode );
-
-   while ( NULL != pAdapterNode && 0 == status )
-   {
-      pAdapter = pAdapterNode->pAdapter;
-
-      if (pAdapter->device_mode == WLAN_HDD_INFRA_STATION)
-         break;
-
-      status = hdd_get_next_adapter (pHddCtx, pAdapterNode, &pNext);
-      pAdapterNode = pNext;
-   }
-
-   if (NULL == pAdapter)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
-                        "%s: No adapter", __func__);
-      return;
-   }
-
-   vos_pkt_get_os_packet(pVosPacket, (v_VOID_t **)&skb, VOS_FALSE);
-   proto_type = vos_pkt_get_proto_type(skb,
-                                       pHddCtx->cfg_ini->gEnableDebugLog);
-   if (VOS_PKT_PROTO_TYPE_EAPOL & proto_type)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                   "STA RX EAPOL");
-   }
-
-   skb->dev = pAdapter->dev;
-   skb->protocol = eth_type_trans(skb, skb->dev);
-   skb->ip_summed = CHECKSUM_NONE;
-
-   netif_rx_ni(skb);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef FEATURE_WLAN_DIAG_SUPPORT
 /*
  * wlan_hdd_get_eapol_params() - Function to extract EAPOL params

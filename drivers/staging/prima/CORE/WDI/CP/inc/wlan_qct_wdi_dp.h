@@ -226,11 +226,6 @@ when        who    what, where, why
 
 #endif
 
-<<<<<<< HEAD
-=======
-#define WDI_RXBD_MLME_STA_STATUS 0x1
-#define WDI_RXBD_SAP_TX_STATS  0x2
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*--------------------------------------------------------------------------
    BD header macros - used by the data path to get or set various values
    inside the packet BD 
@@ -317,11 +312,6 @@ when        who    what, where, why
 #define WDI_RX_BD_GET_EXTSCANFULLSCANRESIND( _pvBDHeader ) (((WDI_RxBdType*)_pvBDHeader)->extscanBuffer)
 #endif
 
-<<<<<<< HEAD
-=======
-#define WDI_RX_BD_GET_PER_SAPOFFLOAD( _pvBDHeader )     (((WDI_RxBdType*)_pvBDHeader)->indType)
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*------------ RSSI and SNR Information extraction -------------*/
 #define WDI_RX_BD_GET_RSSI0( _pvBDHeader )  \
     (((((WDI_RxBdType*)_pvBDHeader)->phyStats0) >> 24) & 0xff)

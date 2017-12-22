@@ -60,7 +60,6 @@ void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
 		       unsigned long uaddr, void *dst, const void *src,
 		       unsigned long len)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 	preempt_disable();
 #endif
@@ -69,12 +68,6 @@ void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
 #ifdef CONFIG_SMP
 	preempt_enable();
 #endif
-=======
-	preempt_disable();
-	memcpy(dst, src, len);
-	flush_ptrace_access(vma, page, uaddr, dst, len);
-	preempt_enable();
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 void __sync_icache_dcache(pte_t pte, unsigned long addr)
@@ -105,10 +98,7 @@ EXPORT_SYMBOL(flush_dcache_page);
 /*
  * Additional functions defined in assembly.
  */
-<<<<<<< HEAD
 EXPORT_SYMBOL(flush_cache_all);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 EXPORT_SYMBOL(flush_icache_range);
 
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE

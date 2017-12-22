@@ -18,40 +18,21 @@
 
 #include <linux/usb/composite.h>
 
-<<<<<<< HEAD
 #define UAC2_DEF_PCHMASK 0x1
 #define UAC2_DEF_PSRATE 48000
 #define UAC2_DEF_PSSIZE 2
 #define UAC2_DEF_CCHMASK 0x3
 #define UAC2_DEF_CSRATE 64000
 #define UAC2_DEF_CSSIZE 2
-=======
-#define UAC2_DEF_PCHMASK 0x3
-#define UAC2_DEF_PSRATE 48000
-#define UAC2_DEF_PSSIZE 2
-#define UAC2_DEF_PSBITRES 16
-#define UAC2_DEF_CCHMASK 0x3
-#define UAC2_DEF_CSRATE 44100
-#define UAC2_DEF_CSSIZE 2
-#define UAC2_DEF_CSBITRES 16
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 struct f_uac2_opts {
 	struct usb_function_instance	func_inst;
 	int				p_chmask;
 	int				p_srate;
 	int				p_ssize;
-<<<<<<< HEAD
 	int				c_chmask;
 	int				c_srate;
 	int				c_ssize;
-=======
-	int				p_sres;
-	int				c_chmask;
-	int				c_srate;
-	int				c_ssize;
-	int				c_sres;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	bool				bound;
 
 	struct mutex			lock;

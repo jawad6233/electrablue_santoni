@@ -96,12 +96,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 		  uint32_t src_x, uint32_t src_y,
 		  uint32_t src_w, uint32_t src_h)
 {
-<<<<<<< HEAD
 	struct nvif_device *dev = &nouveau_drm(plane->dev)->device;
-=======
-	struct nouveau_drm *drm = nouveau_drm(plane->dev);
-	struct nvif_object *dev = &drm->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_plane *nv_plane =
 		container_of(plane, struct nouveau_plane, base);
 	struct nouveau_framebuffer *nv_fb = nouveau_framebuffer(fb);
@@ -123,11 +118,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 	if (format > 0xffff)
 		return -ERANGE;
 
-<<<<<<< HEAD
 	if (dev->info.chipset >= 0x30) {
-=======
-	if (drm->device.info.chipset >= 0x30) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (crtc_w < (src_w >> 1) || crtc_h < (src_h >> 1))
 			return -ERANGE;
 	} else {
@@ -135,11 +126,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 			return -ERANGE;
 	}
 
-<<<<<<< HEAD
 	ret = nouveau_bo_pin(nv_fb->nvbo, TTM_PL_FLAG_VRAM);
-=======
-	ret = nouveau_bo_pin(nv_fb->nvbo, TTM_PL_FLAG_VRAM, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 
@@ -186,11 +173,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 static int
 nv10_disable_plane(struct drm_plane *plane)
 {
-<<<<<<< HEAD
 	struct nvif_device *dev = &nouveau_drm(plane->dev)->device;
-=======
-	struct nvif_object *dev = &nouveau_drm(plane->dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_plane *nv_plane =
 		container_of(plane, struct nouveau_plane, base);
 
@@ -214,11 +197,7 @@ nv_destroy_plane(struct drm_plane *plane)
 static void
 nv10_set_params(struct nouveau_plane *plane)
 {
-<<<<<<< HEAD
 	struct nvif_device *dev = &nouveau_drm(plane->base.dev)->device;
-=======
-	struct nvif_object *dev = &nouveau_drm(plane->base.dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 luma = (plane->brightness - 512) << 16 | plane->contrast;
 	u32 chroma = ((sin_mul(plane->hue, plane->saturation) & 0xffff) << 16) |
 		(cos_mul(plane->hue, plane->saturation) & 0xffff);
@@ -282,11 +261,7 @@ nv10_overlay_init(struct drm_device *device)
 {
 	struct nouveau_drm *drm = nouveau_drm(device);
 	struct nouveau_plane *plane = kzalloc(sizeof(struct nouveau_plane), GFP_KERNEL);
-<<<<<<< HEAD
 	int num_formats = ARRAY_SIZE(formats);
-=======
-	unsigned int num_formats = ARRAY_SIZE(formats);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	if (!plane)
@@ -371,11 +346,7 @@ nv04_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 		  uint32_t src_x, uint32_t src_y,
 		  uint32_t src_w, uint32_t src_h)
 {
-<<<<<<< HEAD
 	struct nvif_device *dev = &nouveau_drm(plane->dev)->device;
-=======
-	struct nvif_object *dev = &nouveau_drm(plane->dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_plane *nv_plane =
 		container_of(plane, struct nouveau_plane, base);
 	struct nouveau_framebuffer *nv_fb = nouveau_framebuffer(fb);
@@ -402,11 +373,7 @@ nv04_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 	if (crtc_w < src_w || crtc_h < src_h)
 		return -ERANGE;
 
-<<<<<<< HEAD
 	ret = nouveau_bo_pin(nv_fb->nvbo, TTM_PL_FLAG_VRAM);
-=======
-	ret = nouveau_bo_pin(nv_fb->nvbo, TTM_PL_FLAG_VRAM, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 
@@ -459,11 +426,7 @@ nv04_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
 static int
 nv04_disable_plane(struct drm_plane *plane)
 {
-<<<<<<< HEAD
 	struct nvif_device *dev = &nouveau_drm(plane->dev)->device;
-=======
-	struct nvif_object *dev = &nouveau_drm(plane->dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_plane *nv_plane =
 		container_of(plane, struct nouveau_plane, base);
 

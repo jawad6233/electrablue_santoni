@@ -2730,11 +2730,8 @@ void __init trap_init(void)
 		     TI_NEW_CHILD != offsetof(struct thread_info, new_child) ||
 		     TI_CURRENT_DS != offsetof(struct thread_info,
 						current_ds) ||
-<<<<<<< HEAD
 		     TI_RESTART_BLOCK != offsetof(struct thread_info,
 						  restart_block) ||
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		     TI_KUNA_REGS != offsetof(struct thread_info,
 					      kern_una_regs) ||
 		     TI_KUNA_INSN != offsetof(struct thread_info,

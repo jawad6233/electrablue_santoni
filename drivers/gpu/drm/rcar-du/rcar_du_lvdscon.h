@@ -16,17 +16,11 @@
 
 struct rcar_du_device;
 struct rcar_du_encoder;
-<<<<<<< HEAD
 struct rcar_du_panel_data;
 
 int rcar_du_lvds_connector_init(struct rcar_du_device *rcdu,
 				struct rcar_du_encoder *renc,
 				const struct rcar_du_panel_data *panel,
-=======
-
-int rcar_du_lvds_connector_init(struct rcar_du_device *rcdu,
-				struct rcar_du_encoder *renc,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				struct device_node *np);
 
 #endif /* __RCAR_DU_LVDSCON_H__ */

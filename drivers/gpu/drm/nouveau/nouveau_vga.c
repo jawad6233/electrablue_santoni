@@ -12,7 +12,6 @@
 static unsigned int
 nouveau_vga_set_decode(void *priv, bool state)
 {
-<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(priv)->device;
 
 	if (device->info.family == NV_DEVICE_INFO_V0_CURIE &&
@@ -20,16 +19,6 @@ nouveau_vga_set_decode(void *priv, bool state)
 		nvif_wr32(device, 0x088060, state);
 	else
 	if (device->info.chipset >= 0x40)
-=======
-	struct nouveau_drm *drm = nouveau_drm(priv);
-	struct nvif_object *device = &drm->device.object;
-
-	if (drm->device.info.family == NV_DEVICE_INFO_V0_CURIE &&
-	    drm->device.info.chipset >= 0x4c)
-		nvif_wr32(device, 0x088060, state);
-	else
-	if (drm->device.info.chipset >= 0x40)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		nvif_wr32(device, 0x088054, state);
 	else
 		nvif_wr32(device, 0x001854, state);

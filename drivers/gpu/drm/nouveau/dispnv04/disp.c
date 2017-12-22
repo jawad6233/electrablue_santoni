@@ -32,7 +32,6 @@
 #include "nouveau_connector.h"
 
 int
-<<<<<<< HEAD
 nv04_display_early_init(struct drm_device *dev)
 {
 	/* ensure vblank interrupts are off, they can't be enabled until
@@ -55,12 +54,6 @@ nv04_display_create(struct drm_device *dev)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
 	struct nouveau_i2c *i2c = nvkm_i2c(&drm->device);
-=======
-nv04_display_create(struct drm_device *dev)
-{
-	struct nouveau_drm *drm = nouveau_drm(dev);
-	struct nvkm_i2c *i2c = nvxx_i2c(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct dcb_table *dcb = &drm->vbios.dcb;
 	struct drm_connector *connector, *ct;
 	struct drm_encoder *encoder;
@@ -72,11 +65,7 @@ nv04_display_create(struct drm_device *dev)
 	if (!disp)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	nvif_object_map(nvif_object(&drm->device));
-=======
-	nvif_object_map(&drm->device.object);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	nouveau_display(dev)->priv = disp;
 	nouveau_display(dev)->dtor = nv04_display_destroy;
@@ -130,13 +119,7 @@ nv04_display_create(struct drm_device *dev)
 
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
 		struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
-<<<<<<< HEAD
 		nv_encoder->i2c = i2c->find(i2c, nv_encoder->dcb->i2c_index);
-=======
-		struct nvkm_i2c_bus *bus =
-			nvkm_i2c_bus_find(i2c, nv_encoder->dcb->i2c_index);
-		nv_encoder->i2c = bus ? &bus->i2c : NULL;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	}
 
 	/* Save previous state */
@@ -144,11 +127,7 @@ nv04_display_create(struct drm_device *dev)
 		crtc->funcs->save(crtc);
 
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
-<<<<<<< HEAD
 		struct drm_encoder_helper_funcs *func = encoder->helper_private;
-=======
-		const struct drm_encoder_helper_funcs *func = encoder->helper_private;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		func->save(encoder);
 	}
@@ -177,11 +156,7 @@ nv04_display_destroy(struct drm_device *dev)
 
 	/* Restore state */
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
-<<<<<<< HEAD
 		struct drm_encoder_helper_funcs *func = encoder->helper_private;
-=======
-		const struct drm_encoder_helper_funcs *func = encoder->helper_private;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		func->restore(encoder);
 	}
@@ -194,11 +169,7 @@ nv04_display_destroy(struct drm_device *dev)
 	nouveau_display(dev)->priv = NULL;
 	kfree(disp);
 
-<<<<<<< HEAD
 	nvif_object_unmap(nvif_object(&drm->device));
-=======
-	nvif_object_unmap(&drm->device.object);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int
@@ -216,11 +187,7 @@ nv04_display_init(struct drm_device *dev)
 	 * on suspend too.
 	 */
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
-<<<<<<< HEAD
 		struct drm_encoder_helper_funcs *func = encoder->helper_private;
-=======
-		const struct drm_encoder_helper_funcs *func = encoder->helper_private;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		func->restore(encoder);
 	}

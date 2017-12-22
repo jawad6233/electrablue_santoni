@@ -2501,11 +2501,7 @@ EXPORT_SYMBOL(unblock_all_signals);
  */
 SYSCALL_DEFINE0(restart_syscall)
 {
-<<<<<<< HEAD
 	struct restart_block *restart = &current_thread_info()->restart_block;
-=======
-	struct restart_block *restart = &current->restart_block;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return restart->fn(restart);
 }
 

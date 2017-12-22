@@ -25,15 +25,6 @@ obj-$(CONFIG_USB_USS720)		+= uss720.o
 obj-$(CONFIG_USB_SEVSEG)		+= usbsevseg.o
 obj-$(CONFIG_USB_YUREX)			+= yurex.o
 obj-$(CONFIG_USB_HSIC_USB3503)		+= usb3503.o
-<<<<<<< HEAD
 
 obj-$(CONFIG_USB_SISUSBVGA)		+= sisusbvga/
 obj-$(CONFIG_USB_LINK_LAYER_TEST)	+= lvstest.o
-=======
-obj-$(CONFIG_MICROCHIP_USB2533)		+= usb2533.o
-
-obj-$(CONFIG_USB_SISUSBVGA)		+= sisusbvga/
-obj-$(CONFIG_USB_LINK_LAYER_TEST)	+= lvstest.o
-
-obj-$(CONFIG_USB_QTI_KS_BRIDGE)		+= ks_bridge.o
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

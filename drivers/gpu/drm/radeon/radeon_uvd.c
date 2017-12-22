@@ -204,18 +204,13 @@ void radeon_uvd_fini(struct radeon_device *rdev)
 
 int radeon_uvd_suspend(struct radeon_device *rdev)
 {
-<<<<<<< HEAD
 	unsigned size;
 	void *ptr;
 	int i;
-=======
-	int i, r;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (rdev->uvd.vcpu_bo == NULL)
 		return 0;
 
-<<<<<<< HEAD
 	for (i = 0; i < RADEON_MAX_UVD_HANDLES; ++i)
 		if (atomic_read(&rdev->uvd.handles[i]))
 			break;
@@ -231,29 +226,6 @@ int radeon_uvd_suspend(struct radeon_device *rdev)
 
 	rdev->uvd.saved_bo = kmalloc(size, GFP_KERNEL);
 	memcpy(rdev->uvd.saved_bo, ptr, size);
-=======
-	for (i = 0; i < RADEON_MAX_UVD_HANDLES; ++i) {
-		uint32_t handle = atomic_read(&rdev->uvd.handles[i]);
-		if (handle != 0) {
-			struct radeon_fence *fence;
-
-			radeon_uvd_note_usage(rdev);
-
-			r = radeon_uvd_get_destroy_msg(rdev,
-				R600_RING_TYPE_UVD_INDEX, handle, &fence);
-			if (r) {
-				DRM_ERROR("Error destroying UVD (%d)!\n", r);
-				continue;
-			}
-
-			radeon_fence_wait(fence, false);
-			radeon_fence_unref(&fence);
-
-			rdev->uvd.filp[i] = NULL;
-			atomic_set(&rdev->uvd.handles[i], 0);
-		}
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -274,16 +246,12 @@ int radeon_uvd_resume(struct radeon_device *rdev)
 	ptr = rdev->uvd.cpu_addr;
 	ptr += rdev->uvd_fw->size;
 
-<<<<<<< HEAD
 	if (rdev->uvd.saved_bo != NULL) {
 		memcpy(ptr, rdev->uvd.saved_bo, size);
 		kfree(rdev->uvd.saved_bo);
 		rdev->uvd.saved_bo = NULL;
 	} else
 		memset(ptr, 0, size);
-=======
-	memset(ptr, 0, size);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return 0;
 }
@@ -563,20 +531,12 @@ static int radeon_uvd_cs_reloc(struct radeon_cs_parser *p,
 			       unsigned buf_sizes[], bool *has_msg_cmd)
 {
 	struct radeon_cs_chunk *relocs_chunk;
-<<<<<<< HEAD
 	struct radeon_cs_reloc *reloc;
-=======
-	struct radeon_bo_list *reloc;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	unsigned idx, cmd, offset;
 	uint64_t start, end;
 	int r;
 
-<<<<<<< HEAD
 	relocs_chunk = &p->chunks[p->chunk_relocs_idx];
-=======
-	relocs_chunk = p->chunk_relocs;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	offset = radeon_get_ib_value(p, data0);
 	idx = radeon_get_ib_value(p, data1);
 	if (idx >= relocs_chunk->length_dw) {
@@ -585,11 +545,7 @@ static int radeon_uvd_cs_reloc(struct radeon_cs_parser *p,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	reloc = p->relocs_ptr[(idx / 4)];
-=======
-	reloc = &p->relocs[(idx / 4)];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	start = reloc->gpu_offset;
 	end = start + radeon_bo_size(reloc->robj);
 	start += offset;
@@ -697,7 +653,6 @@ int radeon_uvd_cs_parse(struct radeon_cs_parser *p)
 		[0x00000003]	=	2048,
 	};
 
-<<<<<<< HEAD
 	if (p->chunks[p->chunk_ib_idx].length_dw % 16) {
 		DRM_ERROR("UVD IB length (%d) not 16 dwords aligned!\n",
 			  p->chunks[p->chunk_ib_idx].length_dw);
@@ -705,15 +660,6 @@ int radeon_uvd_cs_parse(struct radeon_cs_parser *p)
 	}
 
 	if (p->chunk_relocs_idx == -1) {
-=======
-	if (p->chunk_ib->length_dw % 16) {
-		DRM_ERROR("UVD IB length (%d) not 16 dwords aligned!\n",
-			  p->chunk_ib->length_dw);
-		return -EINVAL;
-	}
-
-	if (p->chunk_relocs == NULL) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		DRM_ERROR("No relocation chunk !\n");
 		return -EINVAL;
 	}
@@ -737,11 +683,7 @@ int radeon_uvd_cs_parse(struct radeon_cs_parser *p)
 			DRM_ERROR("Unknown packet type %d !\n", pkt.type);
 			return -EINVAL;
 		}
-<<<<<<< HEAD
 	} while (p->idx < p->chunks[p->chunk_ib_idx].length_dw);
-=======
-	} while (p->idx < p->chunk_ib->length_dw);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (!has_msg_cmd) {
 		DRM_ERROR("UVD-IBs need a msg command!\n");

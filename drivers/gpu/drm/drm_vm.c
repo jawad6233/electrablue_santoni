@@ -41,10 +41,6 @@
 #include <linux/slab.h>
 #endif
 #include <asm/pgtable.h>
-<<<<<<< HEAD
-=======
-#include "drm_internal.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "drm_legacy.h"
 
 struct drm_vma_entry {
@@ -98,11 +94,7 @@ static pgprot_t drm_dma_prot(uint32_t map_type, struct vm_area_struct *vma)
  * Find the right map and if it's AGP memory find the real physical page to
  * map, get the page, increment the use count and return it.
  */
-<<<<<<< HEAD
 #if __OS_HAS_AGP
-=======
-#if IS_ENABLED(CONFIG_AGP)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int drm_do_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	struct drm_file *priv = vma->vm_file->private_data;
@@ -175,20 +167,12 @@ static int drm_do_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 vm_fault_error:
 	return VM_FAULT_SIGBUS;	/* Disallow mremap */
 }
-<<<<<<< HEAD
 #else				/* __OS_HAS_AGP */
-=======
-#else
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int drm_do_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	return VM_FAULT_SIGBUS;
 }
-<<<<<<< HEAD
 #endif				/* __OS_HAS_AGP */
-=======
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * \c nopage method for shared virtual memory.
@@ -571,11 +555,7 @@ static int drm_mmap_locked(struct file *filp, struct vm_area_struct *vma)
 	 * --BenH.
 	 */
 	if (!vma->vm_pgoff
-<<<<<<< HEAD
 #if __OS_HAS_AGP
-=======
-#if IS_ENABLED(CONFIG_AGP)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	    && (!dev->agp
 		|| dev->agp->agp_info.device->vendor != PCI_VENDOR_ID_APPLE)
 #endif

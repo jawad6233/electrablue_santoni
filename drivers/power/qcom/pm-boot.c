@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2014, 2016, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -46,12 +42,7 @@ static int msm_pm_tz_boot_init(void)
 			flag = SCM_FLAG_WARMBOOT_CPU0 | SCM_FLAG_WARMBOOT_CPU1 |
 				SCM_FLAG_WARMBOOT_CPU2 | SCM_FLAG_WARMBOOT_CPU3;
 		else
-<<<<<<< HEAD
 			__WARN();
-=======
-			pr_warn("%s: set warmboot address failed\n",
-								__func__);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		return scm_set_boot_addr(virt_to_phys(msm_pm_boot_entry), flag);
 	}

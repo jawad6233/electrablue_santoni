@@ -1,22 +1,14 @@
 #ifndef __NOUVEAU_DISPLAY_H__
 #define __NOUVEAU_DISPLAY_H__
 
-<<<<<<< HEAD
 #include <subdev/vm.h>
-=======
-#include <subdev/mmu.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "nouveau_drm.h"
 
 struct nouveau_framebuffer {
 	struct drm_framebuffer base;
 	struct nouveau_bo *nvbo;
-<<<<<<< HEAD
 	struct nouveau_vma vma;
-=======
-	struct nvkm_vma vma;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u32 r_handle;
 	u32 r_format;
 	u32 r_pitch;
@@ -73,20 +65,11 @@ int  nouveau_display_init(struct drm_device *dev);
 void nouveau_display_fini(struct drm_device *dev);
 int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
 void nouveau_display_resume(struct drm_device *dev, bool runtime);
-<<<<<<< HEAD
 int  nouveau_display_vblank_enable(struct drm_device *, int);
 void nouveau_display_vblank_disable(struct drm_device *, int);
 int  nouveau_display_scanoutpos(struct drm_device *, int, unsigned int,
 				int *, int *, ktime_t *, ktime_t *);
 int  nouveau_display_vblstamp(struct drm_device *, int, int *,
-=======
-int  nouveau_display_vblank_enable(struct drm_device *, unsigned int);
-void nouveau_display_vblank_disable(struct drm_device *, unsigned int);
-int  nouveau_display_scanoutpos(struct drm_device *, unsigned int,
-				unsigned int, int *, int *, ktime_t *,
-				ktime_t *, const struct drm_display_mode *);
-int  nouveau_display_vblstamp(struct drm_device *, unsigned int, int *,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			      struct timeval *, unsigned);
 
 int  nouveau_crtc_page_flip(struct drm_crtc *crtc, struct drm_framebuffer *fb,

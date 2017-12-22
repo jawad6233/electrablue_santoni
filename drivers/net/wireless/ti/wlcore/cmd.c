@@ -399,11 +399,7 @@ void wl12xx_free_link(struct wl1271 *wl, struct wl12xx_vif *wlvif, u8 *hlid)
 	WARN_ON_ONCE(wl->active_link_count < 0);
 }
 
-<<<<<<< HEAD
 static u8 wlcore_get_native_channel_type(u8 nl_channel_type)
-=======
-u8 wlcore_get_native_channel_type(u8 nl_channel_type)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	switch (nl_channel_type) {
 	case NL80211_CHAN_NO_HT:
@@ -419,10 +415,6 @@ u8 wlcore_get_native_channel_type(u8 nl_channel_type)
 		return WLCORE_CHAN_NO_HT;
 	}
 }
-<<<<<<< HEAD
-=======
-EXPORT_SYMBOL_GPL(wlcore_get_native_channel_type);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static int wl12xx_cmd_role_start_dev(struct wl1271 *wl,
 				     struct wl12xx_vif *wlvif,
@@ -2000,24 +1992,12 @@ int wl12xx_start_dev(struct wl1271 *wl, struct wl12xx_vif *wlvif,
 		      wlvif->bss_type == BSS_TYPE_IBSS)))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	ret = wl12xx_cmd_role_enable(wl,
 				     wl12xx_wlvif_to_vif(wlvif)->addr,
 				     WL1271_ROLE_DEVICE,
 				     &wlvif->dev_role_id);
 	if (ret < 0)
 		goto out;
-=======
-	/* the dev role is already started for p2p mgmt interfaces */
-	if (!wlcore_is_p2p_mgmt(wlvif)) {
-		ret = wl12xx_cmd_role_enable(wl,
-					     wl12xx_wlvif_to_vif(wlvif)->addr,
-					     WL1271_ROLE_DEVICE,
-					     &wlvif->dev_role_id);
-		if (ret < 0)
-			goto out;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	ret = wl12xx_cmd_role_start_dev(wl, wlvif, band, channel);
 	if (ret < 0)
@@ -2032,12 +2012,7 @@ int wl12xx_start_dev(struct wl1271 *wl, struct wl12xx_vif *wlvif,
 out_stop:
 	wl12xx_cmd_role_stop_dev(wl, wlvif);
 out_disable:
-<<<<<<< HEAD
 	wl12xx_cmd_role_disable(wl, &wlvif->dev_role_id);
-=======
-	if (!wlcore_is_p2p_mgmt(wlvif))
-		wl12xx_cmd_role_disable(wl, &wlvif->dev_role_id);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out:
 	return ret;
 }
@@ -2066,17 +2041,9 @@ int wl12xx_stop_dev(struct wl1271 *wl, struct wl12xx_vif *wlvif)
 	if (ret < 0)
 		goto out;
 
-<<<<<<< HEAD
 	ret = wl12xx_cmd_role_disable(wl, &wlvif->dev_role_id);
 	if (ret < 0)
 		goto out;
-=======
-	if (!wlcore_is_p2p_mgmt(wlvif)) {
-		ret = wl12xx_cmd_role_disable(wl, &wlvif->dev_role_id);
-		if (ret < 0)
-			goto out;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 out:
 	return ret;

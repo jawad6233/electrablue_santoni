@@ -64,13 +64,8 @@
 #define MULTI_ALL                                             0x2000000
 #define RX_CHKSUM_EN                                          0x1000000
 #define HUGE                                                   0x800000
-<<<<<<< HEAD
 #define SPEED_BMSK                                             0x300000
 #define SPEED_SHFT                                                   20
-=======
-#define SPEED(x)					(((x) & 0x3) << 20)
-#define SPEED_MASK					SPEED(0x3)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define SIMR                                                    0x80000
 #define TPAUSE                                                  0x10000
 #define PROM_MODE                                                0x8000
@@ -182,7 +177,6 @@
 #define RFD0_CONS_IDX_SHFT                                            0
 
 /* EMAC_INT_STATUS */
-<<<<<<< HEAD
 #define DIS_INT                                              0x80000000
 #define PTP_INT                                              0x40000000
 #define RFD4_UR_INT                                          0x20000000
@@ -207,32 +201,6 @@
 #define RFD0_UR_INT                                                0x10
 #define RXF_OF_INT                                                  0x8
 #define SW_MAN_INT                                                  0x4
-=======
-#define DIS_INT                                                BIT(31)
-#define PTP_INT                                                BIT(30)
-#define RFD4_UR_INT                                            BIT(29)
-#define TX_PKT_INT3                                            BIT(26)
-#define TX_PKT_INT2                                            BIT(25)
-#define TX_PKT_INT1                                            BIT(24)
-#define RX_PKT_INT3                                            BIT(19)
-#define RX_PKT_INT2                                            BIT(18)
-#define RX_PKT_INT1                                            BIT(17)
-#define RX_PKT_INT0                                            BIT(16)
-#define TX_PKT_INT                                             BIT(15)
-#define TXQ_TO_INT                                             BIT(14)
-#define GPHY_WAKEUP_INT                                        BIT(13)
-#define GPHY_LINK_DOWN_INT                                     BIT(12)
-#define GPHY_LINK_UP_INT                                       BIT(11)
-#define DMAW_TO_INT                                            BIT(10)
-#define DMAR_TO_INT                                             BIT(9)
-#define TXF_UR_INT                                              BIT(8)
-#define RFD3_UR_INT                                             BIT(7)
-#define RFD2_UR_INT                                             BIT(6)
-#define RFD1_UR_INT                                             BIT(5)
-#define RFD0_UR_INT                                             BIT(4)
-#define RXF_OF_INT                                              BIT(3)
-#define SW_MAN_INT                                              BIT(2)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* EMAC_INT_RETRIG_INIT */
 #define INT_RETRIG_TIME_BMSK                                     0xffff
@@ -312,7 +280,6 @@
 #define H1TPD_PROD_IDX_SHFT                                           0
 
 /* EMAC_EMAC_WRAPPER_CSR1 */
-<<<<<<< HEAD
 #define TX_INDX_FIFO_SYNC_RST                                  0x800000
 #define TX_TS_FIFO_SYNC_RST                                    0x400000
 #define RX_TS_FIFO2_SYNC_RST                                   0x200000
@@ -321,16 +288,6 @@
 #define DIS_1588_CLKS                                             0x800
 #define FREQ_MODE                                                 0x200
 #define ENABLE_RRD_TIMESTAMP                                        0x8
-=======
-#define TX_INDX_FIFO_SYNC_RST                                  BIT(23)
-#define TX_TS_FIFO_SYNC_RST                                    BIT(22)
-#define RX_TS_FIFO2_SYNC_RST                                   BIT(21)
-#define RX_TS_FIFO1_SYNC_RST                                   BIT(20)
-#define TX_TS_ENABLE                                           BIT(16)
-#define DIS_1588_CLKS                                          BIT(11)
-#define FREQ_MODE                                               BIT(9)
-#define ENABLE_RRD_TIMESTAMP                                    BIT(3)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /* EMAC_EMAC_WRAPPER_CSR2 */
 #define HDRIVE_BMSK                                              0x3000
@@ -438,7 +395,6 @@
 #define GRANDMASTER_MODE                                           0x40
 #define GM_PPS_SYNC                                                0x20
 
-<<<<<<< HEAD
 /* EMAC_QSERDES_COM_SYS_CLK_CTRL */
 #define SYSCLK_CM                                                  0x10
 #define SYSCLK_AC_COUPLE                                           0x08
@@ -574,7 +530,5 @@
 #define AN_START                                                   0x04
 #define AN_END                                                     0x02
 #define AN_REQUEST                                                 0x01
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #endif /* __EMAC_DEFINES_H__ */

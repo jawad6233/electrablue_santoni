@@ -25,13 +25,8 @@
 #include <linux/firmware.h>
 #include <linux/etherdevice.h>
 #include <linux/vmalloc.h>
-<<<<<<< HEAD
 #include <linux/wl12xx.h>
 #include <linux/interrupt.h>
-=======
-#include <linux/interrupt.h>
-#include <linux/irq.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #include "wlcore.h"
 #include "debug.h"
@@ -530,11 +525,7 @@ static int wlcore_irq_locked(struct wl1271 *wl)
 	 * In case edge triggered interrupt must be used, we cannot iterate
 	 * more than once without introducing race conditions with the hardirq.
 	 */
-<<<<<<< HEAD
 	if (wl->platform_quirks & WL12XX_PLATFORM_QUIRK_EDGE_IRQ)
-=======
-	if (wl->irq_flags & (IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		loopcount = 1;
 
 	wl1271_debug(DEBUG_IRQ, "IRQ work");
@@ -1792,12 +1783,6 @@ static int wl1271_op_suspend(struct ieee80211_hw *hw,
 	mutex_lock(&wl->mutex);
 	wl->wow_enabled = true;
 	wl12xx_for_each_wlvif(wl, wlvif) {
-<<<<<<< HEAD
-=======
-		if (wlcore_is_p2p_mgmt(wlvif))
-			continue;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = wl1271_configure_suspend(wl, wlvif, wow);
 		if (ret < 0) {
 			mutex_unlock(&wl->mutex);
@@ -1883,12 +1868,6 @@ static int wl1271_op_resume(struct ieee80211_hw *hw)
 	}
 
 	wl12xx_for_each_wlvif(wl, wlvif) {
-<<<<<<< HEAD
-=======
-		if (wlcore_is_p2p_mgmt(wlvif))
-			continue;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wl1271_configure_resume(wl, wlvif);
 	}
 
@@ -2232,10 +2211,6 @@ static int wl12xx_init_vif_data(struct wl1271 *wl, struct ieee80211_vif *vif)
 		wlvif->p2p = 1;
 		/* fall-through */
 	case NL80211_IFTYPE_STATION:
-<<<<<<< HEAD
-=======
-	case NL80211_IFTYPE_P2P_DEVICE:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		wlvif->bss_type = BSS_TYPE_STA_BSS;
 		break;
 	case NL80211_IFTYPE_ADHOC:
@@ -2456,12 +2431,7 @@ static void wlcore_hw_queue_iter(void *data, u8 *mac,
 {
 	struct wlcore_hw_queue_iter_data *iter_data = data;
 
-<<<<<<< HEAD
 	if (WARN_ON_ONCE(vif->hw_queue[0] == IEEE80211_INVAL_HW_QUEUE))
-=======
-	if (vif->type == NL80211_IFTYPE_P2P_DEVICE ||
-	    WARN_ON_ONCE(vif->hw_queue[0] == IEEE80211_INVAL_HW_QUEUE))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return;
 
 	if (iter_data->cur_running || vif == iter_data->vif) {
@@ -2479,14 +2449,6 @@ static int wlcore_allocate_hw_queue_base(struct wl1271 *wl,
 	struct wlcore_hw_queue_iter_data iter_data = {};
 	int i, q_base;
 
-<<<<<<< HEAD
-=======
-	if (vif->type == NL80211_IFTYPE_P2P_DEVICE) {
-		vif->cab_queue = IEEE80211_INVAL_HW_QUEUE;
-		return 0;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	iter_data.vif = vif;
 
 	/* mark all bits taken by active interfaces */
@@ -2609,7 +2571,6 @@ static int wl1271_op_add_interface(struct ieee80211_hw *hw,
 			goto out;
 	}
 
-<<<<<<< HEAD
 	ret = wl12xx_cmd_role_enable(wl, vif->addr,
 				     role_type, &wlvif->role_id);
 	if (ret < 0)
@@ -2618,29 +2579,6 @@ static int wl1271_op_add_interface(struct ieee80211_hw *hw,
 	ret = wl1271_init_vif_specific(wl, vif);
 	if (ret < 0)
 		goto out;
-=======
-	if (!wlcore_is_p2p_mgmt(wlvif)) {
-		ret = wl12xx_cmd_role_enable(wl, vif->addr,
-					     role_type, &wlvif->role_id);
-		if (ret < 0)
-			goto out;
-
-		ret = wl1271_init_vif_specific(wl, vif);
-		if (ret < 0)
-			goto out;
-
-	} else {
-		ret = wl12xx_cmd_role_enable(wl, vif->addr, WL1271_ROLE_DEVICE,
-					     &wlvif->dev_role_id);
-		if (ret < 0)
-			goto out;
-
-		/* needed mainly for configuring rate policies */
-		ret = wl1271_sta_hw_init(wl, wlvif);
-		if (ret < 0)
-			goto out;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_add(&wlvif->list, &wl->wlvif_list);
 	set_bit(WLVIF_FLAG_INITIALIZED, &wlvif->flags);
@@ -2711,21 +2649,9 @@ static void __wl1271_op_remove_interface(struct wl1271 *wl,
 				wl12xx_stop_dev(wl, wlvif);
 		}
 
-<<<<<<< HEAD
 		ret = wl12xx_cmd_role_disable(wl, &wlvif->role_id);
 		if (ret < 0)
 			goto deinit;
-=======
-		if (!wlcore_is_p2p_mgmt(wlvif)) {
-			ret = wl12xx_cmd_role_disable(wl, &wlvif->role_id);
-			if (ret < 0)
-				goto deinit;
-		} else {
-			ret = wl12xx_cmd_role_disable(wl, &wlvif->dev_role_id);
-			if (ret < 0)
-				goto deinit;
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		wl1271_ps_elp_sleep(wl);
 	}
@@ -3114,12 +3040,6 @@ static int wl12xx_config_vif(struct wl1271 *wl, struct wl12xx_vif *wlvif,
 {
 	int ret;
 
-<<<<<<< HEAD
-=======
-	if (wlcore_is_p2p_mgmt(wlvif))
-		return 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (conf->power_level != wlvif->power_level) {
 		ret = wl1271_acx_tx_power(wl, wlvif, conf->power_level);
 		if (ret < 0)
@@ -3240,12 +3160,6 @@ static void wl1271_op_configure_filter(struct ieee80211_hw *hw,
 		goto out;
 
 	wl12xx_for_each_wlvif(wl, wlvif) {
-<<<<<<< HEAD
-=======
-		if (wlcore_is_p2p_mgmt(wlvif))
-			continue;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (wlvif->bss_type != BSS_TYPE_AP_BSS) {
 			if (*total & FIF_ALLMULTI)
 				ret = wl1271_acx_group_address_tbl(wl, wlvif,
@@ -4660,53 +4574,10 @@ static void wlcore_op_change_chanctx(struct ieee80211_hw *hw,
 				     struct ieee80211_chanctx_conf *ctx,
 				     u32 changed)
 {
-<<<<<<< HEAD
 	wl1271_debug(DEBUG_MAC80211,
 		     "mac80211 change chanctx %d (type %d) changed 0x%x",
 		     ieee80211_frequency_to_channel(ctx->def.chan->center_freq),
 		     cfg80211_get_chandef_type(&ctx->def), changed);
-=======
-	struct wl1271 *wl = hw->priv;
-	struct wl12xx_vif *wlvif;
-	int ret;
-	int channel = ieee80211_frequency_to_channel(
-		ctx->def.chan->center_freq);
-
-	wl1271_debug(DEBUG_MAC80211,
-		     "mac80211 change chanctx %d (type %d) changed 0x%x",
-		     channel, cfg80211_get_chandef_type(&ctx->def), changed);
-
-	mutex_lock(&wl->mutex);
-
-	ret = wl1271_ps_elp_wakeup(wl);
-	if (ret < 0)
-		goto out;
-
-	wl12xx_for_each_wlvif(wl, wlvif) {
-		struct ieee80211_vif *vif = wl12xx_wlvif_to_vif(wlvif);
-
-		rcu_read_lock();
-		if (rcu_access_pointer(vif->chanctx_conf) != ctx) {
-			rcu_read_unlock();
-			continue;
-		}
-		rcu_read_unlock();
-
-		/* start radar if needed */
-		if (changed & IEEE80211_CHANCTX_CHANGE_RADAR &&
-		    wlvif->bss_type == BSS_TYPE_AP_BSS &&
-		    ctx->radar_enabled && !wlvif->radar_enabled &&
-		    ctx->def.chan->dfs_state == NL80211_DFS_USABLE) {
-			wl1271_debug(DEBUG_MAC80211, "Start radar detection");
-			wlcore_hw_set_cac(wl, wlvif, true);
-			wlvif->radar_enabled = true;
-		}
-	}
-
-	wl1271_ps_elp_sleep(wl);
-out:
-	mutex_unlock(&wl->mutex);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int wlcore_op_assign_vif_chanctx(struct ieee80211_hw *hw,
@@ -4717,7 +4588,6 @@ static int wlcore_op_assign_vif_chanctx(struct ieee80211_hw *hw,
 	struct wl12xx_vif *wlvif = wl12xx_vif_to_data(vif);
 	int channel = ieee80211_frequency_to_channel(
 		ctx->def.chan->center_freq);
-<<<<<<< HEAD
 
 	wl1271_debug(DEBUG_MAC80211,
 		     "mac80211 assign chanctx (role %d) %d (type %d)",
@@ -4725,28 +4595,6 @@ static int wlcore_op_assign_vif_chanctx(struct ieee80211_hw *hw,
 
 	mutex_lock(&wl->mutex);
 
-=======
-	int ret = -EINVAL;
-
-	wl1271_debug(DEBUG_MAC80211,
-		     "mac80211 assign chanctx (role %d) %d (type %d) (radar %d dfs_state %d)",
-		     wlvif->role_id, channel,
-		     cfg80211_get_chandef_type(&ctx->def),
-		     ctx->radar_enabled, ctx->def.chan->dfs_state);
-
-	mutex_lock(&wl->mutex);
-
-	if (unlikely(wl->state != WLCORE_STATE_ON))
-		goto out;
-
-	if (unlikely(!test_bit(WLVIF_FLAG_INITIALIZED, &wlvif->flags)))
-		goto out;
-
-	ret = wl1271_ps_elp_wakeup(wl);
-	if (ret < 0)
-		goto out;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wlvif->band = ctx->def.chan->band;
 	wlvif->channel = channel;
 	wlvif->channel_type = cfg80211_get_chandef_type(&ctx->def);
@@ -4754,18 +4602,6 @@ static int wlcore_op_assign_vif_chanctx(struct ieee80211_hw *hw,
 	/* update default rates according to the band */
 	wl1271_set_band_rate(wl, wlvif);
 
-<<<<<<< HEAD
-=======
-	if (ctx->radar_enabled &&
-	    ctx->def.chan->dfs_state == NL80211_DFS_USABLE) {
-		wl1271_debug(DEBUG_MAC80211, "Start radar detection");
-		wlcore_hw_set_cac(wl, wlvif, true);
-		wlvif->radar_enabled = true;
-	}
-
-	wl1271_ps_elp_sleep(wl);
-out:
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_unlock(&wl->mutex);
 
 	return 0;
@@ -4777,10 +4613,6 @@ static void wlcore_op_unassign_vif_chanctx(struct ieee80211_hw *hw,
 {
 	struct wl1271 *wl = hw->priv;
 	struct wl12xx_vif *wlvif = wl12xx_vif_to_data(vif);
-<<<<<<< HEAD
-=======
-	int ret;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	wl1271_debug(DEBUG_MAC80211,
 		     "mac80211 unassign chanctx (role %d) %d (type %d)",
@@ -4789,100 +4621,6 @@ static void wlcore_op_unassign_vif_chanctx(struct ieee80211_hw *hw,
 		     cfg80211_get_chandef_type(&ctx->def));
 
 	wl1271_tx_flush(wl);
-<<<<<<< HEAD
-=======
-
-	mutex_lock(&wl->mutex);
-
-	if (unlikely(wl->state != WLCORE_STATE_ON))
-		goto out;
-
-	if (unlikely(!test_bit(WLVIF_FLAG_INITIALIZED, &wlvif->flags)))
-		goto out;
-
-	ret = wl1271_ps_elp_wakeup(wl);
-	if (ret < 0)
-		goto out;
-
-	if (wlvif->radar_enabled) {
-		wl1271_debug(DEBUG_MAC80211, "Stop radar detection");
-		wlcore_hw_set_cac(wl, wlvif, false);
-		wlvif->radar_enabled = false;
-	}
-
-	wl1271_ps_elp_sleep(wl);
-out:
-	mutex_unlock(&wl->mutex);
-}
-
-static int __wlcore_switch_vif_chan(struct wl1271 *wl,
-				    struct wl12xx_vif *wlvif,
-				    struct ieee80211_chanctx_conf *new_ctx)
-{
-	int channel = ieee80211_frequency_to_channel(
-		new_ctx->def.chan->center_freq);
-
-	wl1271_debug(DEBUG_MAC80211,
-		     "switch vif (role %d) %d -> %d chan_type: %d",
-		     wlvif->role_id, wlvif->channel, channel,
-		     cfg80211_get_chandef_type(&new_ctx->def));
-
-	if (WARN_ON_ONCE(wlvif->bss_type != BSS_TYPE_AP_BSS))
-		return 0;
-
-	if (wlvif->radar_enabled) {
-		wl1271_debug(DEBUG_MAC80211, "Stop radar detection");
-		wlcore_hw_set_cac(wl, wlvif, false);
-		wlvif->radar_enabled = false;
-	}
-
-	wlvif->band = new_ctx->def.chan->band;
-	wlvif->channel = channel;
-	wlvif->channel_type = cfg80211_get_chandef_type(&new_ctx->def);
-
-	/* start radar if needed */
-	if (new_ctx->radar_enabled) {
-		wl1271_debug(DEBUG_MAC80211, "Start radar detection");
-		wlcore_hw_set_cac(wl, wlvif, true);
-		wlvif->radar_enabled = true;
-	}
-
-	return 0;
-}
-
-static int
-wlcore_op_switch_vif_chanctx(struct ieee80211_hw *hw,
-			     struct ieee80211_vif_chanctx_switch *vifs,
-			     int n_vifs,
-			     enum ieee80211_chanctx_switch_mode mode)
-{
-	struct wl1271 *wl = hw->priv;
-	int i, ret;
-
-	wl1271_debug(DEBUG_MAC80211,
-		     "mac80211 switch chanctx n_vifs %d mode %d",
-		     n_vifs, mode);
-
-	mutex_lock(&wl->mutex);
-
-	ret = wl1271_ps_elp_wakeup(wl);
-	if (ret < 0)
-		goto out;
-
-	for (i = 0; i < n_vifs; i++) {
-		struct wl12xx_vif *wlvif = wl12xx_vif_to_data(vifs[i].vif);
-
-		ret = __wlcore_switch_vif_chan(wl, wlvif, vifs[i].new_ctx);
-		if (ret)
-			goto out_sleep;
-	}
-out_sleep:
-	wl1271_ps_elp_sleep(wl);
-out:
-	mutex_unlock(&wl->mutex);
-
-	return 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int wl1271_op_conf_tx(struct ieee80211_hw *hw,
@@ -4894,12 +4632,6 @@ static int wl1271_op_conf_tx(struct ieee80211_hw *hw,
 	u8 ps_scheme;
 	int ret = 0;
 
-<<<<<<< HEAD
-=======
-	if (wlcore_is_p2p_mgmt(wlvif))
-		return 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	mutex_lock(&wl->mutex);
 
 	wl1271_debug(DEBUG_MAC80211, "mac80211 conf tx %d", queue);
@@ -5879,10 +5611,6 @@ static const struct ieee80211_ops wl1271_ops = {
 	.change_chanctx = wlcore_op_change_chanctx,
 	.assign_vif_chanctx = wlcore_op_assign_vif_chanctx,
 	.unassign_vif_chanctx = wlcore_op_unassign_vif_chanctx,
-<<<<<<< HEAD
-=======
-	.switch_vif_chanctx = wlcore_op_switch_vif_chanctx,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.sta_rc_update = wlcore_op_sta_rc_update,
 	.get_rssi = wlcore_op_get_rssi,
 	CFG80211_TESTMODE_CMD(wl1271_tm_cmd)
@@ -6070,15 +5798,8 @@ static int wl1271_init_ieee80211(struct wl1271 *wl)
 	wl->hw->wiphy->n_cipher_suites = ARRAY_SIZE(cipher_suites);
 
 	wl->hw->wiphy->interface_modes = BIT(NL80211_IFTYPE_STATION) |
-<<<<<<< HEAD
 		BIT(NL80211_IFTYPE_ADHOC) | BIT(NL80211_IFTYPE_AP) |
 		BIT(NL80211_IFTYPE_P2P_CLIENT) | BIT(NL80211_IFTYPE_P2P_GO);
-=======
-					 BIT(NL80211_IFTYPE_AP) |
-					 BIT(NL80211_IFTYPE_P2P_DEVICE) |
-					 BIT(NL80211_IFTYPE_P2P_CLIENT) |
-					 BIT(NL80211_IFTYPE_P2P_GO);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wl->hw->wiphy->max_scan_ssids = 1;
 	wl->hw->wiphy->max_sched_scan_ssids = 16;
 	wl->hw->wiphy->max_match_sets = 16;
@@ -6242,10 +5963,7 @@ struct ieee80211_hw *wlcore_alloc_hw(size_t priv_size, u32 aggr_buf_size,
 	wl->ap_ps_map = 0;
 	wl->ap_fw_ps_map = 0;
 	wl->quirks = 0;
-<<<<<<< HEAD
 	wl->platform_quirks = 0;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wl->system_hlid = WL12XX_SYSTEM_HLID;
 	wl->active_sta_count = 0;
 	wl->active_link_count = 0;
@@ -6386,13 +6104,8 @@ static void wlcore_nvs_cb(const struct firmware *fw, void *context)
 	struct wl1271 *wl = context;
 	struct platform_device *pdev = wl->pdev;
 	struct wlcore_platdev_data *pdev_data = dev_get_platdata(&pdev->dev);
-<<<<<<< HEAD
 	struct wl12xx_platform_data *pdata = pdev_data->pdata;
 	unsigned long irqflags;
-=======
-	struct resource *res;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 	irq_handler_t hardirq_fn = NULL;
 
@@ -6419,7 +6132,6 @@ static void wlcore_nvs_cb(const struct firmware *fw, void *context)
 	/* adjust some runtime configuration parameters */
 	wlcore_adjust_conf(wl);
 
-<<<<<<< HEAD
 	wl->irq = platform_get_irq(pdev, 0);
 	wl->platform_quirks = pdata->platform_quirks;
 	wl->if_ops = pdev_data->if_ops;
@@ -6433,25 +6145,6 @@ static void wlcore_nvs_cb(const struct firmware *fw, void *context)
 
 	ret = request_threaded_irq(wl->irq, hardirq_fn, wlcore_irq,
 				   irqflags, pdev->name, wl);
-=======
-	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-	if (!res) {
-		wl1271_error("Could not get IRQ resource");
-		goto out_free_nvs;
-	}
-
-	wl->irq = res->start;
-	wl->irq_flags = res->flags & IRQF_TRIGGER_MASK;
-	wl->if_ops = pdev_data->if_ops;
-
-	if (wl->irq_flags & (IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING))
-		hardirq_fn = wlcore_hardirq;
-	else
-		wl->irq_flags |= IRQF_ONESHOT;
-
-	ret = request_threaded_irq(wl->irq, hardirq_fn, wlcore_irq,
-				   wl->irq_flags, pdev->name, wl);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0) {
 		wl1271_error("request_irq() failed: %d", ret);
 		goto out_free_nvs;
@@ -6462,11 +6155,7 @@ static void wlcore_nvs_cb(const struct firmware *fw, void *context)
 	if (!ret) {
 		wl->irq_wake_enabled = true;
 		device_init_wakeup(wl->dev, 1);
-<<<<<<< HEAD
 		if (pdata->pwr_in_suspend)
-=======
-		if (pdev_data->pwr_in_suspend)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			wl->hw->wiphy->wowlan = &wlcore_wowlan_support;
 	}
 #endif

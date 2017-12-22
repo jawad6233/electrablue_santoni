@@ -25,11 +25,7 @@
 #include <soc/qcom/subsystem_restart.h>
 #include "glink_private.h"
 
-<<<<<<< HEAD
 #define GLINK_SSR_REPLY_TIMEOUT	1000
-=======
-#define GLINK_SSR_REPLY_TIMEOUT	HZ
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define GLINK_SSR_INTENT_REQ_TIMEOUT_MS 500
 #define GLINK_SSR_EVENT_INIT ~0
 #define NUM_LOG_PAGES 3
@@ -84,22 +80,6 @@ struct configure_and_open_ch_work {
 };
 
 /**
-<<<<<<< HEAD
-=======
- * struct rx_done_ch_work - Work structure used for sending rx_done on
- *				glink_ssr channels
- * handle:	G-Link channel handle to be used for sending rx_done
- * ptr:		Intent pointer data provided in notify rx function
- * work:	Work structure
- */
-struct rx_done_ch_work {
-	void *handle;
-	const void *ptr;
-	struct work_struct work;
-};
-
-/**
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * struct close_ch_work - Work structure for used for closing glink_ssr channels
  * edge:	The G-Link edge name for the channel being closed
  * handle:	G-Link channel handle to be closed
@@ -122,18 +102,6 @@ static LIST_HEAD(subsystem_list);
 static atomic_t responses_remaining = ATOMIC_INIT(0);
 static wait_queue_head_t waitqueue;
 
-<<<<<<< HEAD
-=======
-static void rx_done_cb_worker(struct work_struct *work)
-{
-	struct rx_done_ch_work *rx_done_work =
-		container_of(work, struct rx_done_ch_work, work);
-
-	glink_rx_done(rx_done_work->handle, rx_done_work->ptr, false);
-	kfree(rx_done_work);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void link_state_cb_worker(struct work_struct *work)
 {
 	unsigned long flags;
@@ -228,18 +196,7 @@ void glink_ssr_notify_rx(void *handle, const void *priv, const void *pkt_priv,
 {
 	struct ssr_notify_data *cb_data = (struct ssr_notify_data *)priv;
 	struct cleanup_done_msg *resp = (struct cleanup_done_msg *)ptr;
-<<<<<<< HEAD
 
-=======
-	struct rx_done_ch_work *rx_done_work;
-
-	rx_done_work = kmalloc(sizeof(*rx_done_work), GFP_ATOMIC);
-	if (!rx_done_work) {
-		GLINK_SSR_ERR("<SSR> %s: Could not allocate rx_done_work\n",
-				__func__);
-		return;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (unlikely(!cb_data))
 		goto missing_cb_data;
 	if (unlikely(!cb_data->do_cleanup_data))
@@ -264,13 +221,6 @@ void glink_ssr_notify_rx(void *handle, const void *priv, const void *pkt_priv,
 
 	kfree(cb_data->do_cleanup_data);
 	cb_data->do_cleanup_data = NULL;
-<<<<<<< HEAD
-=======
-	rx_done_work->ptr = ptr;
-	rx_done_work->handle = handle;
-	INIT_WORK(&rx_done_work->work, rx_done_cb_worker);
-	queue_work(glink_ssr_wq, &rx_done_work->work);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	wake_up(&waitqueue);
 	return;
 
@@ -620,11 +570,7 @@ int notify_for_subsystem(struct subsys_info *ss_info)
 
 	wait_ret = wait_event_timeout(waitqueue,
 			atomic_read(&responses_remaining) == 0,
-<<<<<<< HEAD
 			msecs_to_jiffies(GLINK_SSR_REPLY_TIMEOUT));
-=======
-			GLINK_SSR_REPLY_TIMEOUT);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	list_for_each_entry(ss_leaf_entry, &ss_info->notify_list,
 			notify_list_node) {
@@ -796,12 +742,8 @@ bool glink_ssr_wait_cleanup_done(unsigned ssr_timeout_multiplier)
 {
 	int wait_ret =
 		wait_for_completion_timeout(&notifications_successful_complete,
-<<<<<<< HEAD
 			ssr_timeout_multiplier *
 			msecs_to_jiffies(GLINK_SSR_REPLY_TIMEOUT));
-=======
-			ssr_timeout_multiplier * GLINK_SSR_REPLY_TIMEOUT);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	reinit_completion(&notifications_successful_complete);
 
 	if (!notifications_successful || !wait_ret)

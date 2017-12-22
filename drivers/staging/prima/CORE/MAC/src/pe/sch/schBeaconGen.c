@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -381,21 +377,6 @@ tSirRetStatus schSetFixedBeaconFields(tpAniSirGlobal pMac,tpPESession psessionEn
     }
 #endif
 
-<<<<<<< HEAD
-=======
-    if (LIM_IS_AP_ROLE(psessionEntry) && psessionEntry->include_ecsa_ie) {
-       populate_dot11f_ext_chann_switch_ann(pMac, &pBcn2->ext_chan_switch_ann,
-                                              psessionEntry);
-       if (psessionEntry->lim11hEnable) {
-           PopulateDot11fChanSwitchAnn(pMac,
-                                       &pBcn2->ChanSwitchAnn, psessionEntry);
-           if (psessionEntry->include_wide_ch_bw_ie)
-               PopulateDot11fWiderBWChanSwitchAnn(pMac,
-                                &pBcn2->WiderBWChanSwitchAnn, psessionEntry);
-       }
-    }
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     PopulateDot11fExtSuppRates( pMac, POPULATE_DOT11F_RATES_OPERATIONAL,
                                 &pBcn2->ExtSuppRates, psessionEntry );
  
@@ -405,16 +386,6 @@ tSirRetStatus schSetFixedBeaconFields(tpAniSirGlobal pMac,tpPESession psessionEn
                        &pBcn2->WPA );
           PopulateDot11fRSNOpaque( pMac, &psessionEntry->pLimStartBssReq->rsnIE,
                        &pBcn2->RSNOpaque );
-<<<<<<< HEAD
-=======
-#ifdef SAP_AUTH_OFFLOAD
-          /* Software AP Authentication Offload feature
-           * only support WPA2-PSK AES and we
-           * need to update RSNIE for beacon
-           */
-          sap_auth_offload_update_rsn_ie(pMac, &pBcn2->RSNOpaque);
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
 
     if(psessionEntry->limWmeEnabled)
@@ -485,10 +456,7 @@ tSirRetStatus schSetFixedBeaconFields(tpAniSirGlobal pMac,tpPESession psessionEn
         }
 
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     nStatus = dot11fPackBeacon2( pMac, pBcn2,
                                  pMac->sch.schObject.gSchBeaconFrameEnd,
                                  SCH_MAX_BEACON_SIZE, &nBytes );
@@ -616,35 +584,13 @@ void limUpdateProbeRspTemplateIeBitmapBeacon2(tpAniSirGlobal pMac,
                      sizeof(beacon2->PowerConstraints));
 
     }
-<<<<<<< HEAD
-=======
-
-    if (beacon2->ext_chan_switch_ann.present) {
-        SetProbeRspIeBitmap(DefProbeRspIeBitmap,
-                            SIR_MAC_EXT_CHNL_SWITCH_ANN_EID);
-        vos_mem_copy((void *)&prb_rsp->ext_chan_switch_ann,
-                     (void *)&beacon2->ext_chan_switch_ann,
-                     sizeof(beacon2->ext_chan_switch_ann));
-    }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     /* Channel Switch Annoouncement SIR_MAC_CHNL_SWITCH_ANN_EID */
     if(beacon2->ChanSwitchAnn.present)
     {
         SetProbeRspIeBitmap(DefProbeRspIeBitmap,SIR_MAC_CHNL_SWITCH_ANN_EID);
         vos_mem_copy((void *)&prb_rsp->ChanSwitchAnn, (void *)&beacon2->ChanSwitchAnn,
                      sizeof(beacon2->ChanSwitchAnn));
-<<<<<<< HEAD
 
-=======
-       if (beacon2->WiderBWChanSwitchAnn.present)
-       {
-          SetProbeRspIeBitmap(DefProbeRspIeBitmap,
-                              SIR_MAC_WIDER_BW_CHANNEL_SWITCH_ANN);
-          vos_mem_copy((void *)&prb_rsp->WiderBWChanSwitchAnn,
-                     (void *)&beacon2->WiderBWChanSwitchAnn,
-                     sizeof(beacon2->WiderBWChanSwitchAnn));
-       }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }
     /* ERP information */
     if(beacon2->ERPInfo.present)

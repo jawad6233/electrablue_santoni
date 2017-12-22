@@ -11,12 +11,6 @@ typedef struct {
 #endif
 	unsigned int	vmalloc_seq;
 	unsigned long	sigpage;
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_VDSO
-	unsigned long	vdso;
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 } mm_context_t;
 
 #ifdef CONFIG_CPU_HAS_ASID

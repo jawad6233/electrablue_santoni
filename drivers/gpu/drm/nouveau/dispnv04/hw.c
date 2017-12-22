@@ -130,11 +130,7 @@ NVBlankScreen(struct drm_device *dev, int head, bool blank)
 
 static void
 nouveau_hw_decode_pll(struct drm_device *dev, uint32_t reg1, uint32_t pll1,
-<<<<<<< HEAD
 		      uint32_t pll2, struct nouveau_pll_vals *pllvals)
-=======
-		      uint32_t pll2, struct nvkm_pll_vals *pllvals)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
 
@@ -166,19 +162,11 @@ nouveau_hw_decode_pll(struct drm_device *dev, uint32_t reg1, uint32_t pll1,
 
 int
 nouveau_hw_get_pllvals(struct drm_device *dev, enum nvbios_pll_type plltype,
-<<<<<<< HEAD
 		       struct nouveau_pll_vals *pllvals)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
 	struct nvif_device *device = &drm->device;
 	struct nouveau_bios *bios = nvkm_bios(device);
-=======
-		       struct nvkm_pll_vals *pllvals)
-{
-	struct nouveau_drm *drm = nouveau_drm(dev);
-	struct nvif_object *device = &drm->device.object;
-	struct nvkm_bios *bios = nvxx_bios(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t reg1, pll1, pll2 = 0;
 	struct nvbios_pll pll_lim;
 	int ret;
@@ -214,11 +202,7 @@ nouveau_hw_get_pllvals(struct drm_device *dev, enum nvbios_pll_type plltype,
 }
 
 int
-<<<<<<< HEAD
 nouveau_hw_pllvals_to_clk(struct nouveau_pll_vals *pv)
-=======
-nouveau_hw_pllvals_to_clk(struct nvkm_pll_vals *pv)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	/* Avoid divide by zero if called at an inappropriate time */
 	if (!pv->M1 || !pv->M2)
@@ -230,11 +214,7 @@ nouveau_hw_pllvals_to_clk(struct nvkm_pll_vals *pv)
 int
 nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type plltype)
 {
-<<<<<<< HEAD
 	struct nouveau_pll_vals pllvals;
-=======
-	struct nvkm_pll_vals pllvals;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	if (plltype == PLL_MEMORY &&
@@ -273,17 +253,10 @@ nouveau_hw_fix_bad_vpll(struct drm_device *dev, int head)
 
 	struct nouveau_drm *drm = nouveau_drm(dev);
 	struct nvif_device *device = &drm->device;
-<<<<<<< HEAD
 	struct nouveau_clock *clk = nvkm_clock(device);
 	struct nouveau_bios *bios = nvkm_bios(device);
 	struct nvbios_pll pll_lim;
 	struct nouveau_pll_vals pv;
-=======
-	struct nvkm_clk *clk = nvxx_clk(device);
-	struct nvkm_bios *bios = nvxx_bios(device);
-	struct nvbios_pll pll_lim;
-	struct nvkm_pll_vals pv;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	enum nvbios_pll_type pll = head ? PLL_VPLL1 : PLL_VPLL0;
 
 	if (nvbios_pll_parse(bios, pll, &pll_lim))
@@ -490,11 +463,7 @@ nv_load_state_ramdac(struct drm_device *dev, int head,
 		     struct nv04_mode_state *state)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_clock *clk = nvkm_clock(&drm->device);
-=======
-	struct nvkm_clk *clk = nvxx_clk(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nv04_crtc_reg *regp = &state->crtc_reg[head];
 	uint32_t pllreg = head ? NV_RAMDAC_VPLL2 : NV_PRAMDAC_VPLL_COEFF;
 	int i;
@@ -691,12 +660,8 @@ nv_load_state_ext(struct drm_device *dev, int head,
 		  struct nv04_mode_state *state)
 {
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nvif_device *device = &drm->device;
 	struct nouveau_timer *ptimer = nvkm_timer(device);
-=======
-	struct nvif_object *device = &drm->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nv04_crtc_reg *regp = &state->crtc_reg[head];
 	uint32_t reg900;
 	int i;
@@ -713,17 +678,10 @@ nv_load_state_ext(struct drm_device *dev, int head,
 		nvif_wr32(device, NV_PVIDEO_INTR_EN, 0);
 		nvif_wr32(device, NV_PVIDEO_OFFSET_BUFF(0), 0);
 		nvif_wr32(device, NV_PVIDEO_OFFSET_BUFF(1), 0);
-<<<<<<< HEAD
 		nvif_wr32(device, NV_PVIDEO_LIMIT(0), device->info.ram_size - 1);
 		nvif_wr32(device, NV_PVIDEO_LIMIT(1), device->info.ram_size - 1);
 		nvif_wr32(device, NV_PVIDEO_UVPLANE_LIMIT(0), device->info.ram_size - 1);
 		nvif_wr32(device, NV_PVIDEO_UVPLANE_LIMIT(1), device->info.ram_size - 1);
-=======
-		nvif_wr32(device, NV_PVIDEO_LIMIT(0), drm->device.info.ram_size - 1);
-		nvif_wr32(device, NV_PVIDEO_LIMIT(1), drm->device.info.ram_size - 1);
-		nvif_wr32(device, NV_PVIDEO_UVPLANE_LIMIT(0), drm->device.info.ram_size - 1);
-		nvif_wr32(device, NV_PVIDEO_UVPLANE_LIMIT(1), drm->device.info.ram_size - 1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		nvif_wr32(device, NV_PBUS_POWERCTRL_2, 0);
 
 		NVWriteCRTC(dev, head, NV_PCRTC_CURSOR_CONFIG, regp->cursor_cfg);
@@ -783,19 +741,8 @@ nv_load_state_ext(struct drm_device *dev, int head,
 		if (drm->device.info.family < NV_DEVICE_INFO_V0_KELVIN) {
 			/* Not waiting for vertical retrace before modifying
 			   CRE_53/CRE_54 causes lockups. */
-<<<<<<< HEAD
 			nouveau_timer_wait_eq(ptimer, 650000000, NV_PRMCIO_INP0__COLOR, 0x8, 0x8);
 			nouveau_timer_wait_eq(ptimer, 650000000, NV_PRMCIO_INP0__COLOR, 0x8, 0x0);
-=======
-			nvif_msec(&drm->device, 650,
-				if ( (nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 8))
-					break;
-			);
-			nvif_msec(&drm->device, 650,
-				if (!(nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 8))
-					break;
-			);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		wr_cio_state(dev, head, regp, NV_CIO_CRE_42);
@@ -818,11 +765,7 @@ static void
 nv_save_state_palette(struct drm_device *dev, int head,
 		      struct nv04_mode_state *state)
 {
-<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(dev)->device;
-=======
-	struct nvif_object *device = &nouveau_drm(dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int head_offset = head * NV_PRMDIO_SIZE, i;
 
 	nvif_wr08(device, NV_PRMDIO_PIXEL_MASK + head_offset,
@@ -841,11 +784,7 @@ void
 nouveau_hw_load_state_palette(struct drm_device *dev, int head,
 			      struct nv04_mode_state *state)
 {
-<<<<<<< HEAD
 	struct nvif_device *device = &nouveau_drm(dev)->device;
-=======
-	struct nvif_object *device = &nouveau_drm(dev)->device.object;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int head_offset = head * NV_PRMDIO_SIZE, i;
 
 	nvif_wr08(device, NV_PRMDIO_PIXEL_MASK + head_offset,

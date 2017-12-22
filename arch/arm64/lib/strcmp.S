@@ -61,15 +61,12 @@ zeroones	.req	x10
 pos		.req	x11
 
 ENTRY(strcmp)
-<<<<<<< HEAD
 	prfm    pldl1strm, [src1]
 	prfm    pldl1strm, [src2]
 	b	.Lperf_critical
 .align  6
 .Lperf_critical:
 	/* Start of performance-critical section  -- one 64B cache line.  */
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	eor	tmp1, src1, src2
 	mov	zeroones, #REP8_01
 	tst	tmp1, #7
@@ -86,11 +83,8 @@ ENTRY(strcmp)
 	ldr	data1, [src1], #8
 	ldr	data2, [src2], #8
 .Lstart_realigned:
-<<<<<<< HEAD
 	prfm    pldl1strm, [src1]
 	prfm    pldl1strm, [src2]
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	sub	tmp1, data1, zeroones
 	orr	tmp2, data1, #REP8_7f
 	eor	diff, data1, data2	/* Non-zero if differences found.  */

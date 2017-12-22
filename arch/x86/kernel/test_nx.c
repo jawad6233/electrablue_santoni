@@ -142,10 +142,7 @@ static int test_NX(void)
 	 * by the error message
 	 */
 
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_RODATA
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* Test 3: Check if the .rodata section is executable */
 	if (rodata_test_data != 0xC3) {
 		printk(KERN_ERR "test_nx: .rodata marker has invalid value\n");
@@ -154,10 +151,7 @@ static int test_NX(void)
 		printk(KERN_ERR "test_nx: .rodata section is executable\n");
 		ret = -ENODEV;
 	}
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #if 0
 	/* Test 4: Check if the .data section of a module is executable */

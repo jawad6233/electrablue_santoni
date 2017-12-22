@@ -6,10 +6,7 @@
  * is Copyright (c) Steven Rostedt <srostedt@redhat.com>
  *
  */
-<<<<<<< HEAD
 #include <linux/debugfs.h>
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/uaccess.h>
 #include <linux/ftrace.h>
 #include <linux/slab.h>
@@ -159,11 +156,7 @@ ftrace_push_return_trace(unsigned long ret, unsigned long func, int *depth,
 	 * The curr_ret_stack is initialized to -1 and get increased
 	 * in this function.  So it can be less than -1 only if it was
 	 * filtered out via ftrace_graph_notrace_addr() which can be
-<<<<<<< HEAD
 	 * set from set_graph_notrace file in debugfs by user.
-=======
-	 * set from set_graph_notrace file in tracefs by user.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	 */
 	if (current->curr_ret_stack < -1)
 		return -EBUSY;
@@ -1600,20 +1593,12 @@ static const struct file_operations graph_depth_fops = {
 	.llseek		= generic_file_llseek,
 };
 
-<<<<<<< HEAD
 static __init int init_graph_debugfs(void)
-=======
-static __init int init_graph_tracefs(void)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct dentry *d_tracer;
 
 	d_tracer = tracing_init_dentry();
-<<<<<<< HEAD
 	if (!d_tracer)
-=======
-	if (IS_ERR(d_tracer))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return 0;
 
 	trace_create_file("max_graph_depth", 0644, d_tracer,
@@ -1621,11 +1606,7 @@ static __init int init_graph_tracefs(void)
 
 	return 0;
 }
-<<<<<<< HEAD
 fs_initcall(init_graph_debugfs);
-=======
-fs_initcall(init_graph_tracefs);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static __init int init_graph_trace(void)
 {

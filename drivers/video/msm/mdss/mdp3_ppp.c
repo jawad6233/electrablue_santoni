@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2007, 2013-2014, 2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2007, 2013-2014, 2016-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * Copyright (C) 2007 Google Incorporated
  *
  * This software is licensed under the terms of the GNU General Public
@@ -41,21 +37,14 @@
 #define MDP_PPP_MAX_BPP 4
 #define MDP_PPP_DYNAMIC_FACTOR 3
 #define MDP_PPP_MAX_READ_WRITE 3
-<<<<<<< HEAD
-=======
-#define MDP_PPP_MAX_WIDTH	0xFFF
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define ENABLE_SOLID_FILL	0x2
 #define DISABLE_SOLID_FILL	0x0
 #define BLEND_LATENCY		3
 #define CSC_LATENCY		1
 
-<<<<<<< HEAD
 #define CLK_FUDGE_NUM		12
 #define CLK_FUDGE_DEN		10
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define YUV_BW_FUDGE_NUM	10
 #define YUV_BW_FUDGE_DEN	10
 
@@ -112,13 +101,7 @@ struct ppp_status {
 	struct mutex config_ppp_mutex; /* Only one client configure register */
 	struct msm_fb_data_type *mfd;
 
-<<<<<<< HEAD
 	struct work_struct blit_work;
-=======
-	struct kthread_work blit_work;
-	struct kthread_worker kworker;
-	struct task_struct *blit_thread;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct blit_req_queue req_q;
 
 	struct sw_sync_timeline *timeline;
@@ -167,14 +150,6 @@ int mdp3_ppp_get_img(struct mdp_img *img, struct mdp_blit_req *req,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-	if (img->width > MDP_PPP_MAX_WIDTH) {
-		pr_err("%s incorrect width %d\n", __func__, img->width);
-		return -EINVAL;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fb_data.flags = img->priv;
 	fb_data.memory_id = img->memory_id;
 	fb_data.offset = 0;
@@ -555,11 +530,6 @@ int mdp3_calc_ppp_res(struct msm_fb_data_type *mfd,
 	int i, lcount = 0;
 	struct mdp_blit_req *req;
 	struct bpp_info bpp;
-<<<<<<< HEAD
-=======
-	u64 old_solid_fill_pixel = 0;
-	u64 new_solid_fill_pixel = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u64 src_read_bw = 0;
 	u32 bg_read_bw = 0;
 	u32 dst_write_bw = 0;
@@ -578,23 +548,12 @@ int mdp3_calc_ppp_res(struct msm_fb_data_type *mfd,
 	if (lreq->req_list[0].flags & MDP_SOLID_FILL) {
 		req = &(lreq->req_list[0]);
 		mdp3_get_bpp_info(req->dst.format, &bpp);
-<<<<<<< HEAD
 		ppp_res.solid_fill_pixel += req->dst_rect.w * req->dst_rect.h;
 		ppp_res.solid_fill_byte += req->dst_rect.w * req->dst_rect.h *
 						bpp.bpp_num / bpp.bpp_den;
 		if ((panel_info->yres/2 > req->dst_rect.h) ||
 			(mdp3_res->solid_fill_vote_en)) {
 			pr_debug("Solid fill less than H/2 or fill vote %d\n",
-=======
-		old_solid_fill_pixel = ppp_res.solid_fill_pixel;
-		new_solid_fill_pixel = req->dst_rect.w * req->dst_rect.h;
-		ppp_res.solid_fill_pixel += new_solid_fill_pixel;
-		ppp_res.solid_fill_byte += req->dst_rect.w * req->dst_rect.h *
-						bpp.bpp_num / bpp.bpp_den;
-		if ((old_solid_fill_pixel >= new_solid_fill_pixel) ||
-			(mdp3_res->solid_fill_vote_en)) {
-			pr_debug("Last fill pixels are higher or fill_en %d\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				mdp3_res->solid_fill_vote_en);
 			ATRACE_END(__func__);
 			return 0;
@@ -1240,10 +1199,6 @@ void mdp3_ppp_wait_for_fence(struct blit_req_list *req)
 void mdp3_ppp_signal_timeline(struct blit_req_list *req)
 {
 	sw_sync_timeline_inc(ppp_stat->timeline, 1);
-<<<<<<< HEAD
-=======
-	MDSS_XLOG(ppp_stat->timeline->value, ppp_stat->timeline_value);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	req->last_rel_fence = req->cur_rel_fence;
 	req->cur_rel_fence = 0;
 }
@@ -1300,10 +1255,6 @@ static int mdp3_ppp_handle_buf_sync(struct blit_req_list *req,
 
 	req->cur_rel_sync_pt = sw_sync_pt_create(ppp_stat->timeline,
 			ppp_stat->timeline_value++);
-<<<<<<< HEAD
-=======
-	MDSS_XLOG(ppp_stat->timeline_value);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (req->cur_rel_sync_pt == NULL) {
 		pr_err("%s: cannot create sync point\n", __func__);
 		ret = -ENOMEM;
@@ -1527,11 +1478,7 @@ static bool is_blit_optimization_possible(struct blit_req_list *req, int indx)
 	return status;
 }
 
-<<<<<<< HEAD
 static void mdp3_ppp_blit_wq_handler(struct work_struct *work)
-=======
-static void mdp3_ppp_blit_handler(struct kthread_work *work)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	struct msm_fb_data_type *mfd = ppp_stat->mfd;
 	struct blit_req_list *req;
@@ -1699,11 +1646,7 @@ int mdp3_ppp_parse_req(void __user *p,
 
 	mdp3_ppp_req_push(req_q, req);
 	mutex_unlock(&ppp_stat->req_mutex);
-<<<<<<< HEAD
 	schedule_work(&ppp_stat->blit_work);
-=======
-	queue_kthread_work(&ppp_stat->kworker, &ppp_stat->blit_work);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (!async) {
 		/* wait for release fence */
 		rc = sync_fence_wait(fence,
@@ -1730,14 +1673,7 @@ parse_err_1:
 
 int mdp3_ppp_res_init(struct msm_fb_data_type *mfd)
 {
-<<<<<<< HEAD
 	const char timeline_name[] = "mdp3_ppp";
-=======
-	int rc;
-	struct sched_param param = {.sched_priority = 16};
-	const char timeline_name[] = "mdp3_ppp";
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ppp_stat = kzalloc(sizeof(struct ppp_status), GFP_KERNEL);
 	if (!ppp_stat) {
 		pr_err("%s: kzalloc failed\n", __func__);
@@ -1753,26 +1689,7 @@ int mdp3_ppp_res_init(struct msm_fb_data_type *mfd)
 		ppp_stat->timeline_value = 1;
 	}
 
-<<<<<<< HEAD
 	INIT_WORK(&ppp_stat->blit_work, mdp3_ppp_blit_wq_handler);
-=======
-	init_kthread_worker(&ppp_stat->kworker);
-	init_kthread_work(&ppp_stat->blit_work, mdp3_ppp_blit_handler);
-	ppp_stat->blit_thread = kthread_run(kthread_worker_fn,
-					&ppp_stat->kworker,
-					"mdp3_ppp");
-
-	if (IS_ERR(ppp_stat->blit_thread)) {
-		rc = PTR_ERR(ppp_stat->blit_thread);
-		pr_err("ERROR: unable to start ppp blit thread,err = %d\n",
-							rc);
-		ppp_stat->blit_thread = NULL;
-		return rc;
-	}
-	if (sched_setscheduler(ppp_stat->blit_thread, SCHED_FIFO, &param))
-		pr_warn("set priority failed for mdp3 blit thread\n");
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	INIT_WORK(&ppp_stat->free_bw_work, mdp3_free_bw_wq_handler);
 	init_completion(&ppp_stat->pop_q_comp);
 	mutex_init(&ppp_stat->req_mutex);

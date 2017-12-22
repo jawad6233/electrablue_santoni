@@ -249,11 +249,7 @@ struct ttm_buffer_object {
 	 * either of these locks held.
 	 */
 
-<<<<<<< HEAD
 	unsigned long offset;
-=======
-	uint64_t offset; /* GPU address space is independent of CPU word size */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	uint32_t cur_placement;
 
 	struct sg_table *sg;

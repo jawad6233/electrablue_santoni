@@ -88,12 +88,6 @@ RSSI *cannot* be more than 0xFF or less than 0 for meaningful WLAN operation
 #define CSR_SCAN_MAX_SCORE_VAL 0xFF
 #define CSR_SCAN_MIN_SCORE_VAL 0x0
 #define CSR_SCAN_HANDOFF_DELTA 10
-<<<<<<< HEAD
-=======
-
-#define CSR_PURGE_RSSI_THRESHOLD -70
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define MAX_ACTIVE_SCAN_FOR_ONE_CHANNEL 140
 #define MIN_ACTIVE_SCAN_FOR_ONE_CHANNEL 120
 
@@ -131,10 +125,6 @@ tCsrIgnoreChannels countryIgnoreList[MAX_COUNTRY_IGNORE] = { };
 extern tSirRetStatus wlan_cfgGetStr(tpAniSirGlobal, tANI_U16, tANI_U8*, tANI_U32*);
 
 void csrScanGetResultTimerHandler(void *);
-<<<<<<< HEAD
-=======
-void csr_handle_disable_scan(void *pv);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void csrPurgeScanResultByAge(void *pv);
 void csrScanIdleScanTimerHandler(void *);
 static void csrSetDefaultScanTiming( tpAniSirGlobal pMac, tSirScanType scanType, tCsrScanRequest *pScanRequest);
@@ -158,11 +148,7 @@ eHalStatus csrSetBGScanChannelList( tpAniSirGlobal pMac, tANI_U8 *pAdjustChannel
 void csrReleaseCmdSingle(tpAniSirGlobal pMac, tSmeCmd *pCommand);
 tANI_BOOLEAN csrRoamIsValidChannel( tpAniSirGlobal pMac, tANI_U8 channel );
 void csrPruneChannelListForMode( tpAniSirGlobal pMac, tCsrChannel *pChannelList );
-<<<<<<< HEAD
 void csrPurgeOldScanResults(tpAniSirGlobal pMac);
-=======
-void csrPurgeScanResults(tpAniSirGlobal pMac);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 
 
@@ -250,18 +236,6 @@ eHalStatus csrScanOpen( tpAniSirGlobal pMac )
             smsLog(pMac, LOGE, FL("cannot allocate memory for idleScan timer"));
             break;
         }
-<<<<<<< HEAD
-=======
-        status = vos_timer_init(&pMac->scan.disable_scan_during_sco_timer,
-                                VOS_TIMER_TYPE_SW,
-                                csr_handle_disable_scan,
-                                pMac);
-        if (!HAL_STATUS_SUCCESS(status)) {
-            smsLog(pMac, LOGE,
-                   FL("cannot allocate memory for disable_scan_during_sco_timer"));
-            break;
-        }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     }while(0);
     
     return (status);
@@ -290,10 +264,6 @@ eHalStatus csrScanClose( tpAniSirGlobal pMac )
     vos_timer_destroy(&pMac->scan.hTimerStaApConcTimer);
 #endif
     vos_timer_destroy(&pMac->scan.hTimerIdleScan);
-<<<<<<< HEAD
-=======
-    vos_timer_destroy(&pMac->scan.disable_scan_during_sco_timer);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     return eHAL_STATUS_SUCCESS;
 }
 
@@ -495,11 +465,7 @@ eHalStatus csrQueueScanRequest( tpAniSirGlobal pMac, tSmeCmd *pScanCmd )
             pChnInfo->numOfChannels = pScanCmd->u.scanCmd.u.scanRequest.ChannelInfo.numOfChannels - nNumChanCombinedConc;
 
             VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_WARN,
-<<<<<<< HEAD
                     FL(" &channelToScan %p pScanCmd(%p) pScanCmd->u.scanCmd.u.scanRequest.ChannelInfo.ChannelList(%p)numChn(%d)"),
-=======
-                    FL(" &channelToScan %pK pScanCmd(%pK) pScanCmd->u.scanCmd.u.scanRequest.ChannelInfo.ChannelList(%pK)numChn(%d)"),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
                     &channelToScan[0], pScanCmd,
                     pScanCmd->u.scanCmd.u.scanRequest.ChannelInfo.ChannelList, numChn);
 
@@ -1748,7 +1714,6 @@ eHalStatus csrScanHandleSearchForSSID(tpAniSirGlobal pMac, tSmeCmd *pCommand)
             smsLog(pMac, LOGE, FL("session %d not found"), sessionId);
             break;
         }
-<<<<<<< HEAD
         /* If Disconnect is already issued from HDD no need to issue connect
          * pSession->abortConnection will not be set in case of try
          * disconnect or hdd stop adaptor use connectState for these cases.
@@ -1756,10 +1721,6 @@ eHalStatus csrScanHandleSearchForSSID(tpAniSirGlobal pMac, tSmeCmd *pCommand)
         if (pSession->abortConnection ||
             (pMac->roam.roamSession[sessionId].connectState ==
             eCSR_ASSOC_STATE_TYPE_INFRA_DISCONNECTING))
-=======
-        /* If Disconnect is already issued from HDD no need to issue connect */
-        if (pSession->abortConnection)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         {
            smsLog(pMac, LOGE,
               FL("Disconnect in progress, no need to issue connect"));
@@ -3712,11 +3673,7 @@ static void csrMoveTempScanResultsToMainList( tpAniSirGlobal pMac, tANI_U8 reaso
           )
         {
             smsLog(pMac, LOG1, FL("########## BSS Limit reached ###########"));
-<<<<<<< HEAD
             csrPurgeOldScanResults(pMac);
-=======
-            csrPurgeScanResults(pMac);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         }
         // check for duplicate scan results
         if ( !fDupBss )
@@ -3835,7 +3792,6 @@ end:
     return;
 }
 
-<<<<<<< HEAD
 void csrPurgeOldScanResults(tpAniSirGlobal pMac)
 {
     tListElem *pEntry, *tmpEntry;
@@ -3846,30 +3802,6 @@ void csrPurgeOldScanResults(tpAniSirGlobal pMac)
     csrLLLock(&pMac->scan.scanResultList);
     pEntry = csrLLPeekHead( &pMac->scan.scanResultList, LL_ACCESS_NOLOCK );
     while( pEntry )
-=======
-/**
- * csrPurgeScanResults() - This function removes scan entry based
- * on RSSI or AGE
- * @pMac: pointer to Global MAC structure
- *
- * This function removes scan entry based on RSSI or AGE.
- * If an scan entry with RSSI less than CSR_PURGE_RSSI_THRESHOLD,
- * the scan entry is removed else oldest entry is removed.
- *
- * Return: None
- */
-void csrPurgeScanResults(tpAniSirGlobal pMac)
-{
-    tListElem *pEntry, *tmpEntry;
-    tCsrScanResult *pResult, *oldest_bss = NULL, *weakest_bss = NULL;
-    v_TIME_t oldest_entry = 0;
-    v_TIME_t curTime = vos_timer_get_system_time();
-    tANI_S8 weakest_rssi = 0;
-
-    csrLLLock(&pMac->scan.scanResultList);
-    pEntry = csrLLPeekHead( &pMac->scan.scanResultList, LL_ACCESS_NOLOCK );
-    while(pEntry)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     {
         tmpEntry = csrLLNext(&pMac->scan.scanResultList, pEntry,
                 LL_ACCESS_NOLOCK);
@@ -3881,19 +3813,10 @@ void csrPurgeScanResults(tpAniSirGlobal pMac)
                                 pResult->Result.BssDescriptor.nReceivedTime;
             oldest_bss = pResult;
         }
-<<<<<<< HEAD
-=======
-        if (pResult->Result.BssDescriptor.rssi < weakest_rssi)
-        {
-            weakest_rssi = pResult->Result.BssDescriptor.rssi;
-            weakest_bss = pResult;
-        }
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         pEntry = tmpEntry;
     }
     if (oldest_bss)
     {
-<<<<<<< HEAD
         //Free the old BSS Entries
         if( csrLLRemoveEntry(&pMac->scan.scanResultList,
                                &oldest_bss->Link, LL_ACCESS_NOLOCK) )
@@ -3902,27 +3825,6 @@ void csrPurgeScanResults(tpAniSirGlobal pMac)
                     (curTime - oldest_bss->Result.BssDescriptor.nReceivedTime),
                     MAC_ADDR_ARRAY(oldest_bss->Result.BssDescriptor.bssId));
             csrFreeScanResultEntry(pMac, oldest_bss);
-=======
-        tCsrScanResult *bss_to_remove;
-
-        if (weakest_rssi < CSR_PURGE_RSSI_THRESHOLD)
-            bss_to_remove = weakest_bss;
-        else
-            bss_to_remove = oldest_bss;
-
-        //Free the old BSS Entries
-        if(csrLLRemoveEntry(&pMac->scan.scanResultList,
-                       &bss_to_remove->Link, LL_ACCESS_NOLOCK))
-        {
-            smsLog(pMac, LOG1,
-               FL("BSSID: "MAC_ADDRESS_STR" Removed, time delta (%lu) RSSI %d"),
-               MAC_ADDR_ARRAY(
-               bss_to_remove->Result.BssDescriptor.bssId),
-               (curTime -
-               bss_to_remove->Result.BssDescriptor.nReceivedTime),
-               bss_to_remove->Result.BssDescriptor.rssi);
-            csrFreeScanResultEntry(pMac, bss_to_remove);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
         }
     }
     csrLLUnlock(&pMac->scan.scanResultList);
@@ -7166,24 +7068,6 @@ void csrScanGetResultTimerHandler(void *pv)
     vos_timer_start(&pMac->scan.hTimerGetResult, CSR_SCAN_GET_RESULT_INTERVAL/PAL_TIMER_TO_MS_UNIT);
 }
 
-<<<<<<< HEAD
-=======
-
-void csr_handle_disable_scan(void *pv)
-{
-    tpAniSirGlobal mac = PMAC_STRUCT(pv);
-
-    if (mac->scan.disable_scan_during_sco_timer_info.callback)
-        mac->scan.disable_scan_during_sco_timer_info.callback(
-        mac,
-        mac->scan.disable_scan_during_sco_timer_info.dev,
-        mac->scan.disable_scan_during_sco_timer_info.scan_id,
-        eHAL_STATUS_SUCCESS);
-    else
-        smsLog(mac, LOGE, FL("Callback is NULL"));
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #ifdef WLAN_AP_STA_CONCURRENCY
 static void csrStaApConcTimerHandler(void *pv)
 {
@@ -9276,28 +9160,6 @@ eHalStatus csrScanSavePreferredNetworkFound(tpAniSirGlobal pMac,
    vos_mem_copy((tANI_U8 *) &pBssDescr->bssId, (tANI_U8 *) macHeader->bssId, sizeof(tSirMacAddr));
    pBssDescr->nReceivedTime = vos_timer_get_system_time();
 
-<<<<<<< HEAD
-=======
-#ifdef WLAN_FEATURE_VOWIFI_11R
-    // MobilityDomain
-    pBssDescr->mdie[0] = 0;
-    pBssDescr->mdie[1] = 0;
-    pBssDescr->mdie[2] = 0;
-    pBssDescr->mdiePresent = FALSE;
-    // If mdie is present in the probe resp we fill it in the bss description
-    if(pParsedFrame->mdiePresent)
-    {
-        pBssDescr->mdiePresent = TRUE;
-        pBssDescr->mdie[0] = pParsedFrame->mdie[0];
-        pBssDescr->mdie[1] = pParsedFrame->mdie[1];
-        pBssDescr->mdie[2] = pParsedFrame->mdie[2];
-    }
-    smsLog(pMac, LOG1, FL("mdie=%02x%02x%02x"),
-           (unsigned int)pBssDescr->mdie[0], (unsigned int)pBssDescr->mdie[1],
-           (unsigned int)pBssDescr->mdie[2]);
-#endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    smsLog( pMac, LOG1, FL("Bssid= "MAC_ADDRESS_STR
                        " chan= %d, rssi = %d "),
                        MAC_ADDR_ARRAY(pBssDescr->bssId),

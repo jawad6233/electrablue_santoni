@@ -69,7 +69,6 @@ static u32 get_ccsidr(u32 csselr)
 	return ccsidr;
 }
 
-<<<<<<< HEAD
 static void do_dc_cisw(u32 val)
 {
 	asm volatile("dc cisw, %x0" : : "r" (val));
@@ -83,16 +82,10 @@ static void do_dc_csw(u32 val)
 }
 
 /* See note at ARM ARM B1.14.4 */
-=======
-/*
- * See note at ARMv7 ARM B1.14.4 (TL;DR: S/W ops are not easily virtualized).
- */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static bool access_dcsw(struct kvm_vcpu *vcpu,
 			const struct sys_reg_params *p,
 			const struct sys_reg_desc *r)
 {
-<<<<<<< HEAD
 	unsigned long val;
 	int cpu;
 
@@ -126,33 +119,18 @@ static bool access_dcsw(struct kvm_vcpu *vcpu,
 done:
 	put_cpu();
 
-=======
-	if (!p->is_write)
-		return read_from_write_only(vcpu, p);
-
-	kvm_set_way_flush(vcpu);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return true;
 }
 
 /*
  * Generic accessor for VM registers. Only called as long as HCR_TVM
-<<<<<<< HEAD
  * is set.
-=======
- * is set. If the guest enables the MMU, we stop trapping the VM
- * sys_regs and leave it in complete control of the caches.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 static bool access_vm_reg(struct kvm_vcpu *vcpu,
 			  const struct sys_reg_params *p,
 			  const struct sys_reg_desc *r)
 {
 	unsigned long val;
-<<<<<<< HEAD
-=======
-	bool was_enabled = vcpu_has_cache_enabled(vcpu);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	BUG_ON(!p->is_write);
 
@@ -165,7 +143,6 @@ static bool access_vm_reg(struct kvm_vcpu *vcpu,
 		vcpu_cp15_64_low(vcpu, r->reg) = val & 0xffffffffUL;
 	}
 
-<<<<<<< HEAD
 	return true;
 }
 
@@ -185,9 +162,6 @@ static bool access_sctlr(struct kvm_vcpu *vcpu,
 		stage2_flush_vm(vcpu->kvm);
 	}
 
-=======
-	kvm_toggle_cache(vcpu, was_enabled);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return true;
 }
 
@@ -403,11 +377,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
 	  NULL, reset_mpidr, MPIDR_EL1 },
 	/* SCTLR_EL1 */
 	{ Op0(0b11), Op1(0b000), CRn(0b0001), CRm(0b0000), Op2(0b000),
-<<<<<<< HEAD
 	  access_sctlr, reset_val, SCTLR_EL1, 0x00C50078 },
-=======
-	  access_vm_reg, reset_val, SCTLR_EL1, 0x00C50078 },
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/* CPACR_EL1 */
 	{ Op0(0b11), Op1(0b000), CRn(0b0001), CRm(0b0000), Op2(0b010),
 	  NULL, reset_val, CPACR_EL1, 0 },
@@ -539,7 +509,6 @@ static bool trap_dbgidr(struct kvm_vcpu *vcpu,
 	if (p->is_write) {
 		return ignore_write(vcpu, p);
 	} else {
-<<<<<<< HEAD
 		u64 dfr = read_cpuid(ID_AA64DFR0_EL1);
 		u64 pfr = read_cpuid(ID_AA64PFR0_EL1);
 		u32 el3 = !!((pfr >> 12) & 0xf);
@@ -547,15 +516,6 @@ static bool trap_dbgidr(struct kvm_vcpu *vcpu,
 		*vcpu_reg(vcpu, p->Rt) = ((((dfr >> 20) & 0xf) << 28) |
 					  (((dfr >> 12) & 0xf) << 24) |
 					  (((dfr >> 28) & 0xf) << 20) |
-=======
-		u64 dfr = read_system_reg(SYS_ID_AA64DFR0_EL1);
-		u64 pfr = read_system_reg(SYS_ID_AA64PFR0_EL1);
-		u32 el3 = !!cpuid_feature_extract_field(pfr, ID_AA64PFR0_EL3_SHIFT);
-
-		*vcpu_reg(vcpu, p->Rt) = ((((dfr >> ID_AA64DFR0_WRPS_SHIFT) & 0xf) << 28) |
-					  (((dfr >> ID_AA64DFR0_BRPS_SHIFT) & 0xf) << 24) |
-					  (((dfr >> ID_AA64DFR0_CTX_CMPS_SHIFT) & 0xf) << 20) |
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					  (6 << 16) | (el3 << 14) | (el3 << 12));
 		return true;
 	}
@@ -697,11 +657,7 @@ static const struct sys_reg_desc cp14_64_regs[] = {
  * register).
  */
 static const struct sys_reg_desc cp15_regs[] = {
-<<<<<<< HEAD
 	{ Op1( 0), CRn( 1), CRm( 0), Op2( 0), access_sctlr, NULL, c1_SCTLR },
-=======
-	{ Op1( 0), CRn( 1), CRm( 0), Op2( 0), access_vm_reg, NULL, c1_SCTLR },
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	{ Op1( 0), CRn( 2), CRm( 0), Op2( 0), access_vm_reg, NULL, c2_TTBR0 },
 	{ Op1( 0), CRn( 2), CRm( 0), Op2( 1), access_vm_reg, NULL, c2_TTBR1 },
 	{ Op1( 0), CRn( 2), CRm( 0), Op2( 2), access_vm_reg, NULL, c2_TTBCR },

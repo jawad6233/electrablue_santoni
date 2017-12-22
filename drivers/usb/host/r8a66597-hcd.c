@@ -1269,11 +1269,7 @@ static void set_td_timer(struct r8a66597 *r8a66597, struct r8a66597_td *td)
 			time = 30;
 			break;
 		default:
-<<<<<<< HEAD
 			time = 50;
-=======
-			time = 300;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			break;
 		}
 
@@ -1789,10 +1785,7 @@ static void r8a66597_td_timer(unsigned long _r8a66597)
 		pipe = td->pipe;
 		pipe_stop(r8a66597, pipe);
 
-<<<<<<< HEAD
 		/* Select a different address or endpoint */
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		new_td = td;
 		do {
 			list_move_tail(&new_td->queue,
@@ -1802,12 +1795,8 @@ static void r8a66597_td_timer(unsigned long _r8a66597)
 				new_td = td;
 				break;
 			}
-<<<<<<< HEAD
 		} while (td != new_td && td->address == new_td->address &&
 			td->pipe->info.epnum == new_td->pipe->info.epnum);
-=======
-		} while (td != new_td && td->address == new_td->address);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		start_transfer(r8a66597, new_td);
 

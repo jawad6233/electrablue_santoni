@@ -40,13 +40,8 @@ nouveau_hwmon_show_temp(struct device *d, struct device_attribute *a, char *buf)
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 	int temp = therm->temp_get(therm);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-	int temp = nvkm_therm_temp_get(therm);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (temp < 0)
 		return temp;
@@ -71,17 +66,10 @@ nouveau_hwmon_temp1_auto_point1_temp(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	      therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_FAN_BOOST) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	      therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_temp1_auto_point1_temp(struct device *d,
@@ -90,21 +78,13 @@ nouveau_hwmon_set_temp1_auto_point1_temp(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_FAN_BOOST,
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			value / 1000);
 
 	return count;
@@ -119,17 +99,10 @@ nouveau_hwmon_temp1_auto_point1_temp_hyst(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	 therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_FAN_BOOST_HYST) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	 therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_temp1_auto_point1_temp_hyst(struct device *d,
@@ -138,21 +111,13 @@ nouveau_hwmon_set_temp1_auto_point1_temp_hyst(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_FAN_BOOST_HYST,
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			value / 1000);
 
 	return count;
@@ -166,17 +131,10 @@ nouveau_hwmon_max_temp(struct device *d, struct device_attribute *a, char *buf)
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	       therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_DOWN_CLK) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	       therm->attr_get(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_max_temp(struct device *d, struct device_attribute *a,
@@ -184,21 +142,13 @@ nouveau_hwmon_set_max_temp(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_DOWN_CLK, value / 1000);
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK, value / 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return count;
 }
@@ -212,17 +162,10 @@ nouveau_hwmon_max_temp_hyst(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	  therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_DOWN_CLK_HYST) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK_HYST) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_max_temp_hyst(struct device *d, struct device_attribute *a,
@@ -230,21 +173,13 @@ nouveau_hwmon_set_max_temp_hyst(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_DOWN_CLK_HYST,
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK_HYST,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			value / 1000);
 
 	return count;
@@ -259,17 +194,10 @@ nouveau_hwmon_critical_temp(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	       therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_CRITICAL) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	       therm->attr_get(therm, NVKM_THERM_ATTR_THRS_CRITICAL) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_critical_temp(struct device *d, struct device_attribute *a,
@@ -278,21 +206,13 @@ nouveau_hwmon_set_critical_temp(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_CRITICAL, value / 1000);
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_CRITICAL, value / 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return count;
 }
@@ -307,17 +227,10 @@ nouveau_hwmon_critical_temp_hyst(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	  therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_CRITICAL_HYST) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_CRITICAL_HYST) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_critical_temp_hyst(struct device *d,
@@ -327,21 +240,13 @@ nouveau_hwmon_set_critical_temp_hyst(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_CRITICAL_HYST,
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_CRITICAL_HYST,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			value / 1000);
 
 	return count;
@@ -355,17 +260,10 @@ nouveau_hwmon_emergency_temp(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	       therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_SHUTDOWN) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	       therm->attr_get(therm, NVKM_THERM_ATTR_THRS_SHUTDOWN) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_emergency_temp(struct device *d, struct device_attribute *a,
@@ -374,21 +272,13 @@ nouveau_hwmon_set_emergency_temp(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_SHUTDOWN, value / 1000);
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_SHUTDOWN, value / 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return count;
 }
@@ -403,17 +293,10 @@ nouveau_hwmon_emergency_temp_hyst(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n",
 	  therm->attr_get(therm, NOUVEAU_THERM_ATTR_THRS_SHUTDOWN_HYST) * 1000);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n",
-	  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_SHUTDOWN_HYST) * 1000);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static ssize_t
 nouveau_hwmon_set_emergency_temp_hyst(struct device *d,
@@ -423,21 +306,13 @@ nouveau_hwmon_set_emergency_temp_hyst(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return count;
 
-<<<<<<< HEAD
 	therm->attr_set(therm, NOUVEAU_THERM_ATTR_THRS_SHUTDOWN_HYST,
-=======
-	therm->attr_set(therm, NVKM_THERM_ATTR_THRS_SHUTDOWN_HYST,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			value / 1000);
 
 	return count;
@@ -471,15 +346,9 @@ nouveau_hwmon_show_fan1_input(struct device *d, struct device_attribute *attr,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 
 	return snprintf(buf, PAGE_SIZE, "%d\n", therm->fan_sense(therm));
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-
-	return snprintf(buf, PAGE_SIZE, "%d\n", nvkm_therm_fan_sense(therm));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 static SENSOR_DEVICE_ATTR(fan1_input, S_IRUGO, nouveau_hwmon_show_fan1_input,
 			  NULL, 0);
@@ -490,17 +359,10 @@ nouveau_hwmon_get_pwm1_enable(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 	int ret;
 
 	ret = therm->attr_get(therm, NOUVEAU_THERM_ATTR_FAN_MODE);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-	int ret;
-
-	ret = therm->attr_get(therm, NVKM_THERM_ATTR_FAN_MODE);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0)
 		return ret;
 
@@ -513,11 +375,7 @@ nouveau_hwmon_set_pwm1_enable(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 	int ret;
 
@@ -525,11 +383,7 @@ nouveau_hwmon_set_pwm1_enable(struct device *d, struct device_attribute *a,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	ret = therm->attr_set(therm, NOUVEAU_THERM_ATTR_FAN_MODE, value);
-=======
-	ret = therm->attr_set(therm, NVKM_THERM_ATTR_FAN_MODE, value);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret)
 		return ret;
 	else
@@ -544,11 +398,7 @@ nouveau_hwmon_get_pwm1(struct device *d, struct device_attribute *a, char *buf)
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret;
 
 	ret = therm->fan_get(therm);
@@ -564,11 +414,7 @@ nouveau_hwmon_set_pwm1(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int ret = -ENODEV;
 	long value;
 
@@ -592,17 +438,10 @@ nouveau_hwmon_get_pwm1_min(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 	int ret;
 
 	ret = therm->attr_get(therm, NOUVEAU_THERM_ATTR_FAN_MIN_DUTY);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-	int ret;
-
-	ret = therm->attr_get(therm, NVKM_THERM_ATTR_FAN_MIN_DUTY);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0)
 		return ret;
 
@@ -615,22 +454,14 @@ nouveau_hwmon_set_pwm1_min(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 	int ret;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	ret = therm->attr_set(therm, NOUVEAU_THERM_ATTR_FAN_MIN_DUTY, value);
-=======
-	ret = therm->attr_set(therm, NVKM_THERM_ATTR_FAN_MIN_DUTY, value);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0)
 		return ret;
 
@@ -647,17 +478,10 @@ nouveau_hwmon_get_pwm1_max(struct device *d,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
 	int ret;
 
 	ret = therm->attr_get(therm, NOUVEAU_THERM_ATTR_FAN_MAX_DUTY);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
-	int ret;
-
-	ret = therm->attr_get(therm, NVKM_THERM_ATTR_FAN_MAX_DUTY);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0)
 		return ret;
 
@@ -670,22 +494,14 @@ nouveau_hwmon_set_pwm1_max(struct device *d, struct device_attribute *a,
 {
 	struct drm_device *dev = dev_get_drvdata(d);
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	long value;
 	int ret;
 
 	if (kstrtol(buf, 10, &value) == -EINVAL)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	ret = therm->attr_set(therm, NOUVEAU_THERM_ATTR_FAN_MAX_DUTY, value);
-=======
-	ret = therm->attr_set(therm, NVKM_THERM_ATTR_FAN_MAX_DUTY, value);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret < 0)
 		return ret;
 
@@ -745,11 +561,7 @@ nouveau_hwmon_init(struct drm_device *dev)
 {
 #if defined(CONFIG_HWMON) || (defined(MODULE) && defined(CONFIG_HWMON_MODULE))
 	struct nouveau_drm *drm = nouveau_drm(dev);
-<<<<<<< HEAD
 	struct nouveau_therm *therm = nvkm_therm(&drm->device);
-=======
-	struct nvkm_therm *therm = nvxx_therm(&drm->device);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct nouveau_hwmon *hwmon;
 	struct device *hwmon_dev;
 	int ret = 0;
@@ -759,11 +571,7 @@ nouveau_hwmon_init(struct drm_device *dev)
 		return -ENOMEM;
 	hwmon->dev = dev;
 
-<<<<<<< HEAD
 	if (!therm || !therm->temp_get || !therm->attr_get || !therm->attr_set)
-=======
-	if (!therm || !therm->attr_get || !therm->attr_set)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -ENODEV;
 
 	hwmon_dev = hwmon_device_register(&dev->pdev->dev);
@@ -780,11 +588,7 @@ nouveau_hwmon_init(struct drm_device *dev)
 		goto error;
 
 	/* if the card has a working thermal sensor */
-<<<<<<< HEAD
 	if (therm->temp_get(therm) >= 0) {
-=======
-	if (nvkm_therm_temp_get(therm) >= 0) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = sysfs_create_group(&hwmon_dev->kobj, &hwmon_temp_attrgroup);
 		if (ret)
 			goto error;
@@ -802,11 +606,7 @@ nouveau_hwmon_init(struct drm_device *dev)
 	}
 
 	/* if the card can read the fan rpm */
-<<<<<<< HEAD
 	if (therm->fan_sense(therm) >= 0) {
-=======
-	if (nvkm_therm_fan_sense(therm) >= 0) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		ret = sysfs_create_group(&hwmon_dev->kobj,
 					 &hwmon_fan_rpm_attrgroup);
 		if (ret)

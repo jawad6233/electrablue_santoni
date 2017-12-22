@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -84,18 +80,6 @@ const char *ipa_event_name[] = {
 	__stringify(ECM_DISCONNECT),
 	__stringify(IPA_TETHERING_STATS_UPDATE_STATS),
 	__stringify(IPA_TETHERING_STATS_UPDATE_NETWORK_STATS),
-<<<<<<< HEAD
-=======
-	__stringify(IPA_PER_CLIENT_STATS_CONNECT_EVENT),
-	__stringify(IPA_PER_CLIENT_STATS_DISCONNECT_EVENT),
-	__stringify(ADD_VLAN_IFACE),
-	__stringify(DEL_VLAN_IFACE),
-	__stringify(ADD_L2TP_VLAN_MAPPING),
-	__stringify(DEL_L2TP_VLAN_MAPPING),
-	__stringify(IPA_QUOTA_REACH),
-	__stringify(IPA_SSR_BEFORE_SHUTDOWN),
-	__stringify(IPA_SSR_AFTER_POWERUP),
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 const char *ipa_hdr_l2_type_name[] = {
@@ -139,10 +123,6 @@ static struct dentry *dfile_ipa_poll_iteration;
 static char dbg_buff[IPA_MAX_MSG_LEN];
 static char *active_clients_buf;
 static s8 ep_reg_idx;
-<<<<<<< HEAD
-=======
-static void *ipa_ipc_low_buff;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 int _ipa_read_gen_reg_v1_1(char *buff, int max_len)
 {
@@ -444,11 +424,7 @@ static ssize_t ipa_read_hdr(struct file *file, char __user *ubuf, size_t count,
 			link) {
 		nbytes = scnprintf(
 			dbg_buff,
-<<<<<<< HEAD
 			IPA_MAX_MSG_LEN,
-=======
-			IPA_MAX_MSG_LEN - 1,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"name:%s len=%d ref=%d partial=%d type=%s ",
 			entry->name,
 			entry->hdr_len,
@@ -459,39 +435,23 @@ static ssize_t ipa_read_hdr(struct file *file, char __user *ubuf, size_t count,
 		if (entry->is_hdr_proc_ctx) {
 			nbytes += scnprintf(
 				dbg_buff + nbytes,
-<<<<<<< HEAD
 				IPA_MAX_MSG_LEN - nbytes,
-=======
-				IPA_MAX_MSG_LEN - 1 - nbytes,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				"phys_base=0x%pa ",
 				&entry->phys_base);
 		} else {
 			nbytes += scnprintf(
 				dbg_buff + nbytes,
-<<<<<<< HEAD
 				IPA_MAX_MSG_LEN - nbytes,
-=======
-				IPA_MAX_MSG_LEN - 1 - nbytes,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				"ofst=%u ",
 				entry->offset_entry->offset >> 2);
 		}
 		for (i = 0; i < entry->hdr_len; i++) {
 			scnprintf(dbg_buff + nbytes + i * 2,
-<<<<<<< HEAD
 				  IPA_MAX_MSG_LEN - nbytes - i * 2,
 				  "%02x", entry->hdr[i]);
 		}
 		scnprintf(dbg_buff + nbytes + entry->hdr_len * 2,
 			  IPA_MAX_MSG_LEN - nbytes - entry->hdr_len * 2,
-=======
-				  IPA_MAX_MSG_LEN - 1 - nbytes - i * 2,
-				  "%02x", entry->hdr[i]);
-		}
-		scnprintf(dbg_buff + nbytes + entry->hdr_len * 2,
-			  IPA_MAX_MSG_LEN - 1 - nbytes - entry->hdr_len * 2,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			  "\n");
 		pr_err("%s", dbg_buff);
 	}
@@ -844,18 +804,10 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 			eq = true;
 		} else {
 			rt_tbl = ipa_id_find(entry->rule.rt_tbl_hdl);
-<<<<<<< HEAD
 			if (rt_tbl)
 				rt_tbl_idx = rt_tbl->idx;
 			else
 				rt_tbl_idx = ~0;
-=======
-			if (rt_tbl == NULL ||
-				rt_tbl->cookie != IPA_RT_TBL_COOKIE)
-				rt_tbl_idx =  ~0;
-			else
-				rt_tbl_idx = rt_tbl->idx;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			bitmap = entry->rule.attrib.attrib_mask;
 			eq = false;
 		}
@@ -882,18 +834,10 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 				eq = true;
 			} else {
 				rt_tbl = ipa_id_find(entry->rule.rt_tbl_hdl);
-<<<<<<< HEAD
 				if (rt_tbl)
 					rt_tbl_idx = rt_tbl->idx;
 				else
 					rt_tbl_idx = ~0;
-=======
-				if (rt_tbl == NULL ||
-					rt_tbl->cookie != IPA_RT_TBL_COOKIE)
-					rt_tbl_idx = ~0;
-				else
-					rt_tbl_idx = rt_tbl->idx;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				bitmap = entry->rule.attrib.attrib_mask;
 				eq = false;
 			}
@@ -1328,14 +1272,8 @@ static ssize_t ipa_read_wdi(struct file *file, char __user *ubuf,
 			"RX num_db=%u\n"
 			"RX num_unexpected_db=%u\n"
 			"RX num_pkts_in_dis_uninit_state=%u\n"
-<<<<<<< HEAD
 			"num_ic_inj_vdev_change=%u\n"
 			"num_ic_inj_fw_desc_change=%u\n"
-=======
-			"RX num_ic_inj_vdev_change=%u\n"
-			"RX num_ic_inj_fw_desc_change=%u\n"
-			"RX num_qmb_int_handled=%u\n"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			"RX reserved1=%u\n"
 			"RX reserved2=%u\n",
 			stats.rx_ch_stats.max_outstanding_pkts,
@@ -1357,10 +1295,6 @@ static ssize_t ipa_read_wdi(struct file *file, char __user *ubuf,
 			stats.rx_ch_stats.num_pkts_in_dis_uninit_state,
 			stats.rx_ch_stats.num_ic_inj_vdev_change,
 			stats.rx_ch_stats.num_ic_inj_fw_desc_change,
-<<<<<<< HEAD
-=======
-			stats.rx_ch_stats.num_qmb_int_handled,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			stats.rx_ch_stats.reserved1,
 			stats.rx_ch_stats.reserved2);
 		cnt += nbytes;
@@ -1868,44 +1802,6 @@ static ssize_t ipa_write_polling_iteration(struct file *file,
 	return count;
 }
 
-<<<<<<< HEAD
-=======
-static ssize_t ipa_enable_ipc_low(struct file *file,
-	const char __user *ubuf, size_t count, loff_t *ppos)
-{
-	unsigned long missing;
-	s8 option = 0;
-
-	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, ubuf, count);
-	if (missing)
-		return -EFAULT;
-
-	dbg_buff[count] = '\0';
-	if (kstrtos8(dbg_buff, 0, &option))
-		return -EFAULT;
-
-	mutex_lock(&ipa_ctx->lock);
-	if (option) {
-		if (!ipa_ipc_low_buff) {
-			ipa_ipc_low_buff =
-				ipc_log_context_create(IPA_IPC_LOG_PAGES,
-				"ipa_low", 0);
-			if (ipa_ipc_low_buff == NULL)
-				IPAERR("failed to get logbuf_low\n");
-		}
-		ipa_ctx->logbuf_low = ipa_ipc_low_buff;
-	} else {
-		ipa_ctx->logbuf_low = NULL;
-	}
-	mutex_unlock(&ipa_ctx->lock);
-
-	return count;
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 const struct file_operations ipa_gen_reg_ops = {
 	.read = ipa_read_gen_reg,
 };
@@ -1984,13 +1880,6 @@ const struct file_operations ipa2_active_clients = {
 	.write = ipa2_clear_active_clients_log,
 };
 
-<<<<<<< HEAD
-=======
-const struct file_operations ipa_ipc_low_ops = {
-	.write = ipa_enable_ipc_low,
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 const struct file_operations ipa_rx_poll_time_ops = {
 	.read = ipa_read_rx_polling_timeout,
 	.write = ipa_write_rx_polling_timeout,
@@ -2206,16 +2095,6 @@ void ipa_debugfs_init(void)
 		goto fail;
 	}
 
-<<<<<<< HEAD
-=======
-	file = debugfs_create_file("enable_low_prio_print", write_only_mode,
-		dent, 0, &ipa_ipc_low_ops);
-	if (!file) {
-		IPAERR("could not create enable_low_prio_print file\n");
-		goto fail;
-	}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return;
 
 fail:

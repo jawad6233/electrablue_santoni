@@ -310,11 +310,7 @@ nonblock:
 	// case STATE_EP_DISABLED:		/* "can't happen" */
 	// case STATE_EP_READY:			/* "can't happen" */
 	default:				/* error! */
-<<<<<<< HEAD
 		pr_debug ("%s: ep %pK not available, state %d\n",
-=======
-		pr_debug ("%s: ep %p not available, state %d\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				shortname, epdata, epdata->state);
 		// FALLTHROUGH
 	case STATE_EP_UNBOUND:			/* clean disconnect */
@@ -659,10 +655,7 @@ fail:
 				   GFP_KERNEL);
 		if (!priv->iv) {
 			kfree(priv);
-<<<<<<< HEAD
 			value = -ENOMEM;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 			goto fail;
 		}
 	}
@@ -1928,15 +1921,8 @@ dev_config (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
 
 	spin_lock_irq (&dev->lock);
 	value = -EINVAL;
-<<<<<<< HEAD
 	if (dev->buf)
 		goto fail;
-=======
-	if (dev->buf) {
-		kfree(kbuf);
-		goto fail;
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	dev->buf = kbuf;
 
 	/* full or low speed config */
@@ -1998,11 +1984,7 @@ dev_config (struct file *fd, const char __user *buf, size_t len, loff_t *ptr)
 
 fail:
 	spin_unlock_irq (&dev->lock);
-<<<<<<< HEAD
 	pr_debug ("%s: %s fail %Zd, %pK\n", shortname, __func__, value, dev);
-=======
-	pr_debug ("%s: %s fail %Zd, %p\n", shortname, __func__, value, dev);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree (dev->buf);
 	dev->buf = NULL;
 	return value;

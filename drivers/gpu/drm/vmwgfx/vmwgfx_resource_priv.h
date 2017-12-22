@@ -1,10 +1,6 @@
 /**************************************************************************
  *
-<<<<<<< HEAD
  * Copyright © 2012 VMware, Inc., Palo Alto, CA., USA
-=======
- * Copyright © 2012-2014 VMware, Inc., Palo Alto, CA., USA
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,15 +30,6 @@
 
 #include "vmwgfx_drv.h"
 
-<<<<<<< HEAD
-=======
-enum vmw_cmdbuf_res_state {
-	VMW_CMDBUF_RES_COMMITTED,
-	VMW_CMDBUF_RES_ADD,
-	VMW_CMDBUF_RES_DEL
-};
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /**
  * struct vmw_user_resource_conv - Identify a derived user-exported resource
  * type and provide a function to convert its ttm_base_object pointer to
@@ -68,15 +55,8 @@ struct vmw_user_resource_conv {
  * @bind:              Bind a hardware resource to persistent buffer storage.
  * @unbind:            Unbind a hardware resource from persistent
  *                     buffer storage.
-<<<<<<< HEAD
  */
 
-=======
- * @commit_notify:     If the resource is a command buffer managed resource,
- *                     callback to notify that a define or remove command
- *                     has been committed to the device.
- */
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct vmw_res_func {
 	enum vmw_res_type res_type;
 	bool needs_backup;
@@ -91,11 +71,6 @@ struct vmw_res_func {
 	int (*unbind) (struct vmw_resource *res,
 		       bool readback,
 		       struct ttm_validate_buffer *val_buf);
-<<<<<<< HEAD
-=======
-	void (*commit_notify)(struct vmw_resource *res,
-			      enum vmw_cmdbuf_res_state state);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 int vmw_resource_alloc_id(struct vmw_resource *res);

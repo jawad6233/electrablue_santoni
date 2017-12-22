@@ -687,15 +687,6 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
 
 	dma_buf = prime->dma_buf;
 	if (!dma_buf || !get_dma_buf_unless_doomed(dma_buf)) {
-<<<<<<< HEAD
-=======
-		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-
-		exp_info.ops = &tdev->ops;
-		exp_info.size = prime->size;
-		exp_info.flags = flags;
-		exp_info.priv = prime;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 		/*
 		 * Need to create a new dma_buf, with memory accounting.
@@ -707,12 +698,8 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
 			goto out_unref;
 		}
 
-<<<<<<< HEAD
 		dma_buf = dma_buf_export(prime, &tdev->ops,
 					 prime->size, flags, NULL);
-=======
-		dma_buf = dma_buf_export(&exp_info);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		if (IS_ERR(dma_buf)) {
 			ret = PTR_ERR(dma_buf);
 			ttm_mem_global_free(tdev->mem_glob,

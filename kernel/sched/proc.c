@@ -97,7 +97,6 @@ long calc_load_fold_active(struct rq *this_rq)
 static unsigned long
 calc_load(unsigned long load, unsigned long exp, unsigned long active)
 {
-<<<<<<< HEAD
 	unsigned long newload;
 
 	newload = load * exp + active * (FIXED_1 - exp);
@@ -105,12 +104,6 @@ calc_load(unsigned long load, unsigned long exp, unsigned long active)
 		newload += FIXED_1-1;
 
 	return newload / FIXED_1;
-=======
-	load *= exp;
-	load += active * (FIXED_1 - exp);
-	load += 1UL << (FSHIFT - 1);
-	return load >> FSHIFT;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 #ifdef CONFIG_NO_HZ_COMMON

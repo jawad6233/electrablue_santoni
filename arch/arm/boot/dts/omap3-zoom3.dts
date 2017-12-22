@@ -195,19 +195,6 @@
 	cap-power-off-card;
 	pinctrl-names = "default";
 	pinctrl-0 = <&mmc3_pins &mmc3_2_pins>;
-<<<<<<< HEAD
-=======
-
-	#address-cells = <1>;
-	#size-cells = <0>;
-	wlcore: wlcore@2 {
-		compatible = "ti,wl1271";
-		reg = <2>;
-		interrupt-parent = <&gpio6>;
-		interrupts = <2 IRQ_TYPE_LEVEL_HIGH>; /* gpio 162 */
-		ref-clock-frequency = <26000000>;
-	};
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 &uart1 {

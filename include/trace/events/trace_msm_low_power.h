@@ -82,11 +82,7 @@ TRACE_EVENT(cpu_idle_exit,
 		__entry->success)
 );
 
-<<<<<<< HEAD
 TRACE_EVENT(cpu_idle_enter_cpu_freq,
-=======
-DECLARE_EVENT_CLASS(cpu_freq,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	TP_PROTO(int cpu, unsigned long cpu_clk, unsigned long l2_clk),
 
@@ -108,7 +104,6 @@ DECLARE_EVENT_CLASS(cpu_freq,
 		__entry->cpu, __entry->cpu_clk, __entry->l2_clk)
 );
 
-<<<<<<< HEAD
 TRACE_EVENT(cpu_idle_exit_cpu_freq,
 
 	TP_PROTO(int cpu, unsigned long cpu_clk, unsigned long l2_clk),
@@ -132,19 +127,6 @@ TRACE_EVENT(cpu_idle_exit_cpu_freq,
 );
 
 TRACE_EVENT(cluster_enter,
-=======
-DEFINE_EVENT(cpu_freq, cpu_idle_enter_cpu_freq,
-	TP_PROTO(int cpu, unsigned long cpu_clk, unsigned long l2_clk),
-	TP_ARGS(cpu, cpu_clk, l2_clk)
-);
-
-DEFINE_EVENT(cpu_freq, cpu_idle_exit_cpu_freq,
-	TP_PROTO(int cpu, unsigned long cpu_clk, unsigned long l2_clk),
-	TP_ARGS(cpu, cpu_clk, l2_clk)
-);
-
-DECLARE_EVENT_CLASS(cluster,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	TP_PROTO(const char *name, int index, unsigned long sync_cpus,
 		unsigned long child_cpus, bool from_idle),
@@ -174,7 +156,6 @@ DECLARE_EVENT_CLASS(cluster,
 		__entry->child_cpus,
 		__entry->from_idle)
 );
-<<<<<<< HEAD
 
 TRACE_EVENT(cluster_exit,
 
@@ -205,18 +186,6 @@ TRACE_EVENT(cluster_exit,
 		__entry->sync_cpus,
 		__entry->child_cpus,
 		__entry->from_idle)
-=======
-DEFINE_EVENT(cluster, cluster_enter,
-	TP_PROTO(const char *name, int index, unsigned long sync_cpus,
-		unsigned long child_cpus, bool from_idle),
-	TP_ARGS(name, index, sync_cpus, child_cpus, from_idle)
-);
-
-DEFINE_EVENT(cluster, cluster_exit,
-	TP_PROTO(const char *name, int index, unsigned long sync_cpus,
-		unsigned long child_cpus, bool from_idle),
-	TP_ARGS(name, index, sync_cpus, child_cpus, from_idle)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 );
 
 TRACE_EVENT(pre_pc_cb,

@@ -2063,11 +2063,7 @@ out:
 		if (new_inode != NULL)
 			nfs_drop_nlink(new_inode);
 		d_move(old_dentry, new_dentry);
-<<<<<<< HEAD
 		nfs_set_verifier(new_dentry,
-=======
-		nfs_set_verifier(old_dentry,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					nfs_save_change_attribute(new_dir));
 	} else if (error == -ENOENT)
 		nfs_dentry_handle_enoent(old_dentry);

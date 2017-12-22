@@ -23,11 +23,7 @@ GCOV_PROFILE := n
 ccflags-y += -Wl,-shared
 
 obj-y += vdso.o
-<<<<<<< HEAD
 extra-y += vdso.lds vdso-offsets.h
-=======
-extra-y += vdso.lds
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 
 # Force dependency (incbin is bad)
@@ -46,18 +42,11 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
 gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
 quiet_cmd_vdsosym = VDSOSYM $@
 define cmd_vdsosym
-<<<<<<< HEAD
 	$(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@ && \
 	cp $@ include/generated/
 endef
 
 $(obj)/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
-=======
-	$(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-endef
-
-include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(call if_changed,vdsosym)
 
 # Assembly rules for the .S files

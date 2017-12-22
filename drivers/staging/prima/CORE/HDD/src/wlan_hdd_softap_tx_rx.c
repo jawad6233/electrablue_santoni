@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -77,17 +73,10 @@
 #if 0
 static void hdd_softap_dump_sk_buff(struct sk_buff * skb)
 {
-<<<<<<< HEAD
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: head = %p", __func__, skb->head);
   //VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data = %p", __func__, skb->data);
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: tail = %p", __func__, skb->tail);
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: end = %p", __func__, skb->end);
-=======
-  VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: head = %pK", __func__, skb->head);
-  //VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data = %pK", __func__, skb->data);
-  VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: tail = %pK", __func__, skb->tail);
-  VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: end = %pK", __func__, skb->end);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: len = %d", __func__, skb->len);
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data_len = %d", __func__, skb->data_len);
   VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,"%s: mac_len = %d", __func__, skb->mac_len);
@@ -464,26 +453,6 @@ int __hdd_softap_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
    // checked. Over-limit packets will be dropped.
     spin_lock_bh(&pSapCtx->aStaInfo[STAId].wmm_tx_queue[ac].lock);
     hdd_list_size(&pSapCtx->aStaInfo[STAId].wmm_tx_queue[ac], &pktListSize);
-<<<<<<< HEAD
-=======
-
-    if (pHddCtx->bad_sta[STAId]) {
-       hdd_list_node_t *anchor = NULL;
-       skb_list_node_t *pktNode = NULL;
-       struct sk_buff *fskb = NULL;
-       if(pktListSize >= (pAdapter->aTxQueueLimit[ac])/2) {
-          hdd_list_remove_front(&pSapCtx->aStaInfo[STAId].wmm_tx_queue[ac],
-                                &anchor);
-          pktNode = list_entry(anchor, skb_list_node_t, anchor);
-          fskb = pktNode->skb;
-          kfree_skb(fskb);
-          pktListSize--;
-          ++pAdapter->stats.tx_dropped;
-          ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
-       }
-    }
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
     if(pktListSize >= pAdapter->aTxQueueLimit[ac])
     {
        VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_WARN,
@@ -771,12 +740,7 @@ void __hdd_softap_tx_timeout(struct net_device *dev)
    hdd_context_t *pHddCtx;
 
    VOS_TRACE( VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
       "%s: Transmission timeout occurred", __func__);
-=======
-      "%s: Transmission timeout occurred jiffies %lu dev->trans_start %lu",
-        __func__, jiffies, dev->trans_start);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
    if ( NULL == pAdapter )
    {
@@ -1029,12 +993,6 @@ static VOS_STATUS hdd_softap_flush_tx_queues_sta( hdd_adapter_t *pAdapter, v_U8_
       spin_unlock_bh(&pSapCtx->aStaInfo[STAId].wmm_tx_queue[i].lock);
    }
 
-<<<<<<< HEAD
-=======
-   VOS_TRACE(VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_INFO,
-            "%s: flushed the TX queues of sta:%d", __func__, STAId);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
    return VOS_STATUS_SUCCESS;
 }
 
@@ -1601,11 +1559,7 @@ VOS_STATUS hdd_softap_tx_low_resource_cbk( vos_pkt_t *pVosPacket,
    if (pAdapter == NULL || WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_SAP_DATA, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
                  FL("Invalid adapter %p"), pAdapter);
-=======
-                 FL("Invalid adapter %pK"), pAdapter);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
       return VOS_STATUS_E_FAILURE;
    }
    pVosContext = (WLAN_HDD_GET_CTX(pAdapter))->pvosContext;
@@ -1677,11 +1631,7 @@ VOS_STATUS hdd_softap_rx_packet_cbk( v_VOID_t *vosContext,
    vos_pkt_t* pVosPacket;
    vos_pkt_t* pNextVosPacket;   
    hdd_context_t *pHddCtx = NULL;   
-<<<<<<< HEAD
    v_U8_t proto_type;
-=======
-   v_U8_t proto_type = 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
    //Sanity check on inputs
    if ( ( NULL == vosContext ) || 

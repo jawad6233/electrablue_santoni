@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -111,10 +107,6 @@
 #define QPNP_PON_S2_CNTL_EN			BIT(7)
 #define QPNP_PON_S2_RESET_ENABLE		BIT(7)
 #define QPNP_PON_DELAY_BIT_SHIFT		6
-<<<<<<< HEAD
-=======
-#define QPNP_PON_GEN2_DELAY_BIT_SHIFT		14
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define QPNP_PON_S1_TIMER_MASK			(0xF)
 #define QPNP_PON_S2_TIMER_MASK			(0x7)
@@ -155,11 +147,6 @@
 #define PON_S1_COUNT_MAX			0xF
 #define QPNP_PON_MIN_DBC_US			(USEC_PER_SEC / 64)
 #define QPNP_PON_MAX_DBC_US			(USEC_PER_SEC * 2)
-<<<<<<< HEAD
-=======
-#define QPNP_PON_GEN2_MIN_DBC_US		62
-#define QPNP_PON_GEN2_MAX_DBC_US		(USEC_PER_SEC / 4)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define QPNP_KEY_STATUS_DELAY			msecs_to_jiffies(250)
 
@@ -167,12 +154,6 @@
 
 #define QPNP_POFF_REASON_UVLO			13
 
-<<<<<<< HEAD
-=======
-/* Wakeup event timeout */
-#define WAKEUP_TIMEOUT_MSEC			3000
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 enum qpnp_pon_version {
 	QPNP_PON_GEN1_V1,
 	QPNP_PON_GEN1_V2,
@@ -409,7 +390,6 @@ EXPORT_SYMBOL(qpnp_pon_check_hard_reset_stored);
 static int qpnp_pon_set_dbc(struct qpnp_pon *pon, u32 delay)
 {
 	int rc = 0;
-<<<<<<< HEAD
 	u32 delay_reg;
 
 	if (delay == pon->dbc_time_us)
@@ -427,33 +407,6 @@ static int qpnp_pon_set_dbc(struct qpnp_pon *pon, u32 delay)
 	rc = qpnp_pon_masked_write(pon, QPNP_PON_DBC_CTL(pon),
 					QPNP_PON_DBC_DELAY_MASK(pon),
 					delay_reg);
-=======
-	u32 val;
-
-	if (delay == pon->dbc_time_us)
-		goto out;
-
-	if (pon->pon_input)
-		mutex_lock(&pon->pon_input->mutex);
-
-	if (is_pon_gen2(pon)) {
-		if (delay < QPNP_PON_GEN2_MIN_DBC_US)
-			delay = QPNP_PON_GEN2_MIN_DBC_US;
-		else if (delay > QPNP_PON_GEN2_MAX_DBC_US)
-			delay = QPNP_PON_GEN2_MAX_DBC_US;
-		val = (delay << QPNP_PON_GEN2_DELAY_BIT_SHIFT) / USEC_PER_SEC;
-	} else {
-		if (delay < QPNP_PON_MIN_DBC_US)
-			delay = QPNP_PON_MIN_DBC_US;
-		else if (delay > QPNP_PON_MAX_DBC_US)
-			delay = QPNP_PON_MAX_DBC_US;
-		val = (delay << QPNP_PON_DELAY_BIT_SHIFT) / USEC_PER_SEC;
-	}
-
-	val = ilog2(val);
-	rc = qpnp_pon_masked_write(pon, QPNP_PON_DBC_CTL(pon),
-					QPNP_PON_DBC_DELAY_MASK(pon), val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (rc) {
 		dev_err(&pon->spmi->dev, "Unable to set PON debounce\n");
 		goto unlock;
@@ -481,17 +434,8 @@ static int qpnp_pon_get_dbc(struct qpnp_pon *pon, u32 *delay)
 	}
 	val &= QPNP_PON_DBC_DELAY_MASK(pon);
 
-<<<<<<< HEAD
 	*delay = USEC_PER_SEC /
 		(1 << (QPNP_PON_DELAY_BIT_SHIFT - val));
-=======
-	if (is_pon_gen2(pon))
-		*delay = USEC_PER_SEC /
-			(1 << (QPNP_PON_GEN2_DELAY_BIT_SHIFT - val));
-	else
-		*delay = USEC_PER_SEC /
-			(1 << (QPNP_PON_DELAY_BIT_SHIFT - val));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	return rc;
 }
@@ -844,12 +788,6 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 	if (!cfg->key_code)
 		return 0;
 
-<<<<<<< HEAD
-=======
-	if (device_may_wakeup(&pon->spmi->dev))
-		pm_wakeup_event(&pon->spmi->dev, WAKEUP_TIMEOUT_MSEC);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (pon->kpdpwr_dbc_enable && cfg->pon_type == PON_KPDPWR) {
 		elapsed_us = ktime_us_delta(ktime_get(),
 				pon->kpdpwr_last_release_time);

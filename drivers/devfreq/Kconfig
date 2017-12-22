@@ -99,11 +99,7 @@ config DEVFREQ_GOV_MSM_GPUBW_MON
 
 config ARMBW_HWMON
 	tristate "ARM PMU Bandwidth monitor hardware"
-<<<<<<< HEAD
 	depends on ARCH_MSM8916 || ARCH_MSM8226 || ARCH_MSM8610
-=======
-	depends on ARCH_MSM8916 || ARCH_MSM8953 || ARCH_MSM8226 || ARCH_MSM8610
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	help
 	  The PMU present on these ARM cores allow for the use of counters to
 	  monitor the traffic coming from each core to the bus. It also has the
@@ -175,7 +171,6 @@ config DEVFREQ_GOV_MEMLAT
 	  this uses target specific counters it can conflict with existing profiling
 	  tools.
 
-<<<<<<< HEAD
 config ADRENO_IDLER
 	tristate "MSM Adreno idler"
 	depends on DEVFREQ_GOV_MSM_ADRENO_TZ
@@ -185,8 +180,6 @@ config ADRENO_IDLER
 	  wasted power coming from stock Adreno TZ while
 	  maintaining high-performance.
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 comment "DEVFREQ Drivers"
 
 config ARM_EXYNOS4_BUS_DEVFREQ

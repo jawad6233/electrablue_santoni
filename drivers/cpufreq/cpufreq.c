@@ -28,12 +28,6 @@
 #include <linux/slab.h>
 #include <linux/suspend.h>
 #include <linux/tick.h>
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_SMP
-#include <linux/sched.h>
-#endif
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <trace/events/power.h>
 
 /**
@@ -125,15 +119,6 @@ bool have_governor_per_policy(void)
 }
 EXPORT_SYMBOL_GPL(have_governor_per_policy);
 
-<<<<<<< HEAD
-=======
-bool cpufreq_driver_is_slow(void)
-{
-	return !(cpufreq_driver->flags & CPUFREQ_DRIVER_FAST);
-}
-EXPORT_SYMBOL_GPL(cpufreq_driver_is_slow);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 struct kobject *get_governor_parent_kobj(struct cpufreq_policy *policy)
 {
 	if (have_governor_per_policy())
@@ -310,53 +295,6 @@ static inline void adjust_jiffies(unsigned long val, struct cpufreq_freqs *ci)
 }
 #endif
 
-<<<<<<< HEAD
-=======
-/*********************************************************************
- *               FREQUENCY INVARIANT CPU CAPACITY                    *
- *********************************************************************/
-
-static DEFINE_PER_CPU(unsigned long, freq_scale) = SCHED_CAPACITY_SCALE;
-static DEFINE_PER_CPU(unsigned long, max_freq_scale) = SCHED_CAPACITY_SCALE;
-
-static void
-scale_freq_capacity(struct cpufreq_policy *policy, struct cpufreq_freqs *freqs)
-{
-	unsigned long cur = freqs ? freqs->new : policy->cur;
-	unsigned long scale = (cur << SCHED_CAPACITY_SHIFT) / policy->max;
-	struct cpufreq_cpuinfo *cpuinfo = &policy->cpuinfo;
-	int cpu;
-
-	pr_debug("cpus %*pbl cur/cur max freq %lu/%u kHz freq scale %lu\n",
-		 cpumask_pr_args(policy->cpus), cur, policy->max, scale);
-
-	for_each_cpu(cpu, policy->cpus)
-		per_cpu(freq_scale, cpu) = scale;
-
-	if (freqs)
-		return;
-
-	scale = (policy->max << SCHED_CAPACITY_SHIFT) / cpuinfo->max_freq;
-
-	pr_debug("cpus %*pbl cur max/max freq %u/%u kHz max freq scale %lu\n",
-		 cpumask_pr_args(policy->cpus), policy->max, cpuinfo->max_freq,
-		 scale);
-
-	for_each_cpu(cpu, policy->cpus)
-		per_cpu(max_freq_scale, cpu) = scale;
-}
-
-unsigned long cpufreq_scale_freq_capacity(struct sched_domain *sd, int cpu)
-{
-	return per_cpu(freq_scale, cpu);
-}
-
-unsigned long cpufreq_scale_max_freq_capacity(int cpu)
-{
-	return per_cpu(max_freq_scale, cpu);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static void __cpufreq_notify_transition(struct cpufreq_policy *policy,
 		struct cpufreq_freqs *freqs, unsigned int state)
 {
@@ -433,10 +371,7 @@ static void cpufreq_notify_post_transition(struct cpufreq_policy *policy,
 void cpufreq_freq_transition_begin(struct cpufreq_policy *policy,
 		struct cpufreq_freqs *freqs)
 {
-<<<<<<< HEAD
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * Catch double invocations of _begin() which lead to self-deadlock.
 	 * ASYNC_NOTIFICATION drivers are left out because the cpufreq core
@@ -463,11 +398,6 @@ wait:
 
 	spin_unlock(&policy->transition_lock);
 
-<<<<<<< HEAD
-=======
-	scale_freq_capacity(policy, freqs);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	cpufreq_notify_transition(policy, freqs, CPUFREQ_PRECHANGE);
 }
 EXPORT_SYMBOL_GPL(cpufreq_freq_transition_begin);
@@ -564,7 +494,6 @@ static int cpufreq_parse_governor(char *str_governor, unsigned int *policy,
 			ret = request_module("cpufreq_%s", str_governor);
 			mutex_lock(&cpufreq_governor_mutex);
 
-<<<<<<< HEAD
 			/*
 			 * At this point, if the governor was found via module
 			 * search, it will load it. However, if it didn't, we
@@ -584,10 +513,6 @@ static int cpufreq_parse_governor(char *str_governor, unsigned int *policy,
 				t = __find_governor(str_governor);
 			else
 				t = __find_governor("interactive");
-=======
-			if (ret == 0)
-				t = __find_governor(str_governor);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		}
 
 		if (t != NULL) {
@@ -621,10 +546,7 @@ show_one(cpuinfo_max_freq, cpuinfo.max_freq);
 show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
 show_one(scaling_min_freq, min);
 show_one(scaling_max_freq, max);
-<<<<<<< HEAD
 show_one(cpu_utilization, util);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 static ssize_t show_scaling_cur_freq(
 	struct cpufreq_policy *policy, char *buf)
@@ -686,17 +608,11 @@ static ssize_t show_cpuinfo_cur_freq(struct cpufreq_policy *policy,
 					char *buf)
 {
 	unsigned int cur_freq = __cpufreq_get(policy->cpu);
-<<<<<<< HEAD
 	
 	if (cur_freq)
 		return sprintf(buf, "%u\n", cur_freq);
 	
 	return sprintf(buf, "<unknown>\n");
-=======
-	if (!cur_freq)
-		return sprintf(buf, "<unknown>");
-	return sprintf(buf, "%u\n", cur_freq);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 /**
@@ -865,10 +781,7 @@ cpufreq_freq_attr_ro(scaling_cur_freq);
 cpufreq_freq_attr_ro(bios_limit);
 cpufreq_freq_attr_ro(related_cpus);
 cpufreq_freq_attr_ro(affected_cpus);
-<<<<<<< HEAD
 cpufreq_freq_attr_ro(cpu_utilization);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 cpufreq_freq_attr_rw(scaling_min_freq);
 cpufreq_freq_attr_rw(scaling_max_freq);
 cpufreq_freq_attr_rw(scaling_governor);
@@ -881,10 +794,7 @@ static struct attribute *default_attrs[] = {
 	&scaling_min_freq.attr,
 	&scaling_max_freq.attr,
 	&affected_cpus.attr,
-<<<<<<< HEAD
 	&cpu_utilization.attr,
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	&related_cpus.attr,
 	&scaling_governor.attr,
 	&scaling_driver.attr,
@@ -1626,15 +1536,8 @@ static int __cpufreq_remove_dev_finish(struct device *dev,
 		list_del(&policy->policy_list);
 		write_unlock_irqrestore(&cpufreq_driver_lock, flags);
 
-<<<<<<< HEAD
 		if (!cpufreq_suspended)
 			cpufreq_policy_free(policy);
-=======
-		if (!cpufreq_suspended) {
-			flush_work(&policy->update);
-			cpufreq_policy_free(policy);
-		}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	} else if (has_target()) {
 		ret = __cpufreq_governor(policy, CPUFREQ_GOV_START);
 		if (!ret)
@@ -1942,7 +1845,6 @@ void *cpufreq_get_driver_data(void)
 }
 EXPORT_SYMBOL_GPL(cpufreq_get_driver_data);
 
-<<<<<<< HEAD
 /**
  * cpufreq_notify_utilization - notify CPU userspace about CPU utilization
  * change
@@ -1960,8 +1862,6 @@ void cpufreq_notify_utilization(struct cpufreq_policy *policy,
 		sysfs_notify(&policy->kobj, NULL, "cpu_utilization");
 
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*********************************************************************
  *                     NOTIFIER LISTS INTERFACE                      *
  *********************************************************************/
@@ -2403,11 +2303,6 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 	blocking_notifier_call_chain(&cpufreq_policy_notifier_list,
 			CPUFREQ_NOTIFY, new_policy);
 
-<<<<<<< HEAD
-=======
-	scale_freq_capacity(new_policy, NULL);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	policy->min = new_policy->min;
 	policy->max = new_policy->max;
 	trace_cpu_frequency_limits(policy->max, policy->min, policy->cpu);

@@ -786,10 +786,6 @@ static int rotator_remove(struct platform_device *pdev)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_PM
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int rotator_clk_crtl(struct rot_context *rot, bool enable)
 {
 	if (enable) {
@@ -826,10 +822,7 @@ static int rotator_resume(struct device *dev)
 }
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_PM_RUNTIME
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 static int rotator_runtime_suspend(struct device *dev)
 {
 	struct rot_context *rot = dev_get_drvdata(dev);

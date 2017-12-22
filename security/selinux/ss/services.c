@@ -164,12 +164,7 @@ static int selinux_set_mapping(struct policydb *pol,
 			p_out->perms[k] = string_to_av_perm(pol, p_out->value,
 							    p_in->perms[k]);
 			if (!p_out->perms[k]) {
-<<<<<<< HEAD
 				pr_debug("SELinux:  Permission %s in class %s not defined in policy.\n",
-=======
-				printk(KERN_INFO
-				       "SELinux:  Permission %s in class %s not defined in policy.\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 				       p_in->perms[k], p_in->name);
 				if (pol->reject_unknown)
 					goto err;

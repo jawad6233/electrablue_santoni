@@ -156,10 +156,7 @@ struct rc_dev {
 	u32				max_timeout;
 	u32				rx_resolution;
 	u32				tx_resolution;
-<<<<<<< HEAD
 	u32				open_count;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int				(*change_protocol)(struct rc_dev *dev, u64 *rc_type);
 	int				(*change_wakeup_protocol)(struct rc_dev *dev, u64 *rc_type);
 	int				(*open)(struct rc_dev *dev);
@@ -251,11 +248,8 @@ static inline void init_ir_raw_event(struct ir_raw_event *ev)
 void ir_raw_event_handle(struct rc_dev *dev);
 int ir_raw_event_store(struct rc_dev *dev, struct ir_raw_event *ev);
 int ir_raw_event_store_edge(struct rc_dev *dev, enum raw_event_type type);
-<<<<<<< HEAD
 int ir_raw_event_store_edge_with_adjust(struct rc_dev *dev,
 				enum raw_event_type type, s32 ns);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 int ir_raw_event_store_with_filter(struct rc_dev *dev,
 				struct ir_raw_event *ev);
 void ir_raw_event_set_idle(struct rc_dev *dev, bool idle);

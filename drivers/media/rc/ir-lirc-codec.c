@@ -1,10 +1,7 @@
 /* ir-lirc-codec.c - rc-core to classic lirc interface bridge
  *
  * Copyright (C) 2010 by Jarod Wilson <jarod@redhat.com>
-<<<<<<< HEAD
  * Copyright (C) 2017 XiaoMi, Inc.
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,11 +21,7 @@
 #include <media/rc-core.h>
 #include "rc-core-priv.h"
 
-<<<<<<< HEAD
 #define LIRCBUF_SIZE 1024
-=======
-#define LIRCBUF_SIZE 256
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 /**
  * ir_lirc_decode() - Send raw IR data to lirc_dev to be relayed to the
@@ -121,21 +114,14 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
 	unsigned int *txbuf; /* buffer with values to transmit */
 	ssize_t ret = -EINVAL;
 	size_t count;
-<<<<<<< HEAD
 #ifndef CONFIG_IR_PWM
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	ktime_t start;
 	s64 towait;
 	unsigned int duration = 0; /* signal duration in us */
 	int i;
 
 	start = ktime_get();
-<<<<<<< HEAD
 #endif
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	lirc = lirc_get_pdata(file);
 	if (!lirc)
 		return -EFAULT;
@@ -161,11 +147,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
 		ret = -ENOSYS;
 		goto out;
 	}
-<<<<<<< HEAD
 #ifndef CONFIG_IR_PWM
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	for (i = 0; i < count; i++) {
 		if (txbuf[i] > IR_MAX_DURATION / 1000 - duration || !txbuf[i]) {
 			ret = -EINVAL;
@@ -174,7 +156,6 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
 
 		duration += txbuf[i];
 	}
-<<<<<<< HEAD
 #endif
 	ret = dev->tx_ir(dev, txbuf, count);
 	if (ret < 0)
@@ -185,18 +166,6 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
 #endif
 	ret *= sizeof(unsigned int);
 #ifndef CONFIG_IR_PWM
-=======
-
-	ret = dev->tx_ir(dev, txbuf, count);
-	if (ret < 0)
-		goto out;
-
-	for (duration = i = 0; i < ret; i++)
-		duration += txbuf[i];
-
-	ret *= sizeof(unsigned int);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	/*
 	 * The lircd gap calculation expects the write function to
 	 * wait for the actual IR signal to be transmitted before
@@ -207,11 +176,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
 		set_current_state(TASK_INTERRUPTIBLE);
 		schedule_timeout(usecs_to_jiffies(towait));
 	}
-<<<<<<< HEAD
 #endif
-=======
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 out:
 	kfree(txbuf);
 	return ret;
@@ -354,7 +319,6 @@ static long ir_lirc_ioctl(struct file *filep, unsigned int cmd,
 
 static int ir_lirc_open(void *data)
 {
-<<<<<<< HEAD
 
 	struct lirc_codec *lirc = data;
 	struct rc_dev *dev = lirc->dev;
@@ -368,14 +332,10 @@ static int ir_lirc_open(void *data)
 	mutex_unlock(&dev->lock);
 
 	return ret;
-=======
-	return 0;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void ir_lirc_close(void *data)
 {
-<<<<<<< HEAD
 
 	struct lirc_codec *lirc = data;
 	struct rc_dev *dev = lirc->dev;
@@ -384,9 +344,6 @@ static void ir_lirc_close(void *data)
 	if (!--dev->open_count && dev->close)
 		dev->close(dev);
 	mutex_unlock(&dev->lock);
-=======
-	return;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static const struct file_operations lirc_fops = {
@@ -454,11 +411,7 @@ static int ir_lirc_register(struct rc_dev *dev)
 	drv->rbuf = rbuf;
 	drv->set_use_inc = &ir_lirc_open;
 	drv->set_use_dec = &ir_lirc_close;
-<<<<<<< HEAD
 	drv->code_length = sizeof(int) * 8;
-=======
-	drv->code_length = sizeof(struct ir_raw_event) * 8;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	drv->fops = &lirc_fops;
 	drv->dev = &dev->dev;
 	drv->rdev = dev;
@@ -475,10 +428,7 @@ static int ir_lirc_register(struct rc_dev *dev)
 	return 0;
 
 lirc_register_failed:
-<<<<<<< HEAD
 	lirc_buffer_free(rbuf);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 rbuf_init_failed:
 	kfree(rbuf);
 rbuf_alloc_failed:
@@ -493,10 +443,7 @@ static int ir_lirc_unregister(struct rc_dev *dev)
 
 	lirc_unregister_driver(lirc->drv->minor);
 	lirc_buffer_free(lirc->drv->rbuf);
-<<<<<<< HEAD
 	kfree(lirc->drv->rbuf);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	kfree(lirc->drv);
 
 	return 0;

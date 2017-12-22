@@ -27,10 +27,6 @@
 #include <linux/moduleloader.h>
 #include <linux/vmalloc.h>
 #include <asm/insn.h>
-<<<<<<< HEAD
-=======
-#include <asm/sections.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 #define	AARCH64_INSN_IMM_MOVNZ		AARCH64_INSN_IMM_MAX
 #define	AARCH64_INSN_IMM_MOVK		AARCH64_INSN_IMM_16
@@ -410,23 +406,3 @@ overflow:
 	       me->name, (int)ELF64_R_TYPE(rel[i].r_info), val);
 	return -ENOEXEC;
 }
-<<<<<<< HEAD
-=======
-
-int module_finalize(const Elf_Ehdr *hdr,
-		    const Elf_Shdr *sechdrs,
-		    struct module *me)
-{
-	const Elf_Shdr *s, *se;
-	const char *secstrs = (void *)hdr + sechdrs[hdr->e_shstrndx].sh_offset;
-
-	for (s = sechdrs, se = sechdrs + hdr->e_shnum; s < se; s++) {
-		if (strcmp(".altinstructions", secstrs + s->sh_name) == 0) {
-			apply_alternatives((void *)s->sh_addr, s->sh_size);
-			return 0;
-		}
-	}
-
-	return 0;
-}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

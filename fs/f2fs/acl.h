@@ -37,26 +37,15 @@ struct f2fs_acl_header {
 #ifdef CONFIG_F2FS_FS_POSIX_ACL
 
 extern struct posix_acl *f2fs_get_acl(struct inode *, int);
-<<<<<<< HEAD
 extern int f2fs_set_acl(struct inode *inode, struct posix_acl *acl, int type);
 extern int f2fs_init_acl(struct inode *, struct inode *, struct page *);
 #else
 #define f2fs_check_acl	NULL
-=======
-extern int f2fs_set_acl(struct inode *, struct posix_acl *, int);
-extern int f2fs_init_acl(struct inode *, struct inode *, struct page *,
-							struct page *);
-#else
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define f2fs_get_acl	NULL
 #define f2fs_set_acl	NULL
 
 static inline int f2fs_init_acl(struct inode *inode, struct inode *dir,
-<<<<<<< HEAD
 							struct page *page)
-=======
-				struct page *ipage, struct page *dpage)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	return 0;
 }

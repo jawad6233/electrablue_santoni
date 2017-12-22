@@ -14,10 +14,6 @@
 #include <linux/poll.h>
 #include <linux/uio.h>
 #include <linux/miscdevice.h>
-<<<<<<< HEAD
-=======
-#include <linux/namei.h>
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include <linux/pagemap.h>
 #include <linux/file.h>
 #include <linux/slab.h>
@@ -1873,13 +1869,6 @@ static ssize_t fuse_dev_do_write(struct fuse_conn *fc,
 	spin_unlock(&fc->lock);
 
 	err = copy_out_args(cs, &req->out, nbytes);
-<<<<<<< HEAD
-=======
-	if (req->in.h.opcode == FUSE_CANONICAL_PATH) {
-		req->out.h.error = kern_path((char *)req->out.args[0].value, 0,
-							req->canonical_path);
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fuse_copy_finish(cs);
 
 	fuse_setup_shortcircuit(fc, req);

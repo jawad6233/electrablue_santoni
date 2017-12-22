@@ -16,27 +16,16 @@
  * @read:	Read function of @clock
  * @mask:	Bitmask for two's complement subtraction of non 64bit clocks
  * @cycle_last: @clock cycle value at last update
-<<<<<<< HEAD
  * @mult:	NTP adjusted multiplier for scaled math conversion
  * @shift:	Shift value for scaled math conversion
  * @xtime_nsec: Shifted (fractional) nano seconds offset for readout
  * @base_mono:  ktime_t (nanoseconds) base time for readout
-=======
- * @mult:	(NTP adjusted) multiplier for scaled math conversion
- * @shift:	Shift value for scaled math conversion
- * @xtime_nsec: Shifted (fractional) nano seconds offset for readout
- * @base:	ktime_t (nanoseconds) base time for readout
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This struct has size 56 byte on 64 bit. Together with a seqcount it
  * occupies a single 64byte cache line.
  *
  * The struct is separate from struct timekeeper as it is also used
-<<<<<<< HEAD
  * for a fast NMI safe accessor to clock monotonic.
-=======
- * for a fast NMI safe accessors.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  */
 struct tk_read_base {
 	struct clocksource	*clock;
@@ -46,31 +35,19 @@ struct tk_read_base {
 	u32			mult;
 	u32			shift;
 	u64			xtime_nsec;
-<<<<<<< HEAD
 	ktime_t			base_mono;
-=======
-	ktime_t			base;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 };
 
 /**
  * struct timekeeper - Structure holding internal timekeeping values.
-<<<<<<< HEAD
  * @tkr:		The readout base structure
-=======
- * @tkr_mono:		The readout base structure for CLOCK_MONOTONIC
- * @tkr_raw:		The readout base structure for CLOCK_MONOTONIC_RAW
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @xtime_sec:		Current CLOCK_REALTIME time in seconds
  * @wall_to_monotonic:	CLOCK_REALTIME to CLOCK_MONOTONIC offset
  * @offs_real:		Offset clock monotonic -> clock realtime
  * @offs_boot:		Offset clock monotonic -> clock boottime
  * @offs_tai:		Offset clock monotonic -> clock tai
  * @tai_offset:		The current UTC to TAI offset in seconds
-<<<<<<< HEAD
  * @base_raw:		Monotonic raw base time in ktime_t format
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  * @raw_time:		Monotonic raw base time in timespec64 format
  * @cycle_interval:	Number of clock cycles in one NTP interval
  * @xtime_interval:	Number of clock shifted nano seconds in one NTP
@@ -98,22 +75,14 @@ struct tk_read_base {
  * used instead.
  */
 struct timekeeper {
-<<<<<<< HEAD
 	struct tk_read_base	tkr;
-=======
-	struct tk_read_base	tkr_mono;
-	struct tk_read_base	tkr_raw;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	u64			xtime_sec;
 	struct timespec64	wall_to_monotonic;
 	ktime_t			offs_real;
 	ktime_t			offs_boot;
 	ktime_t			offs_tai;
 	s32			tai_offset;
-<<<<<<< HEAD
 	ktime_t			base_raw;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	struct timespec64	raw_time;
 
 	/* The following members are for timekeeping internal use */

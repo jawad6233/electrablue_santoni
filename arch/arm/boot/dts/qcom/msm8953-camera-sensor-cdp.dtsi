@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,7 +11,6 @@
  * GNU General Public License for more details.
  */
 
-<<<<<<< HEAD
 &soc {
 	led_flash0: qcom,camera-flash {
 		cell-index = <0>;
@@ -27,8 +22,6 @@
 	};
 };
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 &cci {
 	actuator0: qcom,actuator@0 {
 		cell-index = <0>;
@@ -92,7 +85,6 @@
 		qcom,clock-rates = <19200000 0>;
 	};
 
-<<<<<<< HEAD
 	eeprom1: qcom,eeprom@1 {
 		cell-index = <1>;
 		reg = <0x1>;
@@ -173,8 +165,6 @@
 		qcom,clock-rates = <19200000 0>;
 	};
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	eeprom2: qcom,eeprom@2 {
 		cell-index = <2>;
 		compatible = "qcom,eeprom";
@@ -224,20 +214,10 @@
 		cam_vio-supply = <&pm8953_l6>;
 		cam_vdig-supply = <&pm8953_l2>;
 		cam_vaf-supply = <&pm8953_l17>;
-<<<<<<< HEAD
 		qcom,cam-vreg-name = "cam_vio", "cam_vdig", "cam_vaf";
 		qcom,cam-vreg-min-voltage = <0 1100000 2850000>;
 		qcom,cam-vreg-max-voltage = <0 1100000 2850000>;
 		qcom,cam-vreg-op-mode = <0 105000 100000>;
-=======
-		cam_vana-supply = <&pm8953_l22>;
-		cam_v_custom1-supply = <&pm8953_l23>;
-		qcom,cam-vreg-name = "cam_vio", "cam_vdig", "cam_vaf",
-						"cam_vana", "cam_v_custom1";
-		qcom,cam-vreg-min-voltage = <0 1100000 2850000 2800000 1220000>;
-		qcom,cam-vreg-max-voltage = <0 1100000 2850000 2800000 1220000>;
-		qcom,cam-vreg-op-mode = <0 105000 100000 80000 105000>;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		pinctrl-names = "cam_default", "cam_suspend";
 		pinctrl-0 = <&cam_sensor_mclk0_default
 				&cam_sensor_rear_default
@@ -317,10 +297,7 @@
 		qcom,csiphy-sd-index = <2>;
 		qcom,csid-sd-index = <2>;
 		qcom,mount-angle = <90>;
-<<<<<<< HEAD
 		qcom,eeprom-src = <&eeprom1>;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		qcom,actuator-src = <&actuator1>;
 		cam_vdig-supply = <&pm8953_l23>;
 		cam_vio-supply = <&pm8953_l6>;

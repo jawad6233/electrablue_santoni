@@ -11,18 +11,10 @@ else
 Kconfig := Kconfig
 endif
 
-<<<<<<< HEAD
-=======
-ifeq ($(quiet),silent_)
-silent := -s
-endif
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 # We need this, in case the user has it in its environment
 unexport CONFIG_
 
 xconfig: $(obj)/qconf
-<<<<<<< HEAD
 	$< $(Kconfig)
 
 gconfig: $(obj)/gconf
@@ -36,32 +28,13 @@ config: $(obj)/conf
 
 nconfig: $(obj)/nconf
 	$< $(Kconfig)
-=======
-	$< $(silent) $(Kconfig)
-
-gconfig: $(obj)/gconf
-	$< $(silent) $(Kconfig)
-
-menuconfig: $(obj)/mconf
-	$< $(silent) $(Kconfig)
-
-config: $(obj)/conf
-	$< $(silent) --oldaskconfig $(Kconfig)
-
-nconfig: $(obj)/nconf
-	$< $(silent) $(Kconfig)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 oldconfig: $(obj)/conf
 	$< --$@ $(Kconfig)
 
 silentoldconfig: $(obj)/conf
 	$(Q)mkdir -p include/config include/generated
-<<<<<<< HEAD
 	$< --$@ $(Kconfig)
-=======
-	$< $(silent) --$@ $(Kconfig)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 localyesconfig localmodconfig: $(obj)/streamline_config.pl $(obj)/conf
 	$(Q)mkdir -p include/config include/generated
@@ -70,30 +43,18 @@ localyesconfig localmodconfig: $(obj)/streamline_config.pl $(obj)/conf
 			cmp -s .tmp.config .config ||			\
 			(mv -f .config .config.old.1;			\
 			 mv -f .tmp.config .config;			\
-<<<<<<< HEAD
 			 $(obj)/conf --silentoldconfig $(Kconfig);	\
 			 mv -f .config.old.1 .config.old)		\
 	else								\
 			mv -f .tmp.config .config;			\
 			$(obj)/conf --silentoldconfig $(Kconfig);	\
-=======
-			 $(obj)/conf $(silent) --silentoldconfig $(Kconfig); \
-			 mv -f .config.old.1 .config.old)		\
-	else								\
-			mv -f .tmp.config .config;			\
-			$(obj)/conf $(silent) --silentoldconfig $(Kconfig); \
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fi
 	$(Q)rm -f .tmp.config
 
 # Create new linux.pot file
 # Adjust charset to UTF-8 in .po file to accept UTF-8 in Kconfig files
 update-po-config: $(obj)/kxgettext $(obj)/gconf.glade.h
-<<<<<<< HEAD
 	$(Q)echo "  GEN     config.pot"
-=======
-	$(Q)$(kecho) "  GEN     config.pot"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)xgettext --default-domain=linux                         \
 	    --add-comments --keyword=_ --keyword=N_                 \
 	    --from-code=UTF-8                                       \
@@ -104,19 +65,11 @@ update-po-config: $(obj)/kxgettext $(obj)/gconf.glade.h
 	$(Q)(for i in `ls $(srctree)/arch/*/Kconfig      \
 	    $(srctree)/arch/*/um/Kconfig`;               \
 	    do                                           \
-<<<<<<< HEAD
 		echo "  GEN     $$i";                    \
 		$(obj)/kxgettext $$i                     \
 		     >> $(obj)/config.pot;               \
 	    done )
 	$(Q)echo "  GEN     linux.pot"
-=======
-		$(kecho) "  GEN     $$i";                    \
-		$(obj)/kxgettext $$i                     \
-		     >> $(obj)/config.pot;               \
-	    done )
-	$(Q)$(kecho) "  GEN     linux.pot"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	$(Q)msguniq --sort-by-file --to-code=UTF-8 $(obj)/config.pot \
 	    --output $(obj)/linux.pot
 	$(Q)rm -f $(obj)/config.pot
@@ -124,11 +77,7 @@ update-po-config: $(obj)/kxgettext $(obj)/gconf.glade.h
 PHONY += allnoconfig allyesconfig allmodconfig alldefconfig randconfig
 
 allnoconfig allyesconfig allmodconfig alldefconfig randconfig: $(obj)/conf
-<<<<<<< HEAD
 	$< --$@ $(Kconfig)
-=======
-	$< $(silent) --$@ $(Kconfig)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 PHONY += listnewconfig olddefconfig oldnoconfig savedefconfig defconfig
 
@@ -142,7 +91,6 @@ oldnoconfig: $(obj)/conf
 	$< --olddefconfig $(Kconfig)
 
 savedefconfig: $(obj)/conf
-<<<<<<< HEAD
 	$< --$@=defconfig $(Kconfig)
 
 defconfig: $(obj)/conf
@@ -155,38 +103,13 @@ endif
 
 %_defconfig: $(obj)/conf
 	$(Q)$< --defconfig=arch/$(SRCARCH)/configs/$@ $(Kconfig)
-=======
-	$< $(silent) --$@=defconfig $(Kconfig)
-
-defconfig: $(obj)/conf
-ifeq ($(KBUILD_DEFCONFIG),)
-	$< $(silent) --defconfig $(Kconfig)
-else
-	@$(kecho) "*** Default configuration is based on '$(KBUILD_DEFCONFIG)'"
-	$(Q)$< $(silent) --defconfig=arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG) $(Kconfig)
-endif
-
-%_defconfig: $(obj)/conf
-	$(Q)$< $(silent) --defconfig=arch/$(SRCARCH)/configs/$@ $(Kconfig)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 configfiles=$(wildcard $(srctree)/kernel/configs/$@ $(srctree)/arch/$(SRCARCH)/configs/$@)
 
 %.config: $(obj)/conf
 	$(if $(call configfiles),, $(error No configuration exists for this target on this architecture))
 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m .config $(configfiles)
-<<<<<<< HEAD
 	++$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
-=======
-	+$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
-
-define mergeconfig
-$(if $(wildcard $(objtree)/.config),, $(error You need an existing .config for this target))
-$(if $(call configfiles,$(1)),, $(error No configuration exists for this target on this architecture))
-$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m -O $(objtree) $(objtree)/.config $(call configfiles,$(1))
-+$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
-endef
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 PHONY += kvmconfig
 kvmconfig: kvm_guest.config
@@ -296,11 +219,7 @@ $(obj)/.tmp_qtcheck: $(src)/Makefile
 
 # QT needs some extra effort...
 $(obj)/.tmp_qtcheck:
-<<<<<<< HEAD
 	@set -e; echo "  CHECK   qt"; dir=""; pkg=""; \
-=======
-	@set -e; $(kecho) "  CHECK   qt"; dir=""; pkg=""; \
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if ! pkg-config --exists QtCore 2> /dev/null; then \
 	    echo "* Unable to find the QT4 tool qmake. Trying to use QT3"; \
 	    pkg-config --exists qt 2> /dev/null && pkg=qt; \

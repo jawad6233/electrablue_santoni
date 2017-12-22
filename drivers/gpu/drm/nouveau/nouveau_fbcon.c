@@ -84,11 +84,7 @@ nouveau_fbcon_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
 
 	if (ret != -ENODEV)
 		nouveau_fbcon_gpu_lockup(info);
-<<<<<<< HEAD
 	cfb_fillrect(info, rect);
-=======
-	drm_fb_helper_cfb_fillrect(info, rect);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void
@@ -120,11 +116,7 @@ nouveau_fbcon_copyarea(struct fb_info *info, const struct fb_copyarea *image)
 
 	if (ret != -ENODEV)
 		nouveau_fbcon_gpu_lockup(info);
-<<<<<<< HEAD
 	cfb_copyarea(info, image);
-=======
-	drm_fb_helper_cfb_copyarea(info, image);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void
@@ -156,11 +148,7 @@ nouveau_fbcon_imageblit(struct fb_info *info, const struct fb_image *image)
 
 	if (ret != -ENODEV)
 		nouveau_fbcon_gpu_lockup(info);
-<<<<<<< HEAD
 	cfb_imageblit(info, image);
-=======
-	drm_fb_helper_cfb_imageblit(info, image);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static int
@@ -233,15 +221,9 @@ static struct fb_ops nouveau_fbcon_sw_ops = {
 	.fb_release = nouveau_fbcon_release,
 	.fb_check_var = drm_fb_helper_check_var,
 	.fb_set_par = drm_fb_helper_set_par,
-<<<<<<< HEAD
 	.fb_fillrect = cfb_fillrect,
 	.fb_copyarea = cfb_copyarea,
 	.fb_imageblit = cfb_imageblit,
-=======
-	.fb_fillrect = drm_fb_helper_cfb_fillrect,
-	.fb_copyarea = drm_fb_helper_cfb_copyarea,
-	.fb_imageblit = drm_fb_helper_cfb_imageblit,
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	.fb_pan_display = drm_fb_helper_pan_display,
 	.fb_blank = drm_fb_helper_blank,
 	.fb_setcmap = drm_fb_helper_setcmap,
@@ -361,10 +343,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 	struct nouveau_channel *chan;
 	struct nouveau_bo *nvbo;
 	struct drm_mode_fb_cmd2 mode_cmd;
-<<<<<<< HEAD
 	struct pci_dev *pdev = dev->pdev;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	int size, ret;
 
 	mode_cmd.width = sizes->surface_width;
@@ -386,11 +365,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	ret = nouveau_bo_pin(nvbo, TTM_PL_FLAG_VRAM);
-=======
-	ret = nouveau_bo_pin(nvbo, TTM_PL_FLAG_VRAM, false);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	if (ret) {
 		NV_ERROR(drm, "failed to pin fb: %d\n", ret);
 		goto out_unref;
@@ -414,7 +389,6 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 
 	mutex_lock(&dev->struct_mutex);
 
-<<<<<<< HEAD
 	info = framebuffer_alloc(0, &pdev->dev);
 	if (!info) {
 		ret = -ENOMEM;
@@ -427,14 +401,6 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 		framebuffer_release(info);
 		goto out_unlock;
 	}
-=======
-	info = drm_fb_helper_alloc_fbi(helper);
-	if (IS_ERR(info)) {
-		ret = PTR_ERR(info);
-		goto out_unlock;
-	}
-	info->skip_vt_switch = 1;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	info->par = fbcon;
 
@@ -445,10 +411,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 
 	/* setup helper */
 	fbcon->helper.fb = fb;
-<<<<<<< HEAD
 	fbcon->helper.fbdev = info;
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	strcpy(info->fix.id, "nouveaufb");
 	if (!chan)
@@ -478,11 +441,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
 	nouveau_fbcon_zfill(dev, fbcon);
 
 	/* To allow resizeing without swapping buffers */
-<<<<<<< HEAD
 	NV_INFO(drm, "allocated %dx%d fb: 0x%lx, bo %p\n",
-=======
-	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		nouveau_fb->base.width, nouveau_fb->base.height,
 		nvbo->bo.offset, nvbo);
 
@@ -514,7 +473,6 @@ static int
 nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fbdev *fbcon)
 {
 	struct nouveau_framebuffer *nouveau_fb = &fbcon->nouveau_fb;
-<<<<<<< HEAD
 	struct fb_info *info;
 
 	if (fbcon->helper.fbdev) {
@@ -524,11 +482,6 @@ nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fbdev *fbcon)
 			fb_dealloc_cmap(&info->cmap);
 		framebuffer_release(info);
 	}
-=======
-
-	drm_fb_helper_unregister_fbi(&fbcon->helper);
-	drm_fb_helper_release_fbi(&fbcon->helper);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	if (nouveau_fb->nvbo) {
 		nouveau_bo_unmap(nouveau_fb->nvbo);
@@ -558,7 +511,6 @@ static const struct drm_fb_helper_funcs nouveau_fbcon_helper_funcs = {
 	.fb_probe = nouveau_fbcon_create,
 };
 
-<<<<<<< HEAD
 static void
 nouveau_fbcon_set_suspend_work(struct work_struct *work)
 {
@@ -568,21 +520,6 @@ nouveau_fbcon_set_suspend_work(struct work_struct *work)
 	nouveau_fbcon_zfill(fbcon->dev, fbcon);
 	fb_set_suspend(fbcon->helper.fbdev, FBINFO_STATE_RUNNING);
 	console_unlock();
-=======
-void
-nouveau_fbcon_set_suspend(struct drm_device *dev, int state)
-{
-	struct nouveau_drm *drm = nouveau_drm(dev);
-	if (drm->fbcon) {
-		console_lock();
-		if (state == FBINFO_STATE_RUNNING)
-			nouveau_fbcon_accel_restore(dev);
-		drm_fb_helper_set_suspend(&drm->fbcon->helper, state);
-		if (state != FBINFO_STATE_RUNNING)
-			nouveau_fbcon_accel_save_disable(dev);
-		console_unlock();
-	}
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 int
@@ -601,10 +538,7 @@ nouveau_fbcon_init(struct drm_device *dev)
 	if (!fbcon)
 		return -ENOMEM;
 
-<<<<<<< HEAD
 	INIT_WORK(&fbcon->work, nouveau_fbcon_set_suspend_work);
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	fbcon->dev = dev;
 	drm->fbcon = fbcon;
 
@@ -658,7 +592,6 @@ nouveau_fbcon_fini(struct drm_device *dev)
 	kfree(drm->fbcon);
 	drm->fbcon = NULL;
 }
-<<<<<<< HEAD
 
 void
 nouveau_fbcon_set_suspend(struct drm_device *dev, int state)
@@ -676,5 +609,3 @@ nouveau_fbcon_set_suspend(struct drm_device *dev, int state)
 		console_unlock();
 	}
 }
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24

@@ -302,11 +302,7 @@ static void xilinx_pcie_destroy_msi(unsigned int irq)
 
 	if (!test_bit(irq, msi_irq_in_use)) {
 		msi = irq_get_msi_desc(irq);
-<<<<<<< HEAD
 		port = sys_to_pcie(msi_desc_to_pci_sys_data(msi));
-=======
-		port = sys_to_pcie(msi_desc_to_pci_sysdata(msi));
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		dev_err(port->dev, "Trying to free unused MSI#%d\n", irq);
 	} else {
 		clear_bit(irq, msi_irq_in_use);

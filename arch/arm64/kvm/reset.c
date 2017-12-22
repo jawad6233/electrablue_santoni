@@ -52,11 +52,7 @@ static bool cpu_has_32bit_el1(void)
 {
 	u64 pfr0;
 
-<<<<<<< HEAD
 	pfr0 = read_cpuid(ID_AA64PFR0_EL1);
-=======
-	pfr0 = read_system_reg(SYS_ID_AA64PFR0_EL1);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	return !!(pfr0 & 0x20);
 }
 

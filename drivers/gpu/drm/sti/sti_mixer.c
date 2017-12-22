@@ -10,14 +10,6 @@
 #include "sti_mixer.h"
 #include "sti_vtg.h"
 
-<<<<<<< HEAD
-=======
-/* Module parameter to set the background color of the mixer */
-static unsigned int bkg_color = 0x000000;
-MODULE_PARM_DESC(bkgcolor, "Value of the background color 0xRRGGBB");
-module_param_named(bkgcolor, bkg_color, int, 0644);
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /* Identity: G=Y , B=Cb , R=Cr */
 static const u32 mixerColorSpaceMatIdentity[] = {
 	0x10000000, 0x00000000, 0x10000000, 0x00001000,
@@ -53,10 +45,6 @@ static const u32 mixerColorSpaceMatIdentity[] = {
 #define GAM_CTL_GDP1_MASK  BIT(4)
 #define GAM_CTL_GDP2_MASK  BIT(5)
 #define GAM_CTL_GDP3_MASK  BIT(6)
-<<<<<<< HEAD
-=======
-#define GAM_CTL_CURSOR_MASK BIT(9)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 const char *sti_mixer_to_str(struct sti_mixer *mixer)
 {
@@ -91,17 +79,11 @@ void sti_mixer_set_background_status(struct sti_mixer *mixer, bool enable)
 }
 
 static void sti_mixer_set_background_color(struct sti_mixer *mixer,
-<<<<<<< HEAD
 					   u8 red, u8 green, u8 blue)
 {
 	u32 val = (red << 16) | (green << 8) | blue;
 
 	sti_mixer_reg_write(mixer, GAM_MIXER_BKC, val);
-=======
-					   unsigned int rgb)
-{
-	sti_mixer_reg_write(mixer, GAM_MIXER_BKC, rgb);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static void sti_mixer_set_background_area(struct sti_mixer *mixer,
@@ -118,7 +100,6 @@ static void sti_mixer_set_background_area(struct sti_mixer *mixer,
 	sti_mixer_reg_write(mixer, GAM_MIXER_BCS, yds << 16 | xds);
 }
 
-<<<<<<< HEAD
 int sti_mixer_set_layer_depth(struct sti_mixer *mixer, struct sti_layer *layer)
 {
 	int layer_id = 0, depth = layer->zorder;
@@ -161,59 +142,6 @@ int sti_mixer_set_layer_depth(struct sti_mixer *mixer, struct sti_layer *layer)
 	val = sti_mixer_reg_read(mixer, GAM_MIXER_CRB);
 	val &= ~mask;
 	val |= layer_id;
-=======
-int sti_mixer_set_plane_depth(struct sti_mixer *mixer, struct sti_plane *plane)
-{
-	int plane_id, depth = plane->zorder;
-	unsigned int i;
-	u32 mask, val;
-
-	if ((depth < 1) || (depth > GAM_MIXER_NB_DEPTH_LEVEL))
-		return 1;
-
-	switch (plane->desc) {
-	case STI_GDP_0:
-		plane_id = GAM_DEPTH_GDP0_ID;
-		break;
-	case STI_GDP_1:
-		plane_id = GAM_DEPTH_GDP1_ID;
-		break;
-	case STI_GDP_2:
-		plane_id = GAM_DEPTH_GDP2_ID;
-		break;
-	case STI_GDP_3:
-		plane_id = GAM_DEPTH_GDP3_ID;
-		break;
-	case STI_HQVDP_0:
-		plane_id = GAM_DEPTH_VID0_ID;
-		break;
-	case STI_CURSOR:
-		/* no need to set depth for cursor */
-		return 0;
-	default:
-		DRM_ERROR("Unknown plane %d\n", plane->desc);
-		return 1;
-	}
-
-	/* Search if a previous depth was already assigned to the plane */
-	val = sti_mixer_reg_read(mixer, GAM_MIXER_CRB);
-	for (i = 0; i < GAM_MIXER_NB_DEPTH_LEVEL; i++) {
-		mask = GAM_DEPTH_MASK_ID << (3 * i);
-		if ((val & mask) == plane_id << (3 * i))
-			break;
-	}
-
-	mask |= GAM_DEPTH_MASK_ID << (3 * (depth - 1));
-	plane_id = plane_id << (3 * (depth - 1));
-
-	DRM_DEBUG_DRIVER("%s %s depth=%d\n", sti_mixer_to_str(mixer),
-			 sti_plane_to_str(plane), depth);
-	dev_dbg(mixer->dev, "GAM_MIXER_CRB val 0x%x mask 0x%x\n",
-		plane_id, mask);
-
-	val &= ~mask;
-	val |= plane_id;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	sti_mixer_reg_write(mixer, GAM_MIXER_CRB, val);
 
 	dev_dbg(mixer->dev, "Read GAM_MIXER_CRB 0x%x\n",
@@ -236,26 +164,16 @@ int sti_mixer_active_video_area(struct sti_mixer *mixer,
 	sti_mixer_reg_write(mixer, GAM_MIXER_AVO, ydo << 16 | xdo);
 	sti_mixer_reg_write(mixer, GAM_MIXER_AVS, yds << 16 | xds);
 
-<<<<<<< HEAD
 	sti_mixer_set_background_color(mixer, 0xFF, 0, 0);
-=======
-	sti_mixer_set_background_color(mixer, bkg_color);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 	sti_mixer_set_background_area(mixer, mode);
 	sti_mixer_set_background_status(mixer, true);
 	return 0;
 }
 
-<<<<<<< HEAD
 static u32 sti_mixer_get_layer_mask(struct sti_layer *layer)
 {
 	switch (layer->desc) {
-=======
-static u32 sti_mixer_get_plane_mask(struct sti_plane *plane)
-{
-	switch (plane->desc) {
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	case STI_BACK:
 		return GAM_CTL_BACK_MASK;
 	case STI_GDP_0:
@@ -266,46 +184,26 @@ static u32 sti_mixer_get_plane_mask(struct sti_plane *plane)
 		return GAM_CTL_GDP2_MASK;
 	case STI_GDP_3:
 		return GAM_CTL_GDP3_MASK;
-<<<<<<< HEAD
 	case STI_VID_0:
 		return GAM_CTL_VID0_MASK;
 	case STI_VID_1:
 		return GAM_CTL_VID1_MASK;
-=======
-	case STI_HQVDP_0:
-		return GAM_CTL_VID0_MASK;
-	case STI_CURSOR:
-		return GAM_CTL_CURSOR_MASK;
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	default:
 		return 0;
 	}
 }
 
-<<<<<<< HEAD
 int sti_mixer_set_layer_status(struct sti_mixer *mixer,
 			       struct sti_layer *layer, bool status)
-=======
-int sti_mixer_set_plane_status(struct sti_mixer *mixer,
-			       struct sti_plane *plane, bool status)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 {
 	u32 mask, val;
 
 	DRM_DEBUG_DRIVER("%s %s %s\n", status ? "enable" : "disable",
-<<<<<<< HEAD
 			 sti_mixer_to_str(mixer), sti_layer_to_str(layer));
 
 	mask = sti_mixer_get_layer_mask(layer);
 	if (!mask) {
 		DRM_ERROR("Can not find layer mask\n");
-=======
-			 sti_mixer_to_str(mixer), sti_plane_to_str(plane));
-
-	mask = sti_mixer_get_plane_mask(plane);
-	if (!mask) {
-		DRM_ERROR("Can't find layer mask\n");
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 		return -EINVAL;
 	}
 

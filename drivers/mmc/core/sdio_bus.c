@@ -22,13 +22,7 @@
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
 #include <linux/mmc/sdio_func.h>
-<<<<<<< HEAD
 
-=======
-#include <linux/of.h>
-
-#include "core.h"
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #include "sdio_cis.h"
 #include "sdio_bus.h"
 
@@ -330,16 +324,6 @@ static void sdio_acpi_set_handle(struct sdio_func *func)
 static inline void sdio_acpi_set_handle(struct sdio_func *func) {}
 #endif
 
-<<<<<<< HEAD
-=======
-static void sdio_set_of_node(struct sdio_func *func)
-{
-	struct mmc_host *host = func->card->host;
-
-	func->dev.of_node = mmc_of_find_child_device(host, func->num);
-}
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 /*
  * Register a new SDIO function with the driver model.
  */
@@ -349,10 +333,6 @@ int sdio_add_func(struct sdio_func *func)
 
 	dev_set_name(&func->dev, "%s:%d", mmc_card_id(func->card), func->num);
 
-<<<<<<< HEAD
-=======
-	sdio_set_of_node(func);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	sdio_acpi_set_handle(func);
 	ret = device_add(&func->dev);
 	if (ret == 0) {
@@ -376,10 +356,6 @@ void sdio_remove_func(struct sdio_func *func)
 
 	dev_pm_domain_detach(&func->dev, false);
 	device_del(&func->dev);
-<<<<<<< HEAD
-=======
-	of_node_put(func->dev.of_node);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	put_device(&func->dev);
 }
 

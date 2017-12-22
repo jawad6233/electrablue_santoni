@@ -2694,12 +2694,6 @@ static int s_show(struct seq_file *m, void *p)
 
 	v = va->vm;
 
-<<<<<<< HEAD
-=======
-	if (v->flags & VM_LOWMEM)
-		return 0;
-
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	seq_printf(m, "0x%pK-0x%pK %7ld",
 		v->addr, v->addr + v->size, v->size);
 
@@ -2727,12 +2721,9 @@ static int s_show(struct seq_file *m, void *p)
 	if (v->flags & VM_VPAGES)
 		seq_puts(m, " vpages");
 
-<<<<<<< HEAD
 	if (v->flags & VM_LOWMEM)
 		seq_puts(m, " lowmem");
 
-=======
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 	show_numa_info(m, v);
 	seq_putc(m, '\n');
 	return 0;

@@ -16,10 +16,6 @@
 #include <linux/suspend.h>
 #include "smp2p_private.h"
 
-<<<<<<< HEAD
-=======
-#define SET_DELAY (2 * HZ)
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 #define PROC_AWAKE_ID 12 /* 12th bit */
 static int slst_gpio_base_id;
 

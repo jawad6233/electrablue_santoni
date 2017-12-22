@@ -357,11 +357,7 @@ poll_again:
 			}
 			kdb_printf("\n");
 			for (i = 0; i < count; i++) {
-<<<<<<< HEAD
 				if (kallsyms_symbol_next(p_tmp, i) < 0)
-=======
-				if (WARN_ON(!kallsyms_symbol_next(p_tmp, i)))
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 					break;
 				kdb_printf("%s ", p_tmp);
 				*(p_tmp + len) = '\0';

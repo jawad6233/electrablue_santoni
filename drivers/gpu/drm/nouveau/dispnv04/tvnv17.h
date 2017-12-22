@@ -85,11 +85,7 @@ struct nv17_tv_encoder {
 #define to_tv_enc(x) container_of(nouveau_encoder(x),		\
 				  struct nv17_tv_encoder, base)
 
-<<<<<<< HEAD
 extern char *nv17_tv_norm_names[NUM_TV_NORMS];
-=======
-extern const char * const nv17_tv_norm_names[NUM_TV_NORMS];
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 
 extern struct nv17_tv_norm_params {
 	enum {
@@ -135,21 +131,13 @@ static inline void nv_write_ptv(struct drm_device *dev, uint32_t reg,
 				uint32_t val)
 {
 	struct nvif_device *device = &nouveau_drm(dev)->device;
-<<<<<<< HEAD
 	nvif_wr32(device, reg, val);
-=======
-	nvif_wr32(&device->object, reg, val);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline uint32_t nv_read_ptv(struct drm_device *dev, uint32_t reg)
 {
 	struct nvif_device *device = &nouveau_drm(dev)->device;
-<<<<<<< HEAD
 	return nvif_rd32(device, reg);
-=======
-	return nvif_rd32(&device->object, reg);
->>>>>>> 8f5d770414a10b7c363c32d12f188bd16f7b6f24
 }
 
 static inline void nv_write_tv_enc(struct drm_device *dev, uint8_t reg,
